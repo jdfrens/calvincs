@@ -1,0 +1,16 @@
+development:
+  adapter: sqlite3
+  dbfile: calvincs_development.db
+
+test:
+  adapter: sqlite3
+  dbfile: calvincs_test.db
+
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+production:
+  adapter: mysql
+  database: calvincs_production
+  username: root
+  password: 
+  host: localhost

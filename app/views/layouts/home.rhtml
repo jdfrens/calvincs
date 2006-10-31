@@ -1,0 +1,49 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+  <meta name="keywords" content="calvin college computer science department academics"/>
+  <meta name="description" content="Website of the Department of Computer Science at Calvin College"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+  <%= stylesheet_link_tag "home" , :media => "all" %>
+  <title>Computing at Calvin College</title>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <div class="art_niche">
+        <a id="skip-nav" href="#content" title="Jump to page contents">&nbsp;</a>
+    </div>
+    <!-- Navigation menu! -->
+</div>
+
+<div class="mainbar">
+  <div class="header">
+  <img id="calvin-logo" src="http://www.calvin.edu/includes/templates/3/images/calvin_nameplate.gif" width="176" height="40" alt="Calvin College" />
+</div>    
+
+<div class="main">
+
+  <%= yield :layout %>
+
+  <div class="footer">
+
+    Copyright &copy;2003--2005 <%= link_to_static :calvin %> and its <%= link_to_static :home %>.  All rights reserved.<br/> 
+    
+    Read <%= link_to "our mission statement", :controller => 'documents', :action => 'mission_statement' %><br/>
+    
+    <%= mail_to("jdfrens@calvin.edu" , "Contact us" ,
+    	  :subject => "Question about the CS website at Calvin College",
+          :encode => "javascript" ) %>
+    to report website errors and for more information.<br/>
+  
+  </div>
+
+</div>
+  
+</body>
+</html>
+

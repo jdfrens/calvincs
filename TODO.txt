@@ -1,0 +1,12 @@
+Minor (I hope)
+==============
++ switch to "should" form in application_helper_test
++ Need functional tests for home/index
++ Need integration tests for home/index
++ Need selenium tests for home/index
+
+Major (probably)
+================
++ Rework home.rhtml
++ Use home/index.rhtml to motivate future work.
++ Want some way to specify submenu in controller view (like home/index.rhtml) to be seen in view (home.rhtml).

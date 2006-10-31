@@ -1,0 +1,134 @@
+/**********
+ Global effects
+**********/
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+}
+
+a:link {
+    color: #2E2EB2;
+    background: transparent;
+}
+
+a:visited {
+    color: #606099;
+    background: transparent;
+}
+
+a:hover {
+    color: #8989D9;
+    background: transparent;
+    text-decoration: none;
+}
+
+a:active {
+    color: #FF8000;
+    background: transparent;
+}
+
+h3 {
+    border: 1px solid #660000;
+    text-decoration: none;
+    background-color: #993333;
+    color: white;
+}
+
+/**********
+ Structural
+**********/
+
+div.sidebar {
+    margin: 0px;
+    padding: 5px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 120px;
+    height: 1000px;
+}
+
+div.art_niche {
+    background: transparent url(/images/cslogo.png) no-repeat fixed top left;
+    margin: 0px;
+    padding: 0px 0px 5px 0px;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 130px;
+}
+
+div.mainbar {
+    margin: 0px;
+    position: absolute;
+    top: 0px;
+    left: 130px;
+    width: 75%;
+}
+
+div.header {
+    background:transparent url(http://www.calvin.edu/includes/templates/3/images/header-redstripe.gif) repeat-x top left;
+    margin: 0px;
+    padding: 5px;
+    height: 130px;
+}
+
+div.main {
+    margin: 0px;
+    padding: 5px;
+}
+
+div.footer {
+    font-size: smaller;
+}
+
+#navigation ul {
+    list-style: none;
+    padding: 1em 1em 1em 0;
+}
+#navigation a {
+    text-decoration: none;
+    color: #333366;
+    display: block;
+    border: 1px solid;
+    border-color: #d7d0c3 #d7d0c3 #d7d0c3 #d7d0c3;
+    border-width: 1px 1px 1px 1px;
+    padding: 1px;
+    margin: 2% 0% 2% 5%;
+    width: 95%;
+}
+#navigation a:hover {
+    border: 1px solid #660000;
+    background-color: #993333;
+    color: white;
+    text-decoration: none;
+}
+#main-navigation {
+    background-color: #d7d0c3;
+    border: 1px solid;
+    border-color: #993333;
+    border-width: 1px 1px 1px 1px;
+}
+
+#submenu-navigation {
+    margin-top: 1px;
+    font-size: 75%;
+    border: 1px solid;
+    border-color: white;
+    border-top-width: 1px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+#submenu-navigation a {
+    border-color: white white white white;
+}
+
+#calvin-logo {
+     border: 0px;
+     float: right;
+}
+
