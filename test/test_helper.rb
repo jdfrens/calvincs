@@ -25,4 +25,15 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+
+  def self.should(behave,&block)
+    mname = "test_should_#{behave}"
+    if block
+      define_method mname, &block
+    else
+      define_method mname do
+        flunk "#{self.class.name.sub(/Test$/,'')} should #{behave}"
+      end
+    end
+  end
 end

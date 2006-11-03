@@ -7,19 +7,19 @@ class ApplicationHelperTest < Test::Unit::TestCase
     @helper.extend(ApplicationHelper)
   end
   
-  def test_link_to_static
+  should "link to static pages" do
     assert_equal '<a href="http://www.calvin.edu/">text</a>',
       @helper.link_to_static(:calvin, 'text'), ':calvin has a static link'
     assert_equal '<a href="http://www.calvin.edu/">Calvin College</a>',
       @helper.link_to_static(:calvin), 'default text works'
   end
   
-  def test_link_to_static_raises_exceptions
+  should "raise exception when link_to_static given invalid keyword" do  
     assert_raise(RuntimeError) { @helper.link_to_static :invalid }
   end
 
-  def test_link_to_static_raises_exceptions2
+  should "raise exception when link_to_static given invalid keyword for link name" do  
     assert_raise(RuntimeError) { @helper.link_to_static :url_only }
   end
-  
+    
 end

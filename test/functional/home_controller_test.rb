@@ -11,8 +11,14 @@ class HomeControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  should "have an index page" do
+    # TODO: need to assert that default route goes to 'home/index'
+    get :index
+    assert_response :success
+    assert_template 'home/index'
+    assert_select "title" , "Computing at Calvin College"
+    assert_select "h1", "Computing at Calvin College"
+    assert_select "a[name=content]", ''
   end
+  
 end
