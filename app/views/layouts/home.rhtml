@@ -4,43 +4,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
-  <meta name="keywords" content="calvin college computer science department academics"/>
+  <meta name="keywords" content="calvin college, computer science department, academics"/>
   <meta name="description" content="Website of the Department of Computer Science at Calvin College"/>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-  <%= stylesheet_link_tag "home" , :media => "all" %>
+  <%= stylesheet_link_tag "styles" , :media => "all" %>
   <title>Computing at Calvin College</title>
 </head>
 
 <body>
 
-<div class="sidebar">
-    <div class="art_niche">
-        <a id="skip-nav" href="#content" title="Jump to page contents">&nbsp;</a>
-    </div>
-    <!-- Navigation menu! -->
+<div id="accessibility">
+  <a href="#navbar">Skip to Navigation</a>
+  |
+  <a href="#content">Skip to Content</a>
 </div>
 
-<div class="mainbar">
-  <div class="header">
-  <img id="calvin-logo" src="http://www.calvin.edu/includes/templates/3/images/calvin_nameplate.gif" width="176" height="40" alt="Calvin College" />
-</div>    
+<div id="header">
+    <div class="gutter">
+	<h1 id="nameplate-calvin"><a href="http://www.calvin.edu/">Calvin College</a></h1>
+	<h1 id="nameplate-dept"><a href="http://cs.calvin.edu/">Computer Science</a></h1>
+    </div>
+</div>
 
-<div class="main">
+<div id="wrapper">
 
-  <%= yield :layout %>
-
-  <div class="footer">
-
-    Copyright &copy;2003--2005 <%= link_to_static :calvin %> and its <%= link_to_static :home %>.  All rights reserved.<br/> 
-    
-    Read <%= link_to "our mission statement", :controller => 'documents', :action => 'mission_statement' %><br/>
-    
-    <%= mail_to("jdfrens@calvin.edu" , "Contact us" ,
-    	  :subject => "Question about the CS website at Calvin College",
-          :encode => "javascript" ) %>
-    to report website errors and for more information.<br/>
-  
+  <div id="content">
+    <div class="gutter">   
+      <%= yield :layout %>
+    </div>
   </div>
+
+  <div id="sidebar">
+    <div id="navbar" class="navigation">
+	<ul>
+	</ul>
+	<%= render :partial => 'layouts/googlesearch' %>
+	<%= render :partial => 'layouts/tasks' %>
+    </div>
+  </div>
+
+  <%= render :partial => 'layouts/footer' %>
 
 </div>
   
