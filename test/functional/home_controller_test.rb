@@ -12,7 +12,6 @@ class HomeControllerTest < Test::Unit::TestCase
   end
 
   should "have an index page" do
-    # TODO: need to assert that default route goes to 'home/index'
     get :index
     assert_response :success
     assert_template 'home/index'
