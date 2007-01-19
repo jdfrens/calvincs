@@ -14,6 +14,7 @@ class HomeControllerTest < Test::Unit::TestCase
   should "have an index page" do
     get :index
     assert_response :success
+    assert_standard_layout
     assert_template 'home/index'
     assert_select "title" , "Computing at Calvin College"
     assert_select "h1", "Computing at Calvin College"

@@ -4,6 +4,7 @@ class CreateCourses < ActiveRecord::Migration
       t.column :label,		:string
       t.column :number,		:integer
       t.column :credits,	:integer
+      t.column :title,		:string
       t.column :description,	:text
       t.column :created_at,	:timestamp
     end

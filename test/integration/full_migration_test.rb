@@ -25,6 +25,7 @@ class FullMigrationTest < ActionController::IntegrationTest
 	t.column "id", 		:integer
 	t.column "label", 	:string
 	t.column "number", 	:integer
+	t.column "title",      :string
 	t.column "description", :text
 	t.column "credits", 	:integer
 	t.column "created_at", :datetime

@@ -36,4 +36,20 @@ class Test::Unit::TestCase
       end
     end
   end
+  
+  def assert_standard_layout
+    assert_select "div#accessibility" do
+      assert_select "a[href=#navbar]"
+      assert_select "a[href=#content]"
+    end
+    assert_select "div#header"
+    assert_select "div#wrapper" do
+      assert_select "div#content"
+      assert_select "div#sidebar" do
+        assert_select "div#navbar"
+      end
+      assert_select "div#footer-css"
+    end
+  end
+  
 end

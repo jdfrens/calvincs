@@ -1,0 +1,7 @@
+<h1>Course Listing</h1>
+
+<ul id="courses">
+  <% @courses.each do |course| %>
+    <li><%= "#{course.label} #{course.number}: #{course.title}" -%></li>
+  <% end %>
+</ul>
