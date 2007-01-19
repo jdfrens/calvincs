@@ -15,8 +15,8 @@ class CurriculumController < ApplicationController
   end
   
   def save_course
-    course = Course.new(params[:course])
-    if course.save
+    @course = Course.new(params[:course])
+    if @course.save
       redirect_to :action => 'list_courses'
     else
       flash[:error] = 'Invalid values for the course'

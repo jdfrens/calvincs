@@ -502,3 +502,9 @@ div#error {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}

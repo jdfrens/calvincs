@@ -1,7 +1,9 @@
 <h1>Enter Course Data</h1>
 
-<% if flash[:error] -%>
-  <div id="error"><%= flash[:error] %></div>
+<% if !@course.valid? -%>
+  <div id="error">
+    <%= error_messages_for(:course) %>
+  </div>
 <% end -%>
 
 <% form_for :course, :url => { :action => :save_course } do |form| %>
