@@ -34,36 +34,21 @@ class CurriculumControllerTest < Test::Unit::TestCase
   should "add a course" do
     get :new_course
     assert_response :success
-    assert_standard_layout  # TODO: use admin layout?
+    assert_standard_layout
+    assert_template "curriculum/new_course"
     assert_select "h1", "Enter Course Data"
-    assert_select "form[action=/curriculum/save_course][method=post]" do
-      assert_select "table" do
-        assert_select "tr" do
-          assert_select "td", /label/i
-	  assert_select "td input#course_label[type=text]"
-	end
-        assert_select "tr" do
-          assert_select "td", /number/i
-	  assert_select "td input#course_number[type=text]"
-	end
-        assert_select "tr" do
-          assert_select "td", /title/i
-	  assert_select "td input#course_title[type=text]"
-	end
-        assert_select "tr" do
-          assert_select "td", /credits/i
-	  assert_select "td input#course_credits[type=text]"
-	end
-        assert_select "tr" do
-          assert_select "td", /description/i
-	  assert_select "td textarea#course_description"
-	end
-	assert_select "tr" do
-	  assert_select "td input[type=submit]"
-	end
-      end
-    end
+    assert_course_form
   end
+  
+  should "edit a course" do
+    get :edit_course, :id => 3
+    assert_response :success
+    assert_standard_layout
+    assert_template "curriculum/new_course"
+    assert_select "h1", "Edit Course Data"
+    assert_course_form :label => 'CS', :number => '108', :title => 'Introduction to Programming', :credits => '4', :description => 'The standard CS 1 class.'
+  end
+  
   
   should "save a course" do
     post :save_course, :course => {
@@ -82,10 +67,59 @@ class CurriculumControllerTest < Test::Unit::TestCase
       :label => 'Q', :number => ''
     }
     assert_template "curriculum/new_course"
-#    assert_redirected_to :action => 'new_course'
     assert_select "div#error", /errors prohibited this course from being saved/
     assert !flash.empty?
     assert_equal 'Invalid values for the course', flash[:error]
   end
-        
+
+  #
+  # Helpers
+  #
+  private
+
+  def assert_course_form(options={})
+    assert_select "form[action=/curriculum/save_course][method=post]" do
+      assert_select "table" do
+	assert_select "tr" do
+	  if (options[:label])
+  	    assert_select "td input#course_label[type=text][value=#{options[:label]}]"
+	  else
+  	    assert_select "td input#course_label[type=text]"
+	  end
+	end
+	assert_select "tr" do
+	  if (options[:number])
+ 	    assert_select "td input#course_number[type=text][value=#{options[:number]}]"
+	  else
+ 	    assert_select "td input#course_number[type=text]"
+	  end
+	end
+	assert_select "tr" do
+	  if (options[:title])
+	    assert_select "td input#course_title[type=text][value=#{options[:title]}]"
+	  else
+	    assert_select "td input#course_title[type=text]"
+	  end
+	end
+	assert_select "tr" do
+	  if (options[:credits])
+	    assert_select "td input#course_credits[type=text][value=#{options[:credits]}]"
+	  else
+	    assert_select "td input#course_credits[type=text]"
+	  end
+	end
+	assert_select "tr" do
+	  if (options[:description])
+	    assert_select "td textarea#course_description", options[:description]
+	  else
+	    assert_select "td textarea#course_description"
+	  end
+	end
+	assert_select "tr" do
+	  assert_select "td input[type=submit]"
+	end
+      end
+    end
+  end
+
 end

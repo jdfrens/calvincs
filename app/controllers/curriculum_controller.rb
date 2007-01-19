@@ -11,7 +11,15 @@ class CurriculumController < ApplicationController
   end
   
   def new_course
-    
+    @title_verb = 'Enter'
+    @course = nil
+    render :template => 'curriculum/new_course'
+  end
+  
+  def edit_course
+    @title_verb = 'Edit'
+    @course = Course.find(params[:id])
+    render :template => 'curriculum/new_course'
   end
   
   def save_course
@@ -19,8 +27,8 @@ class CurriculumController < ApplicationController
     if @course.save
       redirect_to :action => 'list_courses'
     else
+      @title_verb = 'Re-enter'
       flash[:error] = 'Invalid values for the course'
-#      redirect_to :action => 'new_course'
       render :template => 'curriculum/new_course'
     end
   end
