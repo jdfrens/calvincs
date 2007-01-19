@@ -1,0 +1,28 @@
+<% form_for :course, :url => { :action => :save_course } do |form| %>
+  <table summary="course data">
+    <tr>
+      <td> Label (CS, IS, etc.): </td>
+      <td> <%= form.text_field :label, :size => 5 %> </td>
+    </tr>
+    <tr>
+      <td> Course number: </td>
+      <td> <%= form.text_field :number, :size => 5 %> </td>
+    </tr>
+    <tr>
+      <td> Title: </td>
+      <td> <%= form.text_field :title, :size => 40 %> </td>
+    </tr>
+    <tr>
+      <td> Credits: </td>
+      <td> <%= form.text_field :credits, :size => 5 %> </td>
+    </tr>
+    <tr>
+      <td> Description: </td>
+      <td> <%= form.text_area :description, :rows => 5, :columns => 40 %> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> <%= submit_tag "Create course", :class => "submit" %> </td>
+    </tr>
+  </table>
+<% end %>

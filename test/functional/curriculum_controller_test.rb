@@ -31,4 +31,58 @@ class CurriculumControllerTest < Test::Unit::TestCase
     end
   end
   
+  should "add a course" do
+    get :new_course
+    assert_response :success
+    assert_standard_layout  # TODO: use admin layout?
+    assert_select "form[action=/curriculum/save_course]" do
+      assert_select "table" do
+        assert_select "tr" do
+          assert_select "td", /label/i
+	  assert_select "td input#course_label[type=text]"
+	end
+        assert_select "tr" do
+          assert_select "td", /number/i
+	  assert_select "td input#course_number[type=text]"
+	end
+        assert_select "tr" do
+          assert_select "td", /title/i
+	  assert_select "td input#course_title[type=text]"
+	end
+        assert_select "tr" do
+          assert_select "td", /credits/i
+	  assert_select "td input#course_credits[type=text]"
+	end
+        assert_select "tr" do
+          assert_select "td", /description/i
+	  assert_select "td textarea#course_description"
+	end
+	assert_select "tr" do
+	  assert_select "td input[type=submit]"
+	end
+      end
+    end
+  end
+  
+  should "save a course" do
+    post :save_course, :course => {
+      :label => 'IS', :number => '665',
+      :title => 'One Off Devilry', :credits => '1'
+    }
+    assert_redirected_to :action => 'list_courses'
+    assert flash.empty?
+    course = Course.find_by_number(665)
+    assert_not_nil course
+    assert_equal 'One Off Devilry', course.title
+  end
+  
+  should "fail to save a bad course" do
+    post :save_course, :course => {
+      :label => 'Q', :number => ''
+    }
+    assert_redirected_to :action => 'new_course'
+    assert !flash.empty?
+    assert_equal 'invalid values for course', flash[:error]
+  end
+        
 end
