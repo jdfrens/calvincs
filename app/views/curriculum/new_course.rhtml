@@ -1,6 +1,6 @@
 <h1>Enter Course Data</h1>
 
-<% if !@course.valid? -%>
+<% if @course && !@course.valid? -%>
   <div id="error">
     <%= error_messages_for(:course) %>
   </div>

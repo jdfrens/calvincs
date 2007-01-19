@@ -83,7 +83,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     }
     assert_template "curriculum/new_course"
 #    assert_redirected_to :action => 'new_course'
-    assert_select "div#error", "Invalid values for the course"
+    assert_select "div#error", /errors prohibited this course from being saved/
     assert !flash.empty?
     assert_equal 'Invalid values for the course', flash[:error]
   end
