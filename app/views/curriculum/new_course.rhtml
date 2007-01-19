@@ -1,3 +1,9 @@
+<h1>Enter Course Data</h1>
+
+<% if flash[:error] -%>
+  <div id="error"><%= flash[:error] %></div>
+<% end -%>
+
 <% form_for :course, :url => { :action => :save_course } do |form| %>
   <table summary="course data">
     <tr>

@@ -35,7 +35,8 @@ class CurriculumControllerTest < Test::Unit::TestCase
     get :new_course
     assert_response :success
     assert_standard_layout  # TODO: use admin layout?
-    assert_select "form[action=/curriculum/save_course]" do
+    assert_select "h1", "Enter Course Data"
+    assert_select "form[action=/curriculum/save_course][method=post]" do
       assert_select "table" do
         assert_select "tr" do
           assert_select "td", /label/i
@@ -80,9 +81,11 @@ class CurriculumControllerTest < Test::Unit::TestCase
     post :save_course, :course => {
       :label => 'Q', :number => ''
     }
-    assert_redirected_to :action => 'new_course'
+    assert_template "curriculum/new_course"
+#    assert_redirected_to :action => 'new_course'
+    assert_select "div#error", "Invalid values for the course"
     assert !flash.empty?
-    assert_equal 'invalid values for course', flash[:error]
+    assert_equal 'Invalid values for the course', flash[:error]
   end
         
 end

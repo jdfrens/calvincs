@@ -19,8 +19,9 @@ class CurriculumController < ApplicationController
     if course.save
       redirect_to :action => 'list_courses'
     else
-      flash[:error] = 'invalid values for course'
-      redirect_to :action => 'new_course'
+      flash[:error] = 'Invalid values for the course'
+#      redirect_to :action => 'new_course'
+      render :template => 'curriculum/new_course'
     end
   end
   

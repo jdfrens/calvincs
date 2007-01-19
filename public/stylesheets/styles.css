@@ -312,49 +312,32 @@ h1#nameplate-calvin a:hover {
 
 
 form {
-
-margin: 0px;
-
-padding: 0px;
-
+  margin: 0px;
+  padding: 0px;
 }
 
 
 
 fieldset {
-
-margin: 10px 0;
-
-padding: 10px;
-
-border: 1px solid #666634;
-
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #666634;
 }
 
 
 
 legend {
-
-font-weight: bold;
-
-color: #000000;
-
-margin: 0px;
-
-padding: 0.5em;
-
+  font-weight: bold;
+  color: #000000;
+  margin: 0px;
+  padding: 0.5em;
 }
 
 
 
 label {
-
-display: inline;
-
+  display: inline;
 }
-
-
-
 
 
 /* Tables */
@@ -362,50 +345,29 @@ display: inline;
 
 
 .data-table {
-
 	border: 1px solid #999999;
-
 	border-collapse: collapse;
-
 	width: auto;
-
 }
-
-
 
 .data-table td {
-
 	border: 1px solid #999999;
-
 	padding: 0.5em;
-
 	color: #000000;
-
 	font-size: .8em;
-
 }
-
-
 
 .data-table th {
-
 	border: 1px solid #999999;
-
 	padding: 0.5em;
-
 	color: #333333;
-
 	background-color: #EEEEEE;
-
 }
-
-
 
 .data-table tr.altrow {
-
 	background-color: #F7EDD4;
-
 }
+
 /* TWO COLUMN LAYOUT */
 .columns {
 	float: left;
@@ -531,3 +493,12 @@ dd#task-apply {
 
 /* Fix IE */
 *html .columns { margin-bottom: 0px;}
+
+
+/* Frens's additions */
+div#error {
+    font-size: larger;
+    color: red;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
