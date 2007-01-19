@@ -1,0 +1,5 @@
++ Refactor new_course.rhtml to a more generic name (e.g., course_form.rhtml).
+
++ When editting a course, cannot save changes!
+
++ Need admin page with interesting links.
