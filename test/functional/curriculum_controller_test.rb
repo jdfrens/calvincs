@@ -35,7 +35,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     get :new_course
     assert_response :success
     assert_standard_layout
-    assert_template "curriculum/new_course"
+    assert_template "curriculum/course_form"
     assert_select "h1", "Enter Course Data"
     assert_course_form
   end
@@ -44,7 +44,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     get :edit_course, :id => 3
     assert_response :success
     assert_standard_layout
-    assert_template "curriculum/new_course"
+    assert_template "curriculum/course_form"
     assert_select "h1", "Edit Course Data"
     assert_course_form :label => 'CS', :number => '108', :title => 'Introduction to Programming', :credits => '4', :description => 'The standard CS 1 class.'
   end
@@ -66,7 +66,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     post :save_course, :course => {
       :label => 'Q', :number => ''
     }
-    assert_template "curriculum/new_course"
+    assert_template "curriculum/course_form"
     assert_select "div#error", /errors prohibited this course from being saved/
     assert !flash.empty?
     assert_equal 'Invalid values for the course', flash[:error]

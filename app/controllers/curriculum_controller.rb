@@ -13,13 +13,13 @@ class CurriculumController < ApplicationController
   def new_course
     @title_verb = 'Enter'
     @course = nil
-    render :template => 'curriculum/new_course'
+    render :template => 'curriculum/course_form'
   end
   
   def edit_course
     @title_verb = 'Edit'
     @course = Course.find(params[:id])
-    render :template => 'curriculum/new_course'
+    render :template => 'curriculum/course_form'
   end
   
   def save_course
@@ -29,7 +29,7 @@ class CurriculumController < ApplicationController
     else
       @title_verb = 'Re-enter'
       flash[:error] = 'Invalid values for the course'
-      render :template => 'curriculum/new_course'
+      render :template => 'curriculum/course_form'
     end
   end
   

@@ -1,9 +1,18 @@
+Features
+========
++ Course processing
+  - When editting a course, cannot save changes!
++ Administration
+  - Need admin page with interesting links.
+
+
 Minor (I hope)
 ==============
 + switch to "should" form in application_helper_test
 + Need functional tests for home/index
 + Need integration tests for home/index
 + Need selenium tests for home/index
+
 
 Major (probably)
 ================
