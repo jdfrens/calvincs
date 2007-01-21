@@ -13,3 +13,8 @@ Things To Do
 + Missing tests
   - Functional: for home controller
   - Selenium: for home controler
+
+  
+User Stories
+============
+Bob, the user, would like to edit the description of CS 108.

@@ -23,6 +23,27 @@ class CourseTest < Test::Unit::TestCase
     assert course.errors.invalid?(:credits)
   end
   
+  should "have a whole variety of problems with label validation" do
+    course = Course.find(3)
+    assert course.valid?
+    course.label = 'C'
+    assert !course.valid?, 'label should be longer than one character'
+    assert_equal 'should be two to five capital letters', course.errors[:label]
+    course.label = 'CS'
+    assert course.valid?
+    course.label = ' CS '
+    assert !course.valid?, 'label should not have whitespace'
+    course.label = 'CS'
+    assert course.valid?
+    course.label = 'CS1'
+    assert !course.valid?, 'label should not have non-alphabetic characters'
+    course.label = 'CS'
+    assert course.valid?
+    course.label = 'CS!'
+    assert !course.valid?, 'label should not have non-alphabetic characters'
+  end
+  
+  
   should "complain when duplicate course created" do
     course = Course.new(
       :label => 'CS', :number => '108', :title => 'Duplicate!', :credits => 3
@@ -42,5 +63,10 @@ class CourseTest < Test::Unit::TestCase
     assert course.valid?
   end
   
-  
+  should "get identifier of course" do
+    assert_equal 'CS 108', Course.find(3).identifier
+    assert_equal 'CS 214', Course.find(1).identifier
+    assert_equal 'IS 337', Course.find(2).identifier
+  end
+
 end

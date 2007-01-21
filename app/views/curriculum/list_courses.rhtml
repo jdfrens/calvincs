@@ -2,6 +2,6 @@
 
 <ul id="courses">
   <% @courses.each do |course| %>
-    <li><%= "#{course.label} #{course.number}: #{course.title}" -%></li>
+    <li><%= h(course.identifier) %>: <%= h(course.title) %></li>
   <% end %>
 </ul>
