@@ -1,0 +1,9 @@
+<h1>Course Details</h1>
+
+<h2><%= h(@course.label) %> <%= h(@course.number) %>: <%= h(@course.title) %></h2>
+
+<p><%= @course.credits %> credits</p>
+
+<p><%= h(@course.description) %></p>
+
+<p><%= link_to 'Back to course listing', :action => 'list_courses' %></p>
