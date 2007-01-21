@@ -4,9 +4,7 @@ class CourseStoriesTest < ActionController::IntegrationTest
   fixtures :courses
   
   should "be able to add a course" do
-    get_via_redirect "curriculum/index"
-    assert_response :success
-    assert_template "list_courses"
+    goto_course_listings
     assert_select "ul#courses li", 3, 'there should be three existing courses'
     
     get "curriculum/new_course"
@@ -27,5 +25,24 @@ class CourseStoriesTest < ActionController::IntegrationTest
     assert_select "li:nth-child(3)", "IS 101: Basics of IS"
   end
   
+  should "be able to view and edit a course" do
+    goto_course_listings
+    assert_select "li:nth-child(1)", "CS 108: Introduction to Computing"
+    
+    get "curriculum/view_course/3"
+    assert_response :success
+    assert_template "course_detail"
+  end
 
+  #
+  # Helpers
+  #
+  private
+  
+  def goto_course_listings
+    get_via_redirect "curriculum/index"
+    assert_response :success
+    assert_template "list_courses"
+  end
+  
 end

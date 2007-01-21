@@ -15,11 +15,14 @@ class CurriculumController < ApplicationController
     @course = nil
     render :template => 'curriculum/course_form'
   end
-  
-  def edit_course
-    @title_verb = 'Edit'
-    @course = Course.find(params[:id])
-    render :template => 'curriculum/course_form'
+
+  def view_course
+    begin
+      @course = Course.find(params[:id])
+      render :template => 'curriculum/course_detail'
+    rescue ActiveRecord::RecordNotFound
+      redirect_to :action => 'list_courses'
+    end
   end
   
   def save_course

@@ -25,7 +25,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_template 'curriculum/list_courses'
     assert_select "h1", "Course Listing"
     assert_select "ul#courses" do
-      assert_select "li:nth-child(1)", "CS 108: Introduction to Programming"
+      assert_select "li:nth-child(1)", "CS 108: Introduction to Computing"
       assert_select "li:nth-child(2)", "CS 214: Programming Languages"
       assert_select "li:nth-child(3)", "IS 337: Website Administration"
     end
@@ -40,15 +40,29 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_course_form
   end
   
-  should "edit a course" do
-    get :edit_course, :id => 3
+  should "view a course" do
+    get :view_course, :id => 3
     assert_response :success
     assert_standard_layout
-    assert_template "curriculum/course_form"
-    assert_select "h1", "Edit Course Data"
-    assert_course_form :label => 'CS', :number => '108', :title => 'Introduction to Programming', :credits => '4', :description => 'The standard CS 1 class.'
+    assert_template "curriculum/course_detail"
+    assert_select "h1", "Course Details"
+    assert_select "h2", "CS 108: Introduction to Computing"
+    assert_select "p", "4 credits"
+    assert_select "p", "The standard CS 1 class."
+    assert_select "a[href=/curriculum/list_courses]"
   end
   
+  should "redirect when id not specified when viewing details of course" do
+    get :view_course, :id => nil
+    assert_redirected_to :action => 'list_courses'
+    assert flash.empty?
+  end
+  
+  should "redirect when id is invalid when viewing details of course" do
+    get :view_course, :id => 99
+    assert_redirected_to :action => 'list_courses'
+    assert flash.empty?
+  end
   
   should "save a course" do
     post :save_course, :course => {
@@ -67,7 +81,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
       :label => 'Q', :number => ''
     }
     assert_template "curriculum/course_form"
-    assert_select "div#error", /errors prohibited this course from being saved/
+    assert_select "div#error", /errors prohibited this course from being saved/i
     assert !flash.empty?
     assert_equal 'Invalid values for the course', flash[:error]
   end
