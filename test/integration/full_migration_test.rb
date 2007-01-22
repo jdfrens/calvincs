@@ -1,17 +1,5 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
-#
-# This excercises the full set of migrations for your Rails app.
-# It proves:
-#   - After full migration, the database is in the expected state, including:
-#     - All table structure
-#     - Default data (if any)
-#   - Full downward (version 0) migration functions correctly.
-#
-# YOU NEED TO:
-#   - Update "see_full_schema"
-#   - Update "see_data"
-# 
 class FullMigrationTest < ActionController::IntegrationTest
 
   #
@@ -21,7 +9,7 @@ class FullMigrationTest < ActionController::IntegrationTest
   # Fully assert db structure after full migration
   def see_full_schema
     assert_schema do |s|
-      table :courses do |t|
+      table "courses" do |t|
 	t.column "id", 		:integer
 	t.column "label", 	:string
 	t.column "number", 	:integer
@@ -29,6 +17,12 @@ class FullMigrationTest < ActionController::IntegrationTest
 	t.column "description", :text
 	t.column "credits", 	:integer
 	t.column "created_at", :datetime
+      end
+      
+      table "documents" do |t|
+        t.column "id",          :integer
+        t.column "identifier",  :string
+        t.column "content",     :text
       end
     end
   end

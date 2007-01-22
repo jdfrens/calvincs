@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+mission_statement:
+  id: 1
+  identifier: mission_statement
+  content: We aim to be the *best* CS department in the universe.
+alphabet:
+  id: 2
+  identifier: alphabet
+  content: a b c d e f g _h i j k_

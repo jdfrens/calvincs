@@ -1,0 +1,18 @@
+<h1>Create Document</h1>
+
+<% form_for :document, :url => { :action => :save } do |form| %>
+  <table summary="document data">
+    <tr>
+      <td> Identifier: </td>
+      <td> <%= form.text_field :identifier, :size => 10 %> </td>
+    </tr>
+    <tr>
+      <td> Content: </td>
+      <td> <%= form.text_area :content, :rows => 15, :columns => 40 %> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> <%= submit_tag "Create document", :class => "submit" %> </td>
+    </tr>
+  </table>
+<% end %>

@@ -1,20 +1,32 @@
-Things To Do
-============
+Immediately Next
+================
++ validations on Document.identiifer: /^(\w|_)+$/
 
-+ Course processing
-  - When editting a course, cannot save changes!
-
-+ Administration
-  - Need admin page with interesting links.
-
-+ Layout
-  - Want some way to specify submenu.
-
-+ Missing tests
-  - Functional: for home controller
-  - Selenium: for home controler
-
-  
 User Stories
 ============
 Bob, the user, would like to edit the description of CS 108.
+
+Bob creates a new document with an identifier and content.
+
+Bob views a document.
+
+Bob edits a document.  He changes the content normally.  He changes the identifier, and unfortunately none of the references to the old identifier change.
+
+Bob adds a link from one document to another.  And it works.
+
+Bob goes to a page that contains links to all of the interesting administrative pages.
+
+Bob navigates using a main menu.
+
+Bob navigates using a menu below the main menu which changes from page to page.
+
+
+Missing tests
+=============
++ Functional
+  - for home controller
+  
++ Selenium
+  - for home controller
+  - for curriculum controller
+  - for document controller
