@@ -36,7 +36,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_template "curriculum/course_form"
-    assert_select "h1", "Enter Course Data"
+    assert_select "h1", "Create Course"
     assert_course_form
   end
   

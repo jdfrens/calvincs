@@ -1,0 +1,7 @@
+<h1>All Documents</h1>
+
+<ul>
+  <% @documents.each do |document| -%>
+    <li> <%= h(document.title) %> </li>
+  <% end -%>
+</ul>

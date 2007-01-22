@@ -2,8 +2,10 @@
 mission_statement:
   id: 1
   identifier: mission_statement
-  content: We aim to be the *best* CS department in the universe.
+  title: Mission Statement
+  content: We state *our* mission.
 alphabet:
   id: 2
   identifier: alphabet
+  title: The Alphabet
   content: a b c d e f g _h i j k_

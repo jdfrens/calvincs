@@ -22,6 +22,7 @@ class FullMigrationTest < ActionController::IntegrationTest
       table "documents" do |t|
         t.column "id",          :integer
         t.column "identifier",  :string
+        t.column "title",       :string
         t.column "content",     :text
       end
     end

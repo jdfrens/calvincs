@@ -5,6 +5,9 @@ require 'document_controller'
 class DocumentController; def rescue_action(e) raise e end; end
 
 class DocumentControllerTest < Test::Unit::TestCase
+  
+  fixtures :documents
+  
   def setup
     @controller = DocumentController.new
     @request    = ActionController::TestRequest.new
@@ -20,15 +23,66 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_document_form
   end
   
+  should "get a list of documents" do
+    get :list
+    assert_response :success
+    assert_standard_layout
+    assert_template "document/list"
+    assert_select "h1", "All Documents"
+    assert_select "ul" do
+      assert_select "li", "Mission Statement"
+      assert_select "li", "The Alphabet"
+    end
+  end
+  
+  
+  should "save a new document" do
+    post :save,
+        :document => {
+          :identifier => 'new_document', :title => 'New Document',
+          :content => 'love me!'
+        }
+    assert_redirected_to :action => 'view', :id => 'new_document'
+    assert flash.empty?
+    document = Document.find_by_identifier('new_document')
+    assert_not_nil document
+    assert_equal 'love me!', document.content
+  end
+  
+  should "fail to save a new document with bad identifier" do
+    post :save,
+        :document => { :identifier => 'bad!', :content => 'whatever' }
+    assert_response :success
+    assert !flash.empty?
+    assert_equal 'Invalid values for the document', flash[:error]
+  end
+  
+  should "view a document" do
+    get :view, :id => 'mission_statement'
+    assert_response :success
+    assert_standard_layout
+    assert_template "document/view"
+    assert_select "h1", "Mission Statement"
+    assert_select "p", 'We state *our* mission.'
+    assert_select "p[class=identifier]", 'mission_statement'
+  end
+  
+  should "redirect when trying to view non-existant document" do
+    get :view, :id => 'does_not_exist'
+    assert_redirected_to :action => 'list'
+  end
+  
+  
   #
   # Helpers
   #
   private
   
   def assert_document_form
-    assert_select "td input#document_identifier"
-    assert_select "td textarea#document_content"
-    assert_select "td input[type=submit]"
+    assert_select "input#document_identifier"
+    assert_select "input#document_title"
+    assert_select "textarea#document_content"
+    assert_select "input[type=submit]"
   end
   
 end
