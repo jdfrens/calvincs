@@ -1,0 +1,25 @@
+<h1>Master Administration</h1>
+
+<h2>Courses</h2>
+
+<ul id="course_administration">
+  <li>
+    <%= link_to 'Course list (with edit and delete options)', :controller => 'curriculum', :action => 'list_courses' %>
+  </li>
+  <li>
+    <%= link_to 'Create new course', :controller => 'curriculum', :action => 'new_course' %>
+  </li>
+</ul>
+
+<h2>Documents</h2>
+
+<ul id="document_administration">
+  <li>
+    <%= link_to 'Document list (with edit and delete options)', :controller => 'document', :action => 'list' %>
+  </li>
+  <li>
+    <%= link_to 'Create new document', :controller => 'document', :action => 'create' %>
+  </li>
+</ul>
+
+<h2>News and Events</h2>
