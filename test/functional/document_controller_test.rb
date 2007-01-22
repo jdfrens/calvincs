@@ -30,11 +30,16 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_template "document/list"
     assert_select "h1", "All Documents"
     assert_select "ul" do
-      assert_select "li", "Mission Statement"
-      assert_select "li", "The Alphabet"
+      assert_select "li a[href=/document/view/mission_statement]", "Mission Statement"
+      assert_select "form[action=/document/destroy/1]" do
+        assert_select "input[value=Destroy]"
+      end
+      assert_select "li a[href=/document/view/alphabet]", "The Alphabet"
+      assert_select "form[action=/document/destroy/2]" do
+        assert_select "input[value=Destroy]"
+      end
     end
   end
-  
   
   should "save a new document" do
     post :save,
@@ -64,7 +69,7 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_template "document/view"
     assert_select "h1 span#document_title_1_in_place_editor", "Mission Statement"
     assert_select "p span#document_content_1_in_place_editor", 'We state *our* mission.'
-    assert_select "p[class=identifier]", 'mission_statement'
+    assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", 'mission_statement'
   end
   
   should "change document title" do
@@ -81,9 +86,23 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_equal 'Mission away!', document.content
   end
   
+  should "change document identifier" do
+    get :set_document_identifier, :id => 1, :value => 'mission_statement_2'
+    assert_response :success
+    document = Document.find(1)
+    assert_equal 'mission_statement_2', document.identifier
+  end
+  
   should "redirect when trying to view non-existant document" do
     get :view, :id => 'does_not_exist'
     assert_redirected_to :action => 'list'
+  end
+  
+  should "destroy a document" do
+    post :destroy, :id => 1
+    assert_redirected_to :action => 'list'
+    document = Document.find_by_identifier('mission_statement')
+    assert_nil document
   end
   
   

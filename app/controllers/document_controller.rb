@@ -4,6 +4,7 @@ class DocumentController < ApplicationController
   
   in_place_edit_for :document, :title
   in_place_edit_for :document, :content
+  in_place_edit_for :document, :identifier
   
   def create
     @document = nil
@@ -22,6 +23,11 @@ class DocumentController < ApplicationController
       flash[:error] = 'Invalid values for the document'
       render :template => 'document/create'
     end
+  end
+  
+  def destroy
+    Document.destroy(params[:id])
+    redirect_to :action => 'list'
   end
   
   def view

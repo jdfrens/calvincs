@@ -2,6 +2,11 @@
 
 <ul>
   <% @documents.each do |document| -%>
-    <li> <%= h(document.title) %> </li>
+    <li>
+      <%= link_to h(document.title), :action => 'view', :id => document.identifier %>
+      <%= button_to 'Destroy', { :action => 'destroy', :id => document },
+          :confirm => 'Are you sure you want to destroy this document?',
+          :method => :post %>
+    </li>
   <% end -%>
 </ul>

@@ -1,0 +1,7 @@
+<h1><%= document.title %></h1>
+
+<p><%= document.content %></p>
+
+<p class="view-edit">
+  <%= link_to 'view/edit', :controller => 'document', :action => 'view', :id => document.identifier %>
+</p>

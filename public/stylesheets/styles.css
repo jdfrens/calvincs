@@ -508,3 +508,8 @@ div#error {
     background-color: red;
     display: table;
 }
+
+.identifier, .view-edit {
+    text-align: right;
+    font-size: small;
+}

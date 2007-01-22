@@ -17,6 +17,7 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_standard_layout
     assert_template 'home/index'
     assert_select "h1", "Computing at Calvin College"
+    assert_select "p", "home page text"
   end
   
   should "have an administration page" do

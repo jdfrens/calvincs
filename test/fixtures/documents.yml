@@ -9,3 +9,8 @@ alphabet:
   identifier: alphabet
   title: The Alphabet
   content: a b c d e f g _h i j k_
+home_page:
+  id: 3
+  identifier: home_page
+  title: Computing at Calvin College
+  content: home page text
