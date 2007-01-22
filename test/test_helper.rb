@@ -39,6 +39,8 @@ class Test::Unit::TestCase
   
   def assert_standard_layout
     assert_select "title" , "Computing at Calvin College"
+    assert_select "link[type=text/css]"
+    assert_select "script[type=text/javascript]"
     assert_select "div#accessibility" do
       assert_select "a[href=#navbar]"
       assert_select "a[href=#content]"

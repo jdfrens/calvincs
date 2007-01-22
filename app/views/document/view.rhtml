@@ -1,5 +1,7 @@
-<h1><%= @document.title %></h1>
+<h1>
+  <%= in_place_editor_field :document, "title" %>
+</h1>
 
-<p><%= @document.content %></p>
+<p><%= in_place_editor_field :document, 'content', {}, { :rows => 20, :cols => 40 } %></p>
 
 <p class="identifier"><%= @document.identifier %></p>

@@ -62,9 +62,23 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_template "document/view"
-    assert_select "h1", "Mission Statement"
-    assert_select "p", 'We state *our* mission.'
+    assert_select "h1 span#document_title_1_in_place_editor", "Mission Statement"
+    assert_select "p span#document_content_1_in_place_editor", 'We state *our* mission.'
     assert_select "p[class=identifier]", 'mission_statement'
+  end
+  
+  should "change document title" do
+    get :set_document_title, :id => 1, :value => 'New Mission Statement'
+    assert_response :success
+    document = Document.find(1)
+    assert_equal 'New Mission Statement', document.title
+  end
+  
+  should "change document content" do
+    get :set_document_content, :id => 1, :value => 'Mission away!'
+    assert_response :success
+    document = Document.find(1)
+    assert_equal 'Mission away!', document.content
   end
   
   should "redirect when trying to view non-existant document" do
