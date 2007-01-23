@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 
-  layout "standard"
+  restrict_to :admin, :only => 'administrate'
     
   def index
     @document = Document.find_by_identifier('home_page')

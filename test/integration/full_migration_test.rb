@@ -25,6 +25,29 @@ class FullMigrationTest < ActionController::IntegrationTest
         t.column "title",       :string
         t.column "content",     :text
       end
+      
+      table "groups" do |t|
+        t.column "id",          :integer
+        t.column "name",        :string
+      end
+
+      table "privileges" do |t|
+        t.column "id",          :integer
+        t.column "name",           :string
+      end
+
+      table "groups_privileges" do |t|
+        t.column "id",          :integer
+        t.column "group_id",     :integer
+        t.column "privilege_id", :integer
+      end
+  
+      table "users" do |t|
+        t.column "id",          :integer
+        t.column "username",      :string
+        t.column "password_hash", :string
+        t.column "group_id",      :integer
+      end
     end
   end
 

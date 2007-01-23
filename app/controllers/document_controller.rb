@@ -1,7 +1,5 @@
 class DocumentController < ApplicationController
-  
-  layout "standard"
-  
+
   in_place_edit_for :document, :title
   in_place_edit_for :document, :content
   in_place_edit_for :document, :identifier

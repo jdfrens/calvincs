@@ -1,0 +1,6 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+calvin:
+  id: 1
+  username: calvin
+  password_hash: <%= MD5.hexdigest('john') %>
+  group_id: 1
