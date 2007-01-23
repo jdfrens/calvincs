@@ -2,5 +2,5 @@
 calvin:
   id: 1
   username: calvin
-  password_hash: <%= MD5.hexdigest('john') %>
+  password_hash: <%= User.hash_password('john') %>
   group_id: 1

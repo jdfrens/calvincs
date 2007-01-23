@@ -30,7 +30,7 @@ class HomeControllerTest < Test::Unit::TestCase
       
   should "have an administration page" do
     get :administrate, {}, { :current_user_id => 1 }
-    assert_admin_user 1
+    assert_user_privilege 1, 'admin'
     assert_response :success
     assert_standard_layout
     assert_template 'home/administrate'
@@ -48,19 +48,4 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select 'h2', "News and Events"
   end
 
-  #
-  # Helpers
-  #
-  private
-          
-  def assert_admin_user(expected_id)
-    actual_id = session[:current_user_id]
-    assert_equal expected_id, actual_id
-    user = User.find(actual_id)
-    assert_not_nil user
-    privilege = Privilege.find_by_name('admin')
-    assert_not_nil privilege
-    assert user.group.privileges.include?(privilege)
-  end
-  
 end

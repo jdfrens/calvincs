@@ -55,4 +55,15 @@ class Test::Unit::TestCase
     end
   end
   
+  def assert_user_privilege(expected_id, expected_privilege)
+    actual_id = session[:current_user_id]
+    assert_equal expected_id, actual_id
+    user = User.find(actual_id)
+    assert_not_nil user, "user #{user} not found"
+    privilege = Privilege.find_by_name(expected_privilege)
+    assert_not_nil privilege, "privilege #{expected_privilege} not found"
+    assert user.group.privileges.include?(privilege),
+        "#{user.username} does not have the #{privilege.name} privilege"
+  end
+  
 end
