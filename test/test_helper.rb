@@ -53,6 +53,11 @@ class Test::Unit::TestCase
       end
       assert_select "div#footer-css"
     end
+    if is_logged_in
+      assert_select "a[href=/users/logout]", /logout/i
+    else
+      assert_select "a[href=/users/logout]", 0
+    end
   end
   
   def assert_user_privilege(expected_id, expected_privilege)
@@ -64,6 +69,10 @@ class Test::Unit::TestCase
     assert_not_nil privilege, "privilege #{expected_privilege} not found"
     assert user.group.privileges.include?(privilege),
         "#{user.username} does not have the #{privilege.name} privilege"
+  end
+  
+  def is_logged_in
+    session[:current_user_id] != nil
   end
   
 end

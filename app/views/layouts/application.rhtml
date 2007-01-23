@@ -32,8 +32,16 @@
 <div id="wrapper">
 
   <div id="content">
-    <div class="gutter">   
+    <div class="gutter">  
+    
       <%= yield :layout %>
+      
+      <% if current_user -%>
+      <p class="logout">
+        <%= link_to "logout", :controller => "users", :action => "logout" %>
+      </p>
+      <% end -%>
+      
     </div>
   </div>
 

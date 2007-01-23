@@ -445,16 +445,16 @@ label {
 }
 
 dd#task-contact {
-	background: url(/images/icons/telephone.gif) no-repeat;
+	background: url(/images/telephone.gif) no-repeat;
 }
 dd#task-visit {
-	background: url(/images/icons/car.gif) no-repeat;
+	background: url(/images/car.gif) no-repeat;
 }
 dd#task-request {
-	background: url(/images/icons/book-open.gif) no-repeat;
+	background: url(/images/book-open.gif) no-repeat;
 }
 dd#task-apply {
-	background: url(/images/icons/application-form.gif) no-repeat;
+	background: url(/images/application-form.gif) no-repeat;
 }
 
 
@@ -509,7 +509,7 @@ div#error {
     display: table;
 }
 
-.identifier, .view-edit {
+.identifier, .view-edit, .logout {
     text-align: right;
     font-size: small;
 }
