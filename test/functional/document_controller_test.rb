@@ -6,13 +6,19 @@ class DocumentController; def rescue_action(e) raise e end; end
 
 class DocumentControllerTest < Test::Unit::TestCase
   
-  fixtures :documents
+  fixtures :documents, :users, :groups, :privileges, :groups_privileges
   
   def setup
     @controller = DocumentController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
+  
+  should "redirect index to list" do
+    get :index
+    assert_redirected_to :controller => 'document', :action => 'list'
+  end
+  
 
   should "get form to create a new document" do
     get :create
@@ -23,8 +29,8 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_document_form
   end
   
-  should "get a list of documents" do
-    get :list
+  should "get a list of documents when logged in" do
+    get :list, {}, { :current_user_id => 1 }
     assert_response :success
     assert_standard_layout
     assert_template "document/list"
@@ -38,6 +44,20 @@ class DocumentControllerTest < Test::Unit::TestCase
       assert_select "form[action=/document/destroy/2]" do
         assert_select "input[value=Destroy]"
       end
+    end
+  end
+  
+  should "get a list of documents when NOT logged in" do
+    get :list
+    assert_response :success
+    assert_standard_layout
+    assert_template "document/list"
+    assert_select "h1", "All Documents"
+    assert_select "ul" do
+      assert_select "li a[href=/document/view/mission_statement]", "Mission Statement"
+      assert_select "form[action=/document/destroy/1]", 0
+      assert_select "li a[href=/document/view/alphabet]", "The Alphabet"
+      assert_select "form[action=/document/destroy/2]", 0
     end
   end
   

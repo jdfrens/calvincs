@@ -4,6 +4,10 @@ class DocumentController < ApplicationController
   in_place_edit_for :document, :content
   in_place_edit_for :document, :identifier
   
+  def index
+    redirect_to :action => 'list'
+  end
+  
   def create
     @document = nil
   end
