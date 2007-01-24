@@ -71,6 +71,10 @@ class Test::Unit::TestCase
         "#{user.username} does not have the #{privilege.name} privilege"
   end
   
+  def assert_redirected_to_login
+    assert_redirected_to :controller => 'users', :action => 'login'
+  end
+  
   def is_logged_in
     session[:current_user_id] != nil
   end

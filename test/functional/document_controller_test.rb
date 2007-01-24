@@ -19,14 +19,18 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_redirected_to :controller => 'document', :action => 'list'
   end
   
-
-  should "get form to create a new document" do
-    get :create
+  should "get form to create a new document when logged in" do
+    get :create, {}, { :current_user_id => 1 }
     assert_response :success
     assert_standard_layout
     assert_template "document/create"
     assert_select "h1", "Create Document"
     assert_document_form
+  end
+  
+  should "redirect when trying to create a new document and NOT logged in" do
+    get :create
+    assert_redirected_to_login
   end
   
   should "get a list of documents when logged in" do
@@ -63,10 +67,11 @@ class DocumentControllerTest < Test::Unit::TestCase
   
   should "save a new document" do
     post :save,
-        :document => {
+        { :document => {
           :identifier => 'new_document', :title => 'New Document',
           :content => 'love me!'
-        }
+          }
+        }, { :current_user_id => 1 }
     assert_redirected_to :action => 'view', :id => 'new_document'
     assert flash.empty?
     document = Document.find_by_identifier('new_document')
@@ -74,12 +79,26 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_equal 'love me!', document.content
   end
   
+  should "fail to save a new document when NOT logged in" do
+    post :save,
+        :document => {
+          :identifier => 'new_document', :title => 'New Document',
+          :content => 'love me!'
+        }
+    assert_redirected_to_login
+    assert_equal 3, Document.find(:all).size,
+        "should have only three documents still"
+  end
+  
   should "fail to save a new document with bad identifier" do
     post :save,
-        :document => { :identifier => 'bad!', :content => 'whatever' }
+        { :document => { :identifier => 'bad!', :content => 'whatever' } },
+        { :current_user_id => 1 }
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the document', flash[:error]
+    assert_equal 3, Document.find(:all).size,
+        "should have only three documents still"
   end
   
   should "view a document" do
@@ -93,24 +112,48 @@ class DocumentControllerTest < Test::Unit::TestCase
   end
   
   should "change document title" do
-    get :set_document_title, :id => 1, :value => 'New Mission Statement'
+    get :set_document_title,
+        { :id => 1, :value => 'New Mission Statement' },
+        { :current_user_id => 1 }
     assert_response :success
     document = Document.find(1)
     assert_equal 'New Mission Statement', document.title
   end
   
+  should "fail to change document title when NOT logged in" do
+    get :set_document_title, :id => 1, :value => 'New Mission Statement'
+    assert_redirected_to_login
+    assert_equal "Mission Statement", Document.find(1).title
+  end
+  
   should "change document content" do
-    get :set_document_content, :id => 1, :value => 'Mission away!'
+    get :set_document_content,
+        { :id => 1, :value => 'Mission away!' },
+        { :current_user_id => 1 }
     assert_response :success
     document = Document.find(1)
     assert_equal 'Mission away!', document.content
   end
   
+  should "fail to change document content when NOT logged in" do
+    get :set_document_content, :id => 1, :value => 'Mission away!'
+    assert_redirected_to_login
+    assert_equal "We state *our* mission.", Document.find(1).content
+  end
+  
   should "change document identifier" do
-    get :set_document_identifier, :id => 1, :value => 'mission_statement_2'
+    get :set_document_identifier,
+        { :id => 1, :value => 'mission_statement_2'},
+        { :current_user_id => 1 }
     assert_response :success
     document = Document.find(1)
     assert_equal 'mission_statement_2', document.identifier
+  end
+  
+  should "fail to change document identifier when NOT logged in" do
+    get :set_document_identifier, :id => 1, :value => 'mission_statement_2'
+    assert_redirected_to_login
+    assert_equal "mission_statement", Document.find(1).identifier
   end
   
   should "redirect when trying to view non-existant document" do
@@ -118,13 +161,18 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_redirected_to :action => 'list'
   end
   
-  should "destroy a document" do
-    post :destroy, :id => 1
+  should "destroy a document when logged in" do
+    post :destroy, { :id => 1 }, { :current_user_id => 1 }
     assert_redirected_to :action => 'list'
     document = Document.find_by_identifier('mission_statement')
     assert_nil document
   end
   
+  should "redirect to login when trying to destroy a document and NOT logged in" do
+    post :destroy, :id => 1
+    assert_redirected_to_login
+    assert_not_nil Document.find(1)
+  end
   
   #
   # Helpers
