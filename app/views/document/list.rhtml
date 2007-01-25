@@ -18,3 +18,7 @@
     </li>
   <% end -%>
 </ul>
+
+<% restrict_to :admin do -%>
+  <p><%= link_to 'Create a new document', :action => 'create' %></p>
+<% end -%>

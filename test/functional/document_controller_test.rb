@@ -46,6 +46,7 @@ class DocumentControllerTest < Test::Unit::TestCase
       assert_document_li 2, 'alphabet', "The Alphabet"
       assert_document_li 3, 'home_page', "Computing at Calvin College"
     end
+    assert_select "a[href=/document/create]", "Create a new document"
   end
   
   should "get a list of documents when NOT logged in" do
@@ -61,6 +62,7 @@ class DocumentControllerTest < Test::Unit::TestCase
       assert_document_li 2, 'alphabet', "The Alphabet"
       assert_document_li 3, 'home_page', "Computing at Calvin College"
     end
+    assert_select "a[href=/document/create]", 0
   end
   
   should "view a document when NOT logged in" do
