@@ -9,6 +9,8 @@ Bob, the user, would like to edit the description of CS 108.
 
 Documents
 ---------
+Bob sees a document generated as Textile markup.  (UNIMPLEMENTED, UNTESTED)
+
 Bob creates a new document with an identifier and content. (implemented, UNTESTED)
 
 Bob views a document. (implemented, UNTESTED)

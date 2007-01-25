@@ -106,6 +106,23 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_template "document/view"
+    assert_select "h1", "Mission Statement"
+    assert_select "p", 'We state our mission.'
+    assert_select "p strong", "our"
+
+    assert_select "h1 span#document_title_1_in_place_editor", false
+    assert_select "p span#document_content_1_in_place_editor", false
+    assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", false
+  end
+  
+  should "view a document when logged in" do
+    get :view, { :id => 'mission_statement' }, { :current_user_id => 1 } 
+    assert_response :success
+    assert_standard_layout
+    assert_template "document/view"
+    assert_select "p", 'We state our mission.'
+    assert_select "p strong", "our"
+
     assert_select "h1 span#document_title_1_in_place_editor", "Mission Statement"
     assert_select "p span#document_content_1_in_place_editor", 'We state *our* mission.'
     assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", 'mission_statement'

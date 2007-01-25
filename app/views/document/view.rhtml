@@ -1,7 +1,17 @@
 <h1>
-  <%= in_place_editor_field :document, "title" %>
+  <% if current_user -%>
+    <%= in_place_editor_field :document, "title" %>
+  <% else -%>
+    <%= h(@document.title) %>
+  <% end -%>
 </h1>
 
-<p><%= in_place_editor_field :document, 'content', {}, { :rows => 20, :cols => 40 } %></p>
+<%= RedCloth.new(@document.content).to_html %>
 
-<p class="identifier"><%= in_place_editor_field :document, 'identifier' %></p>
+<% restrict_to :admin do -%>
+  <p><%= in_place_editor_field :document, 'content', {}, { :rows => 20, :cols => 40 } %></p>
+<% end -%>
+  
+<% restrict_to :admin do -%>
+  <p class="identifier"><%= in_place_editor_field :document, 'identifier' %></p>
+<% end -%>
