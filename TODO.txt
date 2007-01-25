@@ -1,21 +1,26 @@
 Immediately Next
 ================
-+ validations on Document.identiifer: /^(\w|_)+$/
 
 User Stories
 ============
+Curriculum
+----------
 Bob, the user, would like to edit the description of CS 108.
 
-Bob creates a new document with an identifier and content.
+Documents
+---------
+Bob creates a new document with an identifier and content. (implemented, UNTESTED)
 
-Bob views a document.
+Bob views a document. (implemented, UNTESTED)
 
-Bob edits a document.  He changes the content normally.  He changes the identifier, and unfortunately none of the references to the old identifier change.
+Bob edits a document.  He changes the content normally.  He changes the identifier, and unfortunately none of the references to the old identifier change. (implemented, UNTESTED)
 
 Bob adds a link from one document to another.  And it works.
 
-Bob goes to a page that contains links to all of the interesting administrative pages.
+Bob goes to a page that contains links to all of the interesting administrative pages. (implemented, UNTESTED)
 
+Menus
+-----
 Bob navigates using a main menu.
 
 Bob navigates using a menu below the main menu which changes from page to page.
@@ -23,9 +28,9 @@ Bob navigates using a menu below the main menu which changes from page to page.
 
 Missing tests
 =============
-+ Functional
-  - for home controller
-  
++ Integration
+  - all over!!!!
+
 + Selenium
   - for home controller
   - for curriculum controller
