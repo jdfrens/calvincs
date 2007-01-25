@@ -23,6 +23,7 @@ class DocumentController < ApplicationController
     if @document
       render :template => 'document/view'
     else
+      flash[:error] = "Document #{params[:id]} does not exist."
       redirect_to :action => 'list'
     end
   end

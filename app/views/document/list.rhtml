@@ -1,5 +1,9 @@
 <h1>All Documents</h1>
 
+<% if flash[:error] -%>
+  <div id="error"><%= h(flash[:error]) %></div>
+<% end -%>
+
 <ul>
   <% @documents.each do |document| -%>
     <li>

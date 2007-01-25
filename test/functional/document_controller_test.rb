@@ -34,35 +34,66 @@ class DocumentControllerTest < Test::Unit::TestCase
   end
   
   should "get a list of documents when logged in" do
-    get :list, {}, { :current_user_id => 1 }
+    get :list, {}, { :current_user_id => 1 }, { :error => 'Error flash!' }
     assert_response :success
     assert_standard_layout
     assert_template "document/list"
     assert_select "h1", "All Documents"
+    assert_select "div#error", "Error flash!"
     assert_select "ul" do
-      assert_select "li a[href=/document/view/mission_statement]", "Mission Statement"
-      assert_select "form[action=/document/destroy/1]" do
-        assert_select "input[value=Destroy]"
-      end
-      assert_select "li a[href=/document/view/alphabet]", "The Alphabet"
-      assert_select "form[action=/document/destroy/2]" do
-        assert_select "input[value=Destroy]"
-      end
+      assert_select "li", 3, "should be three documents in fixtures"
+      assert_document_li 1, 'mission_statement', "Mission Statement"
+      assert_document_li 2, 'alphabet', "The Alphabet"
+      assert_document_li 3, 'home_page', "Computing at Calvin College"
     end
   end
   
   should "get a list of documents when NOT logged in" do
-    get :list
+    get :list, {}, {}, { :error => 'Error flash!' }
     assert_response :success
     assert_standard_layout
     assert_template "document/list"
     assert_select "h1", "All Documents"
+    assert_select "div#error", "Error flash!"
     assert_select "ul" do
-      assert_select "li a[href=/document/view/mission_statement]", "Mission Statement"
-      assert_select "form[action=/document/destroy/1]", 0
-      assert_select "li a[href=/document/view/alphabet]", "The Alphabet"
-      assert_select "form[action=/document/destroy/2]", 0
+      assert_select "li", 3, "should be three documents in fixtures"
+      assert_document_li 1, 'mission_statement', "Mission Statement"
+      assert_document_li 2, 'alphabet', "The Alphabet"
+      assert_document_li 3, 'home_page', "Computing at Calvin College"
     end
+  end
+  
+  should "view a document when NOT logged in" do
+    get :view, :id => 'mission_statement'
+    assert_response :success
+    assert_standard_layout
+    assert_template "document/view"
+    assert_select "h1", "Mission Statement"
+    assert_select "p", 'We state our mission.'
+    assert_select "p strong", "our"
+
+    assert_select "h1 span#document_title_1_in_place_editor", false
+    assert_select "p span#document_content_1_in_place_editor", false
+    assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", false
+  end
+  
+  should "view a document when logged in" do
+    get :view, { :id => 'mission_statement' }, { :current_user_id => 1 } 
+    assert_response :success
+    assert_standard_layout
+    assert_template "document/view"
+    assert_select "p", 'We state our mission.'
+    assert_select "p strong", "our"
+
+    assert_select "h1 span#document_title_1_in_place_editor", "Mission Statement"
+    assert_select "p span#document_content_1_in_place_editor", 'We state *our* mission.'
+    assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", 'mission_statement'
+  end
+  
+  should "redirect when trying to view non-existant document" do
+    get :view, :id => 'does_not_exist'
+    assert_redirected_to :action => 'list'
+    assert_equal "Document does_not_exist does not exist.", flash[:error]
   end
   
   should "save a new document" do
@@ -99,33 +130,6 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_equal 'Invalid values for the document', flash[:error]
     assert_equal 3, Document.find(:all).size,
         "should have only three documents still"
-  end
-  
-  should "view a document" do
-    get :view, :id => 'mission_statement'
-    assert_response :success
-    assert_standard_layout
-    assert_template "document/view"
-    assert_select "h1", "Mission Statement"
-    assert_select "p", 'We state our mission.'
-    assert_select "p strong", "our"
-
-    assert_select "h1 span#document_title_1_in_place_editor", false
-    assert_select "p span#document_content_1_in_place_editor", false
-    assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", false
-  end
-  
-  should "view a document when logged in" do
-    get :view, { :id => 'mission_statement' }, { :current_user_id => 1 } 
-    assert_response :success
-    assert_standard_layout
-    assert_template "document/view"
-    assert_select "p", 'We state our mission.'
-    assert_select "p strong", "our"
-
-    assert_select "h1 span#document_title_1_in_place_editor", "Mission Statement"
-    assert_select "p span#document_content_1_in_place_editor", 'We state *our* mission.'
-    assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", 'mission_statement'
   end
   
   should "change document title" do
@@ -173,11 +177,6 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_equal "mission_statement", Document.find(1).identifier
   end
   
-  should "redirect when trying to view non-existant document" do
-    get :view, :id => 'does_not_exist'
-    assert_redirected_to :action => 'list'
-  end
-  
   should "destroy a document when logged in" do
     post :destroy, { :id => 1 }, { :current_user_id => 1 }
     assert_redirected_to :action => 'list'
@@ -195,6 +194,19 @@ class DocumentControllerTest < Test::Unit::TestCase
   # Helpers
   #
   private
+  
+  def assert_document_li(id, identifier, title)
+      assert_select "li a[href=/document/view/#{identifier}]", title,
+          "should have title in appropriate <a> in <li>"
+      if is_logged_in
+        assert_select "form[action=/document/destroy/#{id}]" do
+          assert_select "input[value=Destroy]", 1, "should have destroy button"
+        end
+      else
+        assert_select "form[action=/document/destroy/#{id}]", 0,
+            "should be no destroy form when NOT logged in"
+      end
+  end
   
   def assert_document_form
     assert_select "input#document_identifier"
