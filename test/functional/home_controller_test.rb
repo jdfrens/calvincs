@@ -20,7 +20,8 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_standard_layout
     assert_template 'home/index'
     assert_select "h1", "Computing at Calvin College"
-    assert_select "p", "home page text"
+    assert_select "p", "home page text written in textile"
+    assert_select "p strong", "textile"
   end
 
   should "protect administration page" do

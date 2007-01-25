@@ -1,6 +1,6 @@
-<h1><%= document.title %></h1>
+<h1><%= h(document.title) %></h1>
 
-<p><%= document.content %></p>
+<p><%= RedCloth.new(document.content).to_html %></p>
 
 <% restrict_to :admin do -%>
   <p class="view-edit">
