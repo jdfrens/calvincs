@@ -1,12 +1,8 @@
 class DocumentController < ApplicationController
 
-  in_place_edit_for :document, :title
-  in_place_edit_for :document, :content
-  in_place_edit_for :document, :identifier
-  
   restrict_to :admin, :only => [
       :create, :save, :destroy,
-      :set_document_title, :set_document_content, :set_document_identifier
+      :set_document_title, :update_document_content, :set_document_identifier
   ]
   
   def index
@@ -42,6 +38,18 @@ class DocumentController < ApplicationController
     end
   end
   
+  in_place_edit_for :document, :title
+  
+  def update_document_content
+    document = Document.find(params[:id])
+    document.update_attribute(:content, params[:document][:content])
+    render :update do |page|
+      page.replace_html "document_content", :inline => document.render_content
+    end
+  end
+  
+  in_place_edit_for :document, :identifier
+
   def destroy
     Document.destroy(params[:id])
     redirect_to :action => 'list'

@@ -5,4 +5,8 @@ class Document < ActiveRecord::Base
   validates_format_of :identifier, :with => /^(\w|_)+$/,
       :message => 'should be like a Java identifier'
   
+  def render_content
+    RedCloth.new(content).to_html
+  end
+  
 end

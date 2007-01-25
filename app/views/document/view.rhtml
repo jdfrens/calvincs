@@ -6,10 +6,23 @@
   <% end -%>
 </h1>
 
-<%= RedCloth.new(@document.content).to_html %>
+<div id="document_content">
+  <%= @document.render_content %>
+</div>
 
 <% restrict_to :admin do -%>
-  <p><%= in_place_editor_field :document, 'content', {}, { :rows => 20, :cols => 40 } %></p>
+
+  <p><a href="http://hobix.com/textile/" target="_blank">Textile reference</a></p>
+  
+  <p>
+    <% remote_form_for(:document,
+           :url => { :action => 'update_document_content', :id => @document.id } 
+           ) do |form| -%>
+      <%= form.text_area :content, :rows => 20, :cols => 80 %>
+      <%= submit_tag "Update content", :class => "submit" %>
+    <% end -%>
+  </p>
+
 <% end -%>
   
 <% restrict_to :admin do -%>

@@ -39,4 +39,13 @@ class DocumentTest < Test::Unit::TestCase
     assert_equal "can't be blank", document.errors[:title]
   end
   
+  should "render textile using RedCloth" do
+    assert_equal "<p>We state <strong>our</strong> mission.</p>",
+        Document.find(1).render_content
+    assert_equal "<p>a b c d e f g <em>h i j k</em></p>",
+        Document.find(2).render_content
+    assert_equal "<p>home page text written in <strong>textile</strong></p>",
+        Document.find(3).render_content
+  end
+  
 end

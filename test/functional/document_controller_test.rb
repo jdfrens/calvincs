@@ -69,8 +69,8 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_standard_layout
     assert_template "document/view"
     assert_select "h1", "Mission Statement"
-    assert_select "p", 'We state our mission.'
-    assert_select "p strong", "our"
+    assert_select "div#document_content p", 'We state our mission.'
+    assert_select "div#document_content p strong", "our"
 
     assert_select "h1 span#document_title_1_in_place_editor", false
     assert_select "p span#document_content_1_in_place_editor", false
@@ -82,11 +82,15 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_template "document/view"
-    assert_select "p", 'We state our mission.'
-    assert_select "p strong", "our"
+    assert_select "div#document_content p", 'We state our mission.'
+    assert_select "div#document_content p strong", "our"
 
     assert_select "h1 span#document_title_1_in_place_editor", "Mission Statement"
-    assert_select "p span#document_content_1_in_place_editor", 'We state *our* mission.'
+    assert_select "p a[href=http://hobix.com/textile/][target=_blank]", "Textile reference"
+    assert_select "form[action=/document/update_document_content/1]" do
+      assert_select "textarea#document_content", 'We state *our* mission.'
+      assert_select "input[type=submit][value=Update content]"
+    end
     assert_select "p[class=identifier] span#document_identifier_1_in_place_editor", 'mission_statement'
   end
   
@@ -133,46 +137,56 @@ class DocumentControllerTest < Test::Unit::TestCase
   end
   
   should "change document title" do
-    get :set_document_title,
+    xhr :get, :set_document_title,
         { :id => 1, :value => 'New Mission Statement' },
         { :current_user_id => 1 }
     assert_response :success
+    assert_equal "New Mission Statement", @response.body
+
     document = Document.find(1)
     assert_equal 'New Mission Statement', document.title
   end
   
   should "fail to change document title when NOT logged in" do
-    get :set_document_title, :id => 1, :value => 'New Mission Statement'
+    xhr :get, :set_document_title, :id => 1, :value => 'New Mission Statement'
     assert_redirected_to_login
     assert_equal "Mission Statement", Document.find(1).title
   end
   
   should "change document content" do
-    get :set_document_content,
-        { :id => 1, :value => 'Mission away!' },
+    xhr :get, :update_document_content,
+        { :id => 1, :document => { :content => 'Mission *away*!' } },
         { :current_user_id => 1 }
     assert_response :success
+    assert_select_rjs :replace_html, "document_content" do
+      assert_select "p", "Mission away!"
+      assert_select "strong", "away"
+    end
+    
     document = Document.find(1)
-    assert_equal 'Mission away!', document.content
+    assert_equal 'Mission *away*!', document.content
   end
   
   should "fail to change document content when NOT logged in" do
-    get :set_document_content, :id => 1, :value => 'Mission away!'
+    xhr :get, :update_document_content,
+        { :id => 1, :document => { :content => 'Mission away!' } }
     assert_redirected_to_login
     assert_equal "We state *our* mission.", Document.find(1).content
   end
   
   should "change document identifier" do
-    get :set_document_identifier,
+    xhr :get, :set_document_identifier,
         { :id => 1, :value => 'mission_statement_2'},
         { :current_user_id => 1 }
     assert_response :success
+    assert_equal "mission_statement_2", @response.body
+
     document = Document.find(1)
     assert_equal 'mission_statement_2', document.identifier
   end
   
   should "fail to change document identifier when NOT logged in" do
-    get :set_document_identifier, :id => 1, :value => 'mission_statement_2'
+    xhr :get, :set_document_identifier, :id => 1, :value => 'phooey'
     assert_redirected_to_login
     assert_equal "mission_statement", Document.find(1).identifier
   end
