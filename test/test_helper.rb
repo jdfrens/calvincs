@@ -55,8 +55,10 @@ class Test::Unit::TestCase
     end
     if is_logged_in
       assert_select "a[href=/users/logout]", /logout/i
+      assert_select "a[href=/home/administrate]", /administrate/i
     else
       assert_select "a[href=/users/logout]", 0
+      assert_select "a[href=/home/administrate]", 0
     end
   end
   
@@ -70,7 +72,16 @@ class Test::Unit::TestCase
     assert user.group.privileges.include?(privilege),
         "#{user.username} does not have the #{privilege.name} privilege"
   end
-  
+ 
+  def login(username, password)
+    post_via_redirect "/users/login",
+       :user => { :username => username, :password => password }
+    assert_response :success, 'should redirect successfully after logging in'
+    assert_template 'administrate', 'should use administrate template'
+    assert_equal User.find_by_username(username).id,
+        session[:current_user_id], 'should have right id in session'
+  end    
+
   def assert_redirected_to_login
     assert_redirected_to :controller => 'users', :action => 'login'
   end

@@ -5,7 +5,7 @@ require 'curriculum_controller'
 class CurriculumController; def rescue_action(e) raise e end; end
 
 class CurriculumControllerTest < Test::Unit::TestCase
-  fixtures :courses
+  fixtures :courses, :users, :groups, :privileges, :groups_privileges
   
   def setup
     @controller = CurriculumController.new
@@ -31,8 +31,8 @@ class CurriculumControllerTest < Test::Unit::TestCase
     end
   end
   
-  should "add a course" do
-    get :new_course
+  should "add a course when logged in" do
+    get :new_course, {}, { :current_user_id => 1 }
     assert_response :success
     assert_standard_layout
     assert_template "curriculum/course_form"
@@ -40,7 +40,12 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_course_form
   end
   
-  should "view a course" do
+  should "redirect instead of adding course when NOT logged in" do
+    get :new_course
+    assert_redirected_to_login
+  end
+  
+  should "view a course when NOT logged in" do
     get :view_course, :id => 3
     assert_response :success
     assert_standard_layout
@@ -64,11 +69,11 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert flash.empty?
   end
   
-  should "save a course" do
-    post :save_course, :course => {
+  should "save a course when logged in" do
+    post :save_course, { :course => {
       :label => 'IS', :number => '665',
       :title => 'One Off Devilry', :credits => '1'
-    }
+    }}, { :current_user_id => 1 }
     assert_redirected_to :action => 'list_courses'
     assert flash.empty?
     course = Course.find_by_number(665)
@@ -76,10 +81,18 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_equal 'One Off Devilry', course.title
   end
   
-  should "fail to save a bad course" do
-    post :save_course, :course => {
+  should "redirect when trying to save a course and NOT logged in" do
+    post :save_course, { :course => {
+      :label => 'IS', :number => '665',
+      :title => 'One Off Devilry', :credits => '1'
+    }}
+    assert_redirected_to_login
+  end
+  
+  should "fail to save a bad course when logged in" do
+    post :save_course, { :course => {
       :label => 'Q', :number => ''
-    }
+    }}, { :current_user_id => 1 }
     assert_template "curriculum/course_form"
     assert_select "div#error", /errors prohibited this course from being saved/i
     assert !flash.empty?

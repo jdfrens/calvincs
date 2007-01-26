@@ -1,5 +1,9 @@
 class CurriculumController < ApplicationController
-
+  
+  restrict_to :admin, :except => [
+      :index, :list_courses, :view_course
+  ]
+  
   def index
     redirect_to :action => 'list_courses'
   end
