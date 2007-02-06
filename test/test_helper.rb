@@ -49,7 +49,15 @@ class Test::Unit::TestCase
     assert_select "div#wrapper" do
       assert_select "div#content"
       assert_select "div#sidebar" do
-        assert_select "div#navbar"
+        assert_select "div#navbar ul" do
+          assert_select "li a[href=/]", "Home"
+          assert_select "li a[href=/documents/view/students]", "Students"
+          assert_select "li a[href=/documents/view/faculty]", "Faculty &amp; Staff"
+          assert_select "li a[href=/documents/view/activities]", "Activities"
+          assert_select "li a[href=/documents/view/facilities]", "Facilities"
+          assert_select "li a[href=/news]", "News"
+          assert_select "li a[href=/search]", "Search"
+        end
       end
       assert_select "div#footer-css"
     end
@@ -61,7 +69,7 @@ class Test::Unit::TestCase
       assert_select "a[href=/home/administrate]", 0
     end
   end
-  
+    
   def assert_user_privilege(expected_id, expected_privilege)
     actual_id = session[:current_user_id]
     assert_equal expected_id, actual_id

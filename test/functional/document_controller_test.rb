@@ -40,7 +40,7 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_template "document/list"
     assert_select "h1", "All Documents"
     assert_select "div#error", "Error flash!"
-    assert_select "ul" do
+    assert_select "ul#document-list" do
       assert_select "li", 3, "should be three documents in fixtures"
       assert_document_li 1, 'mission_statement', "Mission Statement"
       assert_document_li 2, 'alphabet', "The Alphabet"
@@ -56,7 +56,7 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_template "document/list"
     assert_select "h1", "All Documents"
     assert_select "div#error", "Error flash!"
-    assert_select "ul" do
+    assert_select "ul#document-list" do
       assert_select "li", 3, "should be three documents in fixtures"
       assert_document_li 1, 'mission_statement', "Mission Statement"
       assert_document_li 2, 'alphabet', "The Alphabet"
@@ -212,7 +212,7 @@ class DocumentControllerTest < Test::Unit::TestCase
   private
   
   def assert_document_li(id, identifier, title)
-      assert_select "li a[href=/document/view/#{identifier}]", title,
+      assert_select "li a[href=/d/#{identifier}]", title,
           "should have title in appropriate <a> in <li>"
       if is_logged_in
         assert_select "form[action=/document/destroy/#{id}]" do

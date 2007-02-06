@@ -4,7 +4,7 @@
   <div id="error"><%= h(flash[:error]) %></div>
 <% end -%>
 
-<ul>
+<ul id="document-list">
   <% @documents.each do |document| -%>
     <li>
       <%= link_to h(document.title), :action => 'view', :id => document.identifier %>
