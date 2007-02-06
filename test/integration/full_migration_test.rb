@@ -26,6 +26,17 @@ class FullMigrationTest < ActionController::IntegrationTest
         t.column "content",     :text
       end
       
+      table "news_items" do |t|
+        t.column "id",          :integer
+        t.column "title",       :string
+        t.column "content",     :text
+        t.column "user_id",     :integer
+        t.column "created_at",  :datetime
+        t.column "updated_at",  :datetime
+        t.column "expires_at",  :datetime
+      end
+      
+      # authentication
       table "groups" do |t|
         t.column "id",          :integer
         t.column "name",        :string

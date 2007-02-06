@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+todays_news:
+  id: 5
+  title: News of Today
+  content: Something happened today.
+  user_id: 1
+  expires_at: <%= 2.hours.from_now %>
+another_todays_news:
+  id: 3
+  title: News of Today
+  content: Something else happened today.
+  user_id: 2
+  expires_at: <%= 3.hours.from_now %>
+past_news:
+  id: 8
+  title: News of Yesterday
+  content: Something else happened today.
+  user_id: 2
+  expires_at: <%= 1.day.ago %>

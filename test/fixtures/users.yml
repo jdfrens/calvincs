@@ -4,3 +4,13 @@ calvin:
   username: calvin
   password_hash: <%= User.hash_password('john') %>
   group_id: 1
+joe_user:
+  id: 2
+  username: joe
+  password_hash: <%= User.hash_password('joepassword') %>
+  group_id: 1
+lou_user:
+  id: 3
+  username: lou
+  password_hash: <%= User.hash_password('loupassword') %>
+  group_id: 1
