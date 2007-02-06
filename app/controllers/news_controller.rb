@@ -3,7 +3,8 @@ class NewsController < ApplicationController
   restrict_to :admin, :only => [ :new, :save ]
   
   def list
-    if params[:id] && params[:id] == 'all'
+    case params[:id] 
+    when 'all'
       @header = "All News"
       @news_items = NewsItem.find(:all)
     else
