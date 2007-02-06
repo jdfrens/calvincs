@@ -5,38 +5,49 @@ class DocumentTest < Test::Unit::TestCase
 
   should "complain when duplicate identifier" do
     document = Document.new(
-      :identifier => 'mission_statement', :content => ''
+      :identifier => 'mission_statement', :content => 'something'
     )
     assert !document.valid?
   end
 
   should "allow underlines in identifier" do
     document = Document.new(
-        :identifier => '_underlines_are_okay_', :title => 'Good'
+        :identifier => '_underlines_are_okay_', :title => 'Good',
+        :content => 'something'
     )
     assert document.valid?
   end
       
   should "complain about invalid identifiers" do
     document = Document.new(
-        :identifier => '  whitespacey  ', :title => 'Good'
+        :identifier => '  whitespacey  ', :title => 'Good',
+        :content => 'something'
     )
     assert !document.valid?
     assert_equal 'should be like a Java identifier',
         document.errors[:identifier]
     
     document = Document.new(
-        :identifier => 'punc-tu-ation', :title => 'Good'
+        :identifier => 'punc-tu-ation', :title => 'Good',
+        :content => 'something'
     )
     assert !document.valid?
   end
   
   should "complain about missing title" do
     document = Document.new(
-        :identifier => 'okay', :title => ''
+        :identifier => 'okay', :title => '', :content => 'something'
     )
     assert !document.valid?
     assert_equal "can't be blank", document.errors[:title]
+  end
+  
+  should "complain about missing content" do
+    document = Document.new(
+        :identifier => 'okay', :title => 'Valid Title', :content => ''
+    )
+    assert !document.valid?
+    assert_equal "can't be blank", document.errors[:content]
   end
   
   should "render textile using RedCloth" do

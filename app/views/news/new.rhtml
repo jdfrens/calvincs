@@ -1,0 +1,20 @@
+<% form_for :news_item, :url => { :action => :save } do |form| %>
+  <table summary="news item form">
+    <tr>
+      <td> Title: </td>
+      <td> <%= form.text_field :title, :size => 40 %> </td>
+    </tr>
+    <tr>
+      <td> Content: </td>
+      <td> <%= form.text_area :content, :rows => 5, :cols => 80 %> </td>
+    </tr>
+    <tr>
+      <td> Expires: </td>
+      <td> <%= form.date_select :expires_at %> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> <%= submit_tag %> </td>
+    </tr>
+  </table>
+<% end %>

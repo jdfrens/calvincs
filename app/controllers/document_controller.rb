@@ -24,10 +24,12 @@ class DocumentController < ApplicationController
     end
   end
   
+  # TODO: refactor 'create' as 'new' to fit standard scaffold better
   def create
     @document = nil
   end
   
+  # TODO: combine with create/new action
   def save
     @document = Document.new(params[:document])
     if @document.save

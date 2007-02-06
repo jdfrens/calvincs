@@ -1,0 +1,7 @@
+<h2><%= @header %></h2>
+
+<ul id="news-items">
+  <% @news_items.each do |news_item| %>
+    <li> <%= h(news_item.title) %> </li>
+  <% end %>
+</ul>
