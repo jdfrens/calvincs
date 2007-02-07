@@ -40,11 +40,15 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_template "document/list"
     assert_select "h1", "All Documents"
     assert_select "div#error", "Error flash!"
-    assert_select "ul#document-list" do
-      assert_select "li", 3, "should be three documents in fixtures"
-      assert_document_li 1, 'mission_statement', "Mission Statement"
-      assert_document_li 2, 'alphabet', "The Alphabet"
-      assert_document_li 3, 'home_page', "Computing at Calvin College"
+    assert_select "table[summary=document list]" do
+      assert_select "tr", 4, "should be three documents and one header"
+      assert_select "tr" do
+        assert_select "th", /identifier/i
+        assert_select "th", /title/i
+      end
+      assert_document_entry 1, 'mission_statement', "Mission Statement"
+      assert_document_entry 2, 'alphabet', "The Alphabet"
+      assert_document_entry 3, 'home_page', "Computing at Calvin College"
     end
     assert_select "a[href=/document/create]", "Create a new document"
   end
@@ -56,11 +60,11 @@ class DocumentControllerTest < Test::Unit::TestCase
     assert_template "document/list"
     assert_select "h1", "All Documents"
     assert_select "div#error", "Error flash!"
-    assert_select "ul#document-list" do
-      assert_select "li", 3, "should be three documents in fixtures"
-      assert_document_li 1, 'mission_statement', "Mission Statement"
-      assert_document_li 2, 'alphabet', "The Alphabet"
-      assert_document_li 3, 'home_page', "Computing at Calvin College"
+    assert_select "table[summary=document list]" do
+      assert_select "tr", 3, "should be three documents in fixtures"
+      assert_document_entry 1, 'mission_statement', "Mission Statement"
+      assert_document_entry 2, 'alphabet', "The Alphabet"
+      assert_document_entry 3, 'home_page', "Computing at Calvin College"
     end
     assert_select "a[href=/document/create]", 0
   end
@@ -211,10 +215,12 @@ class DocumentControllerTest < Test::Unit::TestCase
   #
   private
   
-  def assert_document_li(id, identifier, title)
-      assert_select "li a[href=/d/#{identifier}]", title,
-          "should have title in appropriate <a> in <li>"
+  def assert_document_entry(id, identifier, title)
+      assert_select "td a[href=/d/#{identifier}]", title,
+          "should have title in appropriate <a> in <td>"
       if is_logged_in
+        assert_select "td", identifier,
+            "should have column with identifier in it"
         assert_select "form[action=/document/destroy/#{id}]" do
           assert_select "input[value=Destroy]", 1, "should have destroy button"
         end

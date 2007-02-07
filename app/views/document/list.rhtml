@@ -4,20 +4,37 @@
   <div id="error"><%= h(flash[:error]) %></div>
 <% end -%>
 
-<ul id="document-list">
+<table summary="document list">
+  <% if current_user -%>
+    <tr>
+      <th>Identifier</th>
+      <th>Title (click to view/edit)</th>
+      <th> </th>
+    </tr>   
+  <% end -%>
   <% @documents.each do |document| -%>
-    <li>
-      <%= link_to h(document.title), :action => 'view', :id => document.identifier %>
-
+    <tr>
       <% if current_user -%>
-        <%= button_to 'Destroy', { :action => 'destroy', :id => document },
-            :confirm => 'Are you sure you want to destroy this document?',
-            :method => :post %>   
+        <td>
+          <%= h(document.identifier) %>
+        </td>   
       <% end -%>
 
-    </li>
+      <td>
+        <%= link_to h(document.title), :action => 'view', :id => document.identifier %>
+      </td>
+
+      <% if current_user -%>
+        <td>
+          <%= button_to 'Destroy', { :action => 'destroy', :id => document },
+              :confirm => 'Are you sure you want to destroy this document?',
+              :method => :post %>
+        </td>   
+      <% end -%>
+
+    </tr>
   <% end -%>
-</ul>
+</table>
 
 <% restrict_to :admin do -%>
   <p><%= link_to 'Create a new document', :action => 'create' %></p>
