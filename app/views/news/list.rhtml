@@ -1,7 +1,23 @@
 <h2><%= @header %></h2>
 
-<ul id="news-items">
+<table summary="news items">
   <% @news_items.each do |news_item| %>
-    <li> <%= h(news_item.title) %> </li>
+    <tr>
+    
+      <td> <%= h(news_item.title) %> </td>
+      
+      <% if current_user -%>
+        <td>
+          <%= button_to 'Destroy', { :action => 'destroy', :id => news_item },
+              :confirm => 'Are you sure you want to destroy this news item?',
+              :method => :post %>
+        </td>
+      <% end -%>
+      
+    </tr>
   <% end %>
-</ul>
+</table>
+
+<% restrict_to :admin do -%>
+  <p><%= link_to 'Create new news item', :action => 'new' %></p>
+<% end -%>

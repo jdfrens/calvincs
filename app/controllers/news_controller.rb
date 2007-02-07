@@ -1,6 +1,6 @@
 class NewsController < ApplicationController
   
-  restrict_to :admin, :only => [ :new, :save ]
+  restrict_to :admin, :only => [ :new, :save, :destroy ]
   
   def list
     case params[:id] 
@@ -19,9 +19,18 @@ class NewsController < ApplicationController
   
   def save
     params[:news_item][:user_id] = current_user.id
-    news_item = NewsItem.new(params[:news_item])
-    news_item.save!
-    redirect_to :action => 'list'
+    @news_item = NewsItem.new(params[:news_item])
+    if @news_item.save
+      redirect_to :action => 'list'
+    else
+      flash[:error] = 'Invalid values for the news item'
+      render :template => 'news/new'
+    end
+  end
+  
+  def destroy
+    NewsItem.destroy(params[:id])
+    redirect_to :controller => 'news', :action => 'list'
   end
   
 end

@@ -1,6 +1,9 @@
 Immediately Next
 ================
 
++ error paragraphs in document/create and news/new
+
+
 User Stories
 ============
 Curriculum

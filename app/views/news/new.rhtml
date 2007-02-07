@@ -1,3 +1,9 @@
+<% if @news_item && !@news_item.valid? -%>
+  <div id="error">
+    <%= error_messages_for(:news_item) %>
+  </div>
+<% end -%>
+
 <% form_for :news_item, :url => { :action => :save } do |form| %>
   <table summary="news item form">
     <tr>

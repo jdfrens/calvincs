@@ -69,9 +69,18 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_not_nil news_item
     assert_equal 'News Title', news_item.title
     assert_equal 'News Content', news_item.content
-    assert_equal 2007, news_item.expires_at.year
-    assert_equal 12, news_item.expires_at.month
-    assert_equal 31, news_item.expires_at.day
+    assert_equal Time.local(2007, 12, 31), news_item.expires_at
+  end
+  
+  should "fail to save BAD news item when logged in" do
+    post :save, { :news_item => {
+        :title => '', :content => ''
+    }}, { :current_user_id => 1 }
+    assert_response :success
+    assert !flash.empty?
+    assert_equal 'Invalid values for the news item', flash[:error]
+    assert_equal 3, NewsItem.find(:all).size,
+        "should have only three news items still"
   end
   
   should "list current news items by default" do
@@ -79,11 +88,12 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "h2", "Current News"
-    assert_select "ul#news-items" do
-      assert_select "li", 2, "Only two *current* news items"
-      assert_select "li", "News of Today"
-      assert_select "li", "News of Today II"
+    assert_select "table[summary=news items]" do
+      assert_select "tr", 2, "Only two *current* news items"
+      assert_news_item_entry news_items(:todays_news)
+      assert_news_item_entry news_items(:another_todays_news)
     end
+    assert_select "a[href=/news/new]", 0
   end
   
   should "list all news items when requested" do
@@ -91,12 +101,56 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "h2", "All News"
-    assert_select "ul#news-items" do
-      assert_select "li", 3
-      assert_select "li", "News of Today"
-      assert_select "li", "News of Today II"
-      assert_select "li", "News of Yesterday"
+    assert_select "table[summary=news items]" do
+      assert_select "tr", 3
+      assert_news_item_entry news_items(:todays_news)
+      assert_news_item_entry news_items(:another_todays_news)
+      assert_news_item_entry news_items(:past_news)
     end
+    assert_select "a[href=/news/new]", 0
   end  
+  
+  should "list all news items when requested and editting controls when logged in" do
+    get :list, { :id => 'all' }, { :current_user_id => 1 }
+    assert_response :success
+    assert_standard_layout
+    assert_select "h2", "All News"
+    assert_select "table[summary=news items]" do
+      assert_select "tr", 3
+      assert_news_item_entry news_items(:todays_news)
+      assert_news_item_entry news_items(:another_todays_news)
+      assert_news_item_entry news_items(:past_news)
+    end
+    assert_select "a[href=/news/new]", "Create new news item"
+  end
+  
+  should "redirect when trying to destroy news item and NOT logged in" do
+    post :destroy, { :id => news_items(:todays_news).id }
+    assert_redirected_to_login
+    assert_equal 3, NewsItem.find(:all).size, "still have three news items"
+  end
+
+  should "destroy news item when logged in" do
+    assert_not_nil NewsItem.find_by_title("News of Today"), "sanity check"
+    post :destroy, { :id => news_items(:todays_news).id },
+        { :current_user_id => 1 }
+    assert_redirected_to :controller => 'news', :action => 'list'
+    assert_equal 2, NewsItem.find(:all).size, "lost just one news item"
+    assert_nil NewsItem.find_by_title("News of Today")
+  end  
+  
+  #
+  # Helpers
+  #
+  private
+  
+  def assert_news_item_entry(news_item)
+    assert_select "td", news_item.title, "cannot find news-item title"
+    if is_logged_in
+      assert_select "form[action=/news/destroy/#{news_item.id}]" do
+        assert_select "input[value=Destroy]", 1, "should have destroy button"
+      end
+    end
+  end
   
 end
