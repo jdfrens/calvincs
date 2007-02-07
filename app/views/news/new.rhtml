@@ -1,4 +1,6 @@
-<% if @news_item && !@news_item.valid? -%>
+<h1>Create News Item</h1>
+
+<% if flash[:error] -%>
   <div id="error">
     <%= error_messages_for(:news_item) %>
   </div>

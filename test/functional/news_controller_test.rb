@@ -23,6 +23,7 @@ class NewsControllerTest < Test::Unit::TestCase
     get :new, {}, { :current_user_id => 1 }
     assert_response :success
     assert_standard_layout
+    assert_select "h1", "Create News Item"
     assert_select "form[action=/news/save]" do
       assert_select "tr:nth-child(1)" do
         assert_select "td", /title/i
