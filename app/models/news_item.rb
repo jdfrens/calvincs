@@ -9,9 +9,13 @@ class NewsItem < ActiveRecord::Base
   validates_presence_of :expires_at
   
   def self.find_current
-    find(:all).reject do |news_item|
-      news_item.expires_at < Time.now
+    find(:all, :order => 'expires_at DESC, id ASC').reject do |news_item|
+      !news_item.is_current?
     end
   end
-      
+  
+  def is_current?
+    expires_at >= Time.now
+  end
+        
 end

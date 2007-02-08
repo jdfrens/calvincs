@@ -1,15 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-todays_news:
-  id: 5
-  title: News of Today
-  content: Something happened today.
-  user_id: 1
-  expires_at: <%= 2.hours.from_now.to_s(:db) %>
 another_todays_news:
-  id: 3
+  id: 5
   title: News of Today II
   content: Something else happened today.
   user_id: 2
+  expires_at: <%= 3.hours.from_now.to_s(:db) %>
+todays_news:
+  id: 3
+  title: News of Today
+  content: Something happened today.
+  user_id: 1
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
 past_news:
   id: 8

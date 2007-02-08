@@ -6,7 +6,7 @@ class NewsController < ApplicationController
     case params[:id] 
     when 'all'
       @header = "All News"
-      @news_items = NewsItem.find(:all)
+      @news_items = NewsItem.find(:all, :order => "expires_at DESC, id ASC")
     else
       @header = "Current News"
       @news_items = NewsItem.find_current

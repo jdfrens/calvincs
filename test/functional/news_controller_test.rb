@@ -91,8 +91,8 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h2", "Current News"
     assert_select "table[summary=news items]" do
       assert_select "tr", 2, "Only two *current* news items"
-      assert_news_item_entry news_items(:todays_news)
-      assert_news_item_entry news_items(:another_todays_news)
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
     end
     assert_select "a[href=/news/new]", 0
   end
@@ -104,9 +104,9 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h2", "All News"
     assert_select "table[summary=news items]" do
       assert_select "tr", 3
-      assert_news_item_entry news_items(:todays_news)
-      assert_news_item_entry news_items(:another_todays_news)
-      assert_news_item_entry news_items(:past_news)
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
+      assert_news_item_entry 3, news_items(:past_news)
     end
     assert_select "a[href=/news/new]", 0
   end  
@@ -118,9 +118,9 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h2", "All News"
     assert_select "table[summary=news items]" do
       assert_select "tr", 3
-      assert_news_item_entry news_items(:todays_news)
-      assert_news_item_entry news_items(:another_todays_news)
-      assert_news_item_entry news_items(:past_news)
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
+      assert_news_item_entry 3, news_items(:past_news)
     end
     assert_select "a[href=/news/new]", "Create new news item"
   end
@@ -145,8 +145,11 @@ class NewsControllerTest < Test::Unit::TestCase
   #
   private
   
-  def assert_news_item_entry(news_item)
-    assert_select "td", news_item.title, "cannot find news-item title"
+  def assert_news_item_entry(nth, news_item)
+    time_class = news_item.is_current? ? "current-news" : "past-news"
+    assert_select "tr[class=#{time_class}]:nth-child(#{nth})" do
+      assert_select "td a[href=/news/view/#{news_item.id}]", news_item.title
+    end
     if is_logged_in
       assert_select "form[action=/news/destroy/#{news_item.id}]" do
         assert_select "input[value=Destroy]", 1, "should have destroy button"

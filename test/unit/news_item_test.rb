@@ -5,8 +5,8 @@ class NewsItemTest < Test::Unit::TestCase
   fixtures :news_items, :users
 
   should "have connection to creators" do
-    assert_equal User.find(1), NewsItem.find(5).user
-    assert_equal User.find(2), NewsItem.find(8).user
+    assert_equal User.find(1), news_items(:todays_news).user
+    assert_equal User.find(2), news_items(:another_todays_news).user
   end
   
   should "not create news item without title" do
@@ -61,5 +61,10 @@ class NewsItemTest < Test::Unit::TestCase
     assert news_items.include?(news_items(:another_todays_news))
   end
   
+  should "know if current" do
+    assert news_items(:todays_news).is_current?
+    assert news_items(:another_todays_news).is_current?
+    assert !news_items(:past_news).is_current?
+  end
     
 end

@@ -513,3 +513,9 @@ div#error {
     text-align: right;
     font-size: small;
 }
+
+.current-news {
+}
+.past-news {
+    background-color: pink;
+}

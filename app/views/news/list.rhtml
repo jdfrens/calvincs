@@ -2,9 +2,12 @@
 
 <table summary="news items">
   <% @news_items.each do |news_item| %>
-    <tr>
+    <tr class="<%= news_item.is_current? ? "current-news" : "past-news" %>">
     
-      <td> <%= h(news_item.title) %> </td>
+      <td>
+        <%= link_to h(news_item.title),
+              :action => 'view', :id => news_item.id %>
+      </td>
       
       <% if current_user -%>
         <td>
