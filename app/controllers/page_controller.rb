@@ -1,4 +1,4 @@
-class DocumentController < ApplicationController
+class PageController < ApplicationController
 
   restrict_to :admin, :only => [
       :create, :save, :destroy,
@@ -11,13 +11,13 @@ class DocumentController < ApplicationController
   
   def list
     @pages = Page.find(:all)
-    render :template => 'document/list'
+    render :template => 'page/list'
   end
   
   def view
     @page = Page.find_by_identifier(params[:id])
     if @page
-      render :template => 'document/view'
+      render :template => 'page/view'
     else
       flash[:error] = "Page #{params[:id]} does not exist."
       redirect_to :action => 'list'
@@ -35,7 +35,7 @@ class DocumentController < ApplicationController
       redirect_to :action => 'view', :id => @page.identifier
     else
       flash[:error] = 'Invalid values for the page'
-      render :template => 'document/create'
+      render :template => 'page/create'
     end
   end
   

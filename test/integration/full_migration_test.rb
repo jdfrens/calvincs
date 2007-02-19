@@ -125,7 +125,7 @@ class FullMigrationTest < ActionController::IntegrationTest
     if PLATFORM[/win32/]
       rake_cmd = %|rake.bat db:migrate #{version} ENV=test|
     else
-      rake_cmd = %|rake db:migrate #{version} ENV=test > full_migration.log|
+      rake_cmd = %|rake db:migrate #{version} ENV=test > log/full_migration.log|
     end
     assert system(rake_cmd)
   end

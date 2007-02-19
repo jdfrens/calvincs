@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   # Special Calvin CS routes
-  map.connect 'd/:id', :controller => 'document', :action => 'view', :id => /\w+/
+  map.connect 'p/:id', :controller => 'page', :action => 'view', :id => /\w+/
   
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'

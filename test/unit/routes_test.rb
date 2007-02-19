@@ -7,30 +7,30 @@ class RoutesTest < Test::Unit::TestCase
     assert_generates("/", :controller => "home", :action => "index")
   end
   
-  should "have special document-view routes" do
+  should "have special page-view routes" do
     assert_recognizes(
-        { :controller => "document", :action => "view", :id => 'foo'},
-        "/d/foo"
+        { :controller => "page", :action => "view", :id => 'foo'},
+        "/p/foo"
     )
     assert_recognizes(
-        { :controller => "document", :action => "view", :id => 'foobar'},
-        "/d/foobar"
+        { :controller => "page", :action => "view", :id => 'foobar'},
+        "/p/foobar"
     )
     assert_recognizes(
-        { :controller => "document", :action => "view", :id => 'foo_bar'},
-        "/d/foo_bar"
+        { :controller => "page", :action => "view", :id => 'foo_bar'},
+        "/p/foo_bar"
     )
     assert_generates(
-        "/d/foo",
-        { :controller => "document", :action => "view", :id => 'foo'}
+        "/p/foo",
+        { :controller => "page", :action => "view", :id => 'foo'}
     )
     assert_generates(
-        "/d/foobar",
-        { :controller => "document", :action => "view", :id => 'foobar'}
+        "/p/foobar",
+        { :controller => "page", :action => "view", :id => 'foobar'}
     )
     assert_generates(        
-        "/d/foo_bar",
-        { :controller => "document", :action => "view", :id => 'foo_bar'}
+        "/p/foo_bar",
+        { :controller => "page", :action => "view", :id => 'foo_bar'}
     )
   end
   

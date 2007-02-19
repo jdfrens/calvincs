@@ -41,10 +41,10 @@ class HomeControllerTest < Test::Unit::TestCase
       assert_select "a[href=/news/list]", /news/i 
       assert_select "a[href=/news/new]", /create news item/i 
     end
-    assert_select 'h2', "Documents"
-    assert_select "ul#document_administration" do
-      assert_select "a[href=/document/list]", /document list/i 
-      assert_select "a[href=/document/create]", /new document/i 
+    assert_select 'h2', "Webpages and Other Documents"
+    assert_select "ul#content_administration" do
+      assert_select "a[href=/document/list]", /list of webpages/i 
+      assert_select "a[href=/document/create]", /create a new webpage/i 
     end
     assert_select 'h2', "Courses"
     assert_select "ul#course_administration" do

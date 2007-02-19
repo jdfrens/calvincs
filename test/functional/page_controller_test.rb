@@ -1,29 +1,29 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'document_controller'
+require 'page_controller'
 
 # Re-raise errors caught by the controller.
-class DocumentController; def rescue_action(e) raise e end; end
+class PageController; def rescue_action(e) raise e end; end
 
-class DocumentControllerTest < Test::Unit::TestCase
+class PageControllerTest < Test::Unit::TestCase
   
   fixtures :pages, :users, :groups, :privileges, :groups_privileges
   
   def setup
-    @controller = DocumentController.new
+    @controller = PageController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
   
   should "redirect index to list" do
     get :index
-    assert_redirected_to :controller => 'document', :action => 'list'
+    assert_redirected_to :controller => 'page', :action => 'list'
   end
   
   should "get form to create a new document when logged in" do
     get :create, {}, { :current_user_id => 1 }
     assert_response :success
     assert_standard_layout
-    assert_template "document/create"
+    assert_template "page/create"
     assert_select "h1", "Create Page"
     assert_page_form
   end
@@ -37,7 +37,7 @@ class DocumentControllerTest < Test::Unit::TestCase
     get :list, {}, { :current_user_id => 1 }, { :error => 'Error flash!' }
     assert_response :success
     assert_standard_layout
-    assert_template "document/list"
+    assert_template "page/list"
     assert_select "h1", "All Pages"
     assert_select "div#error", "Error flash!"
     assert_select "table[summary=page list]" do
@@ -50,14 +50,14 @@ class DocumentControllerTest < Test::Unit::TestCase
       assert_page_entry 2, 'alphabet', "The Alphabet"
       assert_page_entry 3, 'home_page', "Computing at Calvin College"
     end
-    assert_select "a[href=/document/create]", "Create a new page"
+    assert_select "a[href=/page/create]", "Create a new page"
   end
   
   should "get a list of documents when NOT logged in" do
     get :list, {}, {}, { :error => 'Error flash!' }
     assert_response :success
     assert_standard_layout
-    assert_template "document/list"
+    assert_template "page/list"
     assert_select "h1", "All Pages"
     assert_select "div#error", "Error flash!"
     assert_select "table[summary=page list]" do
@@ -66,14 +66,14 @@ class DocumentControllerTest < Test::Unit::TestCase
       assert_page_entry 2, 'alphabet', "The Alphabet"
       assert_page_entry 3, 'home_page', "Computing at Calvin College"
     end
-    assert_select "a[href=/document/create]", 0
+    assert_select "a[href=/page/create]", 0
   end
   
   should "view a document when NOT logged in" do
     get :view, :id => 'mission_statement'
     assert_response :success
     assert_standard_layout
-    assert_template "document/view"
+    assert_template "page/view"
     assert_select "h1", "Mission Statement"
     assert_select "div#page_content p", 'We state our mission.'
     assert_select "div#page_content p strong", "our"
@@ -87,13 +87,13 @@ class DocumentControllerTest < Test::Unit::TestCase
     get :view, { :id => 'mission_statement' }, { :current_user_id => 1 } 
     assert_response :success
     assert_standard_layout
-    assert_template "document/view"
+    assert_template "page/view"
     assert_select "div#page_content p", 'We state our mission.'
     assert_select "div#page_content p strong", "our"
 
     assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
     assert_select "p a[href=http://hobix.com/textile/][target=_blank]", "Textile reference"
-    assert_select "form[action=/document/update_page_content/1]" do
+    assert_select "form[action=/page/update_page_content/1]" do
       assert_select "textarea#page_content", 'We state *our* mission.'
       assert_select "input[type=submit][value=Update content]"
     end
@@ -216,16 +216,16 @@ class DocumentControllerTest < Test::Unit::TestCase
   private
   
   def assert_page_entry(id, identifier, title)
-      assert_select "td a[href=/d/#{identifier}]", title,
+      assert_select "td a[href=/p/#{identifier}]", title,
           "should have title in appropriate <a> in <td>"
       if is_logged_in
         assert_select "td", identifier,
             "should have column with identifier in it"
-        assert_select "form[action=/document/destroy/#{id}]" do
+        assert_select "form[action=/page/destroy/#{id}]" do
           assert_select "input[value=Destroy]", 1, "should have destroy button"
         end
       else
-        assert_select "form[action=/document/destroy/#{id}]", 0,
+        assert_select "form[action=/page/destroy/#{id}]", 0,
             "should be no destroy form when NOT logged in"
       end
   end
