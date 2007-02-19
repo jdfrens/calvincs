@@ -1,7 +1,7 @@
 Immediately Next
 ================
 
-+ error paragraphs in document/create and news/new
++ error paragraphs in page/create and news/new
 
 
 User Stories
@@ -10,17 +10,15 @@ Curriculum
 ----------
 Bob, the user, would like to edit the description of CS 108.
 
-Documents
----------
-Bob sees a document generated as Textile markup.  (UNIMPLEMENTED, UNTESTED)
+Pages
+-----
+Bob sees a page generated as Textile markup.  (implemented, UNTESTED)
 
 Bob creates a new document with an identifier and content. (implemented, UNTESTED)
 
 Bob views a document. (implemented, UNTESTED)
 
 Bob edits a document.  He changes the content normally.  He changes the identifier, and unfortunately none of the references to the old identifier change. (implemented, UNTESTED)
-
-Bob adds a link from one document to another.  And it works.
 
 Bob goes to a page that contains links to all of the interesting administrative pages. (implemented, UNTESTED)
 
