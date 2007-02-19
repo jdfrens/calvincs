@@ -15,10 +15,12 @@
 
 <ul id="content_administration">
   <li>
-    <%= link_to 'List of webpages (with edit and delete options)', :controller => 'document', :action => 'list' %>
+    <%= link_to 'List of webpages (with edit and delete options)',
+            :controller => 'page', :action => 'list' %>
   </li>
   <li>
-    <%= link_to 'Create a new webpage', :controller => 'document', :action => 'create' %>
+    <%= link_to 'Create a new webpage',
+            :controller => 'page', :action => 'create' %>
   </li>
   <li> Processing other documents pending... </li>
 </ul>

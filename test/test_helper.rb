@@ -51,10 +51,10 @@ class Test::Unit::TestCase
       assert_select "div#sidebar" do
         assert_select "div#navbar ul" do
           assert_select "li a[href=/]", "Home"
-          assert_select "li a[href=/documents/view/students]", "Students"
-          assert_select "li a[href=/documents/view/faculty]", "Faculty &amp; Staff"
-          assert_select "li a[href=/documents/view/activities]", "Activities"
-          assert_select "li a[href=/documents/view/facilities]", "Facilities"
+          assert_select "li a[href=/p/students]", "Students"
+          assert_select "li a[href=/p/faculty]", "Faculty &amp; Staff"
+          assert_select "li a[href=/p/activities]", "Activities"
+          assert_select "li a[href=/p/facilities]", "Facilities"
           assert_select "li a[href=/news]", "News"
           assert_select "li a[href=/search]", "Search"
         end
