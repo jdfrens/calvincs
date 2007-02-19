@@ -2,7 +2,7 @@ class DocumentController < ApplicationController
 
   restrict_to :admin, :only => [
       :create, :save, :destroy,
-      :set_document_title, :update_document_content, :set_document_identifier
+      :set_page_title, :update_page_content, :set_page_identifier
   ]
   
   def index
@@ -10,50 +10,49 @@ class DocumentController < ApplicationController
   end
   
   def list
-    @documents = Document.find(:all)
+    @pages = Page.find(:all)
     render :template => 'document/list'
   end
   
   def view
-    @document = Document.find_by_identifier(params[:id])
-    if @document
+    @page = Page.find_by_identifier(params[:id])
+    if @page
       render :template => 'document/view'
     else
-      flash[:error] = "Document #{params[:id]} does not exist."
+      flash[:error] = "Page #{params[:id]} does not exist."
       redirect_to :action => 'list'
     end
   end
   
-  # TODO: refactor 'create' as 'new' to fit standard scaffold better
   def create
-    @document = nil
+    @page = nil
   end
   
   # TODO: combine with create/new action
   def save
-    @document = Document.new(params[:document])
-    if @document.save
-      redirect_to :action => 'view', :id => @document.identifier
+    @page = Page.new(params[:page])
+    if @page.save
+      redirect_to :action => 'view', :id => @page.identifier
     else
-      flash[:error] = 'Invalid values for the document'
+      flash[:error] = 'Invalid values for the page'
       render :template => 'document/create'
     end
   end
   
-  in_place_edit_for :document, :title
+  in_place_edit_for :page, :title
   
-  def update_document_content
-    document = Document.find(params[:id])
-    document.update_attribute(:content, params[:document][:content])
-    render :update do |page|
-      page.replace_html "document_content", :inline => document.render_content
+  def update_page_content
+    page = Page.find(params[:id])
+    page.update_attribute(:content, params[:page][:content])
+    render :update do |p|
+      p.replace_html "page_content", :inline => page.render_content
     end
   end
   
-  in_place_edit_for :document, :identifier
+  in_place_edit_for :page, :identifier
 
   def destroy
-    Document.destroy(params[:id])
+    Page.destroy(params[:id])
     redirect_to :action => 'list'
   end
   

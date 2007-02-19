@@ -6,7 +6,7 @@ class HomeController; def rescue_action(e) raise e end; end
 
 class HomeControllerTest < Test::Unit::TestCase
   
-  fixtures :users, :groups, :privileges, :groups_privileges
+  fixtures :users, :groups, :privileges, :groups_privileges, :pages
   
   def setup
     @controller = HomeController.new

@@ -1,10 +1,10 @@
-<h1>All Documents</h1>
+<h1>All Pages</h1>
 
 <% if flash[:error] -%>
   <div id="error"><%= h(flash[:error]) %></div>
 <% end -%>
 
-<table summary="document list">
+<table summary="page list">
   <% if current_user -%>
     <tr>
       <th>Identifier</th>
@@ -12,22 +12,22 @@
       <th> </th>
     </tr>   
   <% end -%>
-  <% @documents.each do |document| -%>
+  <% @pages.each do |page| -%>
     <tr>
       <% if current_user -%>
         <td>
-          <%= h(document.identifier) %>
+          <%= h(page.identifier) %>
         </td>   
       <% end -%>
 
       <td>
-        <%= link_to h(document.title), :action => 'view', :id => document.identifier %>
+        <%= link_to h(page.title), :action => 'view', :id => page.identifier %>
       </td>
 
       <% if current_user -%>
         <td>
-          <%= button_to 'Destroy', { :action => 'destroy', :id => document },
-              :confirm => 'Are you sure you want to destroy this document?',
+          <%= button_to 'Destroy', { :action => 'destroy', :id => page },
+              :confirm => 'Are you sure you want to destroy this page?',
               :method => :post %>
         </td>   
       <% end -%>
@@ -37,5 +37,5 @@
 </table>
 
 <% restrict_to :admin do -%>
-  <p><%= link_to 'Create a new document', :action => 'create' %></p>
+  <p><%= link_to 'Create a new page', :action => 'create' %></p>
 <% end -%>

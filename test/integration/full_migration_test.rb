@@ -19,7 +19,7 @@ class FullMigrationTest < ActionController::IntegrationTest
 	t.column "created_at", :datetime
       end
       
-      table "documents" do |t|
+      table "pages" do |t|
         t.column "id",          :integer
         t.column "identifier",  :string
         t.column "title",       :string
@@ -125,7 +125,7 @@ class FullMigrationTest < ActionController::IntegrationTest
     if PLATFORM[/win32/]
       rake_cmd = %|rake.bat db:migrate #{version} ENV=test|
     else
-      rake_cmd = %|rake db:migrate #{version} ENV=test|
+      rake_cmd = %|rake db:migrate #{version} ENV=test > full_migration.log|
     end
     assert system(rake_cmd)
   end

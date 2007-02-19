@@ -1,15 +1,15 @@
 <h1>
   <% if current_user -%>
     <input type="button" id="edit_title" value="edit" />
-    <%= in_place_editor_field :document, "title", {},
+    <%= in_place_editor_field :page, "title", {},
           { :external_control => 'edit_title' } %>
   <% else -%>
-    <%= h(@document.title) %>
+    <%= h(@page.title) %>
   <% end -%>
 </h1>
 
-<div id="document_content">
-  <%= @document.render_content %>
+<div id="page_content">
+  <%= @page.render_content %>
 </div>
 
 <% restrict_to :admin do -%>
@@ -20,8 +20,8 @@
     <p><a href="http://hobix.com/textile/" target="_blank">Textile reference</a></p>
     
     <p>
-      <% remote_form_for(:document,
-             :url => { :action => 'update_document_content', :id => @document.id } 
+      <% remote_form_for(:page,
+             :url => { :action => 'update_page_content', :id => @page.id } 
              ) do |form| -%>
         <%= form.text_area :content, :rows => 20, :cols => 80 %>
         <%= submit_tag "Update content", :class => "submit" %>
@@ -34,7 +34,7 @@
 <% restrict_to :admin do -%>
   <p class="identifier">
     <input type="button" id="edit_identifier" value="edit" />
-    <%= in_place_editor_field :document, 'identifier', {},
+    <%= in_place_editor_field :page, 'identifier', {},
           { :external_control => 'edit_identifier' } %>
   </p>
 <% end -%>

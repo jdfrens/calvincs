@@ -1,62 +1,62 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DocumentTest < Test::Unit::TestCase
-  fixtures :documents
+class PageTest < Test::Unit::TestCase
+  fixtures :pages
 
   should "complain when duplicate identifier" do
-    document = Document.new(
+    page = Page.new(
       :identifier => 'mission_statement', :content => 'something'
     )
-    assert !document.valid?
+    assert !page.valid?
   end
 
   should "allow underlines in identifier" do
-    document = Document.new(
+    page = Page.new(
         :identifier => '_underlines_are_okay_', :title => 'Good',
         :content => 'something'
     )
-    assert document.valid?
+    assert page.valid?
   end
       
   should "complain about invalid identifiers" do
-    document = Document.new(
+    page = Page.new(
         :identifier => '  whitespacey  ', :title => 'Good',
         :content => 'something'
     )
-    assert !document.valid?
+    assert !page.valid?
     assert_equal 'should be like a Java identifier',
-        document.errors[:identifier]
+        page.errors[:identifier]
     
-    document = Document.new(
+    page = Page.new(
         :identifier => 'punc-tu-ation', :title => 'Good',
         :content => 'something'
     )
-    assert !document.valid?
+    assert !page.valid?
   end
   
   should "complain about missing title" do
-    document = Document.new(
+    page = Page.new(
         :identifier => 'okay', :title => '', :content => 'something'
     )
-    assert !document.valid?
-    assert_equal "can't be blank", document.errors[:title]
+    assert !page.valid?
+    assert_equal "can't be blank", page.errors[:title]
   end
   
   should "complain about missing content" do
-    document = Document.new(
+    page = Page.new(
         :identifier => 'okay', :title => 'Valid Title', :content => ''
     )
-    assert !document.valid?
-    assert_equal "can't be blank", document.errors[:content]
+    assert !page.valid?
+    assert_equal "can't be blank", page.errors[:content]
   end
   
   should "render textile using RedCloth" do
     assert_equal "<p>We state <strong>our</strong> mission.</p>",
-        Document.find(1).render_content
+        Page.find(1).render_content
     assert_equal "<p>a b c d e f g <em>h i j k</em></p>",
-        Document.find(2).render_content
+        Page.find(2).render_content
     assert_equal "<p>home page text written in <strong>textile</strong></p>",
-        Document.find(3).render_content
+        Page.find(3).render_content
   end
   
 end

@@ -1,13 +1,13 @@
-<% if @document && !@document.valid? -%>
+<% if @page && !@page.valid? -%>
   <div id="error">
-    <%= error_messages_for(:document) %>
+    <%= error_messages_for(:page) %>
   </div>
 <% end -%>
 
-<h1>Create Document</h1>
+<h1>Create Page</h1>
 
-<% form_for :document, :url => { :action => :save } do |form| %>
-  <table summary="document data">
+<% form_for :page, :url => { :action => :save } do |form| %>
+  <table summary="page data">
     <tr>
       <td> Identifier: </td>
       <td> <%= form.text_field :identifier, :size => 10 %> </td>
@@ -22,7 +22,7 @@
     </tr>
     <tr>
       <td> </td>
-      <td> <%= submit_tag "Create document", :class => "submit" %> </td>
+      <td> <%= submit_tag "Create page", :class => "submit" %> </td>
     </tr>
   </table>
 <% end %>

@@ -4,6 +4,7 @@
 
 <% restrict_to :admin do -%>
   <p class="view-edit">
-    <%= link_to 'view/edit', :controller => 'document', :action => 'view', :id => document.identifier %>
+    <%= link_to 'view/edit', :controller => 'document',
+            :action => 'view', :id => document.identifier %>
   </p>
 <% end -%>
