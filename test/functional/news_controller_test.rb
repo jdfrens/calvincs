@@ -89,6 +89,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "h2", "Current News"
+    assert_select_news_links
     assert_select "table[summary=news items]" do
       assert_select "tr", 2, "Only two *current* news items"
       assert_news_item_entry 1, news_items(:todays_news)
@@ -102,6 +103,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "h2", "All News"
+    assert_select_news_links
     assert_select "table[summary=news items]" do
       assert_select "tr", 3
       assert_news_item_entry 1, news_items(:todays_news)
@@ -116,6 +118,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "h2", "All News"
+    assert_select_news_links
     assert_select "table[summary=news items]" do
       assert_select "tr", 3
       assert_news_item_entry 1, news_items(:todays_news)
@@ -155,6 +158,11 @@ class NewsControllerTest < Test::Unit::TestCase
         assert_select "input[value=Destroy]", 1, "should have destroy button"
       end
     end
+  end
+  
+  def assert_select_news_links
+    assert_select "a[href=/news/list]", /current news/i
+    assert_select "a[href=/news/list/all]", /all news/i
   end
   
 end

@@ -1,5 +1,13 @@
 <h2><%= @header %></h2>
 
+<p>
+  <%= link_to 'Current News', :action => 'list', :id => nil %>
+  |
+  <%= link_to 'All News', :action => 'list', :id => 'all' %>
+</p>
+
+<p>News items are listed in reverse chronological order based on the expiration date.  Expired news is pink.</p>
+
 <table summary="news items">
   <% @news_items.each do |news_item| %>
     <tr class="<%= news_item.is_current? ? "current-news" : "past-news" %>">

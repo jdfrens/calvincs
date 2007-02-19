@@ -4,7 +4,12 @@
 
 <ul id="news_administration">
   <li>
-    <%= link_to 'All news items', :controller => 'news', :action => 'list' %>
+    <%= link_to 'Current news items', :controller => 'news',
+            :action => 'list' %>
+  </li>
+  <li>
+    <%= link_to 'All news items', :controller => 'news',
+            :action => 'list', :id => 'all' %>
   </li>
   <li>
     <%= link_to 'Create news item', :controller => 'news', :action => 'new' %>

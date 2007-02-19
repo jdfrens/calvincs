@@ -32,7 +32,7 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select "h1", "Computing at Calvin College"
     assert_select "p", "home page text written in textile"
     assert_select "p strong", "textile"
-    assert_select "a[href=/page/edit/home_page]"
+    assert_select "a[href=/p/home_page]"
   end
 
   should "protect administration page" do
@@ -50,6 +50,7 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select 'h2', "News and Events"
     assert_select "ul#news_administration" do
       assert_select "a[href=/news/list]", /news/i 
+      assert_select "a[href=/news/list/all]", /news/i 
       assert_select "a[href=/news/new]", /create news item/i 
     end
     assert_select 'h2', "Webpages and Other Documents"
