@@ -18,4 +18,8 @@ class NewsItem < ActiveRecord::Base
     expires_at >= Time.now
   end
         
+  def render_content
+    RedCloth.new(content, [:lite_mode]).to_html
+  end
+  
 end

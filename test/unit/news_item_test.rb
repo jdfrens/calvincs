@@ -67,4 +67,13 @@ class NewsItemTest < Test::Unit::TestCase
     assert !news_items(:past_news).is_current?
   end
     
+  should "render textile using RedCloth" do
+    assert_equal "Something happened <strong>today</strong>.",
+        news_items(:todays_news).render_content
+    assert_equal "Something else happened today.",
+        news_items(:another_todays_news).render_content
+    assert_equal "Something happened in the distant <em>past</em>.",
+        news_items(:past_news).render_content
+  end
+  
 end

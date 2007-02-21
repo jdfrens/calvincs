@@ -2,6 +2,10 @@ class NewsController < ApplicationController
   
   restrict_to :admin, :only => [ :new, :save, :destroy ]
   
+  def index
+    @news_items = NewsItem.find_current
+  end
+  
   def list
     case params[:id] 
     when 'all'

@@ -1,0 +1,10 @@
+<h1>Current News</h1>
+
+<% @news_items.each do |news_item| %>
+  <div id="<%= "news_item_#{news_item.id}" %>" class="news_item">
+    <h2><%= h(news_item.title) %></h2>
+    <div class="content">
+      <%= news_item.render_content %>
+    </div>
+  </div>
+<% end %>

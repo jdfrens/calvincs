@@ -1,0 +1,38 @@
+div#error {
+    font-size: larger;
+    color: red;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+.identifier, .view-edit, .logout {
+    text-align: right;
+    font-size: small;
+}
+
+.current-news {
+}
+.past-news {
+    background-color: pink;
+}
+
+/* Displaying whole news items */
+
+div.news_item {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+div.news_item h2 {
+    display: inline;
+}
+
+div.news_item div.content {
+    display: inline;
+}

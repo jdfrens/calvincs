@@ -14,6 +14,15 @@ class NewsControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
+  should "have a special index" do
+    get :index
+    assert_response :success
+    assert_standard_layout
+    assert_select "h1", "Current News"
+    assert_full_news_item news_items(:another_todays_news)
+    assert_full_news_item news_items(:todays_news), [ "today" ]
+  end
+  
   should "redirect when NOT logged in and creating new news item" do
     get :new
     assert_redirected_to_login
@@ -141,7 +150,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_redirected_to :controller => 'news', :action => 'list'
     assert_equal 2, NewsItem.find(:all).size, "lost just one news item"
     assert_nil NewsItem.find_by_title("News of Today")
-  end  
+  end
   
   #
   # Helpers
@@ -164,5 +173,17 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "a[href=/news/list]", /current news/i
     assert_select "a[href=/news/list/all]", /all news/i
   end
+  
+  def assert_full_news_item(news_item, strongs=[])
+    assert_select "div#news_item_#{news_item.id}[class=news_item]" do
+      assert_select "h2", news_item.title
+      assert_select "div.content", news_item.content.gsub('*', '') do
+        strongs.each do |strong|
+          assert_select "strong", strong
+        end
+      end
+    end
+  end
+  
   
 end
