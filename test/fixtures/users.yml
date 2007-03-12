@@ -14,3 +14,4 @@ lou_user:
   username: lou
   password_hash: <%= User.hash_password('loupassword') %>
   group_id: 1
+

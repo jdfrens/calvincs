@@ -78,6 +78,8 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "div#page_content p", 'We state our mission.'
     assert_select "div#page_content p strong", "our"
 
+    assert_select "div#content h1", :count => 1, :text => "Mission Statement"
+
     assert_select "h1 span#page_title_1_in_place_editor", false
     assert_select "p span#page_content_1_in_place_editor", false
     assert_select "p[class=identifier] span#page_identifier_1_in_place_editor", false
@@ -90,7 +92,8 @@ class PageControllerTest < Test::Unit::TestCase
     assert_template "page/view"
     assert_select "div#page_content p", 'We state our mission.'
     assert_select "div#page_content p strong", "our"
-
+    # p @response
+    assert_select "div#content h1 input#edit_title", 1
     assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
     assert_select "p a[href=http://hobix.com/textile/][target=_blank]", "Textile reference"
     assert_select "form[action=/page/update_page_content/1]" do
@@ -199,7 +202,7 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "destroy a document when logged in" do
     post :destroy, { :id => 1 }, { :current_user_id => 1 }
-    assert_redirected_to :action => 'list'
+    assert_redirected_to :controller => 'page', :action => 'list'
     document = Page.find_by_identifier('mission_statement')
     assert_nil document
   end
