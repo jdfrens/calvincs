@@ -7,14 +7,22 @@ class NewsController < ApplicationController
   end
   
   def list
-    case params[:id] 
+    case params[:filter] 
     when 'all'
-      @header = "All News"
       @news_items = NewsItem.find(:all, :order => "expires_at DESC, id ASC")
     else
-      @header = "Current News"
       @news_items = NewsItem.find_current
     end
+  end
+  
+  def list_table
+    case params[:filter] 
+    when 'all'
+      @news_items = NewsItem.find(:all, :order => "expires_at DESC, id ASC")
+    else
+      @news_items = NewsItem.find_current
+    end
+    render :partial => 'newsitems', :layout => false
   end
   
   def new

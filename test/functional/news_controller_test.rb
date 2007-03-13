@@ -97,9 +97,23 @@ class NewsControllerTest < Test::Unit::TestCase
     get :list
     assert_response :success
     assert_standard_layout
-    assert_select "h2", "Current News"
-    assert_select_news_links
-    assert_select "table[summary=news items]" do
+    assert_select "h2", "News"
+    assert_select_news_links 0
+    assert_select "div#newsItems table[summary=news items]" do
+      assert_select "tr", 2, "Only two *current* news items"
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
+    end
+    assert_select "a[href=/news/new]", 0
+  end
+  
+  should "list current news items when explicitly requested" do
+    get :list, { :filter => 'current' }
+    assert_response :success
+    assert_standard_layout
+    assert_select "h2", "News"
+    assert_select_news_links "current"
+    assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 2, "Only two *current* news items"
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
@@ -108,12 +122,12 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   should "list all news items when requested" do
-    get :list, :id => 'all'
+    get :list, :filter => 'all'
     assert_response :success
     assert_standard_layout
-    assert_select "h2", "All News"
-    assert_select_news_links
-    assert_select "table[summary=news items]" do
+    assert_select "h2", "News"
+    assert_select_news_links "all"
+    assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 3
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
@@ -123,12 +137,12 @@ class NewsControllerTest < Test::Unit::TestCase
   end  
   
   should "list all news items when requested and editting controls when logged in" do
-    get :list, { :id => 'all' }, { 'current_user_id' => 1 }
+    get :list, { :filter => 'all' }, { 'current_user_id' => 1 }
     assert_response :success
     assert_standard_layout
-    assert_select "h2", "All News"
-    assert_select_news_links
-    assert_select "table[summary=news items]" do
+    assert_select "h2", "News"
+    assert_select_news_links "all"
+    assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 3
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
@@ -169,9 +183,12 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  def assert_select_news_links
-    assert_select "a[href=/news/list]", /current news/i
-    assert_select "a[href=/news/list/all]", /all news/i
+  def assert_select_news_links(selected)
+    assert_select "select#news_item_filter" do
+      assert_select "option[value=current]", "current"
+      assert_select "option[value=all]", "all"
+      assert_select "option[selected=selected]", selected
+    end
   end
   
   def assert_full_news_item(news_item, strongs=[])

@@ -1,0 +1,21 @@
+<table summary="news items">
+  <% @news_items.each do |news_item| %>
+    <tr class="<%= news_item.is_current? ? "current-news" : "past-news" %>">
+    
+      <td>
+        <%= link_to h(news_item.title),
+              :action => 'view', :id => news_item.id %>
+      </td>
+      
+      <% if current_user -%>
+        <td>
+          <%= button_to 'Destroy', { :action => 'destroy', :id => news_item },
+              :confirm => 'Are you sure you want to destroy this news item?',
+              :method => :post %>
+        </td>
+      <% end -%>
+      
+    </tr>
+  <% end %>
+</table>
+

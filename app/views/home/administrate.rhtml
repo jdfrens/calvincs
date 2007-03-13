@@ -3,13 +3,17 @@
 <h2>News and Events</h2>
 
 <ul id="news_administration">
-  <li>
-    <%= link_to 'Current news items', :controller => 'news',
-            :action => 'list' %>
-  </li>
-  <li>
-    <%= link_to 'All news items', :controller => 'news',
-            :action => 'list', :id => 'all' %>
+  <li> View...
+    <ul>
+      <li>
+        <%= link_to '...current news items', :controller => 'news',
+                :action => 'list', :filter => 'current' %>
+      </li>
+      <li>
+        <%= link_to '...all news items', :controller => 'news',
+                :action => 'list', :filter => 'all' %>
+      </li>
+    </ul>
   </li>
   <li>
     <%= link_to 'Create news item', :controller => 'news', :action => 'new' %>

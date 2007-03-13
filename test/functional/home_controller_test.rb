@@ -49,8 +49,8 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select 'h1', "Master Administration"
     assert_select 'h2', "News and Events"
     assert_select "ul#news_administration" do
-      assert_select "a[href=/news/list]", /news/i 
-      assert_select "a[href=/news/list/all]", /news/i 
+      assert_select "a[href=/news/list?filter=current]", /current news/i 
+      assert_select "a[href=/news/list?filter=all]", /all news/i 
       assert_select "a[href=/news/new]", /create news item/i 
     end
     assert_select 'h2', "Webpages and Other Documents"
