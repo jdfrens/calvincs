@@ -20,7 +20,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   should "get form to create a new document when logged in" do
-    get :create, {}, { :current_user_id => 1 }
+    get :create, {}, { 'current_user_id' => 1 }
     assert_response :success
     assert_standard_layout
     assert_template "page/create"
@@ -34,7 +34,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   should "get a list of documents when logged in" do
-    get :list, {}, { :current_user_id => 1 }, { :error => 'Error flash!' }
+    get :list, {}, { 'current_user_id' => 1 }, { :error => 'Error flash!' }
     assert_response :success
     assert_standard_layout
     assert_template "page/list"
@@ -86,7 +86,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   should "view a document when logged in" do
-    get :view, { :id => 'mission_statement' }, { :current_user_id => 1 } 
+    get :view, { :id => 'mission_statement' }, { 'current_user_id' => 1 } 
     assert_response :success
     assert_standard_layout
     assert_template "page/view"
@@ -115,7 +115,7 @@ class PageControllerTest < Test::Unit::TestCase
           :identifier => 'new_document', :title => 'New Page',
           :content => 'love me!'
           }
-        }, { :current_user_id => 1 }
+        }, { 'current_user_id' => 1 }
     assert_redirected_to :action => 'view', :id => 'new_document'
     assert flash.empty?
     document = Page.find_by_identifier('new_document')
@@ -137,7 +137,7 @@ class PageControllerTest < Test::Unit::TestCase
   should "fail to save a new document with bad identifier" do
     post :save,
         { :page => { :identifier => 'bad!', :content => 'whatever' } },
-        { :current_user_id => 1 }
+        { 'current_user_id' => 1 }
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the page', flash[:error]
@@ -148,7 +148,7 @@ class PageControllerTest < Test::Unit::TestCase
   should "change document title" do
     xhr :get, :set_page_title,
         { :id => 1, :value => 'New Mission Statement' },
-        { :current_user_id => 1 }
+        { 'current_user_id' => 1 }
     assert_response :success
     assert_equal "New Mission Statement", @response.body
 
@@ -165,7 +165,7 @@ class PageControllerTest < Test::Unit::TestCase
   should "change document content" do
     xhr :get, :update_page_content,
         { :id => 1, :page => { :content => 'Mission *away*!' } },
-        { :current_user_id => 1 }
+        { 'current_user_id' => 1 }
     assert_response :success
     assert_select_rjs :replace_html, "page_content" do
       assert_select "p", "Mission away!"
@@ -186,7 +186,7 @@ class PageControllerTest < Test::Unit::TestCase
   should "change document identifier" do
     xhr :get, :set_page_identifier,
         { :id => 1, :value => 'mission_statement_2'},
-        { :current_user_id => 1 }
+        { 'current_user_id' => 1 }
     assert_response :success
     assert_equal "mission_statement_2", @response.body
 
@@ -201,7 +201,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   should "destroy a document when logged in" do
-    post :destroy, { :id => 1 }, { :current_user_id => 1 }
+    post :destroy, { :id => 1 }, { 'current_user_id' => 1 }
     assert_redirected_to :controller => 'page', :action => 'list'
     document = Page.find_by_identifier('mission_statement')
     assert_nil document
