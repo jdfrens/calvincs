@@ -13,7 +13,16 @@ class NewsItem < ActiveRecord::Base
       !news_item.is_current?
     end
   end
-  
+
+  def self.find_filtered_news(filter)
+    case filter
+    when 'all'
+      NewsItem.find(:all, :order => "expires_at DESC, id ASC")
+    else
+      NewsItem.find_current
+    end
+  end
+
   def is_current?
     expires_at >= Time.now
   end

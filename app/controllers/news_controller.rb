@@ -7,21 +7,11 @@ class NewsController < ApplicationController
   end
   
   def list
-    case params[:filter] 
-    when 'all'
-      @news_items = NewsItem.find(:all, :order => "expires_at DESC, id ASC")
-    else
-      @news_items = NewsItem.find_current
-    end
+    @news_items = NewsItem.find_filtered_news params[:filter]
   end
   
   def list_table
-    case params[:filter] 
-    when 'all'
-      @news_items = NewsItem.find(:all, :order => "expires_at DESC, id ASC")
-    else
-      @news_items = NewsItem.find_current
-    end
+    @news_items = NewsItem.find_filtered_news params[:filter]
     render :partial => 'newsitems', :layout => false
   end
   
@@ -44,5 +34,5 @@ class NewsController < ApplicationController
     NewsItem.destroy(params[:id])
     redirect_to :controller => 'news', :action => 'list'
   end
-  
+
 end

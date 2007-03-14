@@ -136,7 +136,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "a[href=/news/new]", 0
   end  
   
-  should "list all news items when requested and editting controls when logged in" do
+  should "list: all news items, editting controls, logged in" do
     get :list, { :filter => 'all' }, { 'current_user_id' => 1 }
     assert_response :success
     assert_standard_layout
@@ -149,6 +149,56 @@ class NewsControllerTest < Test::Unit::TestCase
       assert_news_item_entry 3, news_items(:past_news)
     end
     assert_select "a[href=/news/new]", "Create new news item"
+  end
+  
+  should "list: in a table, all news items, editting controls, logged in" do
+    get :list_table, { :filter => 'all' }, { 'current_user_id' => 1 }
+    assert_response :success
+    assert_select "head", 0, "should not have head"
+    assert_select "body", 0, "should not have body"
+    assert_select "table[summary=news items]" do
+      assert_select "tr", 3
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
+      assert_news_item_entry 3, news_items(:past_news)
+    end
+  end
+  
+  should "list: in a table, all news items, NOT logged in" do
+    get :list_table, { :filter => 'all' }
+    assert_response :success
+    assert_select "head", 0, "should not have head"
+    assert_select "body", 0, "should not have body"
+    assert_select "table[summary=news items]" do
+      assert_select "tr", 3
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
+      assert_news_item_entry 3, news_items(:past_news)
+    end
+  end
+  
+  should "list: in a table. current news items, editting controls, logged in" do
+    get :list_table, { :filter => 'current' }, { 'current_user_id' => 1 }
+    assert_response :success
+    assert_select "head", 0, "should not have head"
+    assert_select "body", 0, "should not have body"
+    assert_select "table[summary=news items]" do
+      assert_select "tr", 2
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
+    end
+  end
+  
+  should "list: in a table, current news items, NOT logged in" do
+    get :list_table, { :filter => 'current' }
+    assert_response :success
+    assert_select "head", 0, "should not have head"
+    assert_select "body", 0, "should not have body"
+    assert_select "table[summary=news items]" do
+      assert_select "tr", 2
+      assert_news_item_entry 1, news_items(:todays_news)
+      assert_news_item_entry 2, news_items(:another_todays_news)
+    end
   end
   
   should "redirect when trying to destroy news item and NOT logged in" do

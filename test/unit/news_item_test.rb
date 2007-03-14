@@ -59,12 +59,45 @@ class NewsItemTest < Test::Unit::TestCase
     assert_equal 2, news_items.size
     assert news_items.include?(news_items(:todays_news))
     assert news_items.include?(news_items(:another_todays_news))
+
+    make_past(news_items(:todays_news))
+    news_items = NewsItem.find_current
+    assert_equal 1, news_items.size
+    assert news_items.include?(news_items(:another_todays_news))
+
+    make_current(news_items(:past_news))
+    news_items = NewsItem.find_current
+    assert_equal 2, news_items.size
+    assert news_items.include?(news_items(:another_todays_news))
+    assert news_items.include?(news_items(:past_news))
+  end
+  
+  should "find all through filter" do
+    news_items = NewsItem.find_filtered_news("all")
+    assert_equal 3, news_items.size
+    assert news_items.include?(news_items(:todays_news))
+    assert news_items.include?(news_items(:another_todays_news))
+    assert news_items.include?(news_items(:past_news))  
+  end
+  
+  should "find current through filter" do
+    news_items = NewsItem.find_filtered_news("current")
+    assert_equal 2, news_items.size
+    assert news_items.include?(news_items(:todays_news))
+    assert news_items.include?(news_items(:another_todays_news))
   end
   
   should "know if current" do
     assert news_items(:todays_news).is_current?
     assert news_items(:another_todays_news).is_current?
     assert !news_items(:past_news).is_current?
+    
+    make_past(news_items(:todays_news))
+    make_current(news_items(:another_todays_news))
+    make_current(news_items(:past_news))
+    assert !news_items(:todays_news).is_current?
+    assert news_items(:another_todays_news).is_current?
+    assert news_items(:past_news).is_current?
   end
     
   should "render textile using RedCloth" do
@@ -74,6 +107,21 @@ class NewsItemTest < Test::Unit::TestCase
         news_items(:another_todays_news).render_content
     assert_equal "Something happened in the distant <em>past</em>.",
         news_items(:past_news).render_content
+  end
+
+  #
+  # Helpers
+  #
+  private
+
+  def make_past(news_item)
+    news_item.expires_at = 2.days.ago
+    news_item.save!
+  end
+  
+  def make_current(news_item)
+    news_item.expires_at = 2.days.from_now
+    news_item.save!
   end
   
 end
