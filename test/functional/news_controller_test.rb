@@ -29,7 +29,7 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   should "display form when creating new news item and logged in" do
-    get :new, {}, { 'current_user_id' => 1 }
+    get :new, {}, user_session(:admin)
     assert_response :success
     assert_standard_layout
     assert_select "h1", "Create News Item"
@@ -72,7 +72,7 @@ class NewsControllerTest < Test::Unit::TestCase
         :title => 'News Title', :content => 'News Content',
         'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
         'expires_at(3i)' => '31',
-    }}, { 'current_user_id' => 1 }
+    }}, user_session(:admin)
     assert_redirected_to :controller => 'news', :action => 'list'
 
     news_item = NewsItem.find_by_title('News Title')
@@ -85,7 +85,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "fail to save BAD news item when logged in" do
     post :save, { :news_item => {
         :title => '', :content => ''
-    }}, { 'current_user_id' => 1 }
+    }}, user_session(:admin)
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the news item', flash[:error]
@@ -137,7 +137,7 @@ class NewsControllerTest < Test::Unit::TestCase
   end  
   
   should "list: all news items, editting controls, logged in" do
-    get :list, { :filter => 'all' }, { 'current_user_id' => 1 }
+    get :list, { :filter => 'all' }, user_session(:admin)
     assert_response :success
     assert_standard_layout
     assert_select "h2", "News"
@@ -152,7 +152,7 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   should "list: in a table, all news items, editting controls, logged in" do
-    get :list_table, { :filter => 'all' }, { 'current_user_id' => 1 }
+    get :list_table, { :filter => 'all' }, user_session(:admin)
     assert_response :success
     assert_select "head", 0, "should not have head"
     assert_select "body", 0, "should not have body"
@@ -178,7 +178,7 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   should "list: in a table. current news items, editting controls, logged in" do
-    get :list_table, { :filter => 'current' }, { 'current_user_id' => 1 }
+    get :list_table, { :filter => 'current' }, user_session(:admin)
     assert_response :success
     assert_select "head", 0, "should not have head"
     assert_select "body", 0, "should not have body"
@@ -210,7 +210,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "destroy news item when logged in" do
     assert_not_nil NewsItem.find_by_title("News of Today"), "sanity check"
     post :destroy, { :id => news_items(:todays_news).id },
-        { 'current_user_id' => 1 }
+        user_session(:admin)
     assert_redirected_to :controller => 'news', :action => 'list'
     assert_equal 2, NewsItem.find(:all).size, "lost just one news item"
     assert_nil NewsItem.find_by_title("News of Today")

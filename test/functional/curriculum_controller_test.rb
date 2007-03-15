@@ -32,7 +32,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
   end
   
   should "add a course when logged in" do
-    get :new_course, {}, { 'current_user_id' => 1 }
+    get :new_course, {}, user_session(:admin)
     assert_response :success
     assert_standard_layout
     assert_template "curriculum/course_form"
@@ -73,7 +73,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     post :save_course, { :course => {
       :label => 'IS', :number => '665',
       :title => 'One Off Devilry', :credits => '1'
-    }}, { 'current_user_id' => 1 }
+    }}, user_session(:admin)
     assert_redirected_to :action => 'list_courses'
     assert flash.empty?
     course = Course.find_by_number(665)
@@ -92,7 +92,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
   should "fail to save a bad course when logged in" do
     post :save_course, { :course => {
       :label => 'Q', :number => ''
-    }}, { 'current_user_id' => 1 }
+    }}, user_session(:admin)
     assert_template "curriculum/course_form"
     assert_select "div#error", /errors prohibited this course from being saved/i
     assert !flash.empty?

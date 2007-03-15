@@ -25,7 +25,7 @@ class HomeControllerTest < Test::Unit::TestCase
   end
 
   should "have an index page when logged in" do
-    get :index, {}, { 'current_user_id' => 1 }
+    get :index, {}, user_session(:admin)
     assert_response :success
     assert_standard_layout
     assert_template 'home/index'
@@ -41,7 +41,7 @@ class HomeControllerTest < Test::Unit::TestCase
   end
       
   should "have an administration page" do
-    get :administrate, {}, { 'current_user_id' => 1 }
+    get :administrate, {}, user_session(:admin)
     assert_user_privilege 1, 'admin'
     assert_response :success
     assert_standard_layout

@@ -103,4 +103,13 @@ class Test::Unit::TestCase
     session[:current_user_id] != nil
   end
   
+  def user_session(privilege)
+    case privilege
+    when :admin
+      { :current_user_id => 1 }
+    else
+      {}
+    end
+  end
+  
 end
