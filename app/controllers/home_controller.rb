@@ -3,7 +3,8 @@ class HomeController < ApplicationController
   restrict_to :admin, :only => 'administrate'
     
   def index
-    @page = Page.find_by_identifier('home_page')
+    @content = Page.find_by_identifier('home_page')
+    @splash = Page.find_by_identifier('home_splash')
   end
   
   def administrate

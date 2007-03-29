@@ -17,7 +17,7 @@ class HomeControllerTest < Test::Unit::TestCase
   should "have an index page" do
     get :index
     assert_response :success
-    assert_standard_layout
+    assert_home_page_layout
     assert_template 'home/index'
     assert_select "h1", "Computing at Calvin College"
     assert_select "p", "home page text written in textile"
@@ -27,7 +27,7 @@ class HomeControllerTest < Test::Unit::TestCase
   should "have an index page when logged in" do
     get :index, {}, user_session(:admin)
     assert_response :success
-    assert_standard_layout
+    assert_home_page_layout
     assert_template 'home/index'
     assert_select "h1", "Computing at Calvin College"
     assert_select "p", "home page text written in textile"
@@ -62,6 +62,26 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select "ul#course_administration" do
       assert_select "a[href=/curriculum/list_courses]", /course list/i 
       assert_select "a[href=/curriculum/new_course]", /new course/i 
+    end
+  end
+  
+  #
+  # Helpers
+  #
+  private 
+  
+  def assert_home_page_layout
+    assert_standard_layout
+    assert_equal assigns(:splash), pages(:home_splash)
+    assert_equal assigns(:content), pages(:home_page)
+    assert_select "div#content" do
+      assert_select "div#splash" do
+        assert_select "h1", 0, "*no* title in header"
+      end
+      assert_select "div#home_page" do
+        assert_select "h1", pages(:home_page).title
+      end
+      assert_select "div#news", 1
     end
   end
 

@@ -55,13 +55,17 @@ class Test::Unit::TestCase
       assert_select "div#content"
       assert_select "div#sidebar" do
         assert_select "div#navbar ul" do
-          assert_select "li a[href=/]", "Home"
-          assert_select "li a[href=/p/students]", "Students"
-          assert_select "li a[href=/p/faculty]", "Faculty &amp; Staff"
-          assert_select "li a[href=/p/activities]", "Activities"
-          assert_select "li a[href=/p/facilities]", "Facilities"
-          assert_select "li a[href=/news]", "News"
-          assert_select "li a[href=/search]", "Search"
+          assert_select "li", 10, "ten menu items"
+          assert_select "li:nth-child(1) a[href=/]", "Home"
+          assert_select "li:nth-child(2) a[href=/p/mission]", "About Us"
+          assert_select "li:nth-child(3) a[href=/p/academics]", "Academics"
+          assert_select "li:nth-child(4) a[href=/p/students]", "Students"
+          assert_select "li:nth-child(5) a[href=/p/faculty]", "Faculty"
+          assert_select "li:nth-child(6) a[href=/p/facilities]", "Facilities"
+          assert_select "li:nth-child(7) a[href=/p/research]", "Research"
+          assert_select "li:nth-child(8) a[href=/p/alumni]", "Alumni Profiles"
+          assert_select "li:nth-child(9) a[href=/news]", "News"
+          assert_select "li:nth-child(10) a[href=/p/contact_us]", "Contact Us"
         end
       end
       assert_select "div#footer-css"

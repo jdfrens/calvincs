@@ -10,7 +10,7 @@ class PageController < ApplicationController
   end
   
   def list
-    @pages = Page.find(:all)
+    @pages = Page.find(:all, :order => 'identifier ASC')
     render :template => 'page/list'
   end
   

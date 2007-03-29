@@ -13,7 +13,7 @@
     </tr>   
   <% end -%>
   <% @pages.each do |page| -%>
-    <tr>
+    <tr id="page_<%= page.id %>">
       <% if current_user -%>
         <td>
           <%= h(page.identifier) %>
