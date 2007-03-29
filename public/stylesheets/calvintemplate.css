@@ -76,6 +76,16 @@ img {
 	margin: 0px;
 }
 
+
+div.img-right {
+	float: right;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	border: none;
+	width: 300px;
+}
 .img-right {
 	float: right;
 	margin-top: 0px;
