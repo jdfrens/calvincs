@@ -88,7 +88,6 @@ class PageControllerTest < Test::Unit::TestCase
     assert_template "page/view"
     assert_select "div#page_content p", 'We state our mission.'
     assert_select "div#page_content p strong", "our"
-    # p @response
     assert_select "div#content h1 input#edit_title", 1
     assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
     assert_select "p a[href=http://hobix.com/textile/][target=_blank]", "Textile reference"

@@ -13,6 +13,10 @@
       <td> <%= form.text_field :title, :size => 40 %> </td>
     </tr>
     <tr>
+      <td> Brief description: </td>
+      <td> <%= form.text_field :brief_description, :size => 80 %> </td>
+    </tr>
+    <tr>
       <td> Content: </td>
       <td> <%= form.text_area :content, :rows => 5, :cols => 80 %> </td>
     </tr>
@@ -26,3 +30,5 @@
     </tr>
   </table>
 <% end %>
+
+<p>The brief description should be kept very short; it is used in summaries (as in the display on the home page).  The content can (and should) use Textile formatting.</p>

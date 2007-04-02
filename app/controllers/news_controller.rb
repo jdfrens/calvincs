@@ -15,6 +15,10 @@ class NewsController < ApplicationController
     render :partial => 'newsitems', :layout => false
   end
   
+  def view
+    @news_item = NewsItem.find(params[:id])
+  end
+    
   def new
     @news_item = NewsItem.new( :expires_at => 1.month.from_now )
   end

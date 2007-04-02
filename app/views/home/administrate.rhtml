@@ -6,17 +6,17 @@
   <li> View...
     <ul>
       <li>
-        <%= link_to '...current news items', :controller => 'news',
+        <%= link_to '...current', :controller => 'news',
                 :action => 'list', :filter => 'current' %>
       </li>
       <li>
-        <%= link_to '...all news items', :controller => 'news',
+        <%= link_to '...all', :controller => 'news',
                 :action => 'list', :filter => 'all' %>
       </li>
     </ul>
   </li>
   <li>
-    <%= link_to 'Create news item', :controller => 'news', :action => 'new' %>
+    <%= link_to 'Create', :controller => 'news', :action => 'new' %>
   </li>
 </ul>
 
@@ -24,11 +24,11 @@
 
 <ul id="content_administration">
   <li>
-    <%= link_to 'List of webpages (with edit and delete options)',
+    <%= link_to 'List',
             :controller => 'page', :action => 'list' %>
   </li>
   <li>
-    <%= link_to 'Create a new webpage',
+    <%= link_to 'Create',
             :controller => 'page', :action => 'create' %>
   </li>
   <li> Processing other documents pending... </li>
@@ -38,10 +38,10 @@
 
 <ul id="course_administration">
   <li>
-    <%= link_to 'Course list (with edit and delete options)', :controller => 'curriculum', :action => 'list_courses' %>
+    <%= link_to 'List', :controller => 'curriculum', :action => 'list_courses' %>
   </li>
   <li>
-    <%= link_to 'Create new course', :controller => 'curriculum', :action => 'new_course' %>
+    <%= link_to 'Create', :controller => 'curriculum', :action => 'new_course' %>
   </li>
 </ul>
 

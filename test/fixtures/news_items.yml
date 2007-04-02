@@ -2,18 +2,21 @@
 another_todays_news:
   id: 5
   title: News of Today II
+  brief_description: Something else.
   content: Something else happened today.
   user_id: 2
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
 todays_news:
   id: 3
   title: News of Today
+  brief_description: Something.
   content: Something happened *today*.
   user_id: 1
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
 past_news:
   id: 8
   title: News of Yesterday
+  brief_description: Past event.
   content: Something happened in the distant _past_.
   user_id: 2
   expires_at: <%= 1.day.ago.to_s(:db) %>

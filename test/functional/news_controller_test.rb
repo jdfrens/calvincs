@@ -39,10 +39,14 @@ class NewsControllerTest < Test::Unit::TestCase
         assert_select "td input[type=text]"
       end
       assert_select "tr:nth-child(2)" do
+        assert_select "td", /brief description/i
+        assert_select "td input[type=text]"
+      end
+      assert_select "tr:nth-child(3)" do
         assert_select "td", /content/i
         assert_select "td textarea"
       end
-      assert_select "tr:nth-child(3)" do
+      assert_select "tr:nth-child(4)" do
         assert_select "td", /expires/i
         date = 1.month.from_now
         assert_select "td select#news_item_expires_at_1i" do
@@ -69,7 +73,8 @@ class NewsControllerTest < Test::Unit::TestCase
   
   should "save news item when logged in" do
     post :save, { :news_item => {
-        :title => 'News Title', :content => 'News Content',
+        :title => 'News Title',
+        :brief_description => 'Brief Description', :content => 'News Content',
         'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
         'expires_at(3i)' => '31',
     }}, user_session(:admin)
@@ -199,6 +204,16 @@ class NewsControllerTest < Test::Unit::TestCase
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
     end
+  end
+  
+  should "view a news item" do
+    get :view, { :id => news_items(:todays_news) }
+    assert_response :success
+    assert_select "h1", news_items(:todays_news).title
+    assert_select "span#news_brief_description",
+        news_items(:todays_news).brief_description
+    assert_select "div#news_content p", "Something happened today."
+    assert_select "div#news_content p strong", "today", "content should be Textiled"
   end
   
   should "redirect when trying to destroy news item and NOT logged in" do

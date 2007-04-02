@@ -3,6 +3,7 @@ class NewsItem < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :title
+  validates_presence_of :brief_description
   validates_presence_of :content
   validates_presence_of :user, :message => 'is invalid'
   validates_associated  :user, :allow_nil => false
