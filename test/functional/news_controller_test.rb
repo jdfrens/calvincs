@@ -210,10 +210,11 @@ class NewsControllerTest < Test::Unit::TestCase
     get :view, { :id => news_items(:todays_news) }
     assert_response :success
     assert_select "h1", news_items(:todays_news).title
-    assert_select "span#news_brief_description",
+    assert_select "div#news_brief_description p",
         news_items(:todays_news).brief_description
     assert_select "div#news_content p", "Something happened today."
-    assert_select "div#news_content p strong", "today", "content should be Textiled"
+    assert_select "div#news_content p strong", "today",
+        "content should be Textiled"
   end
   
   should "redirect when trying to destroy news item and NOT logged in" do

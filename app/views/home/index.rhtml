@@ -1,4 +1,4 @@
-<div id="splash">
+<div id="home_splash">
     <%= render :partial => 'shared/page', :object => @splash, :locals => { :no_header => true } %>
 </div>
 
@@ -10,10 +10,8 @@
   <div id="news" class="columns-2">
     <h1>News</h1>
     <ul>
-      <li>Calvin grad <a href="http://www.ics.uci.edu/~goodrich/">Michael Goodrich</a> receives <a href="http://delivery.acm.org/10.1145/1190000/1183248/p20-crawford.html?key1=1183248&#38;key2=9348664711&#38;coll=GUIDE&#38;dl=&#38;CFID=17962686&#38;CFTOKEN=79613549"><span class="caps">ACM </span>Distinguished Scientist</a> award</li>
-      <li>Now available: <a href="http://www.ccel.org/"><span class="caps">CCEL </span>Christian Classics CD</a> for $35</li>
-      <li>Calvin&#8217;s new &#8220;personal&#8221; supercomputer has successfully pumped out 23 Gflops of processing power</li>
+      <%= render(:partial => "news_item" , :collection => @news_items) %>
     </ul>
   </div>
-</div>
 
+</div>

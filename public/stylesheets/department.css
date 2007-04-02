@@ -44,3 +44,6 @@ div.news_item div.content {
     display: inline;
 }
 
+div#news_brief_description {
+    font-style: italic;
+}

@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   def index
     @content = Page.find_by_identifier('home_page')
     @splash = Page.find_by_identifier('home_splash')
+    @news_items = NewsItem.find_current
   end
   
   def administrate

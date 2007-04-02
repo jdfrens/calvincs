@@ -6,7 +6,7 @@ class HomeController; def rescue_action(e) raise e end; end
 
 class HomeControllerTest < Test::Unit::TestCase
   
-  fixtures :users, :groups, :privileges, :groups_privileges, :pages
+  fixtures :users, :groups, :privileges, :groups_privileges, :news_items, :pages
   
   def setup
     @controller = HomeController.new
@@ -17,16 +17,15 @@ class HomeControllerTest < Test::Unit::TestCase
   should "have an index page" do
     get :index
     assert_response :success
+    assert_home_page_assignments
     assert_home_page_layout
     assert_template 'home/index'
-    assert_select "h1", "Computing at Calvin College"
-    assert_select "p", "home page text written in textile"
-    assert_select "p strong", "textile"
   end
 
   should "have an index page when logged in" do
     get :index, {}, user_session(:admin)
     assert_response :success
+    assert_home_page_assignments
     assert_home_page_layout
     assert_template 'home/index'
     assert_select "h1", "Computing at Calvin College"
@@ -70,18 +69,33 @@ class HomeControllerTest < Test::Unit::TestCase
   #
   private 
   
+  def assert_home_page_assignments
+    assert_equal pages(:home_splash), assigns(:splash)
+    assert_equal pages(:home_page), assigns(:content)
+    assert_equal NewsItem.find_current, assigns(:news_items)
+  end
+  
   def assert_home_page_layout
     assert_standard_layout
-    assert_equal assigns(:splash), pages(:home_splash)
-    assert_equal assigns(:content), pages(:home_page)
     assert_select "div#content" do
-      assert_select "div#splash" do
-        assert_select "h1", 0, "*no* title in header"
+      assert_select "div#home_splash p:first-of-type",
+          pages(:home_splash).content do
+        assert_select "h1", 0, "*no* title in splash"
       end
       assert_select "div#home_page" do
         assert_select "h1", pages(:home_page).title
+        assert_select "p", "home page text written in textile"
+        assert_select "p strong", "textile"
       end
-      assert_select "div#news", 1
+      assert_select "div#news" do
+        assert_select "h1", "News"
+        assert_select "ul li", 2
+        NewsItem.find_current.each do |news_item|
+        assert_select "li#news_item_#{news_item.id}"
+          assert_select "span.news-title", news_item.title
+          assert_select "a[href=/news/view/#{news_item.id}]", "more..."
+        end
+      end
     end
   end
 
