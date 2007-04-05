@@ -3,7 +3,7 @@
     <tr class="<%= news_item.is_current? ? "current-news" : "past-news" %>">
     
       <td>
-        <%= link_to h(news_item.title),
+        <%= link_to h(news_item.headline),
               :action => 'view', :id => news_item.id %>
       </td>
       

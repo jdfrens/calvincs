@@ -9,30 +9,30 @@ class NewsItemTest < Test::Unit::TestCase
     assert_equal User.find(2), news_items(:another_todays_news).user
   end
   
-  should "not create news item without title" do
+  should "not create news item without headline" do
     news_item = NewsItem.new(
-        :title => '',
-        :brief_description => 'description', :content => 'Valid content.',
+        :headline => '',
+        :teaser => 'a teaser', :content => 'Valid content.',
         :expires_at => 1.hour.ago, :user_id => 1
     )
     assert !news_item.valid?
-    assert_equal "can't be blank", news_item.errors[:title]
+    assert_equal "can't be blank", news_item.errors[:headline]
   end
   
-  should "not create news item without description" do
+  should "not create news item without a teaser" do
     news_item = NewsItem.new(
-        :title => 'Valid title',
-        :brief_description => '', :content => 'Valid content.',
+        :headline => 'Valid headline',
+        :teaser => '', :content => 'Valid content.',
         :expires_at => 1.hour.ago, :user_id => 1
     )
     assert !news_item.valid?
-    assert_equal "can't be blank", news_item.errors[:brief_description]
+    assert_equal "can't be blank", news_item.errors[:teaser]
   end
     
   should "not create news item without content" do
     news_item = NewsItem.new(
-        :title => 'Valid title',
-        :brief_description => 'description', :content => '', :expires_at => 1.hour.ago,
+        :headline => 'Valid headline',
+        :teaser => 'a teaser', :content => '', :expires_at => 1.hour.ago,
         :user_id => 1
     )
     assert !news_item.valid?
@@ -41,8 +41,8 @@ class NewsItemTest < Test::Unit::TestCase
     
   should "not create news item without expires-at date" do
     news_item = NewsItem.new(
-        :title => 'Valid title',
-        :brief_description => 'description', :content => 'Valid content.',
+        :headline => 'Valid headline',
+        :teaser => 'a teaser', :content => 'Valid content.',
         :user_id => 1
     )
     assert !news_item.valid?
@@ -51,8 +51,8 @@ class NewsItemTest < Test::Unit::TestCase
 
   should "not create news item without user" do
     news_item = NewsItem.new(
-        :title => 'Valid title',
-        :brief_description => 'description', :content => 'Valid content.',
+        :headline => 'Valid headline',
+        :teaser => 'a teaser', :content => 'Valid content.',
         :expires_at => 1.hour.ago
     )
     assert !news_item.valid?
@@ -61,8 +61,8 @@ class NewsItemTest < Test::Unit::TestCase
     
   should "not create news item with invalid user" do
     news_item = NewsItem.new(
-        :title => 'Valid title',
-        :brief_description => 'description', :content => 'Valid content.',
+        :headline => 'Valid headline',
+        :teaser => 'a teaser', :content => 'Valid content.',
         :expires_at => 1.hour.ago, :user_id => 99
     )
     assert !news_item.valid?

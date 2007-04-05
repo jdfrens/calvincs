@@ -92,7 +92,7 @@ class HomeControllerTest < Test::Unit::TestCase
         assert_select "ul li", 2
         NewsItem.find_current.each do |news_item|
           assert_select "li#news_item_#{news_item.id}"
-          assert_select "span.news-teaser", news_item.brief_description
+          assert_select "span.news-teaser", news_item.teaser
           assert_select "a.more[href=/news/view/#{news_item.id}]", "more..."
         end
       end

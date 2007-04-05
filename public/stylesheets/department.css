@@ -59,6 +59,6 @@ div.news_item div.content {
     display: inline;
 }
 
-div#news_brief_description {
+div#news_teaser {
     font-style: italic;
 }

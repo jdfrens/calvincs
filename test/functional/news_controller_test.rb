@@ -35,11 +35,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h1", "Create News Item"
     assert_select "form[action=/news/save]" do
       assert_select "tr:nth-child(1)" do
-        assert_select "td", /title/i
+        assert_select "td", /headline/i
         assert_select "td input[type=text]"
       end
       assert_select "tr:nth-child(2)" do
-        assert_select "td", /brief description/i
+        assert_select "td", /teaser/i
         assert_select "td input[type=text]"
       end
       assert_select "tr:nth-child(3)" do
@@ -65,7 +65,7 @@ class NewsControllerTest < Test::Unit::TestCase
   
   should "redirect when NOT logged in and saving new news item" do
     post :save, :news_item => {
-        :title => 'News Title', :content => 'News Content',
+        :headline => 'News Headline', :content => 'News Content',
         :expires_at => [2007, 12, 31]
     }
     assert_redirected_to_login
@@ -73,23 +73,23 @@ class NewsControllerTest < Test::Unit::TestCase
   
   should "save news item when logged in" do
     post :save, { :news_item => {
-        :title => 'News Title',
-        :brief_description => 'Brief Description', :content => 'News Content',
+        :headline => 'News Headline',
+        :teaser => 'Brief Description', :content => 'News Content',
         'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
         'expires_at(3i)' => '31',
     }}, user_session(:admin)
     assert_redirected_to :controller => 'news', :action => 'list'
 
-    news_item = NewsItem.find_by_title('News Title')
+    news_item = NewsItem.find_by_headline('News Headline')
     assert_not_nil news_item
-    assert_equal 'News Title', news_item.title
+    assert_equal 'News Headline', news_item.headline
     assert_equal 'News Content', news_item.content
     assert_equal Time.local(2007, 12, 31), news_item.expires_at
   end
   
   should "fail to save BAD news item when logged in" do
     post :save, { :news_item => {
-        :title => '', :content => ''
+        :headline => '', :content => ''
     }}, user_session(:admin)
     assert_response :success
     assert !flash.empty?
@@ -209,9 +209,9 @@ class NewsControllerTest < Test::Unit::TestCase
   should "view a news item" do
     get :view, { :id => news_items(:todays_news) }
     assert_response :success
-    assert_select "h1", news_items(:todays_news).title
-    assert_select "div#news_brief_description p",
-        news_items(:todays_news).brief_description
+    assert_select "h1", news_items(:todays_news).headline
+    assert_select "div#news_teaser p",
+        news_items(:todays_news).teaser
     assert_select "div#news_content p", "Something happened today."
     assert_select "div#news_content p strong", "today",
         "content should be Textiled"
@@ -224,12 +224,12 @@ class NewsControllerTest < Test::Unit::TestCase
   end
 
   should "destroy news item when logged in" do
-    assert_not_nil NewsItem.find_by_title("News of Today"), "sanity check"
+    assert_not_nil NewsItem.find_by_headline("News of Today"), "sanity check"
     post :destroy, { :id => news_items(:todays_news).id },
         user_session(:admin)
     assert_redirected_to :controller => 'news', :action => 'list'
     assert_equal 2, NewsItem.find(:all).size, "lost just one news item"
-    assert_nil NewsItem.find_by_title("News of Today")
+    assert_nil NewsItem.find_by_headline("News of Today")
   end
   
   #
@@ -240,7 +240,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def assert_news_item_entry(nth, news_item)
     time_class = news_item.is_current? ? "current-news" : "past-news"
     assert_select "tr[class=#{time_class}]:nth-child(#{nth})" do
-      assert_select "td a[href=/news/view/#{news_item.id}]", news_item.title
+      assert_select "td a[href=/news/view/#{news_item.id}]", news_item.headline
     end
     if is_logged_in
       assert_select "form[action=/news/destroy/#{news_item.id}]" do
@@ -259,7 +259,7 @@ class NewsControllerTest < Test::Unit::TestCase
   
   def assert_full_news_item(news_item, strongs=[])
     assert_select "div#news_item_#{news_item.id}[class=news_item]" do
-      assert_select "h2", news_item.title
+      assert_select "h2", news_item.headline
       assert_select "div.content", news_item.content.gsub('*', '') do
         strongs.each do |strong|
           assert_select "strong", strong
