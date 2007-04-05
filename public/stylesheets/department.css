@@ -29,6 +29,21 @@ div.content-editor {
   background-color: pink;
 }
 
+/* HOME PAGE */
+/* News */
+
+div#news ul {
+  font-size: small;
+  padding: 0;
+}
+div#news li {
+  padding-bottom: 0.25em;
+  list-style-type: none;
+}
+div#news a.more {
+  font-size: xx-small;
+}
+
 /* Displaying whole news items */
 
 div.news_item {
