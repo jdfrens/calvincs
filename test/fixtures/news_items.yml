@@ -5,6 +5,7 @@ another_todays_news:
   teaser: Something else.
   content: Something else happened today.
   user_id: 2
+  goes_live_at: <%= 1.hour.ago.to_s(:db) %>
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
 todays_news:
   id: 3
@@ -12,6 +13,7 @@ todays_news:
   teaser: Something.
   content: Something happened *today*.
   user_id: 1
+  goes_live_at: <%= 2.hours.ago.to_s(:db) %>
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
 past_news:
   id: 8
@@ -19,4 +21,14 @@ past_news:
   teaser: Past event.
   content: Something happened in the distant _past_.
   user_id: 2
+  goes_live_at: <%= 2.days.ago.to_s(:db) %>
   expires_at: <%= 1.day.ago.to_s(:db) %>
+future_news:
+  id: 25
+  headline: News of the Future!
+  teaser: Something will happen.
+  content: Something will happen in the future.
+  user_id: 1
+  goes_live_at: <%= 2.hours.from_now.to_s(:db) %>
+  expires_at: <%= 3.hours.from_now.to_s(:db) %>
+

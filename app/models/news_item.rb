@@ -7,6 +7,7 @@ class NewsItem < ActiveRecord::Base
   validates_presence_of :content
   validates_presence_of :user, :message => 'is invalid'
   validates_associated  :user, :allow_nil => false
+  validates_presence_of :goes_live_at
   validates_presence_of :expires_at
   
   def self.find_current
@@ -25,7 +26,7 @@ class NewsItem < ActiveRecord::Base
   end
 
   def is_current?
-    expires_at >= Time.now
+    (goes_live_at <= Time.now) && (expires_at >= Time.now)
   end
         
   def render_content

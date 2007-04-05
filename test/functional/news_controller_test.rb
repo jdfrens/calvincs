@@ -46,23 +46,12 @@ class NewsControllerTest < Test::Unit::TestCase
         assert_select "td", /content/i
         assert_select "td textarea"
       end
-      assert_select "tr:nth-child(4)" do
-        assert_select "td", /expires/i
-        date = 1.month.from_now
-        assert_select "td select#news_item_expires_at_1i" do
-          assert_select "option[value=#{date.year}][selected=selected]"
-        end
-        assert_select "td select#news_item_expires_at_2i" do
-          assert_select "option[value=#{date.month}][selected=selected]"
-        end
-        assert_select "td select#news_item_expires_at_3i" do
-          assert_select "option[value=#{date.day}][selected=selected]"
-        end
-      end
+      assert_date_entry(4, /goes live/i, Time.now, "goes_live_at")
+      assert_date_entry(5, /expires/i, 1.month.from_now, "expires_at")
       assert_select "input[type=submit]"
     end
   end  
-  
+
   should "redirect when NOT logged in and saving new news item" do
     post :save, :news_item => {
         :headline => 'News Headline', :content => 'News Content',
@@ -75,6 +64,8 @@ class NewsControllerTest < Test::Unit::TestCase
     post :save, { :news_item => {
         :headline => 'News Headline',
         :teaser => 'Brief Description', :content => 'News Content',
+        'goes_live_at(1i)' => '2007', 'goes_live_at(2i)' => '11',
+        'goes_live_at(3i)' => '15',
         'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
         'expires_at(3i)' => '31',
     }}, user_session(:admin)
@@ -84,6 +75,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_not_nil news_item
     assert_equal 'News Headline', news_item.headline
     assert_equal 'News Content', news_item.content
+    assert_equal Time.local(2007, 11, 15), news_item.goes_live_at
     assert_equal Time.local(2007, 12, 31), news_item.expires_at
   end
   
@@ -94,8 +86,8 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the news item', flash[:error]
-    assert_equal 3, NewsItem.find(:all).size,
-        "should have only three news items still"
+    assert_equal 4, NewsItem.find(:all).size,
+        "should have only four news items still"
   end
   
   should "list current news items by default" do
@@ -133,10 +125,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h2", "News"
     assert_select_news_links "all"
     assert_select "div#newsItems table[summary=news items]" do
-      assert_select "tr", 3
+      assert_select "tr", 4
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:past_news)
+      assert_news_item_entry 3, news_items(:future_news)
+      assert_news_item_entry 4, news_items(:past_news)
     end
     assert_select "a[href=/news/new]", 0
   end  
@@ -148,10 +141,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h2", "News"
     assert_select_news_links "all"
     assert_select "div#newsItems table[summary=news items]" do
-      assert_select "tr", 3
+      assert_select "tr", 4
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:past_news)
+      assert_news_item_entry 3, news_items(:future_news)
+      assert_news_item_entry 4, news_items(:past_news)
     end
     assert_select "a[href=/news/new]", "Create new news item"
   end
@@ -162,10 +156,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "head", 0, "should not have head"
     assert_select "body", 0, "should not have body"
     assert_select "table[summary=news items]" do
-      assert_select "tr", 3
+      assert_select "tr", 4
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:past_news)
+      assert_news_item_entry 3, news_items(:future_news)
+      assert_news_item_entry 4, news_items(:past_news)
     end
   end
   
@@ -175,10 +170,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "head", 0, "should not have head"
     assert_select "body", 0, "should not have body"
     assert_select "table[summary=news items]" do
-      assert_select "tr", 3
+      assert_select "tr", 4
       assert_news_item_entry 1, news_items(:todays_news)
       assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:past_news)
+      assert_news_item_entry 3, news_items(:future_news)
+      assert_news_item_entry 4, news_items(:past_news)
     end
   end
   
@@ -220,7 +216,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "redirect when trying to destroy news item and NOT logged in" do
     post :destroy, { :id => news_items(:todays_news).id }
     assert_redirected_to_login
-    assert_equal 3, NewsItem.find(:all).size, "still have three news items"
+    assert_equal 4, NewsItem.find(:all).size, "should still have four news items"
   end
 
   should "destroy news item when logged in" do
@@ -228,7 +224,7 @@ class NewsControllerTest < Test::Unit::TestCase
     post :destroy, { :id => news_items(:todays_news).id },
         user_session(:admin)
     assert_redirected_to :controller => 'news', :action => 'list'
-    assert_equal 2, NewsItem.find(:all).size, "lost just one news item"
+    assert_equal 3, NewsItem.find(:all).size, "lost just one news item"
     assert_nil NewsItem.find_by_headline("News of Today")
   end
   
@@ -236,6 +232,21 @@ class NewsControllerTest < Test::Unit::TestCase
   # Helpers
   #
   private
+  
+  def assert_date_entry(nth, label, date, field)
+    assert_select "tr:nth-child(#{nth})" do
+      assert_select "td", label
+      assert_select "td select#news_item_#{field}_1i" do
+        assert_select "option[value=#{date.year}][selected=selected]"
+      end
+      assert_select "td select#news_item_#{field}_2i" do
+        assert_select "option[value=#{date.month}][selected=selected]"
+      end
+      assert_select "td select#news_item_#{field}_3i" do
+        assert_select "option[value=#{date.day}][selected=selected]"
+      end
+    end
+  end
   
   def assert_news_item_entry(nth, news_item)
     time_class = news_item.is_current? ? "current-news" : "past-news"

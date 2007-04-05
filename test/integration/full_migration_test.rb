@@ -34,6 +34,7 @@ class FullMigrationTest < ActionController::IntegrationTest
         t.column "user_id",     :integer
         t.column "created_at",  :datetime
         t.column "updated_at",  :datetime
+        t.column "goes_live_at",  :datetime
         t.column "expires_at",  :datetime
       end
       
