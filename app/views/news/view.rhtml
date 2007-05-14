@@ -1,9 +1,17 @@
-<h1><%= h(@news_item.headline) %></h1>
+<h1>
+  <% if current_user -%>
+    <input type="button" id="edit_headline" value="edit" />
+    <%=
+      in_place_editor_field :news_item, "headline", {},
+      { :external_control => 'edit_headline' }
+%>
+  <% else -%>
+    <%= h(@news_item.headline) %>
+  <% end %>
+</h1>
 
 <div id="news_teaser">
-  <p>
-    <%= h(@news_item.teaser) %>
-  </p>
+  <p><%= h(@news_item.teaser) %></p>
 </div>
 
 <div id="news_content">

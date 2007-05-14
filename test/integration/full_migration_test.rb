@@ -16,7 +16,6 @@ class FullMigrationTest < ActionController::IntegrationTest
     see_full_schema
   end
   
-  # Fully assert db structure after full migration
   def see_full_schema
     assert_schema do |s|
       s.table "courses" do |t|
@@ -79,5 +78,5 @@ class FullMigrationTest < ActionController::IntegrationTest
     assert_schema do |s|
     end
   end
-    
+  
 end

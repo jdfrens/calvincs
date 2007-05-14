@@ -73,9 +73,9 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "h1", "Mission Statement"
     assert_select "div#page_content p", 'We state our mission.'
     assert_select "div#page_content p strong", "our"
-
+    
     assert_select "div#content h1", :count => 1, :text => "Mission Statement"
-
+    
     assert_select "h1 span#page_title_1_in_place_editor", false
     assert_select "p span#page_content_1_in_place_editor", false
     assert_select "p[class=identifier] span#page_identifier_1_in_place_editor", false
@@ -90,12 +90,14 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "div#page_content p strong", "our"
     assert_select "div#content h1 input#edit_title", 1
     assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
-    assert_select "p a[href=http://hobix.com/textile/][target=_blank]", "Textile reference"
+    assert_select "p a[href=http://hobix.com/textile/][target=_blank]",
+        "Textile reference"
     assert_select "form[action=/page/update_page_content/1]" do
       assert_select "textarea#page_content", 'We state *our* mission.'
       assert_select "input[type=submit][value=Update content]"
     end
-    assert_select "p[class=identifier] span#page_identifier_1_in_place_editor", 'mission_statement'
+    assert_select "p[class=identifier] span#page_identifier_1_in_place_editor",
+        'mission_statement'
   end
   
   should "redirect when trying to view non-existant page" do
@@ -106,11 +108,11 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "save a new page" do
     post :save,
-        { :page => {
-          :identifier => 'new_page', :title => 'New Page',
-          :content => 'love me!'
-          }
-        }, user_session(:admin)
+    { :page => {
+        :identifier => 'new_page', :title => 'New Page',
+        :content => 'love me!'
+      }
+    }, user_session(:admin)
     assert_redirected_to :action => 'view', :id => 'new_page'
     assert flash.empty?
     page = Page.find_by_identifier('new_page')
@@ -120,10 +122,10 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "fail to save a new page when NOT logged in" do
     post :save,
-        :page => {
-          :identifier => 'new_page', :title => 'New Page',
-          :content => 'love me!'
-        }
+    :page => {
+      :identifier => 'new_page', :title => 'New Page',
+      :content => 'love me!'
+    }
     assert_redirected_to_login
     assert_equal 4, Page.find(:all).size,
         "should have only four pages still"
@@ -131,8 +133,8 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "fail to save a new page with bad identifier" do
     post :save,
-        { :page => { :identifier => 'bad!', :content => 'whatever' } },
-        user_session(:admin)
+    { :page => { :identifier => 'bad!', :content => 'whatever' } },
+    user_session(:admin)
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the page', flash[:error]
@@ -142,11 +144,11 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "change page title" do
     xhr :get, :set_page_title,
-        { :id => 1, :value => 'New Mission Statement' },
-        user_session(:admin)
+    { :id => 1, :value => 'New Mission Statement' },
+    user_session(:admin)
     assert_response :success
     assert_equal "New Mission Statement", @response.body
-
+    
     page = Page.find(1)
     assert_equal 'New Mission Statement', page.title
   end
@@ -159,8 +161,8 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "change page content" do
     xhr :get, :update_page_content,
-        { :id => 1, :page => { :content => 'Mission *away*!' } },
-        user_session(:admin)
+    { :id => 1, :page => { :content => 'Mission *away*!' } },
+    user_session(:admin)
     assert_response :success
     assert_select_rjs :replace_html, "page_content" do
       assert_select "p", "Mission away!"
@@ -173,18 +175,18 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "fail to change page content when NOT logged in" do
     xhr :get, :update_page_content,
-        { :id => 1, :page => { :content => 'Mission away!' } }
+    { :id => 1, :page => { :content => 'Mission away!' } }
     assert_redirected_to_login
     assert_equal "We state *our* mission.", Page.find(1).content
   end
   
   should "change page identifier" do
     xhr :get, :set_page_identifier,
-        { :id => 1, :value => 'mission_statement_2'},
-        user_session(:admin)
+    { :id => 1, :value => 'mission_statement_2'},
+    user_session(:admin)
     assert_response :success
     assert_equal "mission_statement_2", @response.body
-
+    
     page = Page.find(1)
     assert_equal 'mission_statement_2', page.identifier
   end

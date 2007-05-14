@@ -1,6 +1,9 @@
 class NewsController < ApplicationController
   
-  restrict_to :admin, :only => [ :new, :save, :destroy ]
+  restrict_to :admin, :only => [
+    :new, :save, :destroy,
+    :set_news_item_headline,
+    ]
   
   def index
     @news_items = NewsItem.find_current
@@ -22,6 +25,8 @@ class NewsController < ApplicationController
   def new
     @news_item = NewsItem.new( :expires_at => 1.month.from_now )
   end
+  
+  in_place_edit_for :news_item, :headline
   
   def save
     params[:news_item][:user_id] = current_user.id

@@ -13,7 +13,7 @@ class NewsControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
-
+  
   should "have a special index" do
     get :index
     assert_response :success
@@ -51,16 +51,16 @@ class NewsControllerTest < Test::Unit::TestCase
       assert_select "input[type=submit]"
     end
   end  
-
+  
   should "redirect when NOT logged in and saving new news item" do
     post :save, :news_item => {
-        :headline => 'News Headline', :content => 'News Content',
-        :expires_at => [2007, 12, 31]
+      :headline => 'News Headline', :content => 'News Content',
+      :expires_at => [2007, 12, 31]
     }
     assert_redirected_to_login
   end
   
-  should "save news item when logged in" do
+  should "save new news item when logged in" do
     post :save, { :news_item => {
         :headline => 'News Headline',
         :teaser => 'Brief Description', :content => 'News Content',
@@ -68,9 +68,9 @@ class NewsControllerTest < Test::Unit::TestCase
         'goes_live_at(3i)' => '15',
         'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
         'expires_at(3i)' => '31',
-    }}, user_session(:admin)
+      }}, user_session(:admin)
     assert_redirected_to :controller => 'news', :action => 'list'
-
+    
     news_item = NewsItem.find_by_headline('News Headline')
     assert_not_nil news_item
     assert_equal 'News Headline', news_item.headline
@@ -82,7 +82,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "fail to save BAD news item when logged in" do
     post :save, { :news_item => {
         :headline => '', :content => ''
-    }}, user_session(:admin)
+      }}, user_session(:admin)
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the news item', flash[:error]
@@ -202,15 +202,47 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  should "view a news item" do
+  should "view a news item when NOT logged in" do
     get :view, { :id => news_items(:todays_news) }
     assert_response :success
     assert_select "h1", news_items(:todays_news).headline
     assert_select "div#news_teaser p",
-        news_items(:todays_news).teaser
+    news_items(:todays_news).teaser
     assert_select "div#news_content p", "Something happened today."
     assert_select "div#news_content p strong", "today",
         "content should be Textiled"
+  end
+  
+  should "view a news item WHEN logged in" do
+    id = news_items(:todays_news).id
+    get :view, { :id => id }, user_session(:admin)
+    assert_response :success
+    
+    assert_select "h1 span#news_item_headline_#{id}_in_place_editor", news_items(:todays_news).headline
+    assert_select "div#content h1 input#edit_headline", 1
+    
+    assert_select "div#news_teaser p",
+    news_items(:todays_news).teaser
+    assert_select "div#news_content p", "Something happened today."
+    assert_select "div#news_content p strong", "today",
+        "content should be Textiled"
+  end
+  
+  should "change headline of news item" do
+    xhr :get, :set_news_item_headline,
+      { :id => news_items(:todays_news).id, :value => 'New Headline' },
+      user_session(:admin)
+    assert_response :success
+    assert_equal "New Headline", @response.body
+    
+    assert_equal 'New Headline', NewsItem.find(news_items(:todays_news).id).headline
+  end
+  
+  should "fail to change headline when NOT logged in" do
+    xhr :get, :set_news_item_headline, :id => news_items(:todays_news).id, :value => 'New HeadLine'
+    assert_redirected_to_login
+    assert_equal "News of Today", news_items(:todays_news).headline,
+      'headline remains unchanged'
   end
   
   should "redirect when trying to destroy news item and NOT logged in" do
@@ -218,11 +250,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
     assert_equal 4, NewsItem.find(:all).size, "should still have four news items"
   end
-
+  
   should "destroy news item when logged in" do
     assert_not_nil NewsItem.find_by_headline("News of Today"), "sanity check"
     post :destroy, { :id => news_items(:todays_news).id },
-        user_session(:admin)
+    user_session(:admin)
     assert_redirected_to :controller => 'news', :action => 'list'
     assert_equal 3, NewsItem.find(:all).size, "lost just one news item"
     assert_nil NewsItem.find_by_headline("News of Today")
@@ -278,6 +310,5 @@ class NewsControllerTest < Test::Unit::TestCase
       end
     end
   end
-  
   
 end
