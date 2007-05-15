@@ -2,7 +2,7 @@ class NewsController < ApplicationController
   
   restrict_to :admin, :only => [
     :new, :save, :destroy,
-    :set_news_item_headline,
+    :set_news_item_headline, :set_news_item_teaser,
     ]
   
   def index
@@ -27,6 +27,8 @@ class NewsController < ApplicationController
   end
   
   in_place_edit_for :news_item, :headline
+  
+  in_place_edit_for :news_item, :teaser
   
   def save
     params[:news_item][:user_id] = current_user.id

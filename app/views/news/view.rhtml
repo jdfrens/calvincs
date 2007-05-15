@@ -7,11 +7,18 @@
 %>
   <% else -%>
     <%= h(@news_item.headline) %>
-  <% end %>
+  <% end -%>
 </h1>
 
 <div id="news_teaser">
-  <p><%= h(@news_item.teaser) %></p>
+  <% if current_user -%>
+    <input type="button" id="edit_teaser" value="edit" />
+    <%=
+        in_place_editor_field :news_item, "teaser", {}, { :external_control => 'edit_teaser' }
+    %>
+  <% else -%>
+    <p><%= h(@news_item.teaser) %></p>
+  <% end -%>
 </div>
 
 <div id="news_content">

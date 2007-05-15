@@ -221,8 +221,9 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h1 span#news_item_headline_#{id}_in_place_editor", news_items(:todays_news).headline
     assert_select "div#content h1 input#edit_headline", 1
     
-    assert_select "div#news_teaser p",
-    news_items(:todays_news).teaser
+    assert_select "div#news_teaser span#news_item_teaser_#{id}_in_place_editor", news_items(:todays_news).teaser
+    assert_select "div#news_teaser input#edit_teaser", 1
+
     assert_select "div#news_content p", "Something happened today."
     assert_select "div#news_content p strong", "today",
         "content should be Textiled"
@@ -243,6 +244,23 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
     assert_equal "News of Today", news_items(:todays_news).headline,
       'headline remains unchanged'
+  end
+  
+  should "change teaser of news item" do
+    xhr :get, :set_news_item_teaser,
+      { :id => news_items(:todays_news).id, :value => 'Teaser of Newness' },
+      user_session(:admin)
+    assert_response :success
+    assert_equal "Teaser of Newness", @response.body
+    
+    assert_equal 'Teaser of Newness', NewsItem.find(news_items(:todays_news).id).teaser
+  end
+  
+  should "fail to change teaser when NOT logged in" do
+    xhr :get, :set_news_item_teaser, :id => news_items(:todays_news).id, :value => 'Teaser Teaser'
+    assert_redirected_to_login
+    assert_equal "Some teaser.", news_items(:todays_news).teaser,
+      'teaser remains unchanged'
   end
   
   should "redirect when trying to destroy news item and NOT logged in" do
