@@ -45,7 +45,7 @@ class Test::Unit::TestCase
           { :count => 1 }, "should have link to #{filename}.css stylesheet"
     end
     
-    assert_select "h1#nameplate-dept", "Computer Science Information Systems"
+    assert_select "h1#nameplate-dept", "Computer Science &amp; Information Systems"
     
     assert_select "script[type=text/javascript]"
     assert_select "div#accessibility" do
