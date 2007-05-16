@@ -25,6 +25,22 @@ class NewsItem < ActiveRecord::Base
     end
   end
 
+  def goes_live_at_formatted
+    goes_live_at.strftime '%m/%d/%Y'
+  end
+  
+  def goes_live_at_formatted=(value)
+    self.goes_live_at = Time.parse(value)
+  end
+
+  def expires_at_formatted
+    expires_at.strftime '%m/%d/%Y'
+  end
+  
+  def expires_at_formatted=(value)
+    self.expires_at = Time.parse(value)
+  end
+
   def is_current?
     (goes_live_at <= Time.now) && (expires_at >= Time.now)
   end

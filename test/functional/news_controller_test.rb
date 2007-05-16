@@ -14,7 +14,7 @@ class NewsControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
   
-  should "have a special index" do
+  def test_index
     get :index
     assert_response :success
     assert_standard_layout
@@ -211,22 +211,34 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "div#news_content p", "Something happened today."
     assert_select "div#news_content p strong", "today",
         "content should be Textiled"
+        
+    # no date stuff
+    assert_select "p#expires_at", 0
   end
   
   should "view a news item WHEN logged in" do
-    id = news_items(:todays_news).id
+    item = news_items(:todays_news)
+    id = item.id
     get :view, { :id => id }, user_session(:admin)
     assert_response :success
     
-    assert_select "h1 span#news_item_headline_#{id}_in_place_editor", news_items(:todays_news).headline
+    assert_select "h1 span#news_item_headline_#{id}_in_place_editor", item.headline
     assert_select "div#content h1 input#edit_headline", 1
     
-    assert_select "div#news_teaser span#news_item_teaser_#{id}_in_place_editor", news_items(:todays_news).teaser
+    assert_select "div#news_teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
     assert_select "div#news_teaser input#edit_teaser", 1
 
     assert_select "div#news_content p", "Something happened today."
     assert_select "div#news_content p strong", "today",
         "content should be Textiled"
+        
+    assert_select "p#goes_live_at strong", "Goes live:"
+    assert_select "p#goes_live_at span#news_item_goes_live_at_formatted_#{id}_in_place_editor",
+        item.goes_live_at_formatted
+
+    assert_select "p#expires_at strong", "Expires:"
+    assert_select "p#expires_at span#news_item_expires_at_formatted_#{id}_in_place_editor",
+        item.expires_at_formatted
   end
   
   should "change headline of news item" do
@@ -261,6 +273,46 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
     assert_equal "Some teaser.", news_items(:todays_news).teaser,
       'teaser remains unchanged'
+  end
+  
+  should "change goes-live of news item" do
+    item = news_items(:todays_news)
+    xhr :get, :set_news_item_goes_live_at_formatted,
+        { :id => item.id, :value => '01/05/2007' }, user_session(:admin)
+    assert_response :success
+    assert_equal '01/05/2007', @response.body
+    item.reload
+    assert_equal '01/05/2007', item.goes_live_at_formatted
+  end
+  
+  should "fail to change goes-live when NOT logged in" do
+    item = news_items(:todays_news)
+    original_date = item.goes_live_at
+    xhr :get, :set_news_item_goes_live_at_formatted,
+        { :id => news_items(:todays_news).id, :value => '01/05/2007' }
+    assert_redirected_to_login
+    item.reload
+    assert_equal original_date, item.goes_live_at, 'goes-live remains unchanged'
+  end
+  
+  should "change expires-at of news item" do
+    item = news_items(:todays_news)
+    xhr :get, :set_news_item_expires_at_formatted,
+        { :id => item.id, :value => '01/05/2007' }, user_session(:admin)
+    assert_response :success
+    assert_equal '01/05/2007', @response.body
+    item.reload
+    assert_equal '01/05/2007', item.expires_at_formatted
+  end
+  
+  should "fail to change expires-at when NOT logged in" do
+    item = news_items(:todays_news)
+    original_date = item.expires_at
+    xhr :get, :set_news_item_expires_at_formatted,
+        { :id => item.id, :value => '01/05/2007' }
+    assert_redirected_to_login
+    item.reload
+    assert_equal original_date, item.expires_at, 'expires-at remains unchanged'
   end
   
   should "redirect when trying to destroy news item and NOT logged in" do

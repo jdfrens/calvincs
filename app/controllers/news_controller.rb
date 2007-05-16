@@ -1,9 +1,10 @@
 class NewsController < ApplicationController
   
   restrict_to :admin, :only => [
-    :new, :save, :destroy,
-    :set_news_item_headline, :set_news_item_teaser,
-    ]
+      :new, :save, :destroy,
+      :set_news_item_headline, :set_news_item_teaser,
+      :set_news_item_goes_live_at_formatted, :set_news_item_expires_at_formatted,
+      ]
   
   def index
     @news_items = NewsItem.find_current
@@ -29,6 +30,10 @@ class NewsController < ApplicationController
   in_place_edit_for :news_item, :headline
   
   in_place_edit_for :news_item, :teaser
+  
+  in_place_edit_for :news_item, :goes_live_at_formatted
+  
+  in_place_edit_for :news_item, :expires_at_formatted
   
   def save
     params[:news_item][:user_id] = current_user.id
