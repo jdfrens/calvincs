@@ -231,7 +231,7 @@ a#footer-contact-name:hover {
 /* GUTTERS */
 
 #header .gutter {
-	padding: 20px 0px 0 220px;
+	padding: 20px 0 0 220px;
 	width: 520px;
 }
 
@@ -253,12 +253,11 @@ a#footer-contact-name:hover {
 
 /* NAMEPLATES */
 h1#nameplate-dept {
+	font-size: 18px;
 	float: right;
-	padding: 0px;
+	padding: 0;
 	margin: 0;
-}
-
-h1#nameplate-dept a {
+	margin-top: -10px;
 	display: block;
 	width: 200px;
 	text-align: right;
@@ -267,16 +266,6 @@ h1#nameplate-dept a {
 	font-weight: bold;
 	text-decoration: none;
 	vertical-align: middle;
-}
-
-h1#nameplate-dept a:hover {
-	color:#9999cc;
-}
-
-h1#nameplate-dept a:active, #header #nameplate-dept a:focus {
-	color:#660000;
-	background-color:transparent;
-
 }
 
 /* 
