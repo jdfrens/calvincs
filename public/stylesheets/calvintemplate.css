@@ -125,11 +125,12 @@ p.img-caption {
 h1 { font-size: 150%; font-weight: bold; color: #660000;}
 h2 {
 	font-size: 140%;
-	font-weight: normal;
-	margin-top: 0;
 	color: #993333;
 }
-h3 { font-size: 130%; font-weight: bold; color: #993333;}
+h3 {
+	font-size: 130%;
+	color: #993333;
+}
 h4 {
 	font-weight: bold;
 	font-size: 100%;
