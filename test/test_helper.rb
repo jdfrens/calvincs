@@ -72,7 +72,7 @@ class Test::Unit::TestCase
       end
       assert_select "div#footer-css"
     end
-    if is_logged_in
+    if logged_in?
       assert_select "a[href=/users/logout]", /logout/i
       assert_select "a[href=/home/administrate]", /administrate/i
     else
@@ -105,7 +105,7 @@ class Test::Unit::TestCase
     assert_redirected_to :controller => 'users', :action => 'login'
   end
   
-  def is_logged_in
+  def logged_in?
     session[:current_user_id] != nil
   end
   

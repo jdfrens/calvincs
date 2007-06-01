@@ -11,12 +11,11 @@ class NewsController < ApplicationController
   end
   
   def list
-    @news_items = NewsItem.find_filtered_news params[:filter]
-  end
-  
-  def list_table
-    @news_items = NewsItem.find_filtered_news params[:filter]
-    render :partial => 'newsitems', :layout => false
+    if (params[:id])
+      @news_items = NewsItem.find_filtered_news params[:id]
+    else
+      redirect_to :action => 'list', :id => 'current'
+    end
   end
   
   def view
@@ -48,7 +47,7 @@ class NewsController < ApplicationController
   
   def destroy
     NewsItem.destroy(params[:id])
-    redirect_to :controller => 'news', :action => 'list'
+    redirect_to :controller => 'news', :action => 'list', :id => params[:listing]
   end
 
 end

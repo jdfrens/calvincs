@@ -216,7 +216,7 @@ class PageControllerTest < Test::Unit::TestCase
   private
   
   def assert_standard_page_entries
-    offset = is_logged_in ? 1 : 0
+    offset = logged_in? ? 1 : 0
     assert_page_entry 1+offset, pages(:alphabet)
     assert_page_entry 2+offset, pages(:home_page)
     assert_page_entry 3+offset, pages(:home_splash)
@@ -230,7 +230,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "tr#page_#{page.id}:nth-child(#{n})" do
       assert_select "td a[href=/p/#{identifier}]", title,
           "should have title in appropriate <a> in <td>"
-      if is_logged_in
+      if logged_in?
         assert_select "td", identifier,
             "should have column with identifier in it"
         assert_select "form[action=/page/destroy/#{id}]" do

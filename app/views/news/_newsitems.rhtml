@@ -9,7 +9,7 @@
       
       <% if current_user -%>
         <td>
-          <%= button_to 'Destroy', { :action => 'destroy', :id => news_item },
+          <%= button_to 'Destroy', { :action => 'destroy', :id => news_item, :listing => params[:id] },
               :confirm => 'Are you sure you want to destroy this news item?',
               :method => :post %>
         </td>

@@ -90,115 +90,64 @@ class NewsControllerTest < Test::Unit::TestCase
         "should have only four news items still"
   end
   
-  should "list current news items by default" do
+  def test_list_should_redirect_when_not_given_an_id
     get :list
+    assert_response :redirect
+    assert_redirected_to :action => "list", :id => "current"
+  end
+  
+  def test_list_should_list_current_news_items
+    get :list, { :id => "current" }
+
     assert_response :success
     assert_standard_layout
-    assert_select "h2", "News"
-    assert_select_news_links 0
+    assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 2, "Only two *current* news items"
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
+      assert_news_item_entry 1, news_items(:todays_news), "current"
+      assert_news_item_entry 2, news_items(:another_todays_news), "current"
     end
-    assert_select "a[href=/news/new]", 0
   end
   
   should "list current news items when explicitly requested" do
-    get :list, { :filter => 'current' }
+    get :list, { :id => 'current' }
+    
     assert_response :success
     assert_standard_layout
-    assert_select "h2", "News"
-    assert_select_news_links "current"
+    assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 2, "Only two *current* news items"
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
+      assert_news_item_entry 1, news_items(:todays_news), "current"
+      assert_news_item_entry 2, news_items(:another_todays_news), "current"
     end
-    assert_select "a[href=/news/new]", 0
   end
   
   should "list all news items when requested" do
-    get :list, :filter => 'all'
+    get :list, :id => 'all'
+    
     assert_response :success
     assert_standard_layout
-    assert_select "h2", "News"
-    assert_select_news_links "all"
+    assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 4
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:future_news)
-      assert_news_item_entry 4, news_items(:past_news)
+      assert_news_item_entry 1, news_items(:todays_news), "all"
+      assert_news_item_entry 2, news_items(:another_todays_news), "all"
+      assert_news_item_entry 3, news_items(:future_news), "all"
+      assert_news_item_entry 4, news_items(:past_news), "all"
     end
-    assert_select "a[href=/news/new]", 0
   end  
   
   should "list: all news items, editting controls, logged in" do
-    get :list, { :filter => 'all' }, user_session(:admin)
+    get :list, { :id => 'all' }, user_session(:admin)
     assert_response :success
     assert_standard_layout
-    assert_select "h2", "News"
-    assert_select_news_links "all"
+    assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 4
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:future_news)
-      assert_news_item_entry 4, news_items(:past_news)
-    end
-    assert_select "a[href=/news/new]", "Create new news item"
-  end
-  
-  should "list: in a table, all news items, editting controls, logged in" do
-    get :list_table, { :filter => 'all' }, user_session(:admin)
-    assert_response :success
-    assert_select "head", 0, "should not have head"
-    assert_select "body", 0, "should not have body"
-    assert_select "table[summary=news items]" do
-      assert_select "tr", 4
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:future_news)
-      assert_news_item_entry 4, news_items(:past_news)
-    end
-  end
-  
-  should "list: in a table, all news items, NOT logged in" do
-    get :list_table, { :filter => 'all' }
-    assert_response :success
-    assert_select "head", 0, "should not have head"
-    assert_select "body", 0, "should not have body"
-    assert_select "table[summary=news items]" do
-      assert_select "tr", 4
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
-      assert_news_item_entry 3, news_items(:future_news)
-      assert_news_item_entry 4, news_items(:past_news)
-    end
-  end
-  
-  should "list: in a table. current news items, editting controls, logged in" do
-    get :list_table, { :filter => 'current' }, user_session(:admin)
-    assert_response :success
-    assert_select "head", 0, "should not have head"
-    assert_select "body", 0, "should not have body"
-    assert_select "table[summary=news items]" do
-      assert_select "tr", 2
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
-    end
-  end
-  
-  should "list: in a table, current news items, NOT logged in" do
-    get :list_table, { :filter => 'current' }
-    assert_response :success
-    assert_select "head", 0, "should not have head"
-    assert_select "body", 0, "should not have body"
-    assert_select "table[summary=news items]" do
-      assert_select "tr", 2
-      assert_news_item_entry 1, news_items(:todays_news)
-      assert_news_item_entry 2, news_items(:another_todays_news)
+      assert_news_item_entry 1, news_items(:todays_news), "all"
+      assert_news_item_entry 2, news_items(:another_todays_news), "all"
+      assert_news_item_entry 3, news_items(:future_news), "all"
+      assert_news_item_entry 4, news_items(:past_news), "all"
     end
   end
   
@@ -323,9 +272,11 @@ class NewsControllerTest < Test::Unit::TestCase
   
   should "destroy news item when logged in" do
     assert_not_nil NewsItem.find_by_headline("News of Today"), "sanity check"
-    post :destroy, { :id => news_items(:todays_news).id },
-    user_session(:admin)
-    assert_redirected_to :controller => 'news', :action => 'list'
+    assert_equal 4, NewsItem.find(:all).size
+    
+    post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' }, user_session(:admin)
+    
+    assert_redirected_to :controller => 'news', :action => 'list', :id => 'foobar'
     assert_equal 3, NewsItem.find(:all).size, "lost just one news item"
     assert_nil NewsItem.find_by_headline("News of Today")
   end
@@ -350,24 +301,23 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  def assert_news_item_entry(nth, news_item)
+  def assert_news_item_entry(nth, news_item, listing)
     time_class = news_item.is_current? ? "current-news" : "past-news"
     assert_select "tr[class=#{time_class}]:nth-child(#{nth})" do
       assert_select "td a[href=/news/view/#{news_item.id}]", news_item.headline
     end
-    if is_logged_in
-      assert_select "form[action=/news/destroy/#{news_item.id}]" do
+    if logged_in?
+      assert_select "form[action=/news/destroy/#{news_item.id}?listing=#{listing}]" do
         assert_select "input[value=Destroy]", 1, "should have destroy button"
       end
     end
   end
   
-  def assert_select_news_links(selected)
-    assert_select "select#news_item_filter" do
-      assert_select "option[value=current]", "current"
-      assert_select "option[value=all]", "all"
-      assert_select "option[selected=selected]", selected
-    end
+  def assert_news_listing
+    assert_select "h2", "News"
+    assert_select "p a[href=/news/list/all]", "all"
+    assert_select "p a[href=/news/list/current]", "current"
+    assert_select "a[href=/news/new]", (logged_in? ? 1 : 0)
   end
   
   def assert_full_news_item(news_item, strongs=[])

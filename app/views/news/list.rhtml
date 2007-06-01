@@ -1,25 +1,16 @@
 <h2>News</h2>
 
-<% form_tag('javascript:void(0)') do -%>
-  
-  <%= select_tag(
-        :news_item_filter,
-        options_for_select(['current', 'all'], params[:filter])
-      ) %>
+<p>
+  <%= link_to "all", { :action => "list", :id => "all" } %>
+  |
+  <%= link_to "current", { :action => "list", :id => "current" } %>
+</p>
 
-  <p>News items are listed in reverse chronological order based on the expiration date.  Expired news is pink.</p>
+<p>News items are listed in reverse chronological order based on the expiration date.  Expired news is pink.</p>
 
-  <div id="newsItems">
-    <%= render :partial => 'newsitems' %>
-  </div>
-  
-  <%= observe_field :news_item_filter,
-                    :update => 'newsItems',
-                    :url => { :action => 'list_table' },
-                    :with => 'filter'
-  %>
-
-<% end -%>
+<div id="newsItems">
+  <%= render :partial => 'newsitems' %>
+</div>
 
 <% restrict_to :admin do -%>
   <p><%= link_to 'Create new news item', :action => 'new' %></p>
