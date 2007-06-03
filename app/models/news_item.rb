@@ -46,7 +46,7 @@ class NewsItem < ActiveRecord::Base
   end
         
   def render_content
-    RedCloth.new(content, [:lite_mode]).to_html
+    "<p>" + RedCloth.new(content, [:lite_mode]).to_html + "</p>"
   end
   
 end

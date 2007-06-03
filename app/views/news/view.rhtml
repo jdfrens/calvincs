@@ -10,7 +10,7 @@
   <% end -%>
 </h1>
 
-<div id="news_teaser">
+<div id="news_item_teaser">
   <% if current_user -%>
     <input type="button" id="edit_teaser" value="edit" />
     <%=
@@ -21,9 +21,28 @@
   <% end -%>
 </div>
 
-<div id="news_content">
-  <p><%= @news_item.render_content %></p>
+<div id="news_item_content">
+  <%= @news_item.render_content %>
 </div>
+
+<% restrict_to :admin do -%>
+
+  <div class="content-editor" id="content-editor">
+    <h2>Content Editor</h2>
+    
+    <%= render :partial => 'shared/markupreference' %>
+    
+    <p>
+      <% remote_form_for(:news_item,
+             :url => { :action => 'update_news_item_content', :id => @news_item.id } 
+             ) do |form| -%>
+        <%= form.text_area :content, :rows => 10, :cols => 80 %>
+        <%= submit_tag "Update content", :class => "submit" %>
+      <% end -%>
+    </p>
+  </div>
+
+<% end -%>
 
 <% if current_user -%>
   <p id="goes_live_at"><strong>Goes live:</strong> <%= in_place_editor_field :news_item, "goes_live_at_formatted" %></p>

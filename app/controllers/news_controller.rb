@@ -3,7 +3,9 @@ class NewsController < ApplicationController
   restrict_to :admin, :only => [
       :new, :save, :destroy,
       :set_news_item_headline, :set_news_item_teaser,
-      :set_news_item_goes_live_at_formatted, :set_news_item_expires_at_formatted,
+      :update_news_item_content,
+      :set_news_item_goes_live_at_formatted,
+      :set_news_item_expires_at_formatted,
       ]
   
   def index
@@ -29,6 +31,14 @@ class NewsController < ApplicationController
   in_place_edit_for :news_item, :headline
   
   in_place_edit_for :news_item, :teaser
+  
+  def update_news_item_content
+    item = NewsItem.find(params[:id])
+    item.update_attribute(:content, params[:news_item][:content])
+    render :update do |p|
+      p.replace_html "news_item_content", :inline => item.render_content
+    end
+  end
   
   in_place_edit_for :news_item, :goes_live_at_formatted
   

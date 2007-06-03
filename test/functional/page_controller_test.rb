@@ -90,8 +90,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "div#page_content p strong", "our"
     assert_select "div#content h1 input#edit_title", 1
     assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
-    assert_select "p a[href=http://hobix.com/textile/][target=_blank]",
-        "Textile reference"
+    assert_link_to_markup_help
     assert_select "form[action=/page/update_page_content/1]" do
       assert_select "textarea#page_content", 'We state *our* mission.'
       assert_select "input[type=submit][value=Update content]"
@@ -159,10 +158,11 @@ class PageControllerTest < Test::Unit::TestCase
     assert_equal "Mission Statement", Page.find(1).title
   end
   
-  should "change page content" do
+  def test_update_page_content
     xhr :get, :update_page_content,
-    { :id => 1, :page => { :content => 'Mission *away*!' } },
-    user_session(:admin)
+        { :id => 1, :page => { :content => 'Mission *away*!' } },
+        user_session(:admin)
+        
     assert_response :success
     assert_select_rjs :replace_html, "page_content" do
       assert_select "p", "Mission away!"

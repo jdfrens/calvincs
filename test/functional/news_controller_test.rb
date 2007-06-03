@@ -155,32 +155,39 @@ class NewsControllerTest < Test::Unit::TestCase
     get :view, { :id => news_items(:todays_news) }
     assert_response :success
     assert_select "h1", news_items(:todays_news).headline
-    assert_select "div#news_teaser p",
-    news_items(:todays_news).teaser
-    assert_select "div#news_content p", "Something happened today."
-    assert_select "div#news_content p strong", "today",
+    assert_select "div#news_item_teaser p", news_items(:todays_news).teaser
+    assert_select "div#news_item_content p", "Something happened today."
+    assert_select "div#news_item_content p strong", "today",
         "content should be Textiled"
         
-    # no date stuff
+    # no admin stuff
+    assert_select "form[action=/news/update_news_content/3]", 0
     assert_select "p#expires_at", 0
   end
   
-  should "view a news item WHEN logged in" do
+  def test_view_a_news_item_WHEN_logged_in
     item = news_items(:todays_news)
     id = item.id
     get :view, { :id => id }, user_session(:admin)
+    
     assert_response :success
     
     assert_select "h1 span#news_item_headline_#{id}_in_place_editor", item.headline
     assert_select "div#content h1 input#edit_headline", 1
     
-    assert_select "div#news_teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
-    assert_select "div#news_teaser input#edit_teaser", 1
+    assert_select "div#news_item_teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
+    assert_select "div#news_item_teaser input#edit_teaser", 1
 
-    assert_select "div#news_content p", "Something happened today."
-    assert_select "div#news_content p strong", "today",
+    assert_select "div#news_item_content p", "Something happened today."
+    assert_select "div#news_item_content p strong", "today",
         "content should be Textiled"
         
+    assert_link_to_markup_help
+    assert_select "form[action=/news/update_news_item_content/#{id}]" do
+      assert_select "textarea#news_item_content", item.content
+      assert_select "input[type=submit][value=Update content]"
+    end
+
     assert_select "p#goes_live_at strong", "Goes live:"
     assert_select "p#goes_live_at span#news_item_goes_live_at_formatted_#{id}_in_place_editor",
         item.goes_live_at_formatted
@@ -224,10 +231,38 @@ class NewsControllerTest < Test::Unit::TestCase
       'teaser remains unchanged'
   end
   
-  should "change goes-live of news item" do
+  def test_update_news_item_content
+    item = news_items(:todays_news)
+    xhr :get, :update_news_item_content,
+        { :id => item.id, :news_item => { :content => 'News that is *fit* to print.' } },
+        user_session(:admin)
+        
+    assert_response :success
+    assert_select_rjs :replace_html, "news_item_content" do
+      assert_select "p", "News that is fit to print."
+      assert_select "strong", "fit"
+    end
+    
+    item.reload
+    assert_equal 'News that is *fit* to print.', item.content
+  end
+  
+  def test_update_news_item_content_fails_when_NOT_logged_in
+    item = news_items(:todays_news)
+    original_content = item.content
+    xhr :get, :update_news_item_content,
+        { :id => item.id, :news_item => { :content => 'foobar!' } }
+        
+    assert_redirected_to_login
+    item.reload
+    assert_equal original_content, item.content
+  end
+    
+  def test_set_goes_live_of_news_item
     item = news_items(:todays_news)
     xhr :get, :set_news_item_goes_live_at_formatted,
         { :id => item.id, :value => '01/05/2007' }, user_session(:admin)
+        
     assert_response :success
     assert_equal '01/05/2007', @response.body
     item.reload

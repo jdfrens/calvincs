@@ -104,6 +104,11 @@ class Test::Unit::TestCase
   def assert_redirected_to_login
     assert_redirected_to :controller => 'users', :action => 'login'
   end
+
+  def assert_link_to_markup_help
+    assert_select "a[href=http://hobix.com/textile/][target=_blank]",
+        "Textile reference"
+  end
   
   def logged_in?
     session[:current_user_id] != nil

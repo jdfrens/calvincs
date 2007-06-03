@@ -17,8 +17,8 @@
   <div class="content-editor" id="content-editor">
     <h2>Content Editor</h2>
     
-    <p><a href="http://hobix.com/textile/" target="_blank">Textile reference</a></p>
-    
+    <%= render :partial => 'shared/markupreference' %>
+       
     <p>
       <% remote_form_for(:page,
              :url => { :action => 'update_page_content', :id => @page.id } 
