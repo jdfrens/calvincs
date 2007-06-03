@@ -39,29 +39,16 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_redirected_to :controller => 'users', :action => 'login'
   end
       
-  should "have an administration page" do
+  def test_administration_page
     get :administrate, {}, user_session(:admin)
     assert_user_privilege 1, 'admin'
     assert_response :success
     assert_standard_layout
     assert_template 'home/administrate'
     assert_select 'h1', "Master Administration"
-    assert_select 'h2', "News and Events"
-    assert_select "ul#news_administration" do
-      assert_select "a[href=/news/list?filter=current]", /current/i 
-      assert_select "a[href=/news/list?filter=all]", /all/i 
-      assert_select "a[href=/news/new]", /create/i 
-    end
-    assert_select 'h2', "Webpages and Other Documents"
-    assert_select "ul#content_administration" do
-      assert_select "a[href=/page/list]", /list/i 
-      assert_select "a[href=/page/create]", /create/i 
-    end
-    assert_select 'h2', "Courses"
-    assert_select "ul#course_administration" do
-      assert_select "a[href=/curriculum/list_courses]", /list/i 
-      assert_select "a[href=/curriculum/new_course]", /create/i 
-    end
+    assert_news_menu
+    assert_page_menu
+    assert_course_menu
   end
   
   #
@@ -69,6 +56,30 @@ class HomeControllerTest < Test::Unit::TestCase
   #
   private 
   
+  def assert_news_menu
+    assert_select 'h2', "News and Events"
+    assert_select "ul#news_administration" do
+      assert_select "a[href=/news/list/current]", /current/i 
+      assert_select "a[href=/news/list/all]", /all/i 
+      assert_select "a[href=/news/new]", /create/i 
+    end
+  end
+  
+  def assert_page_menu
+    assert_select 'h2', "Webpages and Other Documents"
+    assert_select "ul#content_administration" do
+      assert_select "a[href=/page/list]", /list/i 
+      assert_select "a[href=/page/create]", /create/i 
+    end
+  end
+
+  def assert_course_menu
+    assert_select 'h2', "Courses"
+    assert_select "ul#course_administration" do
+      assert_select "a[href=/curriculum/list_courses]", /list/i 
+      assert_select "a[href=/curriculum/new_course]", /create/i 
+    end
+  end
   def assert_home_page_assignments
     assert_equal pages(:home_splash), assigns(:splash)
     assert_equal pages(:home_page), assigns(:content)
