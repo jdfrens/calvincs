@@ -349,7 +349,7 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   def assert_news_listing
-    assert_select "h2", "News"
+    assert_select "h1", "News"
     assert_select "p a[href=/news/list/all]", "all"
     assert_select "p a[href=/news/list/current]", "current"
     assert_select "a[href=/news/new]", (logged_in? ? 1 : 0)
