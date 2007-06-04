@@ -6,7 +6,8 @@ class PageController; def rescue_action(e) raise e end; end
 
 class PageControllerTest < Test::Unit::TestCase
   
-  fixtures :pages, :users, :groups, :privileges, :groups_privileges
+  fixtures :pages
+  user_fixtures
   
   def setup
     @controller = PageController.new

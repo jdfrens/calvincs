@@ -16,16 +16,20 @@ class Test::Unit::TestCase
   # don't care one way or the other, switching from MyISAM to InnoDB tables
   # is recommended.
   self.use_transactional_fixtures = true
-
+  
   # Instantiated fixtures are slow, but give you @david where otherwise you
   # would need people(:david).  If you don't want to migrate your existing
   # test cases which use the @david style and don't mind the speed hit (each
   # instantiated fixtures translates to a database query per test method),
   # then set this back to true.
   self.use_instantiated_fixtures  = false
-
+  
   # Add more helper methods to be used by all tests here...
-
+  
+  def self.user_fixtures
+    fixtures :users, :groups, :privileges, :groups_privileges
+  end
+  
   def self.should(behave,&block)
     mname = "test_should_#{behave}"
     if block
@@ -42,7 +46,7 @@ class Test::Unit::TestCase
     
     [ "calvintemplate", "department" ].each do |filename|
       assert_select "link[type=text/css][href^=/stylesheets/#{filename}.css]",
-          { :count => 1 }, "should have link to #{filename}.css stylesheet"
+      { :count => 1 }, "should have link to #{filename}.css stylesheet"
     end
     
     assert_select "h1#nameplate-dept", "Computer Science &amp; Information Systems"
@@ -80,7 +84,7 @@ class Test::Unit::TestCase
       assert_select "a[href=/home/administrate]", 0
     end
   end
-    
+  
   def assert_user_privilege(expected_id, expected_privilege)
     actual_id = session[:current_user_id]
     assert_equal expected_id, actual_id
@@ -91,20 +95,20 @@ class Test::Unit::TestCase
     assert user.group.privileges.include?(privilege),
         "#{user.username} does not have the #{privilege.name} privilege"
   end
- 
+  
   def login(username, password)
     post_via_redirect "/users/login",
-       :user => { :username => username, :password => password }
+    :user => { :username => username, :password => password }
     assert_response :success, 'should redirect successfully after logging in'
     assert_template 'administrate', 'should use administrate template'
     assert_equal User.find_by_username(username).id,
-        session[:current_user_id], 'should have right id in session'
+    session[:current_user_id], 'should have right id in session'
   end    
-
+  
   def assert_redirected_to_login
     assert_redirected_to :controller => 'users', :action => 'login'
   end
-
+  
   def assert_link_to_markup_help
     assert_select "a[href=http://hobix.com/textile/][target=_blank]",
         "Textile reference"

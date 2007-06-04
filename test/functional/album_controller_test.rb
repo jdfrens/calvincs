@@ -6,7 +6,8 @@ class AlbumController; def rescue_action(e) raise e end; end
 
 class AlbumControllerTest < Test::Unit::TestCase
 
-  fixtures :images, :users, :groups_privileges, :groups, :privileges
+  fixtures :images
+  user_fixtures
 
   def setup
     @controller = AlbumController.new

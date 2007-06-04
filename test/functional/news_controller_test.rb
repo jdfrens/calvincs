@@ -6,7 +6,8 @@ class NewsController; def rescue_action(e) raise e end; end
 
 class NewsControllerTest < Test::Unit::TestCase
   
-  fixtures :news_items, :users
+  fixtures :news_items
+  user_fixtures
   
   def setup
     @controller = NewsController.new
