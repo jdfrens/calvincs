@@ -244,10 +244,12 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   def assert_page_form
-    assert_select "input#page_identifier"
-    assert_select "input#page_title"
-    assert_select "textarea#page_content"
-    assert_select "input[type=submit]"
+    assert_select "form[action=/page/save]" do
+      assert_select "input#page_identifier", 1
+      assert_select "input#page_title", 1
+      assert_select "textarea#page_content", 1
+      assert_select "input[type=submit]", 1
+    end
   end
   
 end

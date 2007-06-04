@@ -3,45 +3,45 @@
 <h2>News and Events</h2>
 
 <ul id="news_administration">
-  <li> View...
-    <ul>
-      <li>
-        <%= link_to '...current', :controller => 'news',
-                :action => 'list', :id => 'current' %>
-      </li>
-      <li>
-        <%= link_to '...all', :controller => 'news',
-                :action => 'list', :id => 'all' %>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <%= link_to 'Create', :controller => 'news', :action => 'new' %>
-  </li>
+    <li>View...
+        <ul>
+            <li><%=
+                    link_to '...current', :controller => 'news',
+                    :action => 'list', :id => 'current'
+%></li>
+            <li><%=
+                    link_to '...all', :controller => 'news',
+                    :action => 'list', :id => 'all'
+%></li>
+        </ul>
+    </li>
+    <li><%= link_to 'Create', :controller => 'news', :action => 'new' %></li>
 </ul>
 
 <h2>Webpages and Other Documents</h2>
 
 <ul id="content_administration">
-  <li>
-    <%= link_to 'List',
-            :controller => 'page', :action => 'list' %>
-  </li>
-  <li>
-    <%= link_to 'Create',
-            :controller => 'page', :action => 'create' %>
-  </li>
-  <li> Processing other documents pending... </li>
+    <li><%=
+            link_to 'List',
+            :controller => 'page', :action => 'list'
+%></li>
+    <li><%=
+            link_to 'Create',
+            :controller => 'page', :action => 'create'
+%></li>
+</ul>
+
+<h2>Image Album</h2>
+
+<ul id="album_administration">
+    <li><%= link_to 'List images', :controller => 'album', :action => 'list' %></li>
+    <li><%= link_to 'Add image', :controller => 'album', :action => 'create' %></li>
 </ul>
 
 <h2>Courses</h2>
 
 <ul id="course_administration">
-  <li>
-    <%= link_to 'List', :controller => 'curriculum', :action => 'list_courses' %>
-  </li>
-  <li>
-    <%= link_to 'Create', :controller => 'curriculum', :action => 'new_course' %>
-  </li>
+    <li><%= link_to 'List', :controller => 'curriculum', :action => 'list_courses' %></li>
+    <li><%= link_to 'Create', :controller => 'curriculum', :action => 'new_course' %></li>
 </ul>
 

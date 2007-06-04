@@ -1,0 +1,7 @@
+<h1>List of Images</h1>
+
+<ul id="image_list">
+    <% @images.each do |image| -%>
+        <li> <%= h(image.url) %> </li>
+    <% end -%>
+</ul>

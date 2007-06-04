@@ -47,6 +47,13 @@ class FullMigrationTest < ActionController::IntegrationTest
         t.column "expires_at",    :datetime
       end
       
+      s.table "images" do |t|
+        t.column "id",            :integer
+        t.column "url",           :string
+        t.column "caption",       :string
+        t.column "tag",           :string
+      end
+      
       # authentication
       s.table "groups" do |t|
         t.column "id",          :integer

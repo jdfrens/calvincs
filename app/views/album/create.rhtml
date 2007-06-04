@@ -1,0 +1,22 @@
+<h1>Create a New Image in the Album</h1>
+
+<% form_for :image, :url => { :action => "create" } do |form| -%>
+    <table summary="image data">
+        <tr>
+            <td>URL:</td>
+            <td><%= form.text_field :url, :size => 20 %></td>
+        </tr>
+        <tr>
+            <td>Caption:</td>
+            <td><%= form.text_field :caption, :size => 40 %></td>
+        </tr>
+        <tr>
+            <td>Tag:</td>
+            <td><%= form.text_field :tag, :size => 8 %></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><%= submit_tag "Add image", :class => "submit" %></td>
+        </tr>
+    </table>
+<% end %>

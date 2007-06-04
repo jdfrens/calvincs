@@ -48,6 +48,7 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select 'h1', "Master Administration"
     assert_news_menu
     assert_page_menu
+    assert_album_menu
     assert_course_menu
   end
   
@@ -72,6 +73,14 @@ class HomeControllerTest < Test::Unit::TestCase
       assert_select "a[href=/page/create]", /create/i 
     end
   end
+  
+  def assert_album_menu
+    assert_select "h2", "Image Album"
+    assert_select "ul#album_administration" do
+      assert_select "a[href=/album/list]", /list images/i
+      assert_select "a[href=/album/create]", /add image/i
+    end
+  end
 
   def assert_course_menu
     assert_select 'h2', "Courses"
@@ -80,6 +89,7 @@ class HomeControllerTest < Test::Unit::TestCase
       assert_select "a[href=/curriculum/new_course]", /create/i 
     end
   end
+  
   def assert_home_page_assignments
     assert_equal pages(:home_splash), assigns(:splash)
     assert_equal pages(:home_page), assigns(:content)
