@@ -12,4 +12,10 @@ class ImageTest < Test::Unit::TestCase
     assert image.errors.invalid?(:tag)
   end
   
+  def test_render_caption
+    image = images(:mission_statement_image)
+    assert_equal "Somebody works on our *mission*.", image.caption
+    assert_equal "Somebody works on our <strong>mission</strong>.", image.render_caption
+  end
+  
 end

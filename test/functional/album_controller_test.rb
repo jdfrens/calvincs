@@ -24,6 +24,7 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_select "div#image_list" do
       assert_select "table", 3, "should be three images"
       assert_image_table images(:mission_statement_image)
+      assert_select "strong", "mission", "should have one image with RedCloth-rendered caption"
       assert_image_table images(:alphabet_image)
       assert_image_table images(:mission_statement_image2)
     end
@@ -74,7 +75,8 @@ class AlbumControllerTest < Test::Unit::TestCase
   def assert_image_table(image)
     assert_select "table#image_#{image.id}" do
       assert_select "tr td a[href=#{image.url}]", image.url
-      assert_select "tr td", image.caption
+      assert_select "tr td", image.caption.gsub('*', ''),
+          "should have RedCloth-rendered caption"
       assert_select "tr td", image.tag
       assert_select "form[action=/album/destroy/#{image.id}] input[type=submit][value=Destroy]", 1
     end

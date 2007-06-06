@@ -2,7 +2,7 @@
 mission_statement_image:
   id: 1
   url: http://calvin.edu/mission.jpg
-  caption: Somebody works on our mission.
+  caption: Somebody works on our *mission*.
   tag: mission_statement
 alphabet_image:
   id: 2
