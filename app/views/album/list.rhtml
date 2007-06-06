@@ -2,28 +2,42 @@
 
 <div id="image_list">
     <% @images.each do |image| -%>
-        <table id="image_<%= image.id %>">
-            <tr>
-                <th>URL:</th>
-                <td><%= link_to h(image.url), image.url %></td>
-            </tr>
-            <tr>
-                <th>Caption:</th>
-                <td><%= image.render_caption %></td>
-            </tr>
-            <tr>
-                <th>Tag:</th>
-                <td><%= h(image.tag) %></td>
-            </tr>
-            <tr>
-                <th>&nbsp;</th>
-                <td><%=
-                        button_to 'Destroy', { :action => 'destroy', :id => image },
-                        :confirm => 'Are you sure you want to destroy this image?',
-                        :method => :post
-%></td>
-
-            </tr>
-        </table>
+        <%
+            remote_form_for(:image, image,
+                           :url => { :action => 'update_image', :id => image.id } 
+            ) do |form|
+-%>
+            <table id="image_<%= image.id %>">
+                <tr>
+                    <th>URL:</th>
+                    <td><%= form.text_field :url, :size => 80, :id => "image_url_#{image.id}" %></td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td><%= link_to "see picture", image.url %></td>
+                </tr>
+                <tr>
+                    <th>Caption:</th>
+                    <td><%= image.render_caption %></td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td><%= form.text_area :caption, :rows => 3, :cols => 40, :id => "image_caption_#{image.id}" %></td>
+                </tr>
+                <tr>
+                    <th>Tag:</th>
+                    <td><%= form.text_field :tag, :size => 10, :id => "image_tag_#{image.id}" %></td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td><%= submit_tag "Update", :class => "submit" %></td>
+                </tr>
+            </table>
+        <% end %>
+        <%=
+            button_to 'Destroy', { :action => 'destroy', :id => image },
+            :confirm => 'Are you sure you want to destroy this image?',
+            :method => :post
+%>
     <% end %>
 </div>

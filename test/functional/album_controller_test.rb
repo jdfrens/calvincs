@@ -24,7 +24,6 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_select "div#image_list" do
       assert_select "table", 3, "should be three images"
       assert_image_table images(:mission_statement_image)
-      assert_select "strong", "mission", "should have one image with RedCloth-rendered caption"
       assert_image_table images(:alphabet_image)
       assert_image_table images(:mission_statement_image2)
     end
@@ -50,10 +49,10 @@ class AlbumControllerTest < Test::Unit::TestCase
   
   def test_new_image_creation
     get :create,
-        { :image => { :url => "http://example.com/foo.gif",
-                      :caption => "Foo is bar!",
-                      :tag => "foobar" }},
-        user_session(:admin)
+    { :image => { :url => "http://example.com/foo.gif",
+        :caption => "Foo is bar!",
+        :tag => "foobar" }},
+    user_session(:admin)
     
     assert_redirected_to :action => 'list'
     image = Image.find_by_tag("foobar")
@@ -73,13 +72,18 @@ class AlbumControllerTest < Test::Unit::TestCase
   private
   
   def assert_image_table(image)
-    assert_select "table#image_#{image.id}" do
-      assert_select "tr td a[href=#{image.url}]", image.url
-      assert_select "tr td", image.caption.gsub('*', ''),
-          "should have RedCloth-rendered caption"
-      assert_select "tr td", image.tag
-      assert_select "form[action=/album/destroy/#{image.id}] input[type=submit][value=Destroy]", 1
+    assert_select "form[action=/album/update_image/#{image.id}]" do
+      assert_select "table" do
+        assert_select "tr td input#image_url_#{image.id}[value=#{image.url}]", 1
+        assert_select "tr td a[href=#{image.url}]", "see picture"
+        assert_select "tr td", image.caption.gsub('*', ''),
+            "should have RedCloth-rendered caption"
+        assert_select "textarea#image_caption_#{image.id}", image.caption
+        assert_select "input[type=submit][value=Update]"
+        assert_select "tr td input#image_tag_#{image.id}[value=#{image.tag}]", 1
+      end
     end
+    assert_select "form[action=/album/destroy/#{image.id}] input[type=submit][value=Destroy]", 1
   end
   
 end
