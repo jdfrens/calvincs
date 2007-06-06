@@ -5,27 +5,27 @@ require 'album_controller'
 class AlbumController; def rescue_action(e) raise e end; end
 
 class AlbumControllerTest < Test::Unit::TestCase
-
+  
   fixtures :images
   user_fixtures
-
+  
   def setup
     @controller = AlbumController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
-
+  
   def test_list
     get :list, {}, user_session(:admin)
     
     assert_response :success
     assert_standard_layout
     assert_select "h1", "List of Images"
-    assert_select "ul#image_list" do
-      assert_select "li", 3, "should be three images"
-      assert_select "li", images(:mission_statement_image).url
-      assert_select "li", images(:alphabet_image).url
-      assert_select "li", images(:mission_statement_image2).url
+    assert_select "div#image_list" do
+      assert_select "table", 3, "should be three images"
+      assert_image_table images(:mission_statement_image)
+      assert_image_table images(:alphabet_image)
+      assert_image_table images(:mission_statement_image2)
     end
   end
   
@@ -64,6 +64,20 @@ class AlbumControllerTest < Test::Unit::TestCase
   def test_new_image_form_redirects_when_NOT_logged_in
     get :create
     assert_redirected_to_login
+  end
+  
+  #
+  # Helpers
+  #
+  private
+  
+  def assert_image_table(image)
+    assert_select "table#image_#{image.id}" do
+      assert_select "tr td a[href=#{image.url}]", image.url
+      assert_select "tr td", image.caption
+      assert_select "tr td", image.tag
+      assert_select "form[action=/album/destroy/#{image.id}] input[type=submit][value=Destroy]", 1
+    end
   end
   
 end

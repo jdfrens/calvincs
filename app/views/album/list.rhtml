@@ -1,7 +1,29 @@
 <h1>List of Images</h1>
 
-<ul id="image_list">
+<div id="image_list">
     <% @images.each do |image| -%>
-        <li> <%= h(image.url) %> </li>
-    <% end -%>
-</ul>
+        <table id="image_<%= image.id %>">
+            <tr>
+                <th>URL:</th>
+                <td><%= link_to h(image.url), image.url %></td>
+            </tr>
+            <tr>
+                <th>Caption:</th>
+                <td><%= h(image.caption) %></td>
+            </tr>
+            <tr>
+                <th>Tag:</th>
+                <td><%= h(image.tag) %></td>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <td><%=
+                        button_to 'Destroy', { :action => 'destroy', :id => image },
+                        :confirm => 'Are you sure you want to destroy this image?',
+                        :method => :post
+%></td>
+
+            </tr>
+        </table>
+    <% end %>
+</div>
