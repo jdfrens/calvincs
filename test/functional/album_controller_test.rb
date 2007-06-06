@@ -23,8 +23,11 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_select "h1", "List of Images"
     assert_select "div#image_list" do
       assert_select "table", 3, "should be three images"
+      assert_select "div#image_form_1", 1
       assert_image_table images(:mission_statement_image)
+      assert_select "div#image_form_2", 1
       assert_image_table images(:alphabet_image)
+      assert_select "div#image_form_3", 1
       assert_image_table images(:mission_statement_image2)
     end
   end
@@ -49,10 +52,10 @@ class AlbumControllerTest < Test::Unit::TestCase
   
   def test_new_image_creation
     get :create,
-    { :image => { :url => "http://example.com/foo.gif",
-        :caption => "Foo is bar!",
-        :tag => "foobar" }},
-    user_session(:admin)
+        { :image => { :url => "http://example.com/foo.gif",
+            :caption => "Foo is bar!",
+            :tag => "foobar" }},
+        user_session(:admin)
     
     assert_redirected_to :action => 'list'
     image = Image.find_by_tag("foobar")
@@ -66,24 +69,59 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
   end
   
+  def test_update_image
+    image = Image.find(2)
+    assert_equal "http://calvin.edu/abcd.png", image.url
+    assert_equal "A B C, indeed!", image.caption
+    assert_equal "alphabet", image.tag
+  
+    xhr :post, :update_image, 
+        { :id => 2,
+          :image => { :url => "http://example.com/lovely.gif",
+            :caption => "Lovely.",
+            :tag => "lovely" }},
+        user_session(:admin)
+
+    assert_response :success
+    assert_select_rjs :replace_html, "image_form_2" do
+      assert_image_table({ 'id' => 2, 'url'=> "http://example.com/lovely.gif",
+            'caption' => "Lovely.", 'tag' => "lovely" })
+    end
+
+    image.reload
+    assert_equal "http://example.com/lovely.gif", image.url
+    assert_equal "Lovely.", image.caption
+    assert_equal "lovely", image.tag
+  end
+  
+  def test_update_image_fails_when_NOT_logged_in
+    xhr :post, :update_image, 
+        { :id => 2, 
+          :image => { :url => "http://example.com/lovely.gif",
+            :caption => "Lovely.",
+            :tag => "lovely" }}
+    assert_redirected_to_login
+  end
+  
   #
   # Helpers
   #
   private
   
-  def assert_image_table(image)
-    assert_select "form[action=/album/update_image/#{image.id}]" do
+  def assert_image_table(image_attributes)
+    id = image_attributes["id"]
+    assert_select "form[action=/album/update_image/#{id}]" do
       assert_select "table" do
-        assert_select "tr td input#image_url_#{image.id}[value=#{image.url}]", 1
-        assert_select "tr td a[href=#{image.url}]", "see picture"
-        assert_select "tr td", image.caption.gsub('*', ''),
+        assert_select "tr td input#image_url_#{id}[value=#{image_attributes['url']}]", 1
+        assert_select "tr td a[href=#{image_attributes['url']}]", "see picture"
+        assert_select "tr td", image_attributes['caption'].gsub('*', ''),
             "should have RedCloth-rendered caption"
-        assert_select "textarea#image_caption_#{image.id}", image.caption
+        assert_select "textarea#image_caption_#{id}", image_attributes['caption']
         assert_select "input[type=submit][value=Update]"
-        assert_select "tr td input#image_tag_#{image.id}[value=#{image.tag}]", 1
+        assert_select "tr td input#image_tag_#{id}[value=#{image_attributes['tag']}]", 1
       end
     end
-    assert_select "form[action=/album/destroy/#{image.id}] input[type=submit][value=Destroy]", 1
+      assert_select "form[action=/album/destroy/#{id}] input[type=submit][value=Destroy]", 1
   end
   
 end

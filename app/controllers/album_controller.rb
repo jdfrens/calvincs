@@ -1,6 +1,6 @@
 class AlbumController < ApplicationController
 
-  restrict_to :admin, :only => [ :create, :list ]
+  restrict_to :admin, :only => [ :create, :list, :update_image ]
   
   def create
     if params[:image]
@@ -12,6 +12,14 @@ class AlbumController < ApplicationController
   
   def list
     @images = Image.find(:all)
+  end
+  
+  def update_image
+    image = Image.find(params[:id])
+    image.update_attributes(params[:image])
+    render :update do |p|
+      p.replace_html "image_form_#{image.id}", :partial => 'image', :object => image
+    end
   end
   
 end
