@@ -103,6 +103,21 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
   end
   
+  def test_destroy_image
+    assert_not_nil Image.find_by_id(2)
+
+    post :destroy_image, { :id => 2 }, user_session(:admin)
+    
+    assert_redirected_to :action => 'list'
+    
+    assert_nil Image.find_by_id(2)
+  end
+  
+  def test_destroy_image_fails_when_NOT_logged_in
+    post :destroy_image, { :id => 2 }
+    assert_redirected_to_login
+  end
+  
   #
   # Helpers
   #
@@ -121,7 +136,7 @@ class AlbumControllerTest < Test::Unit::TestCase
         assert_select "tr td input#image_tag_#{id}[value=#{image_attributes['tag']}]", 1
       end
     end
-      assert_select "form[action=/album/destroy/#{id}] input[type=submit][value=Destroy]", 1
+      assert_select "form[action=/album/destroy_image/#{id}] input[type=submit][value=Destroy]", 1
   end
   
 end
