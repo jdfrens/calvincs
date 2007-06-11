@@ -65,8 +65,15 @@ class AlbumControllerTest < Test::Unit::TestCase
   end
   
   def test_new_image_form_redirects_when_NOT_logged_in
-    get :create
+    original_count = Image.find(:all).size
+    
+    get :create,
+        { :image => { :url => "http://example.com/foo.gif",
+            :caption => "Foo is bar!",
+            :tag => "foobar" }}
+    
     assert_redirected_to_login
+    assert_equal original_count, Image.find(:all).size, "shouldn't add new image"
   end
   
   def test_update_image
