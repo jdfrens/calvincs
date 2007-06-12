@@ -66,38 +66,49 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "a[href=/page/create]", 0
   end
   
-  should "view a page when NOT logged in" do
+  def test_view_page_when_NOT_logged_in
     get :view, :id => 'mission_statement'
+    
     assert_response :success
     assert_standard_layout
     assert_template "page/view"
-    assert_select "h1", "Mission Statement"
-    assert_select "div#page_content p", 'We state our mission.'
-    assert_select "div#page_content p strong", "our"
-    
-    assert_select "div#content h1", :count => 1, :text => "Mission Statement"
-    
-    assert_select "h1 span#page_title_1_in_place_editor", false
-    assert_select "p span#page_content_1_in_place_editor", false
-    assert_select "p[class=identifier] span#page_identifier_1_in_place_editor", false
+    assert_select "div#content" do
+      assert_select "h1", "Mission Statement"
+      assert_select "div#page_content" do
+        assert_select "p", 'We state our mission.'
+        assert_select "p strong", "our"
+      end
+      assert_select "div.img-right" do
+        assert_select "img#cool-pic"
+        assert_select "p.img-caption", assigns(:image).caption.gsub("*", "")
+      end
+      assert_select "h1 span#page_title_1_in_place_editor", false
+      assert_select "p span#page_content_1_in_place_editor", false
+      assert_select "p[class=identifier] span#page_identifier_1_in_place_editor", false
+    end
   end
   
-  should "view a page when logged in" do
+  def test_view_and_edit_page_when_logged_in
     get :view, { :id => 'mission_statement' }, user_session(:admin) 
     assert_response :success
     assert_standard_layout
     assert_template "page/view"
-    assert_select "div#page_content p", 'We state our mission.'
-    assert_select "div#page_content p strong", "our"
-    assert_select "div#content h1 input#edit_title", 1
-    assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
-    assert_link_to_markup_help
-    assert_select "form[action=/page/update_page_content/1]" do
-      assert_select "textarea#page_content", 'We state *our* mission.'
-      assert_select "input[type=submit][value=Update content]"
+    assert_select "div#content" do
+      assert_select "div#page_content" do
+        assert_select "p", 'We state our mission.'
+        assert_select "p strong", "our"
+      end
+      assert_select "div[class=img-right]", "no images when editing"
+      assert_select "h1 input#edit_title", 1
+      assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
+      assert_link_to_markup_help
+      assert_select "form[action=/page/update_page_content/1]" do
+        assert_select "textarea#page_content", 'We state *our* mission.'
+        assert_select "input[type=submit][value=Update content]"
+      end
+      assert_select "p[class=identifier] span#page_identifier_1_in_place_editor",
+          'mission_statement'
     end
-    assert_select "p[class=identifier] span#page_identifier_1_in_place_editor",
-        'mission_statement'
   end
   
   should "redirect when trying to view non-existant page" do

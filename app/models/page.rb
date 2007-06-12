@@ -10,4 +10,15 @@ class Page < ActiveRecord::Base
     RedCloth.new(content).to_html
   end
   
+  def images
+    ImageTag.find_all_by_tag(identifier).map { |image_tag| image_tag.image }
+  end
+  
+  def random_image(index=-1)
+    if index == -1
+      index = rand(images.size)
+    end
+    images[index]
+  end
+  
 end

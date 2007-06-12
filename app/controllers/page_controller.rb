@@ -17,6 +17,7 @@ class PageController < ApplicationController
   def view
     @page = Page.find_by_identifier(params[:id])
     if @page
+      @image = @page.random_image
       render :template => 'page/view'
     else
       flash[:error] = "Page #{params[:id]} does not exist."

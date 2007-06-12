@@ -1,40 +1,50 @@
 <h1>
-  <% if current_user -%>
-    <input type="button" id="edit_title" value="edit" />
-    <%= in_place_editor_field :page, "title", {},
-          { :external_control => 'edit_title' } %>
-  <% else -%>
-    <%= h(@page.title) %>
-  <% end -%>
+    <% if current_user -%>
+        <input type="button" id="edit_title" value="edit" />
+        <%=
+            in_place_editor_field :page, "title", {},
+            { :external_control => 'edit_title' }
+%>
+    <% else -%>
+        <%= h(@page.title) %>
+    <% end %>
 </h1>
 
 <div id="page_content">
-  <%= @page.render_content %>
+    <div class="img-right">
+        <% if current_user -%>
+            <p>no images when editing</p>
+        <% else -%>
+            <%= image_tag @image.url, :id => "cool-pic", :class => "img-right" %>
+            <p class="img-caption"><%= @image.render_caption %></p>
+        <% end %>
+    </div><%= @page.render_content %>
 </div>
 
 <% restrict_to :admin do -%>
 
-  <div class="content-editor" id="content-editor">
-    <h2>Content Editor</h2>
-    
-    <%= render :partial => 'shared/markupreference' %>
-       
-    <p>
-      <% remote_form_for(:page,
-             :url => { :action => 'update_page_content', :id => @page.id } 
-             ) do |form| -%>
-        <%= form.text_area :content, :rows => 20, :cols => 80 %>
-        <%= submit_tag "Update content", :class => "submit" %>
-      <% end -%>
-    </p>
-  </div>
+    <div class="content-editor" id="content-editor">
+        <h2>Content Editor</h2><%= render :partial => 'shared/markupreference' %>
 
-<% end -%>
-  
+        <p>
+            <%
+                remote_form_for(:page,
+                               :url => { :action => 'update_page_content', :id => @page.id } 
+                ) do |form|
+-%>
+                <%= form.text_area :content, :rows => 20, :cols => 80 %>
+                <%= submit_tag "Update content", :class => "submit" %>
+            <% end %>
+        </p>
+    </div>
+
+<% end %>
+
 <% restrict_to :admin do -%>
-  <p class="identifier">
-    <input type="button" id="edit_identifier" value="edit" />
-    <%= in_place_editor_field :page, 'identifier', {},
-          { :external_control => 'edit_identifier' } %>
-  </p>
-<% end -%>
+    <p class="identifier">
+        <input type="button" id="edit_identifier" value="edit" /><%=
+            in_place_editor_field :page, 'identifier', {},
+            { :external_control => 'edit_identifier' }
+%>
+    </p>
+<% end %>

@@ -1,24 +1,24 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class PageTest < Test::Unit::TestCase
-  fixtures :pages
+  fixtures :pages, :images, :image_tags
 
-  should "complain when duplicate identifier" do
+  def test_fail_to_inialize_with_duplicate_identifier
     page = Page.new(
       :identifier => 'mission_statement', :content => 'something'
     )
     assert !page.valid?
   end
 
-  should "allow underlines in identifier" do
+  def test_allow_underscores_in_identifier
     page = Page.new(
-        :identifier => '_underlines_are_okay_', :title => 'Good',
+        :identifier => '_underscores_are_okay_', :title => 'Good',
         :content => 'something'
     )
     assert page.valid?
   end
       
-  should "complain about invalid identifiers" do
+  def test_invalid_identifiers
     page = Page.new(
         :identifier => '  whitespacey  ', :title => 'Good',
         :content => 'something'
@@ -34,7 +34,7 @@ class PageTest < Test::Unit::TestCase
     assert !page.valid?
   end
   
-  should "complain about missing title" do
+  def test_fail_to_initialize_without_title
     page = Page.new(
         :identifier => 'okay', :title => '', :content => 'something'
     )
@@ -42,7 +42,7 @@ class PageTest < Test::Unit::TestCase
     assert_equal "can't be blank", page.errors[:title]
   end
   
-  should "complain about missing content" do
+  def test_fail_to_initialize_without_content
     page = Page.new(
         :identifier => 'okay', :title => 'Valid Title', :content => ''
     )
@@ -50,13 +50,26 @@ class PageTest < Test::Unit::TestCase
     assert_equal "can't be blank", page.errors[:content]
   end
   
-  should "render textile using RedCloth" do
+  def test_render_content
     assert_equal "<p>We state <strong>our</strong> mission.</p>",
-        Page.find(1).render_content
+        pages(:mission_statement).render_content
     assert_equal "<p>a b c d e f g <em>h i j k</em></p>",
-        Page.find(2).render_content
+        pages(:alphabet).render_content
     assert_equal "<p>home page text written in <strong>textile</strong></p>",
-        Page.find(3).render_content
+        pages(:home_page).render_content
+  end
+  
+  def test_images
+    assert_equal [images(:mission_statement_image), images(:mission_statement_image2)],
+        pages(:mission_statement).images
+  end
+  
+  def test_random_image
+    assert_equal images(:mission_statement_image), pages(:mission_statement).random_image(0)
+    assert_equal images(:mission_statement_image2), pages(:mission_statement).random_image(1)
+    5.times do |i|
+      assert [images(:mission_statement_image), images(:mission_statement_image2)].include?(pages(:mission_statement).random_image)
+    end
   end
   
 end
