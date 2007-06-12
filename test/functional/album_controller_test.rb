@@ -54,51 +54,55 @@ class AlbumControllerTest < Test::Unit::TestCase
     get :create,
         { :image => { :url => "http://example.com/foo.gif",
             :caption => "Foo is bar!",
-            :tag => "foobar" }},
+            :tags_string => "foobar barfoo" }},
         user_session(:admin)
     
     assert_redirected_to :action => 'list'
-    image = Image.find_by_tag("foobar")
+    image = Image.find_by_caption("Foo is bar!")
     assert_not_nil image
     assert_equal "http://example.com/foo.gif", image.url
     assert_equal "Foo is bar!", image.caption
+    assert_equal ["foobar", "barfoo"], image.tags
   end
   
   def test_new_image_form_redirects_when_NOT_logged_in
-    original_count = Image.find(:all).size
+    original_image_count = Image.find(:all).size
+    original_tag_count = ImageTag.find(:all).size
     
     get :create,
         { :image => { :url => "http://example.com/foo.gif",
             :caption => "Foo is bar!",
-            :tag => "foobar" }}
+            :tags_string => "foo bar" }}
     
     assert_redirected_to_login
-    assert_equal original_count, Image.find(:all).size, "shouldn't add new image"
+    assert_equal original_image_count, Image.find(:all).size,
+        "shouldn't add new image"
+    assert_equal original_tag_count, ImageTag.find(:all).size,
+        "shouldn't add new image tags"
   end
   
   def test_update_image
     image = Image.find(2)
     assert_equal "http://calvin.edu/abcd.png", image.url
     assert_equal "A B C, indeed!", image.caption
-    assert_equal "alphabet", image.tag
+    assert_equal "", image.tags_string
   
     xhr :post, :update_image, 
         { :id => 2,
           :image => { :url => "http://example.com/lovely.gif",
             :caption => "Lovely.",
-            :tag => "lovely" }},
+            :tags_string => "very lovely" }},
         user_session(:admin)
-
-    assert_response :success
-    assert_select_rjs :replace_html, "image_form_2" do
-      assert_image_table({ 'id' => 2, 'url'=> "http://example.com/lovely.gif",
-            'caption' => "Lovely.", 'tag' => "lovely" })
-    end
 
     image.reload
     assert_equal "http://example.com/lovely.gif", image.url
     assert_equal "Lovely.", image.caption
-    assert_equal "lovely", image.tag
+    assert_equal "very lovely", image.tags_string
+
+    assert_response :success
+    assert_select_rjs :replace_html, "image_form_2" do
+      assert_image_table image
+    end
   end
   
   def test_update_image_fails_when_NOT_logged_in
@@ -130,20 +134,21 @@ class AlbumControllerTest < Test::Unit::TestCase
   #
   private
   
-  def assert_image_table(image_attributes)
-    id = image_attributes["id"]
+  def assert_image_table(image)
+    id = image.id
     assert_select "form[action=/album/update_image/#{id}]" do
       assert_select "table" do
-        assert_select "tr td input#image_url_#{id}[value=#{image_attributes['url']}]", 1
-        assert_select "tr td a[href=#{image_attributes['url']}]", "see picture"
-        assert_select "tr td", image_attributes['caption'].gsub('*', ''),
+        assert_select "tr td input#image_url_#{id}[value=#{image.url}]"
+        assert_select "tr td a[href=#{image.url}]", "see picture"
+        assert_select "tr td", image.caption.gsub('*', ''),
             "should have RedCloth-rendered caption"
-        assert_select "textarea#image_caption_#{id}", image_attributes['caption']
+        assert_select "textarea#image_caption_#{id}", image.caption
         assert_select "input[type=submit][value=Update]"
-        assert_select "tr td input#image_tag_#{id}[value=#{image_attributes['tag']}]", 1
+        assert_select "tr td input#image_tags_string_#{id}"
+        assert_select "tr td input#image_tags_string_#{id}[value=#{image.tags_string}]"
       end
     end
-      assert_select "form[action=/album/destroy_image/#{id}] input[type=submit][value=Destroy]", 1
+    assert_select "form[action=/album/destroy_image/#{id}] input[type=submit][value=Destroy]", 1
   end
   
 end

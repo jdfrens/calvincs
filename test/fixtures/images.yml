@@ -3,14 +3,11 @@ mission_statement_image:
   id: 1
   url: http://calvin.edu/mission.jpg
   caption: Somebody works on our *mission*.
-  tag: mission_statement
 alphabet_image:
   id: 2
   url: http://calvin.edu/abcd.png
   caption: A B C, indeed!
-  tag: alphabet
 mission_statement_image2:
   id: 3
   url: http://calvin.edu/mission2.jpg
   caption: More mission work.
-  tag: mission_statement

@@ -4,7 +4,9 @@ class AlbumController < ApplicationController
   
   def create
     if params[:image]
-      Image.create!(params[:image])
+      image = Image.create!(params[:image])
+      image.tags_string = params[:image][:tags_string]
+      image.save!
       redirect_to :action => 'list'
     else
     end
@@ -17,6 +19,7 @@ class AlbumController < ApplicationController
   def update_image
     image = Image.find(params[:id])
     image.update_attributes(params[:image])
+    image.reload
     render :update do |p|
       p.replace_html "image_form_#{image.id}", :partial => 'image', :object => image
     end
