@@ -54,6 +54,12 @@ class FullMigrationTest < ActionController::IntegrationTest
         t.column "tag",           :string
       end
       
+      s.table "image_tags" do |t|
+        t.column "id",            :integer
+        t.column "image_id",      :integer
+        t.column "tag",           :string
+      end
+      
       # authentication
       s.table "groups" do |t|
         t.column "id",          :integer
