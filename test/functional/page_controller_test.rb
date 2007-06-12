@@ -67,7 +67,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   def test_view_page_when_NOT_logged_in
-    get :view, :id => 'mission_statement'
+    get :view, :id => 'mission'
     
     assert_response :success
     assert_standard_layout
@@ -89,7 +89,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   def test_view_and_edit_page_when_logged_in
-    get :view, { :id => 'mission_statement' }, user_session(:admin) 
+    get :view, { :id => 'mission' }, user_session(:admin) 
     assert_response :success
     assert_standard_layout
     assert_template "page/view"
@@ -107,7 +107,7 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "input[type=submit][value=Update content]"
       end
       assert_select "p[class=identifier] span#page_identifier_1_in_place_editor",
-          'mission_statement'
+          'mission'
     end
   end
   
@@ -193,31 +193,31 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   should "change page identifier" do
-    xhr :get, :set_page_identifier,
-    { :id => 1, :value => 'mission_statement_2'},
+    xhr :get, :set_page_identifier, { :id => 1, :value => 'mission_2'},
     user_session(:admin)
     assert_response :success
-    assert_equal "mission_statement_2", @response.body
+    assert_equal "mission_2", @response.body
     
     page = Page.find(1)
-    assert_equal 'mission_statement_2', page.identifier
+    assert_equal 'mission_2', page.identifier
   end
   
-  should "fail to change page identifier when NOT logged in" do
+  def test_set_page_identifier_fails_when_NOT_logged_in
     xhr :get, :set_page_identifier, :id => 1, :value => 'phooey'
     assert_redirected_to_login
-    assert_equal "mission_statement", Page.find(1).identifier
+    assert_equal "mission", Page.find(1).identifier
   end
   
   should "destroy a page when logged in" do
     post :destroy, { :id => 1 }, user_session(:admin)
+    
     assert_redirected_to :controller => 'page', :action => 'list'
-    page = Page.find_by_identifier('mission_statement')
-    assert_nil page
+    assert_nil Page.find_by_identifier('mission')
   end
   
   should "redirect to login when trying to destroy a page and NOT logged in" do
     post :destroy, :id => 1
+    
     assert_redirected_to_login
     assert_not_nil Page.find(1)
   end
@@ -232,7 +232,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_page_entry 1+offset, pages(:alphabet)
     assert_page_entry 2+offset, pages(:home_page)
     assert_page_entry 3+offset, pages(:home_splash)
-    assert_page_entry 4+offset, pages(:mission_statement)
+    assert_page_entry 4+offset, pages(:mission)
   end
   
   def assert_page_entry(n, page)

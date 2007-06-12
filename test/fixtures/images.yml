@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-mission_statement_image:
+mission:
   id: 1
   url: http://calvin.edu/mission.jpg
   caption: Somebody works on our *mission*.
-alphabet_image:
+alphabet:
   id: 2
   url: http://calvin.edu/abcd.png
   caption: A B C, indeed!
-mission_statement_image2:
+mission2:
   id: 3
   url: http://calvin.edu/mission2.jpg
   caption: More mission work.

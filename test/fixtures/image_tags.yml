@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-mission_tag:
+mission:
   id: 1
   image_id: 1
-  tag: mission_statement
-mission_tag2:
+  tag: mission
+mission2:
   id: 2
   image_id: 3
-  tag: mission_statement
-another_tag:
+  tag: mission
+another:
   id: 3
   image_id: 3
   tag: another

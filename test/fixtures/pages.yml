@@ -1,7 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-mission_statement:
+mission:
   id: 1
-  identifier: mission_statement
+  identifier: mission
   title: Mission Statement
   content: We state *our* mission.
 alphabet:

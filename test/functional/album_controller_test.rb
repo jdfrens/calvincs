@@ -24,11 +24,11 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_select "div#image_list" do
       assert_select "table", 3, "should be three images"
       assert_select "div#image_form_1", 1
-      assert_image_table images(:mission_statement_image)
+      assert_image_table images(:mission)
       assert_select "div#image_form_2", 1
-      assert_image_table images(:alphabet_image)
+      assert_image_table images(:alphabet)
       assert_select "div#image_form_3", 1
-      assert_image_table images(:mission_statement_image2)
+      assert_image_table images(:mission2)
     end
   end
   

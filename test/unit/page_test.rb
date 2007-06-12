@@ -52,7 +52,7 @@ class PageTest < Test::Unit::TestCase
   
   def test_render_content
     assert_equal "<p>We state <strong>our</strong> mission.</p>",
-        pages(:mission_statement).render_content
+        pages(:mission).render_content
     assert_equal "<p>a b c d e f g <em>h i j k</em></p>",
         pages(:alphabet).render_content
     assert_equal "<p>home page text written in <strong>textile</strong></p>",
@@ -60,15 +60,14 @@ class PageTest < Test::Unit::TestCase
   end
   
   def test_images
-    assert_equal [images(:mission_statement_image), images(:mission_statement_image2)],
-        pages(:mission_statement).images
+    assert_equal [images(:mission), images(:mission2)], pages(:mission).images
   end
   
   def test_random_image
-    assert_equal images(:mission_statement_image), pages(:mission_statement).random_image(0)
-    assert_equal images(:mission_statement_image2), pages(:mission_statement).random_image(1)
+    assert_equal images(:mission), pages(:mission).random_image(0)
+    assert_equal images(:mission2), pages(:mission).random_image(1)
     5.times do |i|
-      assert [images(:mission_statement_image), images(:mission_statement_image2)].include?(pages(:mission_statement).random_image)
+      assert [images(:mission), images(:mission2)].include?(pages(:mission).random_image)
     end
   end
   

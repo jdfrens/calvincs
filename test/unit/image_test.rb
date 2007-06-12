@@ -12,7 +12,9 @@ class ImageTest < Test::Unit::TestCase
   end
   
   def test_initialize_with_tags_string
-    params = { :url => 'somewhere', :caption => 'something', :tags_string => 'tag1 tag2 tag3' }
+    params = { :url => 'somewhere', 
+               :caption => 'something',
+               :tags_string => 'tag1 tag2 tag3' }
     image = Image.create!(params)
     assert_equal "somewhere", image.url
     assert_equal "something", image.caption
@@ -25,35 +27,35 @@ class ImageTest < Test::Unit::TestCase
   end
   
   def test_render_caption
-    image = images(:mission_statement_image)
+    image = images(:mission)
     assert_equal "Somebody works on our *mission*.", image.caption
     assert_equal "Somebody works on our <strong>mission</strong>.", image.render_caption
   end
   
   def test_tags
-    assert_equal [], images(:alphabet_image).tags
-    assert_equal ['mission_statement'], images(:mission_statement_image).tags
-    assert_equal ['mission_statement', 'another'].to_set, images(:mission_statement_image2).tags.to_set    
+    assert_equal [], images(:alphabet).tags
+    assert_equal ['mission'], images(:mission).tags
+    assert_equal ['mission', 'another'].to_set, images(:mission2).tags.to_set    
   end
   
   def test_tags_string
-    assert_equal '', images(:alphabet_image).tags_string
-    assert_equal 'mission_statement', images(:mission_statement_image).tags_string
-    assert_equal 'mission_statement another', images(:mission_statement_image2).tags_string
+    assert_equal '', images(:alphabet).tags_string
+    assert_equal 'mission', images(:mission).tags_string
+    assert_equal 'mission another', images(:mission2).tags_string
   end
 
   def test_set_tags_string
-    image = images(:mission_statement_image2)
-    assert_equal 'mission_statement another', images(:mission_statement_image2).tags_string
+    image = images(:mission2)
+    assert_equal 'mission another', images(:mission2).tags_string
 
-    image.tags_string = 'mission_statement another foobar'
+    image.tags_string = 'mission another foobar'
     image.reload
-    assert_equal 'mission_statement another foobar', image.tags_string
-    assert_equal ['mission_statement', 'another', 'foobar'].to_set, image.tags.to_set
+    assert_equal 'mission another foobar', image.tags_string
+    assert_equal ['mission', 'another', 'foobar'].to_set, image.tags.to_set
     
-    image.tags_string = 'mission_statement foobar'
+    image.tags_string = 'mission foobar'
     image.reload
-    assert_equal 'mission_statement foobar', image.tags_string
-    assert_equal ['mission_statement', 'foobar'].to_set, image.tags.to_set
+    assert_equal 'mission foobar', image.tags_string
+    assert_equal ['mission', 'foobar'].to_set, image.tags.to_set
   end
 end
