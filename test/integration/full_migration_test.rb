@@ -50,7 +50,7 @@ class FullMigrationTest < ActionController::IntegrationTest
       s.table "images" do |t|
         t.column "id",            :integer
         t.column "url",           :string
-        t.column "caption",       :string
+        t.column "caption",       :text
       end
       
       s.table "image_tags" do |t|
