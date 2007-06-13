@@ -10,7 +10,7 @@ another_todays_news:
 todays_news:
   id: 3
   headline: News of Today
-  teaser: Some teaser.
+  teaser: Some *teaser*.
   content: Something happened *today*.
   user_id: 1
   goes_live_at: <%= 2.hours.ago.to_s(:db) %>

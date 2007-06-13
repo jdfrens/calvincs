@@ -127,4 +127,8 @@ class Test::Unit::TestCase
     end
   end
   
+  def strip_textile(string)
+    string.gsub("*", "").gsub("_", "")
+  end
+  
 end

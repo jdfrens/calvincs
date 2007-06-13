@@ -1,4 +1,4 @@
 <li id="news_item_<%= news_item.id %>">
-  <span class="news-teaser"><%= h(news_item.teaser) %></span>
+  <span class="news-teaser"><%= news_item.render_teaser %></span>
   <a class="more" href="/news/view/<%= news_item.id %>">more...</a> 
 </li>

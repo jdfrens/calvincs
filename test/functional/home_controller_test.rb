@@ -99,8 +99,7 @@ class HomeControllerTest < Test::Unit::TestCase
   def assert_home_page_layout
     assert_standard_layout
     assert_select "div#content" do
-      assert_select "div#home_splash p:first-of-type",
-          pages(:home_splash).content do
+      assert_select "div#home_splash p:first-of-type", pages(:home_splash).content do
         assert_select "h1", 0, "*no* title in splash"
       end
       assert_select "div#home_page" do
@@ -113,7 +112,7 @@ class HomeControllerTest < Test::Unit::TestCase
         assert_select "ul li", 2
         NewsItem.find_current.each do |news_item|
           assert_select "li#news_item_#{news_item.id}"
-          assert_select "span.news-teaser", news_item.teaser
+          assert_select "span.news-teaser", strip_textile(news_item.teaser)
           assert_select "a.more[href=/news/view/#{news_item.id}]", "more..."
         end
       end

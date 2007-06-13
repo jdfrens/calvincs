@@ -170,6 +170,11 @@ class NewsItemTest < Test::Unit::TestCase
         news_items(:past_news).render_content
   end
   
+  def test_rendered_teaser
+    assert_equal "Some *teaser*.", news_items(:todays_news).teaser
+    assert_equal "Some <strong>teaser</strong>.", news_items(:todays_news).render_teaser
+  end
+  
   #
   # Helpers
   #

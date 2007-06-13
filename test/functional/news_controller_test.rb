@@ -152,11 +152,11 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  should "view a news item when NOT logged in" do
+  def test_view_news_item_when_NOT_logged_in
     get :view, { :id => news_items(:todays_news) }
+    
     assert_response :success
     assert_select "h1", news_items(:todays_news).headline
-    assert_select "div#news_item_teaser p", news_items(:todays_news).teaser
     assert_select "div#news_item_content p", "Something happened today."
     assert_select "div#news_item_content p strong", "today",
         "content should be Textiled"
@@ -219,16 +219,18 @@ class NewsControllerTest < Test::Unit::TestCase
     xhr :get, :set_news_item_teaser,
       { :id => news_items(:todays_news).id, :value => 'Teaser of Newness' },
       user_session(:admin)
+      
     assert_response :success
     assert_equal "Teaser of Newness", @response.body
     
     assert_equal 'Teaser of Newness', NewsItem.find(news_items(:todays_news).id).teaser
   end
   
-  should "fail to change teaser when NOT logged in" do
+  def test_set_news_item_teaser_fails_when_NOT_logged_in
     xhr :get, :set_news_item_teaser, :id => news_items(:todays_news).id, :value => 'Teaser Teaser'
+    
     assert_redirected_to_login
-    assert_equal "Some teaser.", news_items(:todays_news).teaser,
+    assert_equal "Some *teaser*.", news_items(:todays_news).teaser,
       'teaser remains unchanged'
   end
   
