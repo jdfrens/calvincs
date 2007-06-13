@@ -139,12 +139,11 @@ class AlbumControllerTest < Test::Unit::TestCase
       assert_select "table" do
         assert_select "tr td input#image_url_#{id}[value=#{image.url}]"
         assert_select "tr td a[href=#{image.url}]", "see picture"
-        assert_select "tr td", image.caption.gsub('*', ''),
-            "should have RedCloth-rendered caption"
+        assert_select "tr td", strip_textile(image.caption)
         assert_select "textarea#image_caption_#{id}", image.caption
-        assert_select "input[type=submit][value=Update]"
-        assert_select "tr td input#image_tags_string_#{id}"
         assert_select "tr td input#image_tags_string_#{id}[value=#{image.tags_string}]"
+        assert_select "input[type=submit][value=Update]"
+        assert_select "img#spinner_#{id}"
       end
     end
     assert_select "form[action=/album/destroy_image/#{id}] input[type=submit][value=Destroy]", 1

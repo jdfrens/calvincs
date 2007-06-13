@@ -1,7 +1,9 @@
 <div id="image_form_<%= image.id %>">
     <%
         remote_form_for(:image, image, 
-                       :url => { :action => 'update_image', :id => image.id } 
+                        :url => { :action => 'update_image', :id => image.id },
+                        :before => "Element.show('spinner_#{image.id}')", 
+                        :complete => "Element.hide('spinner_#{image.id}')"
         ) do |form|
 -%>
         <table id="image_<%= image.id %>">
@@ -27,7 +29,11 @@
             </tr>
             <tr>
                 <th>&nbsp;</th>
-                <td><%= submit_tag "Update", :class => "submit" %></td>
+                <td>
+                  <%= submit_tag "Update", :class => "submit" %>
+                  <%= image_tag 'spinner_moz.gif', :id => "spinner_#{image.id}",
+                        :style=>"display:none;" %>
+                </td>
             </tr>
         </table>
     <% end %><%=
