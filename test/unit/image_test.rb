@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ImageTest < Test::Unit::TestCase
 
-  fixtures :images
+  fixtures :images, :image_tags
 
   def test_verification
     image = Image.new
