@@ -93,10 +93,7 @@ class PageControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout
-    assert_select "div#content div.img-right" do
-      assert_select "img", false
-      assert_select "p.img-caption", false
-    end
+    assert_select "div#content div.img-right", false
   end
    
   def test_view_and_edit_page_when_logged_in

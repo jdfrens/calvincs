@@ -11,14 +11,17 @@
 </h1>
 
 <div id="page_content">
-    <div class="img-right">
-        <% if current_user -%>
+    <% if current_user -%>
+        <div class="img-right">
             <p>no images when editing</p>
-        <% elsif @image -%>
+        </div>
+    <% elsif @image -%>
+        <div class="img-right">
             <%= image_tag @image.url, :id => "cool-pic", :class => "img-right" %>
             <p class="img-caption"><%= @image.render_caption %></p>
-        <% end %>
-    </div><%= @page.render_content %>
+        </div>
+    <% end %>
+    <%= @page.render_content %>
 </div>
 
 <% restrict_to :admin do -%>
