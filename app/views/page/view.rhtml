@@ -14,7 +14,7 @@
     <div class="img-right">
         <% if current_user -%>
             <p>no images when editing</p>
-        <% else -%>
+        <% elsif @image -%>
             <%= image_tag @image.url, :id => "cool-pic", :class => "img-right" %>
             <p class="img-caption"><%= @image.render_caption %></p>
         <% end %>

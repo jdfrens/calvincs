@@ -6,7 +6,7 @@ class PageController; def rescue_action(e) raise e end; end
 
 class PageControllerTest < Test::Unit::TestCase
   
-  fixtures :pages
+  fixtures :pages, :images, :image_tags
   user_fixtures
   
   def setup
@@ -88,6 +88,17 @@ class PageControllerTest < Test::Unit::TestCase
     end
   end
   
+  def test_view_page_WITHOUT_image_and_when_NOT_logged_in
+    get :view, :id => 'alphabet'
+    
+    assert_response :success
+    assert_standard_layout
+    assert_select "div#content div.img-right" do
+      assert_select "img", false
+      assert_select "p.img-caption", false
+    end
+  end
+   
   def test_view_and_edit_page_when_logged_in
     get :view, { :id => 'mission' }, user_session(:admin) 
     assert_response :success
