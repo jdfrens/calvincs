@@ -6,7 +6,7 @@ class AlbumController; def rescue_action(e) raise e end; end
 
 class AlbumControllerTest < Test::Unit::TestCase
   
-  fixtures :images
+  fixtures :images, :image_tags
   user_fixtures
   
   def setup
@@ -43,10 +43,10 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "form[action=/album/create]" do
-      assert_select "input#image_url", 1
-      assert_select "input#image_caption", 1
-      assert_select "input#image_tag", 1
-      assert_select "input[type=submit]", 1
+      assert_select "input#image_url"
+      assert_select "textarea#image_caption"
+      assert_select "input#image_tags_string"
+      assert_select "input[type=submit]"
     end
   end
   
@@ -120,7 +120,6 @@ class AlbumControllerTest < Test::Unit::TestCase
     post :destroy_image, { :id => 2 }, user_session(:admin)
     
     assert_redirected_to :action => 'list'
-    
     assert_nil Image.find_by_id(2)
   end
   
