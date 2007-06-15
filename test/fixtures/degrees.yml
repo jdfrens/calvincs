@@ -1,5 +1,21 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+jeremy_calvin:
   id: 1
-two:
+  user_id: 3
+  degree_type: BA in Mathematics and Computer Science
+  institution: Calvin College
+  url: http://www.calvin.edu/
+  year: 1992
+keith_central:
   id: 2
+  user_id: 4
+  degree_type: BA in Mathematics and Computer Science
+  institution: Central College
+  year: 1983
+jeremy_iu:
+  id: 3
+  user_id: 3
+  degree_type: PhD in Computer Science
+  institution: Indiana University (Bloomington)
+  url: http://cs.indiana.edu/
+  year: 2002
