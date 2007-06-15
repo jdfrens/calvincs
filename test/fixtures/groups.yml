@@ -1,4 +1,10 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-admin_group:
+admin:
   id: 1
-  name: admin_group
+  name: admin
+faculty:
+  id: 2
+  name: faculty
+staff:
+  id: 3
+  name: staff

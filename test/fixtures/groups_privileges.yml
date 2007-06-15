@@ -1,5 +1,16 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-admin_something:
+admin_admin:
   group_id: 1
   privilege_id: 1
-
+faculty_admin:
+  group_id: 2
+  privilege_id: 1
+staff_admin:
+  group_id: 3
+  privilege_id: 1
+faculty_faculty:
+  group_id: 2
+  privilege_id: 2
+staff_staff:
+  group_id: 3
+  privilege_id: 3

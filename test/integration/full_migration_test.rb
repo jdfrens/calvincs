@@ -105,7 +105,7 @@ class FullMigrationTest < ActionController::IntegrationTest
     s.table "degrees" do |t|
       t.column "id",          :integer
       t.column "user_id",     :integer
-      t.column "type",        :string
+      t.column "degree_type", :string
       t.column "institution", :string
       t.column "url",         :string
       t.column "year",        :integer
