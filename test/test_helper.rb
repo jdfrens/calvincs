@@ -41,6 +41,10 @@ class Test::Unit::TestCase
     end
   end
   
+  def assert_equal_set(expected, actual, message=nil)
+    assert_equal expected.to_set, actual.to_set, message
+  end
+  
   def assert_standard_layout
     assert_select "title" , "Computing at Calvin College"
     

@@ -8,87 +8,125 @@ class FullMigrationTest < ActionController::IntegrationTest
     
     migrate
     see_full_schema
+    see_data
     
     migrate :version => 0
     see_empty_schema
     
     migrate
     see_full_schema
+    see_data
   end
   
   def see_full_schema
     assert_schema do |s|
-      s.table "courses" do |t|
-        t.column :id,          :integer
-        t.column "label",       :string
-        t.column "number",      :integer
-        t.column "title",       :string
-        t.column "description", :text
-        t.column "credits",     :integer
-        t.column "created_at",  :datetime
-      end
-      
-      s.table "pages" do |t|
-        t.column "id",          :integer
-        t.column "identifier",  :string
-        t.column "title",       :string
-        t.column "content",     :text
-      end
-      
-      s.table "news_items" do |t|
-        t.column "id",            :integer
-        t.column "headline",      :string
-        t.column "teaser",        :string
-        t.column "content",       :text
-        t.column "user_id",       :integer
-        t.column "created_at",    :datetime
-        t.column "updated_at",    :datetime
-        t.column "goes_live_at",  :datetime
-        t.column "expires_at",    :datetime
-      end
-      
-      s.table "images" do |t|
-        t.column "id",            :integer
-        t.column "url",           :string
-        t.column "caption",       :text
-      end
-      
-      s.table "image_tags" do |t|
-        t.column "id",            :integer
-        t.column "image_id",      :integer
-        t.column "tag",           :string
-      end
-      
-      # authentication
-      s.table "groups" do |t|
-        t.column "id",          :integer
-        t.column "name",        :string
-      end
-      
-      s.table "privileges" do |t|
-        t.column "id",          :integer
-        t.column "name",        :string
-      end
-      
-      s.table "groups_privileges" do |t|
-        t.column "id",           :integer
-        t.column "group_id",     :integer
-        t.column "privilege_id", :integer
-      end
-      
-      s.table "users" do |t|
-        t.column "id",            :integer
-        t.column "username",      :string
-        t.column "password_hash", :string
-        t.column "group_id",      :integer
-        t.column "email_address", :string
-      end
+      see_course_tables(s)
+      see_pages_and_news_tables(s)
+      see_image_tables(s)
+      see_authentication_tables(s)
+      see_user_info_tables(s)
+    end
+  end
+  
+  def see_course_tables(s)
+    s.table "courses" do |t|
+      t.column :id,          :integer
+      t.column "label",       :string
+      t.column "number",      :integer
+      t.column "title",       :string
+      t.column "description", :text
+      t.column "credits",     :integer
+      t.column "created_at",  :datetime
+    end
+  end
+  
+  def see_pages_and_news_tables(s)
+    s.table "pages" do |t|
+      t.column "id",          :integer
+      t.column "identifier",  :string
+      t.column "title",       :string
+      t.column "content",     :text
+    end
+    
+    s.table "news_items" do |t|
+      t.column "id",            :integer
+      t.column "headline",      :string
+      t.column "teaser",        :string
+      t.column "content",       :text
+      t.column "user_id",       :integer
+      t.column "created_at",    :datetime
+      t.column "updated_at",    :datetime
+      t.column "goes_live_at",  :datetime
+      t.column "expires_at",    :datetime
+    end
+  end
+  
+  def see_image_tables(s)
+    s.table "images" do |t|
+      t.column "id",            :integer
+      t.column "url",           :string
+      t.column "caption",       :text
+    end
+    
+    s.table "image_tags" do |t|
+      t.column "id",            :integer
+      t.column "image_id",      :integer
+      t.column "tag",           :string
+    end
+  end
+  
+  def see_authentication_tables(s)
+    s.table "groups" do |t|
+      t.column "id",          :integer
+      t.column "name",        :string
+    end
+    
+    s.table "privileges" do |t|
+      t.column "id",          :integer
+      t.column "name",        :string
+    end
+    
+    s.table "groups_privileges" do |t|
+      t.column "id",           :integer
+      t.column "group_id",     :integer
+      t.column "privilege_id", :integer
+    end
+    
+    s.table "users" do |t|
+      t.column "id",            :integer
+      t.column "username",      :string
+      t.column "password_hash", :string
+      t.column "group_id",      :integer
+      t.column "email_address", :string
+    end
+  end
+  
+  def see_user_info_tables(s)
+    s.table "degrees" do |t|
+      t.column "id",          :integer
+      t.column "user_id",     :integer
+      t.column "type",        :string
+      t.column "institution", :string
+      t.column "url",         :string
+      t.column "year",        :integer
     end
   end
   
   def see_empty_schema
     assert_schema do |s|
     end
+  end
+  
+  def see_data
+    assert_names ["admin", "faculty", "staff"], Group.find(:all)
+    
+    assert_names ["admin", "faculty"], Group.find_by_name("faculty").privileges
+    assert_names ["admin", "staff"], Group.find_by_name("staff").privileges
+    assert_names ["admin"], Group.find_by_name("admin").privileges
+  end
+  
+  def assert_names(expected, actual)
+    assert_equal expected.sort, actual.map { |p| p.name }.sort
   end
   
 end
