@@ -12,7 +12,7 @@
   <%= render :partial => 'newsitems' %>
 </div>
 
-<% restrict_to :admin do -%>
+<% restrict_to :edit do -%>
   <p><%= link_to 'Create new news item', :action => 'new' %></p>
 <% end -%>
 

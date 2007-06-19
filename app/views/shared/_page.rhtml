@@ -4,7 +4,7 @@
 
 <p><%= page.render_content %></p>
 
-<% restrict_to :admin do -%>
+<% restrict_to :edit do -%>
   <p class="view-edit">
     <%= link_to 'view/edit', :controller => 'page',
             :action => 'view', :id => page.identifier %>

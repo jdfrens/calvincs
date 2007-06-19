@@ -7,7 +7,7 @@
               :action => 'view', :id => news_item.id %>
       </td>
       
-      <% if current_user -%>
+      <% restrict_to :edit do -%>
         <td>
           <%= button_to 'Destroy', { :action => 'destroy', :id => news_item, :listing => params[:id] },
               :confirm => 'Are you sure you want to destroy this news item?',

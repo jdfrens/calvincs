@@ -14,7 +14,7 @@ class HomeControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  should "have an index page" do
+  def test_index
     get :index
     assert_response :success
     assert_home_page_assignments
@@ -22,8 +22,9 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_template 'home/index'
   end
 
-  should "have an index page when logged in" do
-    get :index, {}, user_session(:admin)
+  def test_index_when_logged_in
+    get :index, {}, user_session(:edit)
+    
     assert_response :success
     assert_home_page_assignments
     assert_home_page_layout
@@ -40,8 +41,8 @@ class HomeControllerTest < Test::Unit::TestCase
   end
       
   def test_administration_page
-    get :administrate, {}, user_session(:admin)
-    assert_user_privilege 1, 'admin'
+    get :administrate, {}, user_session(:edit)
+
     assert_response :success
     assert_standard_layout
     assert_template 'home/administrate'

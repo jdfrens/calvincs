@@ -21,7 +21,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   should "get form to create a new page when logged in" do
-    get :create, {}, user_session(:admin)
+    get :create, {}, user_session(:edit)
     assert_response :success
     assert_standard_layout
     assert_template "page/create"
@@ -34,8 +34,9 @@ class PageControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
   end
   
-  should "get a list of pages when logged in" do
-    get :list, {}, user_session(:admin), { :error => 'Error flash!' }
+  def test_list_WHEN_logged_in
+    get :list, {}, user_session(:edit), { :error => 'Error flash!' }
+    
     assert_response :success
     assert_standard_layout
     assert_template "page/list"
@@ -96,8 +97,9 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "div#content div.img-right", false
   end
    
-  def test_view_and_edit_page_when_logged_in
-    get :view, { :id => 'mission' }, user_session(:admin) 
+  def test_view_and_edit_page_WHEN_logged_in
+    get :view, { :id => 'mission' }, user_session(:edit)
+    
     assert_response :success
     assert_standard_layout
     assert_template "page/view"
@@ -131,7 +133,7 @@ class PageControllerTest < Test::Unit::TestCase
         :identifier => 'new_page', :title => 'New Page',
         :content => 'love me!'
       }
-    }, user_session(:admin)
+    }, user_session(:edit)
     assert_redirected_to :action => 'view', :id => 'new_page'
     assert flash.empty?
     page = Page.find_by_identifier('new_page')
@@ -152,8 +154,8 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "fail to save a new page with bad identifier" do
     post :save,
-    { :page => { :identifier => 'bad!', :content => 'whatever' } },
-    user_session(:admin)
+        { :page => { :identifier => 'bad!', :content => 'whatever' } },
+        user_session(:edit)
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the page', flash[:error]
@@ -163,8 +165,8 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "change page title" do
     xhr :get, :set_page_title,
-    { :id => 1, :value => 'New Mission Statement' },
-    user_session(:admin)
+        { :id => 1, :value => 'New Mission Statement' },
+        user_session(:edit)
     assert_response :success
     assert_equal "New Mission Statement", @response.body
     
@@ -181,7 +183,7 @@ class PageControllerTest < Test::Unit::TestCase
   def test_update_page_content
     xhr :get, :update_page_content,
         { :id => 1, :page => { :content => 'Mission *away*!' } },
-        user_session(:admin)
+        user_session(:edit)
         
     assert_response :success
     assert_select_rjs :replace_html, "page_content" do
@@ -202,7 +204,7 @@ class PageControllerTest < Test::Unit::TestCase
   
   should "change page identifier" do
     xhr :get, :set_page_identifier, { :id => 1, :value => 'mission_2'},
-    user_session(:admin)
+    user_session(:edit)
     assert_response :success
     assert_equal "mission_2", @response.body
     
@@ -217,7 +219,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   should "destroy a page when logged in" do
-    post :destroy, { :id => 1 }, user_session(:admin)
+    post :destroy, { :id => 1 }, user_session(:edit)
     
     assert_redirected_to :controller => 'page', :action => 'list'
     assert_nil Page.find_by_identifier('mission')

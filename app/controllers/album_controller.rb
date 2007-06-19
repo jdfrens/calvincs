@@ -1,6 +1,6 @@
 class AlbumController < ApplicationController
 
-  restrict_to :admin, :only => [ :create, :list, :update_image, :destroy_image ]
+  restrict_to :edit
   
   def create
     if params[:image]

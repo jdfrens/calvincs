@@ -1,12 +1,6 @@
 class NewsController < ApplicationController
   
-  restrict_to :admin, :only => [
-      :new, :save, :destroy,
-      :set_news_item_headline, :set_news_item_teaser,
-      :update_news_item_content,
-      :set_news_item_goes_live_at_formatted,
-      :set_news_item_expires_at_formatted,
-      ]
+  restrict_to :edit, :except => [ :index, :list, :view, ]
   
   def index
     @news_items = NewsItem.find_current

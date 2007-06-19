@@ -120,9 +120,9 @@ class FullMigrationTest < ActionController::IntegrationTest
   def see_data
     assert_names ["admin", "faculty", "staff"], Group.find(:all)
     
-    assert_names ["admin", "faculty"], Group.find_by_name("faculty").privileges
-    assert_names ["admin", "staff"], Group.find_by_name("staff").privileges
-    assert_names ["admin"], Group.find_by_name("admin").privileges
+    assert_names ["edit"], Group.find_by_name("faculty").privileges
+    assert_names ["edit"], Group.find_by_name("staff").privileges
+    assert_names ["edit"], Group.find_by_name("admin").privileges
   end
   
   def assert_names(expected, actual)

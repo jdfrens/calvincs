@@ -16,7 +16,7 @@ class AlbumControllerTest < Test::Unit::TestCase
   end
   
   def test_list
-    get :list, {}, user_session(:admin)
+    get :list, {}, user_session(:edit)
     
     assert_response :success
     assert_standard_layout
@@ -38,7 +38,7 @@ class AlbumControllerTest < Test::Unit::TestCase
   end
   
   def test_new_image_form
-    get :create, {}, user_session(:admin)
+    get :create, {}, user_session(:edit)
     
     assert_response :success
     assert_standard_layout
@@ -55,7 +55,7 @@ class AlbumControllerTest < Test::Unit::TestCase
         { :image => { :url => "http://example.com/foo.gif",
             :caption => "Foo is bar!",
             :tags_string => "foobar barfoo" }},
-        user_session(:admin)
+        user_session(:edit)
     
     assert_redirected_to :action => 'list'
     image = Image.find_by_caption("Foo is bar!")
@@ -92,7 +92,7 @@ class AlbumControllerTest < Test::Unit::TestCase
           :image => { :url => "http://example.com/lovely.gif",
             :caption => "Lovely.",
             :tags_string => "very lovely" }},
-        user_session(:admin)
+        user_session(:edit)
 
     image.reload
     assert_equal "http://example.com/lovely.gif", image.url
@@ -117,7 +117,7 @@ class AlbumControllerTest < Test::Unit::TestCase
   def test_destroy_image
     assert_not_nil Image.find_by_id(2)
 
-    post :destroy_image, { :id => 2 }, user_session(:admin)
+    post :destroy_image, { :id => 2 }, user_session(:edit)
     
     assert_redirected_to :action => 'list'
     assert_nil Image.find_by_id(2)

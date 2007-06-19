@@ -1,6 +1,6 @@
 class CurriculumController < ApplicationController
   
-  restrict_to :admin, :except => [
+  restrict_to :edit, :except => [
       :index, :list_courses, :view_course
   ]
   
@@ -12,11 +12,6 @@ class CurriculumController < ApplicationController
     @courses = Course.find(:all, :order => "label, number")
   end
   
-  def new_course
-    @course = nil
-    render :template => 'curriculum/course_form'
-  end
-
   def view_course
     begin
       @course = Course.find(params[:id])
@@ -26,6 +21,11 @@ class CurriculumController < ApplicationController
     end
   end
   
+  def new_course
+    @course = nil
+    render :template => 'curriculum/course_form'
+  end
+
   def save_course
     @course = Course.new(params[:course])
     if @course.save

@@ -26,10 +26,6 @@ class Test::Unit::TestCase
   
   # Add more helper methods to be used by all tests here...
   
-  def self.user_fixtures
-    fixtures :users, :groups, :privileges, :groups_privileges
-  end
-  
   def self.should(behave,&block)
     mname = "test_should_#{behave}"
     if block
@@ -88,6 +84,14 @@ class Test::Unit::TestCase
       assert_select "a[href=/home/administrate]", 0
     end
   end
+
+  #
+  # LWT Authentication helpers
+  #
+  
+  def self.user_fixtures
+    fixtures :users, :groups, :privileges, :groups_privileges
+  end
   
   def assert_user_privilege(expected_id, expected_privilege)
     actual_id = session[:current_user_id]
@@ -101,21 +105,14 @@ class Test::Unit::TestCase
   end
   
   def login(username, password)
-    post_via_redirect "/users/login",
-    :user => { :username => username, :password => password }
+    post_via_redirect "/users/login", :user => { :username => username, :password => password }
     assert_response :success, 'should redirect successfully after logging in'
     assert_template 'administrate', 'should use administrate template'
-    assert_equal User.find_by_username(username).id,
-    session[:current_user_id], 'should have right id in session'
+    assert_equal User.find_by_username(username).id, session[:current_user_id], 'should have right id in session'
   end    
   
   def assert_redirected_to_login
     assert_redirected_to :controller => 'users', :action => 'login'
-  end
-  
-  def assert_link_to_markup_help
-    assert_select "a[href=http://hobix.com/textile/][target=_blank]",
-        "Textile reference"
   end
   
   def logged_in?
@@ -124,13 +121,22 @@ class Test::Unit::TestCase
   
   def user_session(privilege)
     case privilege
-    when :admin
-      { :current_user_id => 1 }
+    when :edit
+      { :current_user_id => users(:jeremy).id }
     else
-      {}
+      raise "#{privilege.to_s} is an unrecognized privilege"
     end
   end
+
+  #
+  # HTML content helpers
+  #
   
+  def assert_link_to_markup_help
+    assert_select "a[href=http://hobix.com/textile/][target=_blank]",
+        "Textile reference"
+  end
+    
   def strip_textile(string)
     string.gsub("*", "").gsub("_", "")
   end

@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 
-  restrict_to :admin, :only => 'administrate'
+  restrict_to :edit, :only => 'administrate'
     
   def index
     @content = Page.find_by_identifier('home_page')

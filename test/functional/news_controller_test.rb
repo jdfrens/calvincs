@@ -30,7 +30,7 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   should "display form when creating new news item and logged in" do
-    get :new, {}, user_session(:admin)
+    get :new, {}, user_session(:edit)
     assert_response :success
     assert_standard_layout
     assert_select "h1", "Create News Item"
@@ -69,7 +69,7 @@ class NewsControllerTest < Test::Unit::TestCase
         'goes_live_at(3i)' => '15',
         'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
         'expires_at(3i)' => '31',
-      }}, user_session(:admin)
+      }}, user_session(:edit)
     assert_redirected_to :controller => 'news', :action => 'list'
     
     news_item = NewsItem.find_by_headline('News Headline')
@@ -83,7 +83,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "fail to save BAD news item when logged in" do
     post :save, { :news_item => {
         :headline => '', :content => ''
-      }}, user_session(:admin)
+      }}, user_session(:edit)
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the news item', flash[:error]
@@ -139,7 +139,7 @@ class NewsControllerTest < Test::Unit::TestCase
   end  
   
   should "list: all news items, editting controls, logged in" do
-    get :list, { :id => 'all' }, user_session(:admin)
+    get :list, { :id => 'all' }, user_session(:edit)
     assert_response :success
     assert_standard_layout
     assert_news_listing
@@ -169,7 +169,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_view_a_news_item_WHEN_logged_in
     item = news_items(:todays_news)
     id = item.id
-    get :view, { :id => id }, user_session(:admin)
+    get :view, { :id => id }, user_session(:edit)
     
     assert_response :success
     
@@ -201,7 +201,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "change headline of news item" do
     xhr :get, :set_news_item_headline,
       { :id => news_items(:todays_news).id, :value => 'New Headline' },
-      user_session(:admin)
+      user_session(:edit)
     assert_response :success
     assert_equal "New Headline", @response.body
     
@@ -218,7 +218,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "change teaser of news item" do
     xhr :get, :set_news_item_teaser,
       { :id => news_items(:todays_news).id, :value => 'Teaser of Newness' },
-      user_session(:admin)
+      user_session(:edit)
       
     assert_response :success
     assert_equal "Teaser of Newness", @response.body
@@ -238,7 +238,7 @@ class NewsControllerTest < Test::Unit::TestCase
     item = news_items(:todays_news)
     xhr :get, :update_news_item_content,
         { :id => item.id, :news_item => { :content => 'News that is *fit* to print.' } },
-        user_session(:admin)
+        user_session(:edit)
         
     assert_response :success
     assert_select_rjs :replace_html, "news_item_content" do
@@ -264,7 +264,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_set_goes_live_of_news_item
     item = news_items(:todays_news)
     xhr :get, :set_news_item_goes_live_at_formatted,
-        { :id => item.id, :value => '01/05/2007' }, user_session(:admin)
+        { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
         
     assert_response :success
     assert_equal '01/05/2007', @response.body
@@ -285,7 +285,7 @@ class NewsControllerTest < Test::Unit::TestCase
   should "change expires-at of news item" do
     item = news_items(:todays_news)
     xhr :get, :set_news_item_expires_at_formatted,
-        { :id => item.id, :value => '01/05/2007' }, user_session(:admin)
+        { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
     assert_response :success
     assert_equal '01/05/2007', @response.body
     item.reload
@@ -312,7 +312,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_not_nil NewsItem.find_by_headline("News of Today"), "sanity check"
     assert_equal 4, NewsItem.find(:all).size
     
-    post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' }, user_session(:admin)
+    post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' }, user_session(:edit)
     
     assert_redirected_to :controller => 'news', :action => 'list', :id => 'foobar'
     assert_equal 3, NewsItem.find(:all).size, "lost just one news item"

@@ -1,9 +1,6 @@
 class PageController < ApplicationController
 
-  restrict_to :admin, :only => [
-      :create, :save, :destroy,
-      :set_page_title, :update_page_content, :set_page_identifier
-  ]
+  restrict_to :edit, :except => [ :index, :list, :view, ]
   
   def index
     redirect_to :action => 'list'

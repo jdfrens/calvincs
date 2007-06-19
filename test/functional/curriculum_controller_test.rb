@@ -13,8 +13,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
   
-  # tests
-  should "redirect to course listing with index action" do
+  def test_index_redirects_to_course_listing
     get :index
     assert_redirected_to :action => 'list_courses'
   end
@@ -32,8 +31,8 @@ class CurriculumControllerTest < Test::Unit::TestCase
     end
   end
   
-  should "add a course when logged in" do
-    get :new_course, {}, user_session(:admin)
+  def test_new_course
+    get :new_course, {}, user_session(:edit)
     assert_response :success
     assert_standard_layout
     assert_template "curriculum/course_form"
@@ -41,7 +40,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_course_form
   end
   
-  should "redirect instead of adding course when NOT logged in" do
+  def test_new_course_should_redirect_when_NOT_logged_in
     get :new_course
     assert_redirected_to_login
   end
@@ -74,7 +73,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     post :save_course, { :course => {
         :label => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
-      }}, user_session(:admin)
+      }}, user_session(:edit)
     assert_redirected_to :action => 'list_courses'
     assert flash.empty?
     course = Course.find_by_number(665)
@@ -93,7 +92,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
   should "fail to save a bad course when logged in" do
     post :save_course, { :course => {
         :label => 'Q', :number => ''
-      }}, user_session(:admin)
+      }}, user_session(:edit)
     assert_template "curriculum/course_form"
     assert_select "div#error", /errors prohibited this course from being saved/i
     assert !flash.empty?

@@ -24,7 +24,7 @@
     <%= @page.render_content %>
 </div>
 
-<% restrict_to :admin do -%>
+<% restrict_to :edit do -%>
 
     <div class="content-editor" id="content-editor">
         <h2>Content Editor</h2><%= render :partial => 'shared/markupreference' %>
@@ -43,7 +43,7 @@
 
 <% end %>
 
-<% restrict_to :admin do -%>
+<% restrict_to :edit do -%>
     <p class="identifier">
         <input type="button" id="edit_identifier" value="edit" /><%=
             in_place_editor_field :page, 'identifier', {},
