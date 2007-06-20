@@ -62,3 +62,8 @@ div.news_item div.content {
 div#news_teaser {
     font-style: italic;
 }
+
+b {
+	font-size: 100px;
+	color: red;
+}

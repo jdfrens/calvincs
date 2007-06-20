@@ -2,7 +2,7 @@ class Image < ActiveRecord::Base
 
   has_many :image_tags, :dependent => :delete_all
 
-  validates_presence_of :url, :caption
+  validates_presence_of :url
   
   def render_caption
     if caption
@@ -26,4 +26,5 @@ class Image < ActiveRecord::Base
       image_tags.create!(:tag => new_tag)
     end
   end
+  
 end

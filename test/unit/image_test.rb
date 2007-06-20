@@ -8,7 +8,6 @@ class ImageTest < Test::Unit::TestCase
     image = Image.new
     assert !image.valid?
     assert image.errors.invalid?(:url)
-    assert image.errors.invalid?(:caption)
   end
   
   def test_initialize_with_tags_string
