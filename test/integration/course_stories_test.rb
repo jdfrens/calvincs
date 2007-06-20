@@ -1,10 +1,12 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class CourseStoriesTest < ActionController::IntegrationTest
-  fixtures :courses, :users, :groups, :privileges, :groups_privileges
+
+  fixtures :courses
+  user_fixtures
   
   should "be able to add a course" do
-    login 'calvin', 'john'
+    login 'calvin', 'calvinpassword'
   
     get "curriculum/new_course"
     assert_response :success
@@ -13,10 +15,10 @@ class CourseStoriesTest < ActionController::IntegrationTest
     
     post_via_redirect "curriculum/save_course",
         :course => {
-	  :label => 'IS',
-	  :number => 101,
-	  :title => 'Basics of IS',
-	  :credits => 5,
+	        :label => 'IS',
+      	  :number => 101,
+	        :title => 'Basics of IS',
+      	  :credits => 5,
         }
     assert_response :success
     assert_template "list_courses"

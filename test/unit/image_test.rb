@@ -27,9 +27,13 @@ class ImageTest < Test::Unit::TestCase
   end
   
   def test_render_caption
-    image = images(:mission)
-    assert_equal "Somebody works on our *mission*.", image.caption
-    assert_equal "Somebody works on our <strong>mission</strong>.", image.render_caption
+    assert_equal "Somebody works on our *mission*.",
+        images(:mission).caption
+    assert_equal "Somebody works on our <strong>mission</strong>.",
+        images(:mission).render_caption
+    
+    assert_nil images(:jeremy_faculty).caption
+    assert_equal "", images(:jeremy_faculty).render_caption
   end
   
   def test_tags

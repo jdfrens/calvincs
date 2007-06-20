@@ -23,7 +23,12 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   should "be able to log in" do
-    post :login, :user => { :username => 'calvin', :password => 'john' }
+    post :login, :user => { :username => 'calvin', :password => 'calvinpassword' }
+
+    assert_redirected_to :controller => 'home', :action => 'administrate'
+    assert flash.empty?
+
+    post :login, :user => { :username => 'joel', :password => 'joelpassword' }
 
     assert_redirected_to :controller => 'home', :action => 'administrate'
     assert flash.empty?

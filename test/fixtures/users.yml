@@ -2,24 +2,40 @@
 calvin:
   id: 1
   username: calvin
-  password_hash: <%= User.hash_password('john') %>
+  first_name: John
+  last_name: Calvin
+  password_hash: <%= User.hash_password('calvinpassword') %>
   group_id: 1
   email_address: calvin@calvin.foo
 sharon:
   id: 2
   username: sharon
+  first_name: Sharon
+  last_name: Gould
   password_hash: <%= User.hash_password('sharonpassword') %>
-  group_id: 1
+  group_id: 3
   email_address: sharon@calvin.foo
 jeremy:
   id: 3
   username: jeremy
+  first_name: Jeremy D.
+  last_name: Frens
   password_hash: <%= User.hash_password('jeremypassword') %>
-  group_id: 1
+  group_id: 2
   email_address: jeremy@calvin.foo
 keith:
   id: 4
   username: keith
+  first_name: Keith
+  last_name: Vander Linden
   password_hash: <%= User.hash_password('keithpassword') %>
-  group_id: 1
+  group_id: 2
   email_address: keith@calvin.foo
+joel:
+  id: 5
+  username: joel
+  first_name: Joel C.
+  last_name: Adams
+  password_hash: <%= User.hash_password('joelpassword') %>
+  group_id: 2
+  email_address: joel@calvin.foo
