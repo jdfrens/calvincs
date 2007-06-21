@@ -22,14 +22,14 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_standard_layout
     assert_select "h1", "List of Images"
     assert_select "div#image_list" do
-      assert_select "table", 6, "should be six images"
+      assert_select "table", 5, "should be five images"
       assert_select "div#image_form_1"
       assert_image_table images(:mission)
       assert_select "div#image_form_2"
       assert_image_table images(:alphabet)
       assert_select "div#image_form_3"
       assert_image_table images(:mission2)
-      # assuming other three okay...
+      # assuming two faculty headshots are okay...
     end
   end
   

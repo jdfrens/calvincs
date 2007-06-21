@@ -1,6 +1,8 @@
 <tr>
 	<td>
-		<%= image_tag faculty_entry.image.url %>
+		<% if faculty_entry.image -%>
+    		<%= image_tag faculty_entry.image.url %>
+		<% end -%>
 	</td>
 	<td>
 		<h2><%= h(faculty_entry.full_name) %></h2>

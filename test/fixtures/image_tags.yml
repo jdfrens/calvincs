@@ -19,7 +19,3 @@ jeremy:
   id: 6
   image_id: 4
   tag: jeremy_headshot
-keith:
-  id: 7
-  image_id: 6
-  tag: keith_headshot

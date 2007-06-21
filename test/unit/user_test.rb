@@ -29,7 +29,8 @@ class UserTest < Test::Unit::TestCase
 
   def test_image
     assert_equal images(:jeremy_faculty), users(:jeremy).image
-    assert_equal images(:keith_faculty), users(:keith).image
+    assert_equal images(:joel_faculty), users(:joel).image
+    assert_nil users(:keith).image
     assert_nil users(:sharon).image
   end
 end

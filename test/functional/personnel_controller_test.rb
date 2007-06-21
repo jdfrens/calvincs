@@ -38,7 +38,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td h2", "Jeremy D. Frens"
       end
       assert_select "tr:nth-child(3)" do
-        assert_select "td img[src=#{images(:keith_faculty).url}]"
+        assert_select "td img", false
         assert_select "td h2", "Keith Vander Linden"
       end
     end
