@@ -1,0 +1,42 @@
+<% remote_form_for :degree, degree_edit, :html => { :id => "degree_edit_#{degree_edit.id}" } do |form| -%>
+  <table>
+    <tr>
+      <td>
+        Description:
+      </td>
+      <td>
+        <%= form.text_field :degree_type, :width => 40 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Institution:
+      </td>
+      <td>
+        <%= form.text_field :institution, :width => 20 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        URL:
+      </td>
+      <td>
+        <%= form.text_field :url,         :width => 40 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Year:
+      </td>
+      <td>
+        <%= form.text_field :year, :width => 6 %>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= submit_tag "Update education" %>
+      </td>
+    </tr>
+  </table>
+<% end -%>

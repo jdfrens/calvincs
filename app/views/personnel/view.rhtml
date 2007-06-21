@@ -30,3 +30,10 @@
 <ul id="education">
     <%= render :partial => 'degree', :collection => @user.degrees %>
 </ul>
+
+<% restrict_to :edit do -%>
+  <h2>Education Edits</h2>
+  <div id="education_edits">
+    <%= render :partial => 'degree_edit', :collection => @user.degrees %>
+  </div>
+<% end -%>

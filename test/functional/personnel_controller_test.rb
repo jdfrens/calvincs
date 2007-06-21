@@ -93,6 +93,22 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
       assert_select "li", "Ph.D. in CS, Indiana University, 2002"
     end
+    assert_select "div#education_edits" do
+      assert_select "form#degree_edit_1" do
+        assert_select "input[type=text][value=B.A. in CS and MATH]"
+        assert_select "input[type=text][value=Calvin College]"
+        assert_select "input[type=text][value=http://cs.calvin.edu/]"
+        assert_select "input[type=text][value=1992]"
+        assert_select "input[type=submit]"
+      end
+      assert_select "form#degree_edit_3" do
+        assert_select "input[type=text][value=Ph.D. in CS]"
+        assert_select "input[type=text][value=Indiana University]"
+        assert_select "input[type=text][value=http://cs.indiana.edu/]"
+        assert_select "input[type=text][value=2002]"
+        assert_select "input[type=submit]"
+      end
+    end
   end
   
   def test_view_with_invalid_username
