@@ -84,6 +84,11 @@ class Test::Unit::TestCase
       assert_select "a[href=/home/administrate]", 0
     end
   end
+  
+  def assert_spinner(options = {})
+    id = options[:number] ? "spinner_#{options[:number]}" : "spinner"
+    assert_select "img##{id}[src^=/images/spinner_moz.gif]"
+  end
 
   #
   # LWT Authentication helpers

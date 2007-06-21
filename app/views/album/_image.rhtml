@@ -31,8 +31,7 @@
                 <th>&nbsp;</th>
                 <td>
                   <%= submit_tag "Update", :class => "submit" %>
-                  <%= image_tag 'spinner_moz.gif', :id => "spinner_#{image.id}",
-                        :style=>"display:none;" %>
+                  <%= spinner :number => image.id %>
                 </td>
             </tr>
         </table>

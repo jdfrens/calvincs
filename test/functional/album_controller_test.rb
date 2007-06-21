@@ -144,7 +144,7 @@ class AlbumControllerTest < Test::Unit::TestCase
         assert_select "textarea#image_caption_#{id}", image.caption
         assert_select "tr td input#image_tags_string_#{id}[value=#{image.tags_string}]"
         assert_select "input[type=submit][value=Update]"
-        assert_select "img#spinner_#{id}"
+        assert_spinner :number => id
       end
     end
     assert_select "form[action=/album/destroy_image/#{id}] input[type=submit][value=Destroy]", 1

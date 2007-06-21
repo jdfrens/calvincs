@@ -21,7 +21,7 @@
         URL:
       </td>
       <td>
-        <%= form.text_field :url,         :width => 40 %>
+        <%= form.text_field :url, :width => 40 %>
       </td>
     </tr>
     <tr>
@@ -36,6 +36,7 @@
       <td></td>
       <td>
         <%= submit_tag "Update education" %>
+        <%= spinner :number => degree_edit.id %>
       </td>
     </tr>
   </table>

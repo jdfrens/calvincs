@@ -87,6 +87,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[value=Jeremy D.]"
       assert_select "input[value=Frens]"
       assert_select "input[type=submit]"
+      assert_spinner
     end
     assert_select "ul#education" do
       assert_select "li", 2, "should have two degrees"
@@ -100,6 +101,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "input[type=text][value=http://cs.calvin.edu/]"
         assert_select "input[type=text][value=1992]"
         assert_select "input[type=submit]"
+        assert_spinner :number => 1
       end
       assert_select "form#degree_edit_3" do
         assert_select "input[type=text][value=Ph.D. in CS]"
@@ -107,6 +109,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "input[type=text][value=http://cs.indiana.edu/]"
         assert_select "input[type=text][value=2002]"
         assert_select "input[type=submit]"
+        assert_spinner :number => 3
       end
     end
   end

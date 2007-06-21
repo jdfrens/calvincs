@@ -27,4 +27,12 @@ module ApplicationHelper
       '</a>'
   end
   
+  def spinner_id(number)
+    number ? "spinner_#{number}" : "spinner"    
+  end
+  
+  def spinner(options = {})
+    image_tag 'spinner_moz.gif', :id => spinner_id(options[:number]), :style => "display:none;"
+  end
+  
 end
