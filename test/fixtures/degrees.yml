@@ -2,20 +2,20 @@
 jeremy_calvin:
   id: 1
   user_id: 3
-  degree_type: BA in Mathematics and Computer Science
+  degree_type: B.A. in CS and MATH
   institution: Calvin College
   url: http://www.calvin.edu/
   year: 1992
 keith_central:
   id: 2
   user_id: 4
-  degree_type: BA in Mathematics and Computer Science
+  degree_type: B.A. in CS and MATH
   institution: Central College
   year: 1983
 jeremy_iu:
   id: 3
   user_id: 3
-  degree_type: PhD in Computer Science
-  institution: Indiana University (Bloomington)
+  degree_type: Ph.D. in CS
+  institution: Indiana University
   url: http://cs.indiana.edu/
   year: 2002

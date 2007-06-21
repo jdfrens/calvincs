@@ -6,5 +6,8 @@
 	</td>
 	<td>
 		<h2><%= h(faculty_entry.full_name) %></h2>
+		<ul>
+			<%= render :partial => "degree", :collection => faculty_entry.degrees %>
+		</ul>
 	</td>
 </tr>
