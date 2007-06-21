@@ -5,7 +5,7 @@
 		<% end -%>
 	</td>
 	<td>
-		<h2><%= h(faculty_entry.full_name) %></h2>
+		<h2><%= link_to h(faculty_entry.full_name), :action => 'view', :id => faculty_entry.username %></h2>
 		<ul>
 			<%= render :partial => "degree", :collection => faculty_entry.degrees %>
 		</ul>

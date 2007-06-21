@@ -6,7 +6,7 @@ class PersonnelController; def rescue_action(e) raise e end; end
 
 class PersonnelControllerTest < Test::Unit::TestCase
 
-  fixtures :images, :image_tags
+  fixtures :images, :image_tags, :degrees
   user_fixtures
 
   def setup
@@ -27,34 +27,34 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout
-    assert_select "table" do
+    assert_select "table#faculty_listing" do
       assert_select "tr", 3, "should have three faculty"
       assert_select "tr:nth-child(1)" do
         assert_select "td img[src=#{images(:joel_faculty).url}]"
         assert_select "td:nth-child(2)" do
-          assert_select "h2", "Joel C. Adams"
+          assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
           assert_select "ul"
         end
       end
       assert_select "tr:nth-child(2)" do
         assert_select "td img[src=#{images(:jeremy_faculty).url}]"
         assert_select "td:nth-child(2)" do
-          assert_select "h2", "Jeremy D. Frens"
+          assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
           assert_select "ul" do
-#            assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
-#            assert_select "li a[href=http://cs.calvin.edu/]", "Calvin College"
-#            assert_select "li", "M.S. in CS, Indiana University, 1994"
-#            assert_select "li", "Ph.D. in CS, Indiana University, 2002"
-#            assert_select "li a[href=http://cs.indiana.edu/]", "Indiana University"
+            assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
+            assert_select "li a[href=http://cs.calvin.edu/]", "Calvin College"
+            assert_select "li", "Ph.D. in CS, Indiana University, 2002"
+            assert_select "li a[href=http://cs.indiana.edu/]", "Indiana University"
           end
         end
       end
       assert_select "tr:nth-child(3)" do
         assert_select "td img", false
         assert_select "td:nth-child(2)" do
-          assert_select "h2", "Keith Vander Linden"
+          assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
           assert_select "ul" do
-#            assert_select "li", "B.A. in CS and MATH, Central College, 1983"
+            assert_select "li", "B.A. in CS and MATH, Central College, 1983"
+            assert_select "li a", false, "keith should have no institution URL"
           end
         end
       end
@@ -68,6 +68,12 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "h1", "Jeremy D. Frens"
+    assert_select "h2", "Education"
+    assert_select "ul#education" do
+      assert_select "li", 2, "should have two degrees"
+      assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
+      assert_select "li", "Ph.D. in CS, Indiana University, 2002"
+    end
   end
   
   def test_view_WHEN_logged_in
@@ -81,6 +87,11 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[value=Jeremy D.]"
       assert_select "input[value=Frens]"
       assert_select "input[type=submit]"
+    end
+    assert_select "ul#education" do
+      assert_select "li", 2, "should have two degrees"
+      assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
+      assert_select "li", "Ph.D. in CS, Indiana University, 2002"
     end
   end
   

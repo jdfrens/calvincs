@@ -1,1 +1,3 @@
-<li> <%= h(degree.degree_type) %> </li>
+<li>
+    <%= h(degree.degree_type) %>, <%= link_to_if degree.url, h(degree.institution), degree.url %>, <%= h(degree.year) %>
+</li>

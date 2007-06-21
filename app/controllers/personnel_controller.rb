@@ -24,7 +24,8 @@ class PersonnelController < ApplicationController
     user.update_attributes(params[:user])
     render :update do |p|
       p.replace_html "full_name_header",
-          :inline => "<h1><%= full_name %></h1>", :locals => { :full_name => user.full_name }
+          :inline => "<h1><%= full_name %></h1>",
+          :locals => { :full_name => user.full_name }
     end
   end
   

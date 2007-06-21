@@ -63,6 +63,14 @@ div#news_teaser {
     font-style: italic;
 }
 
+/* Faculty listing */
+
+table#faculty_listing td {
+    vertical-align: top;
+}
+
+/* Mean formatting. */
+
 b {
 	font-size: 100px;
 	color: red;
