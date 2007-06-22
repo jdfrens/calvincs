@@ -38,4 +38,18 @@ class PersonnelController < ApplicationController
     end
   end
   
+  def add_degree
+    user = User.find(params[:id])
+    degree = user.degrees.create!(
+        :degree_type => "BA in CS",
+        :institution => "Somewhere U",
+        :year => 1959
+        )
+    render :update do |page|
+      page.insert_html :bottom, 'education', :partial => 'degree', :object => degree
+      page.insert_html :bottom, 'education_edits', :partial => 'degree_edit',
+          :object => degree
+    end
+  end
+  
 end

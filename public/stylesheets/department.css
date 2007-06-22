@@ -69,6 +69,12 @@ table#faculty_listing td {
     vertical-align: top;
 }
 
+table#faculty_listing ul {
+    list-style-type: none;
+    padding-left: 1em;
+    font-size: small;
+}
+
 /* Mean formatting. */
 
 b {

@@ -37,4 +37,6 @@
   <div id="education_edits">
     <%= render :partial => 'degree_edit', :collection => @user.degrees %>
   </div>
+  <%= link_to_remote "Add degree",
+          :url => { :action => "add_degree", :id => @user.id } %>
 <% end -%>

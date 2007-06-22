@@ -27,6 +27,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout
+    assert_select "h1", "Faculty"
     assert_select "table#faculty_listing" do
       assert_select "tr", 3, "should have three faculty"
       assert_select "tr:nth-child(1)" do
@@ -115,6 +116,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_spinner :number => 3
       end
     end
+    assert_select "a[onclick*=/personnel/add_degree/3]", "Add degree"
   end
   
   def test_view_with_invalid_username
@@ -199,5 +201,42 @@ class PersonnelControllerTest < Test::Unit::TestCase
      degree.reload
      assert_equal "Central College", degree.institution
   end
+  
+  def test_add_degree
+    keith = users(:keith)
+    assert_equal 1, keith.degrees.size, "should start with 1 degree"
+    
+    xhr :post, :add_degree, { :id => keith.id }, user_session(:edit)
+        
+    assert_response :success
+    assert_select_rjs :insert, :bottom, "education" do
+      assert_select "li", "BA in CS, Somewhere U, 1959"
+    end
+    assert_select_rjs :insert, :bottom, "education_edits" do
+      assert_select "form" do
+        assert_select "input[type=text]", 4
+        assert_select "input[value=BA in CS]"
+        assert_select "input[value=Somewhere U]"
+        assert_select "input[value=1959]"
+      end
+    end
+    
+    assert_equal 2, keith.degrees.size, "should have 2 degrees now"
+    degree = Degree.find_by_institution("Somewhere U")
+    assert_not_nil degree
+    assert keith.degrees.include?(degree)
+    assert_equal "BA in CS", degree.degree_type
+    assert_equal 1959, degree.year
+  end
 
+  def test_add_degree_fails_when_NOT_logged_in
+    keith = users(:keith)
+    assert_equal 1, keith.degrees.size, "should start with 1 degree"
+    
+    xhr :post, :add_degree, { :id => keith.id }
+    
+    assert_redirected_to_login
+    assert_equal 1, keith.degrees.size, "should still have 1 degrees"
+  end
+  
 end

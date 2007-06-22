@@ -6,9 +6,14 @@ class UserTest < Test::Unit::TestCase
   user_fixtures
   
   def test_has_many_degrees
-    assert_equal_set [], users(:sharon).degrees
-    assert_equal_set [degrees(:keith_central)], users(:keith).degrees
-    assert_equal_set [degrees(:jeremy_calvin), degrees(:jeremy_iu)], users(:jeremy).degrees
+    assert_equal [], users(:sharon).degrees
+    assert_equal [degrees(:keith_central)], users(:keith).degrees
+    assert_equal [degrees(:jeremy_calvin), degrees(:jeremy_iu)], users(:jeremy).degrees
+  end
+  
+  def test_has_many_degrees_sorts
+    new_degree = users(:jeremy).degrees.create!(:degree_type => 'a', :institution => 'b', :year => 1901)
+    assert_equal [new_degree, degrees(:jeremy_calvin), degrees(:jeremy_iu)], users(:jeremy).degrees
   end
   
   def test_has_many_degrees_destroys_all
@@ -33,4 +38,5 @@ class UserTest < Test::Unit::TestCase
     assert_nil users(:keith).image
     assert_nil users(:sharon).image
   end
+
 end

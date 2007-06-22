@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   acts_as_login_model
   
-  has_many :degrees, :dependent => :delete_all
+  has_many :degrees, :order => 'year', :dependent => :delete_all
 
   def full_name
     first_name + " " + last_name
