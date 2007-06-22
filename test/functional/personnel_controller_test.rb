@@ -71,8 +71,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "h2", "Education"
     assert_select "ul#education" do
       assert_select "li", 2, "should have two degrees"
-      assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
-      assert_select "li", "Ph.D. in CS, Indiana University, 2002"
+      assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
+      assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
     end
   end
   
@@ -83,6 +83,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "div#full_name_header h1", "Jeremy D. Frens"
+    assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
     assert_select "form" do
       assert_select "input[value=Jeremy D.]"
       assert_select "input[value=Frens]"
@@ -91,10 +92,11 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
     assert_select "ul#education" do
       assert_select "li", 2, "should have two degrees"
-      assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
-      assert_select "li", "Ph.D. in CS, Indiana University, 2002"
+      assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
+      assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
     end
     assert_select "div#education_edits" do
+      assert_remote_form_for_and_spinner("degree_edit_1", "/personnel/update_degree/1")
       assert_select "form#degree_edit_1" do
         assert_select "input[type=text][value=B.A. in CS and MATH]"
         assert_select "input[type=text][value=Calvin College]"
@@ -103,6 +105,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "input[type=submit]"
         assert_spinner :number => 1
       end
+      assert_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
       assert_select "form#degree_edit_3" do
         assert_select "input[type=text][value=Ph.D. in CS]"
         assert_select "input[type=text][value=Indiana University]"
@@ -153,4 +156,48 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_equal "Keith Vander Linden", keith.full_name
   end
   
+  def test_update_degree
+    degree = degrees(:keith_central)
+    
+    xhr :post, :update_degree,
+        { :id => degree.id,
+          :degree => {
+            :degree_type => 'BS',
+            :institution => 'Nowhere',
+            :url => 'foo',
+            :year => '1666'
+          }
+        }, user_session(:edit)
+        
+     assert_response :success
+     assert_select_rjs :replace_html, "degree_#{degree.id}" do
+       assert_select "li", "BS, Nowhere, 1666"
+     end
+     
+     degree.reload
+     assert_equal "BS", degree.degree_type
+     assert_equal "Nowhere", degree.institution
+     assert_equal "foo", degree.url
+     assert_equal 1666, degree.year
+  end
+
+  def test_update_degree_fails_when_NOT_logged_in
+    degree = degrees(:keith_central)
+    
+    xhr :post, :update_degree,
+        { :id => degree.id,
+          :degree => {
+            :degree_type => 'BS',
+            :institution => 'Nowhere',
+            :url => 'foo',
+            :year => '1666'
+          }
+        }
+        
+     assert_redirected_to_login
+     
+     degree.reload
+     assert_equal "Central College", degree.institution
+  end
+
 end

@@ -90,6 +90,19 @@ class Test::Unit::TestCase
     assert_select "img##{id}[src^=/images/spinner_moz.gif]"
   end
 
+  def assert_remote_form_for_and_spinner(id, route)
+    form = find_tag :tag => "form", :attributes => { :id => id }
+    assert_not_nil form, "should have form"
+    assert_match /Element\.show\('spinner/, form.attributes["onsubmit"],
+        "should have JavaScript to show spinner"
+    assert_match /Element\.hide\('spinner/, form.attributes["onsubmit"],
+        "should have JavaScript to hide spinner"
+    assert_match /Ajax\.Request\('(.+?)'/, form.attributes["onsubmit"],
+        "should have JavaScript for Ajax request"
+    form.attributes["onsubmit"] =~ /Ajax\.Request\('(.+?)'/
+    assert_equal route, "#$1", "should have correct route in Ajax request"
+  end
+
   #
   # LWT Authentication helpers
   #

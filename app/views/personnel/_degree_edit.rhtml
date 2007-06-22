@@ -1,4 +1,9 @@
-<% remote_form_for :degree, degree_edit, :html => { :id => "degree_edit_#{degree_edit.id}" } do |form| -%>
+<% remote_form_for(:degree, degree_edit,
+       :html => { :id => "degree_edit_#{degree_edit.id}" },
+       :url => { :action => 'update_degree', :id => degree_edit.id },
+       :before => "Element.show('spinner_#{degree_edit.id}')", 
+       :complete => "Element.hide('spinner_#{degree_edit.id}')"
+       ) do |form| -%>
   <table>
     <tr>
       <td>

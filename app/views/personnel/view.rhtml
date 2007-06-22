@@ -2,6 +2,7 @@
 
 <% if current_user -%>
 	<% remote_form_for(:user, @user,
+			:html => { :id => "full_name_edit" },
             :url => { :action => 'update_name', :id => @user.id },
             :before => "Element.show('spinner')", 
             :complete => "Element.hide('spinner')") do |form| -%>
