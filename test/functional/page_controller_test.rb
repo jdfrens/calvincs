@@ -43,7 +43,8 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "h1", "All Pages"
     assert_select "div#error", "Error flash!"
     assert_select "table[summary=page list]" do
-      assert_select "tr", 4+1, "should be four pages and one header"
+      assert_select "tr", Page.find(:all).size+1,
+          "should have one row per page plus a header"
       assert_select "tr" do
         assert_select "th", /identifier/i
         assert_select "th", /title/i
@@ -61,7 +62,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "h1", "All Pages"
     assert_select "div#error", "Error flash!"
     assert_select "table[summary=page list]" do
-      assert_select "tr", 4, "should be four pages in fixtures"
+      assert_select "tr", Page.find(:all).size, "should have one row per page"
       assert_standard_page_entries
     end
     assert_select "a[href=/page/create]", 0
@@ -144,6 +145,8 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   def test_save_redirects_when_NOT_logged_in
+    original_count = count_pages
+    
     post :save,
         :page => {
           :identifier => 'new_page', :title => 'New Page',
@@ -152,11 +155,12 @@ class PageControllerTest < Test::Unit::TestCase
 
     assert_redirected_to_login
 
-    assert_equal 4, Page.find(:all).size,
-        "should have only four pages still"
+    assert_equal original_count, count_pages, "should have #{original_count} pages still"
   end
   
   def test_save_fails_with_bad_data
+    original_count = count_pages
+    
     post :save,
         { :page => { :identifier => 'bad!', :content => 'whatever' } },
         user_session(:edit)
@@ -165,7 +169,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert !flash.empty?
     assert_equal 'Invalid values for the page', flash[:error]
     
-    assert_equal 4, Page.find(:all).size,
+    assert_equal original_count, Page.find(:all).size,
         "should have only four pages still"
   end
   
@@ -250,12 +254,16 @@ class PageControllerTest < Test::Unit::TestCase
   #
   private
   
+  def count_pages
+    Page.find(:all).size
+  end
+  
   def assert_standard_page_entries
     offset = logged_in? ? 1 : 0
     assert_page_entry 1+offset, pages(:alphabet)
     assert_page_entry 2+offset, pages(:home_page)
     assert_page_entry 3+offset, pages(:home_splash)
-    assert_page_entry 4+offset, pages(:mission)
+    assert_page_entry 5+offset, pages(:mission)
   end
   
   def assert_page_entry(n, page)

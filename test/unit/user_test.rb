@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
 
-  fixtures :degrees, :images, :image_tags
+  fixtures :degrees, :images, :image_tags, :pages
   user_fixtures
   
   def test_has_many_degrees
@@ -37,6 +37,12 @@ class UserTest < Test::Unit::TestCase
     assert_equal images(:joel_faculty), users(:joel).image
     assert_nil users(:keith).image
     assert_nil users(:sharon).image
+  end
+  
+  def test_interests_page
+    assert_equal pages(:jeremy_interests), users(:jeremy).interests_page
+    assert_nil users(:keith).interests_page
+    assert_nil users(:joel).interests_page
   end
 
 end

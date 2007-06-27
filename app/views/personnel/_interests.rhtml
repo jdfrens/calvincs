@@ -1,0 +1,14 @@
+<% if @user.interests_page || current_user -%>
+  <div id="interests">
+    <h2>Interests</h2>
+
+    <% if @user.interests_page -%>
+      <%= @user.interests_page.render_content %>
+    <% end -%>
+    
+    <p>
+      <%= link_to "view/edit interests", :controller => "page",
+             :action => "view", :id => "#{@user.username}_interests" %>
+    </p>
+  </div>
+<% end -%>

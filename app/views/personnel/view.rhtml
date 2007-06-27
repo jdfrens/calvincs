@@ -26,17 +26,7 @@
 	<% end -%>
 <% end -%>
 
-<h2>Education</h2>
+<%= render :partial => 'education' %>
 
-<ul id="education">
-    <%= render :partial => 'degree', :collection => @user.degrees %>
-</ul>
+<%= render :partial => 'interests' %>
 
-<% restrict_to :edit do -%>
-  <h2>Education Edits</h2>
-  <div id="education_edits">
-    <%= render :partial => 'degree_edit', :collection => @user.degrees %>
-  </div>
-  <%= link_to_remote "Add degree",
-          :url => { :action => "add_degree", :id => @user.id } %>
-<% end -%>

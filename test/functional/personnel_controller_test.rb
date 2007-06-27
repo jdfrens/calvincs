@@ -69,12 +69,29 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "h1", "Jeremy D. Frens"
-    assert_select "h2", "Education"
-    assert_select "ul#education" do
-      assert_select "li", 2, "should have two degrees"
-      assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
-      assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
+    assert_select "#education" do
+      assert_select "h2", "Education"
+      assert_select "ul" do
+        assert_select "li", 2, "should have two degrees"
+        assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
+        assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
+      end
     end
+    assert_select "#interests" do
+      assert_select "h2", "Interests"
+      assert_select "p", "interest 1, interest 2"
+    end
+  end
+  
+  def test_view_of_dataless_user
+    get :view, { :id => 'joel' }
+    
+    assert_response :success
+    assert_standard_layout
+    
+    assert_select "h1", "Joel C. Adams"
+    assert_select "#education", false
+    assert_select "#interests", false
   end
   
   def test_view_WHEN_logged_in
@@ -91,34 +108,66 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[type=submit]"
       assert_spinner
     end
-    assert_select "ul#education" do
-      assert_select "li", 2, "should have two degrees"
-      assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
-      assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
-    end
-    assert_select "div#education_edits" do
-      assert_remote_form_for_and_spinner("degree_edit_1", "/personnel/update_degree/1")
-      assert_select "form#degree_edit_1" do
-        assert_select "input[type=text][value=B.A. in CS and MATH]"
-        assert_select "input[type=text][value=Calvin College]"
-        assert_select "input[type=text][value=http://cs.calvin.edu/]"
-        assert_select "input[type=text][value=1992]"
-        assert_select "input[type=submit]"
-        assert_spinner :number => 1
+    assert_select "#education" do
+      assert_select "ul" do
+        assert_select "li", 2, "should have two degrees"
+        assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
+        assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
       end
-      assert_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
-      assert_select "form#degree_edit_3" do
-        assert_select "input[type=text][value=Ph.D. in CS]"
-        assert_select "input[type=text][value=Indiana University]"
-        assert_select "input[type=text][value=http://cs.indiana.edu/]"
-        assert_select "input[type=text][value=2002]"
-        assert_select "input[type=submit]"
-        assert_spinner :number => 3
+      assert_select "div#education_edits" do
+        assert_remote_form_for_and_spinner("degree_edit_1", "/personnel/update_degree/1")
+        assert_select "form#degree_edit_1" do
+          assert_select "input[type=text][value=B.A. in CS and MATH]"
+          assert_select "input[type=text][value=Calvin College]"
+          assert_select "input[type=text][value=http://cs.calvin.edu/]"
+          assert_select "input[type=text][value=1992]"
+          assert_select "input[type=submit]"
+          assert_spinner :number => 1
+        end
+        assert_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
+        assert_select "form#degree_edit_3" do
+          assert_select "input[type=text][value=Ph.D. in CS]"
+          assert_select "input[type=text][value=Indiana University]"
+          assert_select "input[type=text][value=http://cs.indiana.edu/]"
+          assert_select "input[type=text][value=2002]"
+          assert_select "input[type=submit]"
+          assert_spinner :number => 3
+        end
       end
+      assert_select "a[onclick*=/personnel/add_degree/3]", "Add degree"
     end
-    assert_select "a[onclick*=/personnel/add_degree/3]", "Add degree"
+    assert_select "#interests" do
+      assert_select "h2", "Interests"
+      assert_select "p", "interest 1, interest 2"
+      assert_select "a[href=/p/jeremy_interests]"
+    end
   end
-  
+
+  def test_view_dataless_user_WHEN_logged_in
+    get :view, { :id => 'joel' }, user_session(:edit)
+    
+    assert_response :success
+    assert_standard_layout
+    
+    assert_select "div#full_name_header h1", "Joel C. Adams"
+    assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
+    assert_select "form" do
+      assert_select "input[value=Joel C.]"
+      assert_select "input[value=Adams]"
+      assert_select "input[type=submit]"
+      assert_spinner
+    end
+    assert_select "#education" do
+      assert_select "ul", true
+      assert_select "div#education_edits", true
+      assert_select "a[onclick*=/personnel/add_degree/5]", "Add degree"
+    end
+    assert_select "#interests" do
+      assert_select "h2", "Interests"
+      assert_select "a[href=/p/joel_interests]", "view/edit interests"
+    end
+  end
+
   def test_view_with_invalid_username
     get :view, { :id => 'does not exist' }
     

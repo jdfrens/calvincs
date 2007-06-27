@@ -19,4 +19,8 @@ home_splash:
   identifier: home_splash
   title: Images (Probably) at Top of Home Page
   content: images!
-
+jeremy_interests:
+  id: 5
+  identifier: jeremy_interests
+  title: Interests
+  content: interest 1, interest 2

@@ -13,4 +13,8 @@ class User < ActiveRecord::Base
     tag ? tag.image : nil
   end
   
+  def interests_page
+    Page.find_by_identifier(username + "_interests")
+  end
+  
 end
