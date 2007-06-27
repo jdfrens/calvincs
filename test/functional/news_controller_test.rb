@@ -24,12 +24,12 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_full_news_item news_items(:todays_news), [ "today" ]
   end
   
-  should "redirect when NOT logged in and creating new news item" do
+  def test_new_redirects_when_NOT_logged_in
     get :new
     assert_redirected_to_login
   end
   
-  should "display form when creating new news item and logged in" do
+  def test_new
     get :new, {}, user_session(:edit)
     assert_response :success
     assert_standard_layout
@@ -53,7 +53,7 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end  
   
-  should "redirect when NOT logged in and saving new news item" do
+  def test_save_redirects_when_NOT_logged_in
     post :save, :news_item => {
       :headline => 'News Headline', :content => 'News Content',
       :expires_at => [2007, 12, 31]
@@ -61,7 +61,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
   end
   
-  should "save new news item when logged in" do
+  def test_save
     post :save, { :news_item => {
         :headline => 'News Headline',
         :teaser => 'Brief Description', :content => 'News Content',
@@ -80,7 +80,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal Time.local(2007, 12, 31), news_item.expires_at
   end
   
-  should "fail to save BAD news item when logged in" do
+  def test_save_fails_with_bad_data
     post :save, { :news_item => {
         :headline => '', :content => ''
       }}, user_session(:edit)
@@ -110,7 +110,7 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  should "list current news items when explicitly requested" do
+  def test_list_current
     get :list, { :id => 'current' }
     
     assert_response :success
@@ -123,7 +123,7 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  should "list all news items when requested" do
+  def test_list_all
     get :list, :id => 'all'
     
     assert_response :success
@@ -138,7 +138,7 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end  
   
-  should "list: all news items, editting controls, logged in" do
+  def test_list_all_when_LOGGED_in
     get :list, { :id => 'all' }, user_session(:edit)
     assert_response :success
     assert_standard_layout
@@ -198,8 +198,8 @@ class NewsControllerTest < Test::Unit::TestCase
         item.expires_at_formatted
   end
   
-  should "change headline of news item" do
-    xhr :get, :set_news_item_headline,
+  def test_set_news_item_headline
+    xhr :post, :set_news_item_headline,
       { :id => news_items(:todays_news).id, :value => 'New Headline' },
       user_session(:edit)
     assert_response :success
@@ -208,14 +208,14 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal 'New Headline', NewsItem.find(news_items(:todays_news).id).headline
   end
   
-  should "fail to change headline when NOT logged in" do
+  def test_set_news_item_headline_redirects_when_NOT_logged_in
     xhr :get, :set_news_item_headline, :id => news_items(:todays_news).id, :value => 'New HeadLine'
     assert_redirected_to_login
     assert_equal "News of Today", news_items(:todays_news).headline,
       'headline remains unchanged'
   end
   
-  should "change teaser of news item" do
+  def test_set_news_item_teaser
     xhr :get, :set_news_item_teaser,
       { :id => news_items(:todays_news).id, :value => 'Teaser of Newness' },
       user_session(:edit)
@@ -272,7 +272,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal '01/05/2007', item.goes_live_at_formatted
   end
   
-  should "fail to change goes-live when NOT logged in" do
+  def test_set_goes_live_at_formatted_redirects_when_NOT_logged_in
     item = news_items(:todays_news)
     original_date = item.goes_live_at
     xhr :get, :set_news_item_goes_live_at_formatted,
@@ -282,7 +282,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal original_date, item.goes_live_at, 'goes-live remains unchanged'
   end
   
-  should "change expires-at of news item" do
+  def test_set_news_item_expires_at_formatted
     item = news_items(:todays_news)
     xhr :get, :set_news_item_expires_at_formatted,
         { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
@@ -292,7 +292,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal '01/05/2007', item.expires_at_formatted
   end
   
-  should "fail to change expires-at when NOT logged in" do
+  def test_set_news_item_at_formatted_redirects_when_NOT_logged_in
     item = news_items(:todays_news)
     original_date = item.expires_at
     xhr :get, :set_news_item_expires_at_formatted,
@@ -302,17 +302,18 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal original_date, item.expires_at, 'expires-at remains unchanged'
   end
   
-  should "redirect when trying to destroy news item and NOT logged in" do
+  def test_destroy_redirects_when_NOT_logged_in
     post :destroy, { :id => news_items(:todays_news).id }
     assert_redirected_to_login
     assert_equal 4, NewsItem.find(:all).size, "should still have four news items"
   end
   
-  should "destroy news item when logged in" do
+  def test_destroy
     assert_not_nil NewsItem.find_by_headline("News of Today"), "sanity check"
     assert_equal 4, NewsItem.find(:all).size
     
-    post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' }, user_session(:edit)
+    post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' },
+        user_session(:edit)
     
     assert_redirected_to :controller => 'news', :action => 'list', :id => 'foobar'
     assert_equal 3, NewsItem.find(:all).size, "lost just one news item"

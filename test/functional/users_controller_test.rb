@@ -14,7 +14,7 @@ class UsersControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  should "get log-in page" do
+  def test_login
     get :login
 
     assert_response :success
@@ -22,7 +22,7 @@ class UsersControllerTest < Test::Unit::TestCase
     assert_login_form
   end
   
-  should "be able to log in" do
+  def test_login
     post :login, :user => { :username => 'calvin', :password => 'calvinpassword' }
 
     assert_redirected_to :controller => 'home', :action => 'administrate'
@@ -34,7 +34,7 @@ class UsersControllerTest < Test::Unit::TestCase
     assert flash.empty?
   end
     
-  should "fail to log in" do
+  def test_login_failure
     post :login, :user => { :username => 'calvin', :password => 'BAD PASSWORD' }
 
     assert_response :success

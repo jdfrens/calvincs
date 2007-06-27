@@ -15,12 +15,12 @@ class PageControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
   
-  should "redirect index to list" do
+  def test_index_redirects_to_list
     get :index
     assert_redirected_to :controller => 'page', :action => 'list'
   end
   
-  should "get form to create a new page when logged in" do
+  def test_create
     get :create, {}, user_session(:edit)
     assert_response :success
     assert_standard_layout
@@ -29,7 +29,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_page_form
   end
   
-  should "redirect when trying to create a new page and NOT logged in" do
+  def test_create_redirects_when_NOT_logged_in
     get :create
     assert_redirected_to_login
   end
@@ -53,7 +53,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "a[href=/page/create]", "Create a new page"
   end
   
-  should "get a list of pages when NOT logged in" do
+  def test_list
     get :list, {}, {}, { :error => 'Error flash!' }
     assert_response :success
     assert_standard_layout
@@ -121,52 +121,59 @@ class PageControllerTest < Test::Unit::TestCase
     end
   end
   
-  should "redirect when trying to view non-existant page" do
+  def test_view_redirects_with_page_that_does_not_exist
     get :view, :id => 'does_not_exist'
     assert_redirected_to :action => 'list'
     assert_equal "Page does_not_exist does not exist.", flash[:error]
   end
   
-  should "save a new page" do
+  def test_save
     post :save,
-    { :page => {
-        :identifier => 'new_page', :title => 'New Page',
-        :content => 'love me!'
-      }
-    }, user_session(:edit)
+        { :page => {
+            :identifier => 'new_page', :title => 'New Page',
+            :content => 'love me!'
+          }
+        }, user_session(:edit)
+
     assert_redirected_to :action => 'view', :id => 'new_page'
     assert flash.empty?
+
     page = Page.find_by_identifier('new_page')
     assert_not_nil page
     assert_equal 'love me!', page.content
   end
   
-  should "fail to save a new page when NOT logged in" do
+  def test_save_redirects_when_NOT_logged_in
     post :save,
-    :page => {
-      :identifier => 'new_page', :title => 'New Page',
-      :content => 'love me!'
-    }
+        :page => {
+          :identifier => 'new_page', :title => 'New Page',
+          :content => 'love me!'
+        }
+
     assert_redirected_to_login
+
     assert_equal 4, Page.find(:all).size,
         "should have only four pages still"
   end
   
-  should "fail to save a new page with bad identifier" do
+  def test_save_fails_with_bad_data
     post :save,
         { :page => { :identifier => 'bad!', :content => 'whatever' } },
         user_session(:edit)
+        
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the page', flash[:error]
+    
     assert_equal 4, Page.find(:all).size,
         "should have only four pages still"
   end
   
-  should "change page title" do
-    xhr :get, :set_page_title,
+  def test_set_page_title
+    xhr :post, :set_page_title,
         { :id => 1, :value => 'New Mission Statement' },
         user_session(:edit)
+
     assert_response :success
     assert_equal "New Mission Statement", @response.body
     
@@ -174,14 +181,16 @@ class PageControllerTest < Test::Unit::TestCase
     assert_equal 'New Mission Statement', page.title
   end
   
-  should "fail to change page title when NOT logged in" do
-    xhr :get, :set_page_title, :id => 1, :value => 'New Mission Statement'
+  def test_set_page_title_redirects_when_NOT_logged_in
+    xhr :post, :set_page_title, :id => 1, :value => 'New Mission Statement'
+    
     assert_redirected_to_login
+    
     assert_equal "Mission Statement", Page.find(1).title
   end
   
   def test_update_page_content
-    xhr :get, :update_page_content,
+    xhr :post, :update_page_content,
         { :id => 1, :page => { :content => 'Mission *away*!' } },
         user_session(:edit)
         
@@ -195,16 +204,18 @@ class PageControllerTest < Test::Unit::TestCase
     assert_equal 'Mission *away*!', page.content
   end
   
-  should "fail to change page content when NOT logged in" do
+  def test_update_page_content_redirects_when_NOT_logged_in
     xhr :get, :update_page_content,
-    { :id => 1, :page => { :content => 'Mission away!' } }
+        { :id => 1, :page => { :content => 'Mission away!' } }
+    
     assert_redirected_to_login
     assert_equal "We state *our* mission.", Page.find(1).content
   end
   
-  should "change page identifier" do
-    xhr :get, :set_page_identifier, { :id => 1, :value => 'mission_2'},
-    user_session(:edit)
+  def test_set_page_identifier
+    xhr :post, :set_page_identifier, { :id => 1, :value => 'mission_2'},
+        user_session(:edit)
+        
     assert_response :success
     assert_equal "mission_2", @response.body
     
@@ -218,17 +229,19 @@ class PageControllerTest < Test::Unit::TestCase
     assert_equal "mission", Page.find(1).identifier
   end
   
-  should "destroy a page when logged in" do
+  def test_destroy
     post :destroy, { :id => 1 }, user_session(:edit)
     
     assert_redirected_to :controller => 'page', :action => 'list'
+
     assert_nil Page.find_by_identifier('mission')
   end
   
-  should "redirect to login when trying to destroy a page and NOT logged in" do
+  def test_destroy_redirects_when_not_logged_in
     post :destroy, :id => 1
     
     assert_redirected_to_login
+    
     assert_not_nil Page.find(1)
   end
   

@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class CourseTest < Test::Unit::TestCase
   fixtures :courses
 
-  should "complain when constructed without required data" do
+  def test_initialize_validations
     course = Course.new
     assert !course.valid?
     assert course.errors.invalid?(:label)
@@ -12,7 +12,7 @@ class CourseTest < Test::Unit::TestCase
     assert course.errors.invalid?(:credits)
   end
   
-  should "complain when constructed with bad data" do
+  def test_initialize_bad_data_validations
     course = Course.new(
       :label => 'C', :number => 'bad', :title => 'okay', :credits => 'iv'
       )
@@ -23,7 +23,7 @@ class CourseTest < Test::Unit::TestCase
     assert course.errors.invalid?(:credits)
   end
   
-  should "have a whole variety of problems with label validation" do
+  def test_extensive_label_validations
     course = Course.find(3)
     assert course.valid?
     course.label = 'C'
@@ -43,8 +43,7 @@ class CourseTest < Test::Unit::TestCase
     assert !course.valid?, 'label should not have non-alphabetic characters'
   end
   
-  
-  should "complain when duplicate course created" do
+  def test_fail_on_duplicate_course
     course = Course.new(
       :label => 'CS', :number => '108', :title => 'Duplicate!', :credits => 3
     )
@@ -53,17 +52,15 @@ class CourseTest < Test::Unit::TestCase
     assert course.errors.invalid?(:number)
     assert !course.errors.invalid?(:title)
     assert !course.errors.invalid?(:credits)
-  end
   
-  should "create duplicate number with different label" do
     course = Course.new(
       :label => 'IS', :number => '108',
       :title => 'IS in the Middle Ages', :credits => 3
     )
-    assert course.valid?
+    assert course.valid?, "reusing a number should be okay"
   end
   
-  should "get identifier of course" do
+  def test_identifier
     assert_equal 'CS 108', Course.find(3).identifier
     assert_equal 'CS 214', Course.find(1).identifier
     assert_equal 'IS 337', Course.find(2).identifier

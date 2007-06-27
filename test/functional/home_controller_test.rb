@@ -35,7 +35,7 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select "a[href=/p/home_page]"
   end
 
-  should "protect administration page" do
+  def test_administrate_redirects_when_NOT_logged_in
     get :administrate
     assert_redirected_to :controller => 'users', :action => 'login'
   end

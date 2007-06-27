@@ -26,17 +26,6 @@ class Test::Unit::TestCase
   
   # Add more helper methods to be used by all tests here...
   
-  def self.should(behave,&block)
-    mname = "test_should_#{behave}"
-    if block
-      define_method mname, &block
-    else
-      define_method mname do
-        flunk "#{self.class.name.sub(/Test$/,'')} should #{behave}"
-      end
-    end
-  end
-  
   def assert_equal_set(expected, actual, message=nil)
     assert_equal expected.to_set, actual.to_set, message
   end

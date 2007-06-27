@@ -18,7 +18,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_redirected_to :action => 'list_courses'
   end
   
-  should "get list of all courses" do
+  def test_list_courses
     get :list_courses
     assert_response :success
     assert_standard_layout
@@ -45,7 +45,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
   end
   
-  should "view a course when NOT logged in" do
+  def test_view_course_when_NOT_logged_in
     get :view_course, :id => 3
     assert_response :success
     assert_standard_layout
@@ -57,19 +57,19 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_select "a[href=/curriculum/list_courses]"
   end
   
-  should "redirect when id not specified when viewing details of course" do
+  def test_view_course_redirectes_when_id_is_nil
     get :view_course, :id => nil
     assert_redirected_to :action => 'list_courses'
     assert flash.empty?
   end
   
-  should "redirect when id is invalid when viewing details of course" do
+  def test_view_course_redirectes_when_id_is_invalid
     get :view_course, :id => 99
     assert_redirected_to :action => 'list_courses'
     assert flash.empty?
   end
   
-  should "save a course when logged in" do
+  def test_save_course
     post :save_course, { :course => {
         :label => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
@@ -81,7 +81,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_equal 'One Off Devilry', course.title
   end
   
-  should "redirect when trying to save a course and NOT logged in" do
+  def test_save_course_redirects_when_NOT_logged_in
     post :save_course, { :course => {
         :label => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
@@ -89,7 +89,7 @@ class CurriculumControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
   end
   
-  should "fail to save a bad course when logged in" do
+  def test_save_course_fails_with_bad_data
     post :save_course, { :course => {
         :label => 'Q', :number => ''
       }}, user_session(:edit)

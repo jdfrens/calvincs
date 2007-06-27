@@ -5,7 +5,7 @@ class CourseStoriesTest < ActionController::IntegrationTest
   fixtures :courses
   user_fixtures
   
-  should "be able to add a course" do
+  def test_adding_a_new_course
     login 'calvin', 'calvinpassword'
   
     get "curriculum/new_course"
@@ -26,7 +26,7 @@ class CourseStoriesTest < ActionController::IntegrationTest
     assert_select "li:nth-child(3)", "IS 101: Basics of IS"
   end
   
-  should "be able to view a course" do
+  def test_view_a_course
     goto_course_listings
     assert_select "ul#courses li", 3, 'there should be three existing courses'
     assert_select "li:nth-child(1)", "CS 108: Introduction to Computing"
