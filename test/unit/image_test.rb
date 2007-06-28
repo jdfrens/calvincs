@@ -10,19 +10,23 @@ class ImageTest < Test::Unit::TestCase
     assert image.errors.invalid?(:url)
   end
   
-  def test_initialize_with_tags_string
-    params = { :url => 'somewhere', 
-               :caption => 'something',
-               :tags_string => 'tag1 tag2 tag3' }
-    image = Image.create!(params)
-    assert_equal "somewhere", image.url
-    assert_equal "something", image.caption
-    assert_equal "", image.tags_string
+  def test_tagging
+    assert_equal "", images(:alphabet).tags_string
+    assert_equal "mission", images(:mission).tags_string
+    assert_equal "mission another", images(:mission2).tags_string
     
-    image.tags_string = params[:tags_string]
-    image.save!
-    image.reload
-    assert_equal "tag1 tag2 tag3", image.tags_string
+    alphabet = images(:alphabet)
+    alphabet.tags_string = "foo bar"
+    alphabet.reload
+    assert_equal "foo bar", alphabet.tags_string
+    assert_equal alphabet, ImageTag.find_by_tag("foo").image
+    assert_equal alphabet, ImageTag.find_by_tag("bar").image
+    
+    mission2 = images(:mission2)
+    mission2.tags_string = ""
+    mission2.reload
+    assert_equal "", mission2.tags_string
+    assert_nil ImageTag.find_by_tag("another")
   end
   
   def test_render_caption
@@ -61,4 +65,5 @@ class ImageTest < Test::Unit::TestCase
     assert_equal 'mission foobar', image.tags_string
     assert_equal ['mission', 'foobar'].to_set, image.tags.to_set
   end
+
 end

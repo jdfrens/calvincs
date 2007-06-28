@@ -46,16 +46,17 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_select "form[action=/album/create]" do
       assert_select "input#image_url"
       assert_select "textarea#image_caption"
-      assert_select "input#image_tags_string"
+      assert_select "input#tags_string[name=tags_string]"
       assert_select "input[type=submit]"
     end
   end
   
   def test_new_image_creation
     get :create,
-        { :image => { :url => "http://example.com/foo.gif",
-            :caption => "Foo is bar!",
-            :tags_string => "foobar barfoo" }},
+        { :image => {
+            :url => "http://example.com/foo.gif",
+            :caption => "Foo is bar!" },
+          :tags_string => "foobar barfoo" },
         user_session(:edit)
     
     assert_redirected_to :action => 'list'

@@ -5,7 +5,7 @@ class AlbumController < ApplicationController
   def create
     if params[:image]
       image = Image.create!(params[:image])
-      image.tags_string = params[:image][:tags_string]
+      image.tags_string = params[:tags_string]
       image.save!
       redirect_to :action => 'list'
     else
