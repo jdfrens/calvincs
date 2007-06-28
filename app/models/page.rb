@@ -10,6 +10,10 @@ class Page < ActiveRecord::Base
     RedCloth.new(content).to_html
   end
   
+  def render_content_lite
+    RedCloth.new(content, [:lite_mode]).to_html
+  end
+  
   def images
     ImageTag.find_all_by_tag(identifier).map { |image_tag| image_tag.image }
   end

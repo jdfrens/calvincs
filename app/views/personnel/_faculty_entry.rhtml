@@ -1,13 +1,16 @@
 <tr>
-	<td>
-		<% if faculty_entry.image -%>
-    		<%= image_tag faculty_entry.image.url %>
-		<% end -%>
-	</td>
-	<td>
-		<h2><%= link_to h(faculty_entry.full_name), :action => 'view', :id => faculty_entry.username %></h2>
-		<ul>
-			<%= render :partial => "degree", :collection => faculty_entry.degrees %>
-		</ul>
-	</td>
+  <td>
+	<% if faculty_entry.image -%>
+      <%= image_tag faculty_entry.image.url %>
+	<% end -%>
+  </td>
+  <td>
+	<h2><%= link_to h(faculty_entry.full_name), :action => 'view', :id => faculty_entry.username %></h2>
+	<ul>
+	  <%= render :partial => "degree", :collection => faculty_entry.degrees %>
+	</ul>
+	<% if faculty_entry.interests_page -%>
+	  <p><strong>Interests:</strong> <%= faculty_entry.interests_page.render_content_lite %></p>
+	<% end -%>
+  </td>
 </tr>

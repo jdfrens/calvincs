@@ -29,12 +29,14 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     assert_select "h1", "Faculty"
     assert_select "table#faculty_listing" do
-      assert_select "tr", 3, "should have three faculty"
+      assert_select "tr", Group.find_by_name("faculty").users.size,
+         "should have one row per faculty"
       assert_select "tr:nth-child(1)" do
         assert_select "td img[src=#{images(:joel_faculty).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
           assert_select "ul"
+          assert_select "p", false, "should have no interests paragraph"
         end
       end
       assert_select "tr:nth-child(2)" do
@@ -47,6 +49,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "li", "Ph.D. in CS, Indiana University, 2002"
             assert_select "li a[href=http://cs.indiana.edu/]", "Indiana University"
           end
+          assert_select "p", "Interests: interest 1, interest 2"
         end
       end
       assert_select "tr:nth-child(3)" do
@@ -57,7 +60,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "li", "B.A. in CS and MATH, Central College, 1983"
             assert_select "li a", false, "keith should have no institution URL"
           end
-        end
+          assert_select "p", false, "should have no interests paragraph"
+          end
       end
     end
   end

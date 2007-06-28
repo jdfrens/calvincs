@@ -59,6 +59,13 @@ class PageTest < Test::Unit::TestCase
         pages(:home_page).render_content
   end
   
+  def test_render_content_lite
+    assert_equal "We state <strong>our</strong> mission.",
+        pages(:mission).render_content_lite
+    assert_equal "home page text written in <strong>textile</strong>",
+        pages(:home_page).render_content_lite
+  end
+  
   def test_images
     assert_equal [images(:mission), images(:mission2)], pages(:mission).images
   end
