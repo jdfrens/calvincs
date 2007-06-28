@@ -45,4 +45,10 @@ class UserTest < Test::Unit::TestCase
     assert_nil users(:joel).interests_page
   end
 
+  def test_interests_profile
+    assert_equal pages(:jeremy_profile), users(:jeremy).profile_page
+    assert_nil users(:keith).profile_page
+    assert_nil users(:joel).profile_page
+  end
+
 end

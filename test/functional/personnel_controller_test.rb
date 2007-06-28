@@ -88,6 +88,12 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "#interests" do
       assert_select "h2", "Interests"
       assert_select "p", "interest 1, interest 2"
+      assert_select "a[href=/p/jeremy_interests]", false
+    end
+    assert_select "#profile" do
+      assert_select "h2", "Profile"
+      assert_select "p", "profile of jeremy"
+      assert_select "a[href=/p/jeremy_profile]", false
     end
   end
   
@@ -104,6 +110,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
     assert_select "#education", false
     assert_select "#interests", false
+    assert_select "#profile", false
   end
   
   def test_view_WHEN_logged_in
@@ -157,6 +164,11 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "p", "interest 1, interest 2"
       assert_select "a[href=/p/jeremy_interests]"
     end
+    assert_select "#profile" do
+      assert_select "h2", "Profile"
+      assert_select "p", "profile of jeremy"
+      assert_select "a[href=/p/jeremy_profile]"
+    end
   end
 
   def test_view_dataless_user_WHEN_logged_in
@@ -181,6 +193,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "#interests" do
       assert_select "h2", "Interests"
       assert_select "a[href=/p/joel_interests]", "view/edit interests"
+    end
+    assert_select "#profile" do
+      assert_select "h2", "Profile"
+      assert_select "a[href=/p/joel_profile]"
     end
   end
 

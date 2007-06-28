@@ -14,7 +14,19 @@ class User < ActiveRecord::Base
   end
   
   def interests_page
-    Page.find_by_identifier(username + "_interests")
+    find_user_page "interests"
+  end
+
+  def profile_page
+    find_user_page "profile"
   end
   
+  #
+  # Helpers
+  #
+  private
+  
+  def find_user_page(suffix)
+    Page.find_by_identifier(username + "_" + suffix)
+  end
 end

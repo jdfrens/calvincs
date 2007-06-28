@@ -263,7 +263,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_page_entry 1+offset, pages(:alphabet)
     assert_page_entry 2+offset, pages(:home_page)
     assert_page_entry 3+offset, pages(:home_splash)
-    assert_page_entry 5+offset, pages(:mission)
+    assert_page_entry 6+offset, pages(:mission)
   end
   
   def assert_page_entry(n, page)

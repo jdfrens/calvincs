@@ -1,0 +1,16 @@
+<% if @user.profile_page || current_user -%>
+  <div id="profile">
+	<h2>Profile</h2>
+
+	<% if @user.profile_page -%>
+      <%= @user.profile_page.render_content %>
+	<% end -%>
+	
+    <% restrict_to :edit do -%>
+      <p>
+        <%= link_to "view/edit profile", :controller => "page",
+               :action => "view", :id => "#{@user.username}_profile" %>
+      </p>
+	<% end -%>
+  </div>
+<% end -%>

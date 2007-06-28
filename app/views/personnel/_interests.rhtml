@@ -6,9 +6,11 @@
       <%= @user.interests_page.render_content %>
     <% end -%>
     
-    <p>
-      <%= link_to "view/edit interests", :controller => "page",
-             :action => "view", :id => "#{@user.username}_interests" %>
-    </p>
+	<% restrict_to :edit do -%>
+      <p>
+        <%= link_to "view/edit interests", :controller => "page",
+               :action => "view", :id => "#{@user.username}_interests" %>
+      </p>
+	<% end -%>
   </div>
 <% end -%>

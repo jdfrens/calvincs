@@ -24,3 +24,9 @@ jeremy_interests:
   identifier: jeremy_interests
   title: Interests
   content: interest 1, interest 2
+jeremy_profile:
+  id: 6
+  identifier: jeremy_profile
+  title: Profile
+  content: profile of jeremy
+  
