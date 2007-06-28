@@ -73,6 +73,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "h1", "Jeremy D. Frens"
+    assert_select "#contact_information" do
+      assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
+      assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
+    end
     assert_select "#education" do
       assert_select "h2", "Education"
       assert_select "ul" do
@@ -94,6 +98,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "h1", "Joel C. Adams"
+    assert_select "#contact_information" do
+      assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
+      assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
+    end
     assert_select "#education", false
     assert_select "#interests", false
   end
@@ -111,6 +119,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[value=Frens]"
       assert_select "input[type=submit]"
       assert_spinner
+    end
+    assert_select "#contact_information" do
+      assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
+      assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
     end
     assert_select "#education" do
       assert_select "ul" do

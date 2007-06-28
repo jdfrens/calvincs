@@ -1,0 +1,7 @@
+<div id="contact_information">
+  <p>
+  	<a href="http://www.calvin.edu/~<%= @user.username %>/">home page</a>
+	|
+	<%= mail_to @user.email_address, @user.email_address %>
+  </p>
+</div>
