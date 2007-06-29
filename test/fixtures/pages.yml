@@ -29,4 +29,14 @@ jeremy_profile:
   identifier: jeremy_profile
   title: Profile
   content: profile of jeremy
+jeremy_status:
+  id: 7
+  identifier: jeremy_status
+  title: status
+  content: status of jeremy
+keith_status:
+  id: 8
+  identifier: keith_status
+  title: status
+  content: Keith is chair.
   

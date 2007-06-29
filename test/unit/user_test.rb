@@ -39,16 +39,14 @@ class UserTest < Test::Unit::TestCase
     assert_nil users(:sharon).image
   end
   
-  def test_interests_page
-    assert_equal pages(:jeremy_interests), users(:jeremy).interests_page
-    assert_nil users(:keith).interests_page
-    assert_nil users(:joel).interests_page
-  end
+  def test_page
+    assert_equal pages(:jeremy_interests), users(:jeremy).page(:interests)
+    assert_nil users(:keith).page(:interests)
+    assert_nil users(:joel).page(:interests)
 
-  def test_interests_profile
-    assert_equal pages(:jeremy_profile), users(:jeremy).profile_page
-    assert_nil users(:keith).profile_page
-    assert_nil users(:joel).profile_page
+    assert_equal pages(:jeremy_profile), users(:jeremy).page(:profile)
+    assert_nil users(:keith).page(:profile)
+    assert_nil users(:joel).page(:profile)
   end
 
 end

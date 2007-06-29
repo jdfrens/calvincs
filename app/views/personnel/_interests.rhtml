@@ -1,9 +1,9 @@
-<% if @user.interests_page || current_user -%>
+<% if @user.page(:interests) || current_user -%>
   <div id="interests">
     <h2>Interests</h2>
 
-    <% if @user.interests_page -%>
-      <%= @user.interests_page.render_content %>
+    <% if @user.page(:interests) -%>
+      <%= @user.page(:interests).render_content %>
     <% end -%>
     
 	<% restrict_to :edit do -%>

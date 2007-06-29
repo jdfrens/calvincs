@@ -13,20 +13,7 @@ class User < ActiveRecord::Base
     tag ? tag.image : nil
   end
   
-  def interests_page
-    find_user_page "interests"
-  end
-
-  def profile_page
-    find_user_page "profile"
-  end
-  
-  #
-  # Helpers
-  #
-  private
-  
-  def find_user_page(suffix)
-    Page.find_by_identifier(username + "_" + suffix)
+  def page(suffix)
+    Page.find_by_identifier(username + "_" + suffix.to_s)
   end
 end

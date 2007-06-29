@@ -36,7 +36,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
           assert_select "ul"
-          assert_select "p", false, "should have no interests paragraph"
+          assert_select "p#joel_interests", false, "should have no interests paragraph"
+          assert_select "p#joel_status", false, "should have no status paragraph"
         end
       end
       assert_select "tr:nth-child(2)" do
@@ -49,7 +50,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "li", "Ph.D. in CS, Indiana University, 2002"
             assert_select "li a[href=http://cs.indiana.edu/]", "Indiana University"
           end
-          assert_select "p", "Interests: interest 1, interest 2"
+          assert_select "p#jeremy_interests", /Interests:\s+interest 1, interest 2/
+          assert_select "p#jeremy_status", "status of jeremy"
         end
       end
       assert_select "tr:nth-child(3)" do
@@ -60,7 +62,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "li", "B.A. in CS and MATH, Central College, 1983"
             assert_select "li a", false, "keith should have no institution URL"
           end
-          assert_select "p", false, "should have no interests paragraph"
+          assert_select "p#keith_interests", false, "should have no interests paragraph"
+          assert_select "p#keith_status", "Keith is chair."
           end
       end
     end
