@@ -11,16 +11,7 @@
 </h1>
 
 <div id="page_content">
-    <% if current_user -%>
-        <div class="img-right">
-            <p>no images when editing</p>
-        </div>
-    <% elsif @image -%>
-        <div class="img-right">
-            <%= image_tag @image.url, :id => "cool-pic", :class => "img-right" %>
-            <p class="img-caption"><%= @image.render_caption %></p>
-        </div>
-    <% end %>
+	<%= render :partial => "image" %>
     <%= @page.render_content %>
 </div>
 

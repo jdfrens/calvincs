@@ -14,6 +14,10 @@ mission2:
 jeremy_faculty:
   id: 4
   url: /jeremy.png
+jeremy_in_action:
+  id: 6
+  url: /jeremyaction.png
+  caption: jeremy in action
 joel_faculty:
   id: 5
   url: /joel.png

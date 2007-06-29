@@ -15,6 +15,7 @@ class PersonnelController < ApplicationController
     if @user.nil?
       redirect_to :action => 'faculty'
     else
+      @image = Image.pick_random(@user.username)
       render
     end
   end

@@ -4,6 +4,14 @@ class Image < ActiveRecord::Base
 
   validates_presence_of :url
   
+  def self.pick_random(tag, index=-1)
+    images = ImageTag.find_all_by_tag(tag).map { |image_tag| image_tag.image }
+    if index == -1
+      index = rand(images.size)
+    end
+    images[index]
+  end
+
   def render_caption
     if caption
       RedCloth.new(caption, [:lite_mode]).to_html

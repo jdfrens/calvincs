@@ -29,6 +29,20 @@ class ImageTest < Test::Unit::TestCase
     assert_nil ImageTag.find_by_tag("another")
   end
   
+  def test_pick_random_image
+    counts = { images(:mission) => 0, images(:mission2) =>  0 }
+    100.times do
+      image = Image.pick_random("mission")
+      counts[image] = counts[image] + 1
+    end
+    assert counts[images(:mission)] > 0
+    assert counts[images(:mission2)] > 0
+  end
+  
+  def test_pick_random_image_for_nonexistant_tag
+    assert_nil Image.pick_random("does_not_exist")
+  end
+  
   def test_render_caption
     assert_equal "Somebody works on our *mission*.",
         images(:mission).caption

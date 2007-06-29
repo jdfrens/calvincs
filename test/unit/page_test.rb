@@ -66,10 +66,6 @@ class PageTest < Test::Unit::TestCase
         pages(:home_page).render_content_lite
   end
   
-  def test_images
-    assert_equal [images(:mission), images(:mission2)], pages(:mission).images
-  end
-  
   def test_random_image
     assert_equal images(:mission), pages(:mission).random_image(0)
     assert_equal images(:mission2), pages(:mission).random_image(1)

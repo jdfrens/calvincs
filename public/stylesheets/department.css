@@ -75,6 +75,10 @@ table#faculty_listing ul {
     font-size: small;
 }
 
+table#faculty_listing p {
+	font-size: small;
+}
+
 /* Mean formatting. */
 
 b {

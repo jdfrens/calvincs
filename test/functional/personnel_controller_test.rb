@@ -73,6 +73,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "h1", "Jeremy D. Frens"
+    assert_select "div.img-right" do
+      assert_select "img#cool-pic[src=/jeremyaction.png]"
+      assert_select "p.img-caption", "jeremy in action"
+    end
     assert_select "#contact_information" do
       assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
       assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
@@ -273,7 +277,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
             :degree_type => 'BS',
             :institution => 'Nowhere',
             :url => 'foo',
-            :year => '1666'
+            :year => '2666'
           }
         }
         

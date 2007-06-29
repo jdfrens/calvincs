@@ -15,5 +15,5 @@ class ImageTagTest < Test::Unit::TestCase
     assert_equal images(:mission2), image_tags(:mission2).image
     assert_equal images(:mission2), image_tags(:another).image
   end
-
+  
 end

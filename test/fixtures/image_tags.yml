@@ -11,11 +11,15 @@ another:
   id: 3
   image_id: 3
   tag: another
-joel:
+joel_headshot:
   id: 5
   image_id: 5
   tag: joel_headshot
-jeremy:
+jeremy_headshot:
   id: 6
   image_id: 4
   tag: jeremy_headshot
+jeremy:
+  id: 7
+  image_id: 6
+  tag: jeremy
