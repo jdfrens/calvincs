@@ -1,6 +1,6 @@
 class PageController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :list, :view, ]
+  restrict_to :edit, :except => [ :index, :view, ]
   
   def index
     redirect_to :action => 'list'

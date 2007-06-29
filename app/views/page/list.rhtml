@@ -21,7 +21,7 @@
       <% end -%>
 
       <td>
-        <%= link_to h(page.title), :action => 'view', :id => page.identifier %>
+        <%= link_to((page.subpage? ? "SUBPAGE (NO TITLE)" : h(page.title)), :action => 'view', :id => page.identifier) %>
       </td>
 
       <% if current_user -%>

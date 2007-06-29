@@ -54,18 +54,10 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "a[href=/page/create]", "Create a new page"
   end
   
-  def test_list
-    get :list, {}, {}, { :error => 'Error flash!' }
-    assert_response :success
-    assert_standard_layout
-    assert_template "page/list"
-    assert_select "h1", "All Pages"
-    assert_select "div#error", "Error flash!"
-    assert_select "table[summary=page list]" do
-      assert_select "tr", Page.find(:all).size, "should have one row per page"
-      assert_standard_page_entries
-    end
-    assert_select "a[href=/page/create]", 0
+  def test_list_redirects_when_NOT_logged_in
+    get :list
+    
+    assert_redirected_to_login
   end
   
   def test_view_page_when_NOT_logged_in
@@ -314,17 +306,16 @@ class PageControllerTest < Test::Unit::TestCase
     identifier = page.identifier
     title = page.title
     assert_select "tr#page_#{page.id}" do
-      assert_select "td a[href=/p/#{identifier}]", title,
-          "should have title in appropriate <a> in <td>"
-      if logged_in?
-        assert_select "td", identifier,
-            "should have column with identifier in it"
-        assert_select "form[action=/page/destroy/#{id}]" do
-          assert_select "input[value=Destroy]", 1, "should have destroy button"
-        end
+      if page.subpage?
+        assert_select "td a[href=/p/#{identifier}]", "SUBPAGE (NO TITLE)"
       else
-        assert_select "form[action=/page/destroy/#{id}]", 0,
-            "should be no destroy form when NOT logged in"
+        assert_select "td a[href=/p/#{identifier}]", title,
+            "should have title in appropriate <a> in <td>"
+      end
+      assert_select "td", identifier,
+          "should have column with identifier in it"
+      assert_select "form[action=/page/destroy/#{id}]" do
+        assert_select "input[value=Destroy]", 1, "should have destroy button"
       end
     end
   end
