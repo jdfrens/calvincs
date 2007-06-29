@@ -79,4 +79,9 @@ class PageTest < Test::Unit::TestCase
     assert_equal "/p/_jeremy_interests", pages(:jeremy_interests).url_to
   end
   
+  def test_subpage_huh
+    assert !pages(:mission).subpage?
+    assert  pages(:home_page).subpage?
+  end
+  
 end

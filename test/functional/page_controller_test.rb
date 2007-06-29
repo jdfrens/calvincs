@@ -90,6 +90,33 @@ class PageControllerTest < Test::Unit::TestCase
     end
   end
   
+  def test_view_404s_for_subpage_when_NOT_logged_in
+    get :view, :id => '_home_page'
+    
+    assert_response 404
+  end
+  
+  def test_view_of_subpage_WHEN_logged_in
+    get :view, { :id => '_home_page' }, user_session(:edit)
+    
+    assert_response :success
+    assert_standard_layout
+    assert_select "div#content" do
+      assert_select "h1", "{{ A SUBPAGE HAS NO TITLE }}"
+      assert_select "h1 input#edit_title", false, "should not edit unused title"
+      assert_select "div#page_content" do
+        assert_select "p", strip_textile(pages(:home_page).content)
+      end
+    end
+    assert_link_to_markup_help
+    assert_select "form[action=/page/update_page_content/3]" do
+      assert_select "textarea#page_content", pages(:home_page).content
+      assert_select "input[type=submit][value=Update content]"
+    end
+    assert_select "p[class=identifier] span#page_identifier_3_in_place_editor",
+        '_home_page'
+  end
+  
   def test_view_page_WITHOUT_image_and_when_NOT_logged_in
     get :view, :id => 'alphabet'
     
@@ -110,7 +137,7 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "p strong", "our"
       end
       assert_select "div[class=img-right]", "no images when editing"
-      assert_select "h1 input#edit_title", 1
+      assert_select "h1 input#edit_title", true
       assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
       assert_link_to_markup_help
       assert_select "form[action=/page/update_page_content/1]" do
@@ -122,10 +149,16 @@ class PageControllerTest < Test::Unit::TestCase
     end
   end
   
-  def test_view_redirects_with_page_that_does_not_exist
-    get :view, :id => 'does_not_exist'
+  def test_view_redirects_with_page_that_does_not_exist_WHEN_logged_in
+    get :view, { :id => 'does_not_exist' }, user_session(:edit)
     assert_redirected_to :action => 'list'
     assert_equal "Page does_not_exist does not exist.", flash[:error]
+  end
+  
+  def test_view_404s_for_page_that_does_not_exist_when_NOT_logged_in
+    get :view, { :id => 'does_not_exist' }
+    
+    assert_response 404
   end
   
   def test_save

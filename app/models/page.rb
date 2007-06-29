@@ -22,4 +22,8 @@ class Page < ActiveRecord::Base
     "/p/" + identifier
   end
   
+  def subpage?
+    identifier =~ /^_/
+  end
+  
 end

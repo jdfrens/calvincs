@@ -1,10 +1,12 @@
 <h1>
-    <% if current_user -%>
+    <% if @page.subpage? %>
+        {{ A SUBPAGE HAS NO TITLE }}
+    <% elsif current_user -%>
         <input type="button" id="edit_title" value="edit" />
         <%=
             in_place_editor_field :page, "title", {},
             { :external_control => 'edit_title' }
-%>
+        %>
     <% else -%>
         <%= h(@page.title) %>
     <% end %>
