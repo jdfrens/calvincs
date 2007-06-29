@@ -97,6 +97,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "p", "interest 1, interest 2"
       assert_select "a[href=/p/jeremy_interests]", false
     end
+    assert_select "#status", false, "should NOT see status when NOT logged in"
     assert_select "#profile" do
       assert_select "h2", "Profile"
       assert_select "p", "profile of jeremy"
@@ -117,6 +118,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
     assert_select "#education", false
     assert_select "#interests", false
+    assert_select "#status", false
     assert_select "#profile", false
   end
   
