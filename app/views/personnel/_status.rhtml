@@ -1,0 +1,21 @@
+<% if @user.page(:status) || current_user -%>
+  <div id="status">
+    <h2>Status</h2>
+
+    <p class="comment">The status is normally not seen on this page; it appears
+    in the <%= link_to "master table", :action => "faculty" %>.  It should be a
+    full sentence like "Vander Linden is the department chair." or "Stob is a
+    member of the Mathematics and Statistics Department.".</p>
+    
+    <% if @user.page(:status) -%>
+      <%= @user.page(:status).render_content %>
+    <% end -%>
+    
+	<% restrict_to :edit do -%>
+      <p>
+        <%= link_to "view/edit status", :controller => "page",
+               :action => "view", :id => "#{@user.username}_status" %>
+      </p>
+	<% end -%>
+  </div>
+<% end -%>

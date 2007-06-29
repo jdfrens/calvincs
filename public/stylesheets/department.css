@@ -22,10 +22,14 @@ div#error {
     background-color: pink;
 }
 
-/* Any old content editor */
+/* Editing mode changes */
 
 div.content-editor {
   padding: 10px 10px 10px 10px;
+  background-color: pink;
+}
+
+.comment {
   background-color: pink;
 }
 
