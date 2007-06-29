@@ -7,14 +7,15 @@
     full sentence like "Vander Linden is the department chair." or "Stob is a
     member of the Mathematics and Statistics Department.".</p>
     
-    <% if @user.page(:status) -%>
-      <%= @user.page(:status).render_content %>
+    <% if @user.subpage(:status) -%>
+      <%= @user.subpage(:status).render_content %>
     <% end -%>
     
 	<% restrict_to :edit do -%>
       <p>
+          <!-- TODO: use Page#url_for -->
         <%= link_to "view/edit status", :controller => "page",
-               :action => "view", :id => "#{@user.username}_status" %>
+               :action => "view", :id => "_#{@user.username}_status" %>
       </p>
 	<% end -%>
   </div>

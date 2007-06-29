@@ -11,32 +11,32 @@ alphabet:
   content: a b c d e f g _h i j k_
 home_page:
   id: 3
-  identifier: home_page
+  identifier: _home_page
   title: Computing at Calvin College
   content: home page text written in *textile*
 home_splash:
   id: 4
-  identifier: home_splash
+  identifier: _home_splash
   title: Images (Probably) at Top of Home Page
   content: images!
 jeremy_interests:
   id: 5
-  identifier: jeremy_interests
+  identifier: _jeremy_interests
   title: Interests
   content: interest 1, interest 2
 jeremy_profile:
   id: 6
-  identifier: jeremy_profile
+  identifier: _jeremy_profile
   title: Profile
   content: profile of jeremy
 jeremy_status:
   id: 7
-  identifier: jeremy_status
+  identifier: _jeremy_status
   title: status
   content: status of jeremy
 keith_status:
   id: 8
-  identifier: keith_status
+  identifier: _keith_status
   title: status
   content: Keith is chair.
   

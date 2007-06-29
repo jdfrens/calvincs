@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
     tag ? tag.image : nil
   end
   
-  def page(suffix)
-    Page.find_by_identifier(username + "_" + suffix.to_s)
+  def subpage(suffix)
+    Page.find_by_identifier("_" + username + "_" + suffix.to_s)
   end
 end

@@ -16,6 +16,7 @@ class HomeControllerTest < Test::Unit::TestCase
 
   def test_index
     get :index
+    
     assert_response :success
     assert_home_page_assignments
     assert_home_page_layout
@@ -32,7 +33,7 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_select "h1", "Computing at Calvin College"
     assert_select "p", "home page text written in textile"
     assert_select "p strong", "textile"
-    assert_select "a[href=/p/home_page]"
+    assert_select "a[href=/p/_home_page]"
   end
 
   def test_administrate_redirects_when_NOT_logged_in

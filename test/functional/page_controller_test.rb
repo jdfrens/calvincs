@@ -259,18 +259,28 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   def assert_standard_page_entries
-    offset = logged_in? ? 1 : 0
-    assert_page_entry 1+offset, pages(:alphabet)
-    assert_page_entry 2+offset, pages(:home_page)
-    assert_page_entry 3+offset, pages(:home_splash)
-    assert_page_entry 8+offset, pages(:mission)
+    assert_page_entry pages(:alphabet)
+    assert_page_entry pages(:mission)
+    assert_page_entry pages(:home_page)
+    assert_page_entry pages(:home_splash)
+    assert_page_entries_order
   end
-  
-  def assert_page_entry(n, page)
+
+  def assert_page_entries_order
+    current_page = pages(:alphabet)
+    [:mission, :home_page, :home_splash].each do |next_identifier|
+      next_page = pages(next_identifier)
+      assert_select "tr#page_#{current_page.id} ~ tr#page_#{next_page.id}", true,
+          "page '#{current_page.identifier}' should be before '#{next_page.identifier}''"
+      current_page = next_page
+    end
+  end
+
+  def assert_page_entry(page)
     id = page.id
     identifier = page.identifier
     title = page.title
-    assert_select "tr#page_#{page.id}:nth-child(#{n})" do
+    assert_select "tr#page_#{page.id}" do
       assert_select "td a[href=/p/#{identifier}]", title,
           "should have title in appropriate <a> in <td>"
       if logged_in?

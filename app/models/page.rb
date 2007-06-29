@@ -18,4 +18,8 @@ class Page < ActiveRecord::Base
     Image.pick_random(identifier, index)
   end
   
+  def url_to
+    "/p/" + identifier
+  end
+  
 end

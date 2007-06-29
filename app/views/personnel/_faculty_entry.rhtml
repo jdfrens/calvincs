@@ -13,16 +13,16 @@
 	  <%= render :partial => "degree", :collection => faculty_entry.degrees %>
 	</ul>
 
-	<% if faculty_entry.page(:interests) -%>
+	<% if faculty_entry.subpage(:interests) -%>
 	  <p id="<%= faculty_entry.username %>_interests">
 	    <strong>Interests:</strong>
-        <%= faculty_entry.page(:interests).render_content_lite %>
+        <%= faculty_entry.subpage(:interests).render_content_lite %>
       </p>
 	<% end -%>
     
-    <% if faculty_entry.page(:status) -%>
+    <% if faculty_entry.subpage(:status) -%>
       <p id="<%= faculty_entry.username %>_status">
-        <%= faculty_entry.page(:status).render_content_lite %>
+        <%= faculty_entry.subpage(:status).render_content_lite %>
       </p>
     <% end -%>
 

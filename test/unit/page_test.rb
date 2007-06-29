@@ -74,4 +74,9 @@ class PageTest < Test::Unit::TestCase
     end
   end
   
+  def test_url_to
+    assert_equal "/p/mission", pages(:mission).url_to
+    assert_equal "/p/_jeremy_interests", pages(:jeremy_interests).url_to
+  end
+  
 end
