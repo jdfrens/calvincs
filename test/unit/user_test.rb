@@ -4,6 +4,24 @@ class UserTest < Test::Unit::TestCase
 
   fixtures :degrees, :images, :image_tags, :pages
   user_fixtures
+
+  def test_validations
+    user = User.new
+    assert !user.valid?
+    assert  user.errors.invalid?(:username)
+    assert  user.errors.invalid?(:group_id)
+    assert  user.errors.invalid?(:email_address)
+    
+    user = users(:jeremy)
+    assert_equal '616-526-8666', user.office_phone
+    user.office_phone = ''
+    assert user.save, 'should be okay to save'
+    assert user.valid?, 'should still be valid'
+    assert_equal '', user.office_phone
+    user.office_phone = '526-8666'
+    assert !user.save, 'should fail to save because phone is bad'
+    assert  user.errors.invalid?(:office_phone)
+  end
   
   def test_has_many_degrees
     assert_equal [], users(:sharon).degrees

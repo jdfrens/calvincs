@@ -9,6 +9,10 @@
   <td>
 	<h2><%= link_to h(faculty_entry.full_name), :action => 'view', :id => faculty_entry.username %></h2>
 
+    <% if faculty_entry.office_phone && faculty_entry.office_location -%>
+      <p id="<%= faculty_entry.username %>_office"><%= faculty_entry.office_phone %> / <%= faculty_entry.office_location %></p>
+    <% end -%>
+    
 	<ul>
 	  <%= render :partial => "degree", :collection => faculty_entry.degrees %>
 	</ul>

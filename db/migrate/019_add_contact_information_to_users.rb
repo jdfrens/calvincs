@@ -1,6 +1,6 @@
 class AddContactInformationToUsers < ActiveRecord::Migration
   def self.up
-    add_column :users, :office_phone, :integer
+    add_column :users, :office_phone,    :string
     add_column :users, :office_location, :string
   end
 

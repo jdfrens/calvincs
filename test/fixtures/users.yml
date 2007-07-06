@@ -20,6 +20,8 @@ jeremy:
   username: jeremy
   first_name: Jeremy D.
   last_name: Frens
+  office_phone: 616-526-8666
+  office_location: North Hall 296
   password_hash: <%= User.hash_password('jeremypassword') %>
   group_id: 2
   email_address: jeremy@calvin.foo

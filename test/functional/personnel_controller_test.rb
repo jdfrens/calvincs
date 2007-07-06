@@ -35,6 +35,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img[src=#{images(:joel_faculty).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
+          assert_select "p#joel_office", false, "should have no office information"
           assert_select "ul"
           assert_select "p#joel_interests", false, "should have no interests paragraph"
           assert_select "p#joel_status", false, "should have no status paragraph"
@@ -44,6 +45,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img[src=#{images(:jeremy_faculty).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
+          assert_select "p#jeremy_office", "616-526-8666 / North Hall 296"
           assert_select "ul" do
             assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
             assert_select "li a[href=http://cs.calvin.edu/]", "Calvin College"
@@ -58,6 +60,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img", false
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
+          assert_select "p#keith_office", false, "should have no office information"
           assert_select "ul" do
             assert_select "li", "B.A. in CS and MATH, Central College, 1983"
             assert_select "li a", false, "keith should have no institution URL"
