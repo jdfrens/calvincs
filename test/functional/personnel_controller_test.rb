@@ -86,6 +86,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "#contact_information" do
       assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
       assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
+      assert_select "p", "Office phone: 616-526-8666"
+      assert_select "p", "Office location: North Hall 296"
     end
     assert_select "#education" do
       assert_select "h2", "Education"
@@ -118,6 +120,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "#contact_information" do
       assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
       assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
+      assert_select "p", :text => /Office phone/, :count => 0
+      assert_select "p", :text => /Office location/, :count => 0
     end
     assert_select "#education", false
     assert_select "#interests", false
@@ -142,6 +146,16 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "#contact_information" do
       assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
       assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
+      assert_select "p:nth-child(2)" do
+        assert_select "strong", "Office phone:"
+        assert_select "input#edit_office_phone[type=button]", true
+        assert_select "#user_office_phone_3_in_place_editor", "616-526-8666"
+      end
+      assert_select "p:nth-child(3)" do
+        assert_select "strong", "Office location:"
+        assert_select "input#edit_office_location[type=button]", true
+        assert_select "#user_office_location_3_in_place_editor", "North Hall 296"
+      end
     end
     assert_select "#education" do
       assert_select "ul" do
@@ -201,6 +215,20 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[value=Adams]"
       assert_select "input[type=submit]"
       assert_spinner
+    end 
+    assert_select "#contact_information" do
+      assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
+      assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
+      assert_select "p:nth-child(2)" do
+        assert_select "strong", "Office phone:"
+        assert_select "input#edit_office_phone[type=button]", true
+        assert_select "#user_office_phone_5_in_place_editor", ""
+      end
+      assert_select "p:nth-child(3)" do
+        assert_select "strong", "Office location:"
+        assert_select "input#edit_office_location[type=button]", true
+        assert_select "#user_office_location_5_in_place_editor", ""
+      end
     end
     assert_select "#education" do
       assert_select "ul", true
@@ -339,6 +367,56 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_redirected_to_login
     assert_equal 1, keith.degrees.size, "should still have 1 degrees"
+  end
+  
+  def test_set_user_office_phone
+    keith = users(:keith)
+    assert_nil keith.office_phone
+    
+    xhr :post, :set_user_office_phone,
+        { :id => keith.id, :value => '616-111-9999' },
+        user_session(:edit)
+    
+    assert_response :success
+    keith.reload
+    assert_equal '616-111-9999', keith.office_phone
+  end
+  
+  def test_set_user_office_phone_redirects_when_NOT_logged_in
+    keith = users(:keith)
+    assert_nil keith.office_phone
+    
+    xhr :post, :set_user_office_phone,
+        { :id => keith.id, :value => '616-111-9999' }
+        
+    assert_redirected_to_login
+    keith.reload
+    assert_nil keith.office_phone
+  end
+  
+  def test_set_user_office_location
+    keith = users(:keith)
+    assert_nil keith.office_location
+    
+    xhr :post, :set_user_office_location,
+        { :id => keith.id, :value => 'Funkytown' },
+        user_session(:edit)
+    
+    assert_response :success
+    keith.reload
+    assert_equal 'Funkytown', keith.office_location
+  end
+  
+  def test_set_user_office_location_redirects_when_NOT_logged_in
+    keith = users(:keith)
+    assert_nil keith.office_location
+    
+    xhr :post, :set_user_office_location,
+        { :id => keith.id, :value => 'Funkytown' }
+        
+    assert_redirected_to_login
+    keith.reload
+    assert_nil keith.office_location
   end
   
 end

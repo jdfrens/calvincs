@@ -53,4 +53,8 @@ class PersonnelController < ApplicationController
     end
   end
   
+  in_place_edit_for :user, :office_phone
+
+  in_place_edit_for :user, :office_location
+  
 end

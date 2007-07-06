@@ -76,9 +76,9 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "img#cool-pic"
         assert_select "p.img-caption", assigns(:image).caption.gsub("*", "")
       end
-      assert_select "h1 span#page_title_1_in_place_editor", false
-      assert_select "p span#page_content_1_in_place_editor", false
-      assert_select "p[class=identifier] span#page_identifier_1_in_place_editor", false
+      assert_select "h1 #page_title_1_in_place_editor", false
+      assert_select "p #page_content_1_in_place_editor", false
+      assert_select "p.identifier #page_identifier_1_in_place_editor", false
     end
   end
   
@@ -105,7 +105,7 @@ class PageControllerTest < Test::Unit::TestCase
       assert_select "textarea#page_content", pages(:home_page).content
       assert_select "input[type=submit][value=Update content]"
     end
-    assert_select "p[class=identifier] span#page_identifier_3_in_place_editor",
+    assert_select "p.identifier #page_identifier_3_in_place_editor",
         '_home_page'
   end
   
@@ -136,7 +136,7 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "textarea#page_content", 'We state *our* mission.'
         assert_select "input[type=submit][value=Update content]"
       end
-      assert_select "p[class=identifier] span#page_identifier_1_in_place_editor",
+      assert_select "p.identifier #page_identifier_1_in_place_editor",
           'mission'
     end
   end

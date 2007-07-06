@@ -4,4 +4,24 @@
 	|
 	<%= mail_to @user.email_address, @user.email_address %>
   </p>
+  
+  <% if current_user %>
+    <p>
+      <strong>Office phone:</strong>
+      <input type="button" id="edit_office_phone" value="edit" />
+      <%= in_place_editor_field :user, "office_phone", {}, { :external_control => "edit_office_phone" } %>
+    </p>
+  <% elsif @user.office_phone -%>
+    <p><strong>Office phone:</strong> <%= @user.office_phone %></p>
+  <% end -%>
+
+  <% if current_user %>
+    <p>
+      <strong>Office location:</strong>
+      <input type="button" id="edit_office_location" value="edit" />
+      <%= in_place_editor_field :user, "office_location", {}, { :external_control => "edit_office_location" } %>
+    </p>
+  <% elsif @user.office_location -%>
+    <p><strong>Office location:</strong> <%= @user.office_location %></p>
+  <% end -%>
 </div>
