@@ -1,6 +1,6 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
-class FullMigrationTest < ActionController::IntegrationTest
+class FullMigrationTest < Test::Unit::TestCase
   
   def test_full_migration
     drop_all_tables
@@ -97,6 +97,8 @@ class FullMigrationTest < ActionController::IntegrationTest
       t.column "username",      :string
       t.column "first_name",    :string
       t.column "last_name",     :string
+      t.column "office_phone",  :integer
+      t.column "office_location", :string
       t.column "password_hash", :string
       t.column "group_id",      :integer
       t.column "email_address", :string
