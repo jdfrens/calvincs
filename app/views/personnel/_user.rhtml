@@ -1,0 +1,37 @@
+<tr>
+
+  <td>
+	<% if user.image -%>
+      <%= image_tag user.image.url %>
+	<% end -%>
+  </td>
+
+  <td>
+	<h2><%= link_to h(user.full_name), :action => 'view', :id => user.username %></h2>
+
+    <% if user.office_phone && user.office_location -%>
+      <p id="<%= user.username %>_office"><%= user.office_phone %> / <%= user.office_location %></p>
+    <% end -%>
+    
+    <% if user.education? -%>
+	<ul>
+	  <%= render :partial => "degree", :collection => user.degrees %>
+	</ul>
+    <% end -%>
+
+	<% if user.subpage(:interests) -%>
+	  <p id="<%= user.username %>_interests">
+	    <strong>Interests:</strong>
+        <%= user.subpage(:interests).render_content_lite %>
+      </p>
+	<% end -%>
+    
+    <% if user.subpage(:status) -%>
+      <p id="<%= user.username %>_status">
+        <%= user.subpage(:status).render_content_lite %>
+      </p>
+    <% end -%>
+
+  </td>
+
+</tr>
