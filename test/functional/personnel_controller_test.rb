@@ -84,6 +84,19 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "h1#adjuncts", "Adjunct Faculty"
     assert_select "table#adjuncts_listing" do
       assert_entry_count "adjuncts"
+      assert_select "tr:nth-child(1)" do
+        assert_select "td img", 0
+        assert_select "td:nth-child(2)" do
+          assert_select "h2 a[href=/personnel/view/fred]", "Fred Ferwerda"
+          assert_select "p#fred_office", false
+          assert_select "ul" do
+            assert_select "li", 1
+            assert_select "li", "BS in Science Engineering, University of Michigan, 1967"
+          end
+          assert_select "p#fred_interests", false
+          assert_select "p#fred_status", false
+        end
+      end
     end
 
     assert_select "h1#emeriti", "Emeriti"
@@ -291,6 +304,16 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
   end
 
+  def test_view_staff_user_WHEN_logged_in
+    get :view, { :id => 'sharon' }, user_session(:edit)
+    
+    assert_response :success
+    assert_standard_layout
+    
+    assert_select "#education", false, "should not have any option for education"
+    assert_select "#interests", false, "should not have any interests"
+  end
+  
   def test_view_with_invalid_username
     get :view, { :id => 'does not exist' }
     

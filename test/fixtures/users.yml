@@ -43,3 +43,27 @@ joel:
   password_hash: <%= User.hash_password('joelpassword') %>
   group_id: 2
   email_address: joel@calvin.foo
+fred:
+  id: 6
+  username: fred
+  first_name: Fred
+  last_name: Ferwerda
+  password_hash: <%= User.hash_password('fredpassword') %>
+  group_id: 5
+  email_address: fred@calvin.foo
+larry:
+  id: 7
+  username: larry
+  first_name: Larry
+  last_name: Nyhoff
+  password_hash: <%= User.hash_password('larrypassword') %>
+  group_id: 4
+  email_address: larry@calvin.foo
+randy:
+  id: 8
+  username: randy
+  first_name: Randy
+  last_name: Pruim
+  password_hash: <%= User.hash_password('randypassword') %>
+  group_id: 6
+  email_address: randy@calvin.foo

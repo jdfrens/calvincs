@@ -5,14 +5,17 @@
 
 <h1 id="adjuncts">Adjunct Faculty</h1>
 <table id="adjuncts_listing">
+  <%= render :partial => 'user', :collection => @adjuncts -%>
 </table>
     
 <h1 id="emeriti">Emeriti</h1>
 <table id="emeriti_listing">
+  <%= render :partial => 'user', :collection => @emeriti -%>
 </table>
 
 <h1 id="contributors">Contributing Faculty</h1>
 <table id="contributors_listing">
+  <%= render :partial => 'user', :collection => @contributors -%>
 </table>
 
 <h1 id="staff">Staff</h1>

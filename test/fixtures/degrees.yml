@@ -19,3 +19,9 @@ jeremy_iu:
   institution: Indiana University
   url: http://cs.indiana.edu/
   year: 2002
+fred:
+  id: 4
+  user_id: 6
+  degree_type: BS in Science Engineering
+  institution: University of Michigan
+  year: 1967

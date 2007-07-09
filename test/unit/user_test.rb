@@ -72,12 +72,13 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_education_huh
-    assert users(:jeremy).education?
-    assert users(:joel).education?
+    assert users(:jeremy).education?, "faculty should have an education"
+    assert users(:joel).education?, "faculty should have an education"
+    assert users(:fred).education?, "adjunct should have an education"
+    assert users(:larry).education?, "emeriti should have an education"
+    assert users(:randy).education?, "contributors should have an education"
     
-    # TODO: fred, larry, randy
-    
-    assert !users(:sharon).education?
+    assert !users(:sharon).education?, "staff should NOT have an education"
   end
 
 end

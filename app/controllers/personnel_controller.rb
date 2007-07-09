@@ -11,6 +11,9 @@ class PersonnelController < ApplicationController
       redirect_to :action => 'list', :id => nil
     else
       @faculty = find_users("faculty")
+      @adjuncts = find_users("adjuncts")
+      @emeriti = find_users("emeriti")
+      @contributors = find_users("contributors")
       @staff = find_users("staff")
       render    
     end

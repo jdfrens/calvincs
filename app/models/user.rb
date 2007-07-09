@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   
   def education?
     case group.name
-    when "faculty"
+    when "faculty", "adjuncts", "emeriti", "contributors"
       true
     when "staff"
       false
