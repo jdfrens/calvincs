@@ -122,15 +122,21 @@ class FullMigrationTest < Test::Unit::TestCase
   end
   
   def see_data
-    assert_names ["admin", "faculty", "staff"], Group.find(:all)
+    assert_names(
+        ["admin", "faculty", "staff", "adjuncts", "contributors", "emeriti"],
+        Group.find(:all)
+        )
     
     assert_names ["edit"], Group.find_by_name("faculty").privileges
+    assert_names ["edit"], Group.find_by_name("adjuncts").privileges
+    assert_names ["edit"], Group.find_by_name("contributors").privileges
+    assert_names ["edit"], Group.find_by_name("emeriti").privileges
     assert_names ["edit"], Group.find_by_name("staff").privileges
     assert_names ["edit"], Group.find_by_name("admin").privileges
   end
   
   def assert_names(expected, actual)
-    assert_equal expected.sort, actual.map { |p| p.name }.sort
+    assert_equal expected.sort, actual.map(&:name).sort
   end
   
 end

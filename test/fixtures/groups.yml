@@ -8,3 +8,12 @@ faculty:
 staff:
   id: 3
   name: staff
+emeriti:
+  id: 4
+  name: emeriti
+adjuncts:
+  id: 5
+  name: adjuncts
+contributors:
+  id: 6
+  name: contributors
