@@ -7,4 +7,4 @@ CS Department Setup
   unix-% sqlite3 calvincs_test.db
   sqlite> .schema
   sqlite> .quit
-  
+    This may or may not work with the full_migration_test.
