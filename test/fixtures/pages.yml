@@ -39,4 +39,8 @@ keith_status:
   identifier: _keith_status
   title: status
   content: Keith is chair.
-  
+sharon_status:
+  id: 9
+  identifier: _sharon_status
+  title: ?????
+  content: Sharon is department secretary.

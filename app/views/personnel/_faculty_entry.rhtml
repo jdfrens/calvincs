@@ -13,9 +13,11 @@
       <p id="<%= faculty_entry.username %>_office"><%= faculty_entry.office_phone %> / <%= faculty_entry.office_location %></p>
     <% end -%>
     
+    <% if faculty_entry.education? -%>
 	<ul>
 	  <%= render :partial => "degree", :collection => faculty_entry.degrees %>
 	</ul>
+    <% end -%>
 
 	<% if faculty_entry.subpage(:interests) -%>
 	  <p id="<%= faculty_entry.username %>_interests">

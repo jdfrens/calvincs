@@ -1,0 +1,21 @@
+<h1 id="faculty">Faculty</h1>
+<table id="faculty_listing">
+  <%= render :partial => 'faculty_entry', :collection => @faculty -%>
+</table>
+
+<h1 id="adjuncts">Adjunct Faculty</h1>
+<table id="adjuncts_listing">
+</table>
+    
+<h1 id="emeriti">Emeriti</h1>
+<table id="emeriti_listing">
+</table>
+
+<h1 id="contributors">Contributing Faculty</h1>
+<table id="contributors_listing">
+</table>
+
+<h1 id="staff">Staff</h1>
+<table id="staff_listing">
+  <%= render :partial => 'faculty_entry', :collection => @staff, :locals => { :suppress_education => true } -%>
+</table>

@@ -11,14 +11,16 @@ mission2:
   id: 3
   url: http://calvin.edu/mission2.jpg
   caption: More mission work.
-jeremy_faculty:
+jeremy_headshot:
   id: 4
   url: /jeremy.png
 jeremy_in_action:
   id: 6
   url: /jeremyaction.png
   caption: jeremy in action
-joel_faculty:
+joel_headshot:
   id: 5
   url: /joel.png
-  
+sharon_headshot:
+  id: 7
+  url: /sharon.png

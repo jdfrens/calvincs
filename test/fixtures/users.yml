@@ -12,6 +12,8 @@ sharon:
   username: sharon
   first_name: Sharon
   last_name: Gould
+  office_phone: 616-526-7163
+  office_location: North Hall 270
   password_hash: <%= User.hash_password('sharonpassword') %>
   group_id: 3
   email_address: sharon@calvin.foo

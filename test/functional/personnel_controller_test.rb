@@ -15,38 +15,47 @@ class PersonnelControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  def test_index_redirects_to_faculty
+  def test_index_redirects_to_view_all
     get :index
     
     assert_response :redirect
-    assert_redirected_to :action => 'faculty'
+    assert_redirected_to :action => 'view', :id => 'all'
   end
   
-  def test_faculty
-    get :faculty
+  def test_list_explicit_all
+    get :list, { :id => 'all' }
+    
+    assert_response :redirect
+    assert_redirected_to :action => 'list'
+  end
+  
+  def test_list
+    get :list
     
     assert_response :success
     assert_standard_layout
-    assert_select "h1", "Faculty"
+    assert_select "h1#faculty", "Faculty"
     assert_select "table#faculty_listing" do
-      assert_select "tr", Group.find_by_name("faculty").users.size,
-         "should have one row per faculty"
+      assert_entry_count "faculty"
       assert_select "tr:nth-child(1)" do
-        assert_select "td img[src=#{images(:joel_faculty).url}]"
+        assert_select "td img[src=#{images(:joel_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
           assert_select "p#joel_office", false, "should have no office information"
-          assert_select "ul"
+          assert_select "ul" do
+            assert_select "li", 0
+          end
           assert_select "p#joel_interests", false, "should have no interests paragraph"
           assert_select "p#joel_status", false, "should have no status paragraph"
         end
       end
       assert_select "tr:nth-child(2)" do
-        assert_select "td img[src=#{images(:jeremy_faculty).url}]"
+        assert_select "td img[src=#{images(:jeremy_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
           assert_select "p#jeremy_office", "616-526-8666 / North Hall 296"
           assert_select "ul" do
+            assert_select "li", 2
             assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
             assert_select "li a[href=http://cs.calvin.edu/]", "Calvin College"
             assert_select "li", "Ph.D. in CS, Indiana University, 2002"
@@ -62,6 +71,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
           assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
           assert_select "p#keith_office", false, "should have no office information"
           assert_select "ul" do
+            assert_select "li", 1
             assert_select "li", "B.A. in CS and MATH, Central College, 1983"
             assert_select "li a", false, "keith should have no institution URL"
           end
@@ -70,6 +80,38 @@ class PersonnelControllerTest < Test::Unit::TestCase
           end
       end
     end
+
+    assert_select "h1#adjuncts", "Adjunct Faculty"
+    assert_select "table#adjuncts_listing" do
+      assert_entry_count "adjuncts"
+    end
+
+    assert_select "h1#emeriti", "Emeriti"
+    assert_select "table#emeriti_listing" do
+      assert_entry_count "emeriti"
+    end
+
+    assert_select "h1#contributors", "Contributing Faculty"
+    assert_select "table#contributors_listing" do
+      assert_entry_count "contributors"
+    end
+
+    assert_select "h1#staff", "Staff"
+    assert_select "table#staff_listing" do
+      assert_entry_count "staff"
+      assert_select "tr:nth-child(1)" do
+        assert_select "td img[src=#{images(:sharon_headshot).url}]"
+        assert_select "td:nth-child(2)" do
+          assert_select "h2 a[href=/personnel/view/sharon]", "Sharon Gould"
+          assert_select "p#sharon_office", "616-526-7163 / North Hall 270"
+          assert_select "ul", 0
+          assert_select "p#sharon_interests", false
+          assert_select "p#sharon_status", "Sharon is department secretary."
+        end
+      end
+    end
+
+    assert_group_order
   end
   
   def test_view
@@ -252,7 +294,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
   def test_view_with_invalid_username
     get :view, { :id => 'does not exist' }
     
-    assert_redirected_to :action => 'faculty'
+    assert_redirected_to :action => 'list'
   end
   
   def test_update_name
@@ -417,6 +459,23 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
     keith.reload
     assert_nil keith.office_location
+  end
+  
+  #
+  # Helpers
+  #
+  private
+  
+  def assert_entry_count(name)
+    assert_select "tr", Group.find_by_name(name).users.size,
+        "should have one row per #{name}"
+  end
+  
+  def assert_group_order
+    assert_select "h1#faculty ~ h1#adjuncts", true
+    assert_select "h1#adjuncts ~ h1#emeriti", true
+    assert_select "h1#emeriti ~ h1#contributors", true
+    assert_select "h1#contributors ~ h1#staff", true
   end
   
 end

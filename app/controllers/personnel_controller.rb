@@ -1,19 +1,25 @@
 class PersonnelController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :faculty, :view ]
+  restrict_to :edit, :except => [ :index, :list, :view ]
 
   def index
-    redirect_to :action => 'faculty'
+    redirect_to :action => 'view', :id => "all"
   end
   
-  def faculty
-    @faculty = Group.find_by_name("faculty").users.sort { |a, b| a.last_name <=> b.last_name }
+  def list
+    if (params[:id] == 'all')
+      redirect_to :action => 'list', :id => nil
+    else
+      @faculty = find_users("faculty")
+      @staff = find_users("staff")
+      render    
+    end
   end
   
   def view
     @user = User.find_by_username(params[:id])
     if @user.nil?
-      redirect_to :action => 'faculty'
+      redirect_to :action => 'list'
     else
       @image = Image.pick_random(@user.username)
       render
@@ -56,5 +62,14 @@ class PersonnelController < ApplicationController
   in_place_edit_for :user, :office_phone
 
   in_place_edit_for :user, :office_location
+  
+  #
+  # Helpers
+  #
+  private
+  
+  def find_users(name)
+    Group.find_by_name(name).users.sort { |a, b| a.last_name <=> b.last_name }
+  end
   
 end

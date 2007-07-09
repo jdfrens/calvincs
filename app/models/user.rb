@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
-
+  
   acts_as_login_model
   
   validates_format_of :office_phone, :with => /^(()|(\d{3}-\d{3}-\d{4}))$/
-
+  
   has_many :degrees, :order => 'year', :dependent => :delete_all
-
+  
   def full_name
     first_name + " " + last_name
   end
@@ -17,6 +17,15 @@ class User < ActiveRecord::Base
   
   def subpage(suffix)
     Page.find_by_identifier("_" + username + "_" + suffix.to_s)
+  end
+  
+  def education?
+    case group.name
+    when "faculty"
+      true
+    when "staff"
+      false
+    end
   end
   
 end

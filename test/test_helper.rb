@@ -35,7 +35,7 @@ class Test::Unit::TestCase
     
     [ "calvintemplate", "department" ].each do |filename|
       assert_select "link[type=text/css][href^=/stylesheets/#{filename}.css]",
-      { :count => 1 }, "should have link to #{filename}.css stylesheet"
+          { :count => 1 }, "should have link to #{filename}.css stylesheet"
     end
     
     assert_select "h1#nameplate-dept", "Computer Science &amp; Information Systems"
@@ -55,7 +55,7 @@ class Test::Unit::TestCase
           assert_select "li:nth-child(2) a[href=/p/about_us]", "About Us"
           assert_select "li:nth-child(3) a[href=/p/academics]", "Academics"
           assert_select "li:nth-child(4) a[href=/p/students]", "Students"
-          assert_select "li:nth-child(5) a[href=/personnel/faculty]", "Faculty"
+          assert_select "li:nth-child(5) a[href=/personnel/list]", "Faculty &amp; Staff"
           assert_select "li:nth-child(6) a[href=/p/facilities]", "Facilities"
           assert_select "li:nth-child(7) a[href=/p/research]", "Research"
           assert_select "li:nth-child(8) a[href=/p/alumni]", "Alumni Profiles"

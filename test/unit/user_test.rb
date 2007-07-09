@@ -51,10 +51,10 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_image
-    assert_equal images(:jeremy_faculty), users(:jeremy).image
-    assert_equal images(:joel_faculty), users(:joel).image
+    assert_equal images(:jeremy_headshot), users(:jeremy).image
+    assert_equal images(:joel_headshot), users(:joel).image
     assert_nil users(:keith).image
-    assert_nil users(:sharon).image
+    assert_equal images(:sharon_headshot), users(:sharon).image
   end
   
   def test_subpage
@@ -69,6 +69,15 @@ class UserTest < Test::Unit::TestCase
     assert_equal pages(:jeremy_status), users(:jeremy).subpage(:status)
     assert_equal pages(:keith_status), users(:keith).subpage(:status)
     assert_nil users(:joel).subpage(:status)
+  end
+  
+  def test_education_huh
+    assert users(:jeremy).education?
+    assert users(:joel).education?
+    
+    # TODO: fred, larry, randy
+    
+    assert !users(:sharon).education?
   end
 
 end

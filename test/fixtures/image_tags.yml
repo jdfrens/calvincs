@@ -23,3 +23,7 @@ jeremy:
   id: 7
   image_id: 6
   tag: jeremy
+sharon_headshot:
+  id: 8
+  image_id: 7
+  tag: sharon_headshot
