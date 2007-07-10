@@ -41,10 +41,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img[src=#{images(:joel_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
-          assert_select "p#joel_office", false, "should have no office information"
-          assert_select "ul" do
-            assert_select "li", 0
-          end
+          assert_select "p#joel_phone", false, "should have no phone"
+          assert_select "p#joel_location", false, "should have no office location"
           assert_select "p#joel_interests", false, "should have no interests paragraph"
           assert_select "p#joel_status", false, "should have no status paragraph"
         end
@@ -53,14 +51,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img[src=#{images(:jeremy_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
-          assert_select "p#jeremy_office", "616-526-8666 / North Hall 296"
-          assert_select "ul" do
-            assert_select "li", 2
-            assert_select "li", "B.A. in CS and MATH, Calvin College, 1992"
-            assert_select "li a[href=http://cs.calvin.edu/]", "Calvin College"
-            assert_select "li", "Ph.D. in CS, Indiana University, 2002"
-            assert_select "li a[href=http://cs.indiana.edu/]", "Indiana University"
-          end
+          assert_select "p#jeremy_phone", "616-526-8666"
+          assert_select "p#jeremy_location", "North Hall 296"
           assert_select "p#jeremy_interests", /Interests:\s+interest 1, interest 2/
           assert_select "p#jeremy_status", "status of jeremy"
         end
@@ -69,12 +61,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img", false
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
-          assert_select "p#keith_office", false, "should have no office information"
-          assert_select "ul" do
-            assert_select "li", 1
-            assert_select "li", "B.A. in CS and MATH, Central College, 1983"
-            assert_select "li a", false, "keith should have no institution URL"
-          end
+          assert_select "p#keith_phone", false, "should have no phone"
+          assert_select "p#keith_location", false, "should have no office location"
           assert_select "p#keith_interests", false, "should have no interests paragraph"
           assert_select "p#keith_status", "Keith is chair."
           end
@@ -88,11 +76,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img", 0
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/fred]", "Fred Ferwerda"
-          assert_select "p#fred_office", false
-          assert_select "ul" do
-            assert_select "li", 1
-            assert_select "li", "BS in Science Engineering, University of Michigan, 1967"
-          end
+          assert_select "p#fred_phone", false, "should have no phone"
+          assert_select "p#fred_location", false, "should have no office location"
           assert_select "p#fred_interests", false
           assert_select "p#fred_status", false
         end
@@ -102,11 +87,13 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "h1#emeriti", "Emeriti"
     assert_select "table#emeriti_listing.listing" do
       assert_entry_count "emeriti"
+      # not testing details
     end
 
     assert_select "h1#contributors", "Contributing Faculty"
     assert_select "table#contributors_listing.listing" do
       assert_entry_count "contributors"
+      # not testing details
     end
 
     assert_select "h1#staff", "Staff"
@@ -116,8 +103,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img[src=#{images(:sharon_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/sharon]", "Sharon Gould"
-          assert_select "p#sharon_office", "616-526-7163 / North Hall 270"
-          assert_select "ul", 0
+          assert_select "p#sharon_phone", "616-526-7163"
+          assert_select "p#sharon_location", "North Hall 270"
           assert_select "p#sharon_interests", false
           assert_select "p#sharon_status", "Sharon is department secretary."
         end

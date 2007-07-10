@@ -73,13 +73,6 @@ table.listing td {
     vertical-align: top;
 }
 
-table.listing ul {
-    list-style-type: none;
-    padding: .15em 0;
-    margin: 0;
-    font-size: small;
-}
-
 table.listing h2 {
     padding: .15em 0;
     margin: 0;
@@ -88,6 +81,15 @@ table.listing h2 {
 table.listing p {
 	font-size: small;
     padding: .15em 0;
+    margin: 0;
+}
+
+table.listing div.contact_information {
+    padding: .15em 0;
+    margin: 0;
+}
+table.listing div.contact_information p {
+    padding: 0;
     margin: 0;
 }
 

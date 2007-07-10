@@ -9,16 +9,15 @@
   <td>
 	<h2><%= link_to h(user.full_name), :action => 'view', :id => user.username %></h2>
 
-    <% if user.office_phone && user.office_location -%>
-      <p id="<%= user.username %>_office"><%= user.office_phone %> / <%= user.office_location %></p>
-    <% end -%>
-    
-    <% if user.education? -%>
-	<ul>
-	  <%= render :partial => "degree", :collection => user.degrees %>
-	</ul>
-    <% end -%>
-
+    <div class="contact_information">
+      <% if user.office_phone -%>
+        <p id="<%= user.username %>_phone"><%= user.office_phone %></p>
+      <% end -%>
+      <% if user.office_location -%>
+        <p id="<%= user.username %>_location"><%= user.office_location %></p>
+      <% end -%>
+    </div>
+        
 	<% if user.subpage(:interests) -%>
 	  <p id="<%= user.username %>_interests">
 	    <strong>Interests:</strong>
