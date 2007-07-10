@@ -128,7 +128,7 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "p", 'We state our mission.'
         assert_select "p strong", "our"
       end
-      assert_select "div[class=img-right]", "no images when editing"
+      assert_select "div[class=img-right]", false
       assert_select "h1 input#edit_title", true
       assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
       assert_link_to_markup_help

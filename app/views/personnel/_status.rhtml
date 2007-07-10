@@ -3,9 +3,8 @@
     <h2>Status</h2>
 
     <p class="comment">The status is normally not seen on this page; it appears
-    in the <%= link_to "master table", :action => "faculty" %>.  It should be a
-    full sentence like "Vander Linden is the department chair." or "Stob is a
-    member of the Mathematics and Statistics Department.".</p>
+    in the <%= link_to "master table", :action => "faculty" %>.  It should be
+    used for situations which are not easily summaried in the job title above.</p>
     
     <% if @user.subpage(:status) -%>
       <%= @user.subpage(:status).render_content %>
