@@ -10,4 +10,6 @@ class ApplicationController < ActionController::Base
   def authenticate_with_http_basic
     nil
   end
+ 
+  filter_parameter_logging "password"
 end
