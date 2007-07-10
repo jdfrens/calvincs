@@ -1,41 +1,40 @@
 <tr>
 
   <td>
-	<% if user.image -%>
-      <%= link_to(image_tag(user.image.url, :border => 0), :action => 'view', :id => user.username) %>
-      <%=  %>
+	<% output_if user.image do |image| -%>
+      <%= link_to(image_tag(image.url, :border => 0), :action => 'view', :id => user.username) %>
 	<% end -%>
   </td>
 
   <td>
     <div class="name">
 	  <h2><%= link_to h(user.full_name), :action => 'view', :id => user.username %></h2>
-      <% if user.job_title -%>
-        <p <%= id_for(user, "job_title") %>><%= textilize_without_paragraph(user.job_title) %></p>
+      <% output_if user.job_title do |title| -%>
+        <p <%= id_for(user, "job_title") %>><%= textilize_without_paragraph(title) %></p>
       <% end -%>
     </div>
     
     <div class="contact_information">
-      <% if user.office_phone -%>
-        <p <%= id_for(user, "phone") %>><%= user.office_phone %></p>
+      <% output_if user.office_phone do |phone| -%>
+        <p <%= id_for(user, "phone") %>><%= phone %></p>
       <% end -%>
-      <% if user.office_location -%>
-        <p <%= id_for(user, "location") %>><%= user.office_location %></p>
+      <% output_if user.office_location do |location| -%>
+        <p <%= id_for(user, "location") %>><%= location %></p>
       <% end -%>
       <p <%= id_for(user, "email") %>><%= mail_to user.email_address, user.email_address %></p>
       <p <%= id_for(user, "home_page") %>><%= link_to "Home page", "http://www.calvin.edu/~#{user.username}" %></p>
     </div>
         
-	<% if user.subpage(:interests) -%>
+	<% output_if user.subpage(:interests) do |page| -%>
 	  <p id="<%= user.username %>_interests">
 	    <strong>Interests:</strong>
-        <%= user.subpage(:interests).render_content_lite %>
+        <%= page.render_content_lite %>
       </p>
 	<% end -%>
     
-    <% if user.subpage(:status) -%>
+    <% output_if user.subpage(:status) do |page| -%>
       <p id="<%= user.username %>_status">
-        <%= user.subpage(:status).render_content_lite %>
+        <%= page.render_content_lite %>
       </p>
     <% end -%>
 

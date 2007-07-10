@@ -12,4 +12,10 @@ module PersonnelHelper
     'id="' + user.username + "_" + id + '"'
   end
   
+  def output_if(value)
+    if value
+      yield value
+    end
+  end
+  
 end
