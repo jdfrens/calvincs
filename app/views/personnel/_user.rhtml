@@ -2,7 +2,8 @@
 
   <td>
 	<% if user.image -%>
-      <%= image_tag user.image.url %>
+      <%= link_to(image_tag(user.image.url, :border => 0), :action => 'view', :id => user.username) %>
+      <%=  %>
 	<% end -%>
   </td>
 

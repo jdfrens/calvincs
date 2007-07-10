@@ -38,7 +38,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "table#faculty_listing.listing" do
       assert_entry_count "faculty"
       assert_select "tr:nth-child(1)" do
-        assert_select "td img[src=#{images(:joel_headshot).url}]"
+        assert_select "td a[href=/personnel/view/joel] img[src=#{images(:joel_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
           assert_select ".contact_information" do
@@ -52,7 +52,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         end
       end
       assert_select "tr:nth-child(2)" do
-        assert_select "td img[src=#{images(:jeremy_headshot).url}]"
+        assert_select "td a[href=/personnel/view/jeremy] img[src=#{images(:jeremy_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
           assert_select ".contact_information" do
@@ -66,7 +66,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         end
       end
       assert_select "tr:nth-child(3)" do
-        assert_select "td img", false
+        assert_select "td a[href=/personnel/view/keith] img", false
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
           assert_select ".contact_information" do

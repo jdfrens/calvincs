@@ -67,7 +67,7 @@ div#news_teaser {
     font-style: italic;
 }
 
-/* Faculty listing */
+/* Faculty & staff listing */
 
 table.listing td {
     vertical-align: top;
@@ -91,6 +91,13 @@ table.listing div.contact_information {
 table.listing div.contact_information p {
     padding: 0;
     margin: 0;
+}
+
+/* Viewing a user */
+
+div#education ul {
+    margin: 1em;
+    padding: 0;
 }
 
 /* Mean formatting. */
