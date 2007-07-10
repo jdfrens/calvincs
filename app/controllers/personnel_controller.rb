@@ -66,6 +66,16 @@ class PersonnelController < ApplicationController
 
   in_place_edit_for :user, :office_location
   
+  def update_job_title
+    user = User.find(params[:id])
+    user.update_attributes(params[:user])
+    render :update do |page|
+      page.replace_html "job_title",
+          :inline => "<%= textilize_without_paragraph(job_title) %>",
+          :locals => { :job_title => user.job_title }
+    end
+  end
+  
   #
   # Helpers
   #

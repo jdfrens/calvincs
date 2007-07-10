@@ -2,8 +2,8 @@
 	<% remote_form_for(:user, @user,
 			:html => { :id => "full_name_edit" },
             :url => { :action => 'update_name', :id => @user.id },
-            :before => "Element.show('spinner')", 
-            :complete => "Element.hide('spinner')") do |form| -%>
+            :before => "Element.show('spinner_name')", 
+            :complete => "Element.hide('spinner_name')") do |form| -%>
 		<table>
 			<tr>
 				<td>First name:</td>
@@ -17,7 +17,7 @@
                 <td></td>
                 <td>
                     <%= submit_tag "Update name" %>
-                    <%= spinner %>
+                    <%= spinner :number => 'name' %>
                 </td>
             </tr>
 		</table>

@@ -27,12 +27,13 @@ module ApplicationHelper
       '</a>'
   end
   
-  def spinner_id(number)
-    number ? "spinner_#{number}" : "spinner"    
+  def spinner_id(suffix = nil)
+    suffix ? "spinner_#{suffix}" : "spinner"    
   end
   
   def spinner(options = {})
-    image_tag 'spinner_moz.gif', :id => spinner_id(options[:number]), :style => "display:none;"
+    id_suffix = options[:number] || options[:suffix]
+    image_tag 'spinner_moz.gif', :id => spinner_id(id_suffix), :style => "display:none;"
   end
   
 end

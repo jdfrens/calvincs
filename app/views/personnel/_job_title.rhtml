@@ -1,1 +1,14 @@
-<p><%= textilize(@user.job_title) %></p>
+<p id="job_title"><%= textilize_without_paragraph(@user.job_title) %></p>
+
+<% restrict_to :edit do -%>
+  <p id="job_title_edit">
+    <% remote_form_for(:user, @user,
+             :url => { :action => 'update_job_title', :id => @user.id },
+            :before => "Element.show('spinner_job_title')", 
+            :complete => "Element.hide('spinner_job_title')") do |form| -%>
+      <%= form.text_field :job_title %>
+      <%= submit_tag "Update job title" %>
+      <%= spinner :suffix => 'job_title' %>
+    <% end -%>
+  </p>
+<% end -%>

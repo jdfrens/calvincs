@@ -152,7 +152,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "h1", "Jeremy D. Frens"
-    assert_select "p", "Assistant Professor"
+    assert_select "p#job_title", "Assistant Professor"
     assert_select "div.img-right" do
       assert_select "img#cool-pic[src=/jeremyaction.png]"
       assert_select "p.img-caption", "jeremy in action"
@@ -215,7 +215,13 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[value=Jeremy D.]"
       assert_select "input[value=Frens]"
       assert_select "input[type=submit]"
-      assert_spinner
+      assert_spinner :suffix => "name"
+    end
+    assert_select "p#job_title", "Assistant Professor"
+    assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
+      assert_select "input[type=text][value=Assistant Professor]", true
+      assert_select "input[type=submit]", true
+      assert_spinner :suffix => "job_title"
     end
     assert_select "#contact_information" do
       assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
@@ -288,8 +294,14 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[value=Joel C.]"
       assert_select "input[value=Adams]"
       assert_select "input[type=submit]"
-      assert_spinner
+      assert_spinner :suffix => "name"
     end 
+    assert_select "p#job_title", true
+    assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
+      assert_select "input[type=text]", true
+      assert_select "input[type=submit]", true
+      assert_spinner :suffix => "job_title"
+    end
     assert_select "#contact_information" do
       assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
       assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
@@ -501,6 +513,34 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
     keith.reload
     assert_nil keith.office_location
+  end
+  
+  def test_update_job_title
+    keith = users(:keith)
+    assert_nil keith.job_title
+    
+    xhr :post, :update_job_title,
+        { :id => keith.id, :user => { :job_title => 'Professional *Sidekick*' } },
+        user_session(:edit)
+        
+    assert_response :success
+    assert_select_rjs :replace_html, "job_title" do
+      assert_match(/Professional <strong>Sidekick<\/strong>/, @response.body)
+    end
+    keith.reload
+    assert_equal 'Professional *Sidekick*', keith.job_title
+  end
+  
+  def test_update_job_title_redirects_when_NOT_logged_in
+    keith = users(:keith)
+    assert_nil keith.job_title
+    
+    xhr :post, :update_job_title,
+        { :id => keith.id, :value => 'Professional Sidekick' }
+        
+    assert_redirected_to_login
+    keith.reload
+    assert_nil keith.job_title
   end
   
   #

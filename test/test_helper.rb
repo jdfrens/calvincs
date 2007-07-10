@@ -75,7 +75,8 @@ class Test::Unit::TestCase
   end
   
   def assert_spinner(options = {})
-    id = options[:number] ? "spinner_#{options[:number]}" : "spinner"
+    id_suffix = options[:number] || options[:suffix]
+    id = id_suffix ? "spinner_#{id_suffix}" : "spinner"
     assert_select "img##{id}[src^=/images/spinner_moz.gif]"
   end
 
