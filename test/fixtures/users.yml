@@ -12,6 +12,7 @@ sharon:
   username: sharon
   first_name: Sharon
   last_name: Gould
+  job_title: Department Secretary
   office_phone: 616-526-7163
   office_location: North Hall 270
   password_hash: <%= User.hash_password('sharonpassword') %>
@@ -22,6 +23,7 @@ jeremy:
   username: jeremy
   first_name: Jeremy D.
   last_name: Frens
+  job_title: Assistant Professor
   office_phone: 616-526-8666
   office_location: North Hall 296
   password_hash: <%= User.hash_password('jeremypassword') %>
@@ -48,6 +50,7 @@ fred:
   username: fred
   first_name: Fred
   last_name: Ferwerda
+  job_title: Adjunct
   password_hash: <%= User.hash_password('fredpassword') %>
   group_id: 5
   email_address: fred@calvin.foo
@@ -64,6 +67,7 @@ randy:
   username: randy
   first_name: Randy
   last_name: Pruim
+  job_title: Professor of "Mathematics and Statistics":http://math.calvin.foo/
   password_hash: <%= User.hash_password('randypassword') %>
   group_id: 6
   email_address: randy@calvin.foo

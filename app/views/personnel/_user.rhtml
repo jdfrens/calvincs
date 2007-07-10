@@ -8,8 +8,13 @@
   </td>
 
   <td>
-	<h2><%= link_to h(user.full_name), :action => 'view', :id => user.username %></h2>
-
+    <div class="name">
+	  <h2><%= link_to h(user.full_name), :action => 'view', :id => user.username %></h2>
+      <% if user.job_title -%>
+        <p <%= id_for(user, "job_title") %>><%= textilize_without_paragraph(user.job_title) %></p>
+      <% end -%>
+    </div>
+    
     <div class="contact_information">
       <% if user.office_phone -%>
         <p <%= id_for(user, "phone") %>><%= user.office_phone %></p>

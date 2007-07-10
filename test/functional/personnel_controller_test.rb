@@ -40,7 +40,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "tr:nth-child(1)" do
         assert_select "td a[href=/personnel/view/joel] img[src=#{images(:joel_headshot).url}]"
         assert_select "td:nth-child(2)" do
-          assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
+          assert_select "div.name" do
+            assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
+            assert_select "p#joel_job_title", false, "should have no job title"
+          end
           assert_select ".contact_information" do
             assert_select "p#joel_phone", false, "should have no phone"
             assert_select "p#joel_location", false, "should have no office location"
@@ -54,7 +57,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "tr:nth-child(2)" do
         assert_select "td a[href=/personnel/view/jeremy] img[src=#{images(:jeremy_headshot).url}]"
         assert_select "td:nth-child(2)" do
-          assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
+          assert_select "div.name" do
+            assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
+            assert_select "p#jeremy_job_title", "Assistant Professor"
+          end
           assert_select ".contact_information" do
             assert_select "p#jeremy_phone", "616-526-8666"
             assert_select "p#jeremy_location", "North Hall 296"
@@ -68,7 +74,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "tr:nth-child(3)" do
         assert_select "td a[href=/personnel/view/keith] img", false
         assert_select "td:nth-child(2)" do
-          assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
+          assert_select "div.name" do
+            assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
+            assert_select "p#joel_job_title", false, "should have no job title"
+          end
           assert_select ".contact_information" do
             assert_select "p#keith_phone", false, "should have no phone"
             assert_select "p#keith_location", false, "should have no office location"
@@ -105,7 +114,17 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_select "h1#contributors", "Contributing Faculty"
     assert_select "table#contributors_listing.listing" do
       assert_entry_count "contributors"
-      # not testing details
+      # selective testing of details
+      assert_select "tr:nth-child(1)" do
+        assert_select "td:nth-child(2)" do
+          assert_select "div.name" do
+            assert_select "h2 a[href=/personnel/view/randy]", "Randy Pruim"
+            assert_select "p#randy_job_title", "Professor of Mathematics and Statistics"
+            assert_select "p#randy_job_title a[href=http://math.calvin.foo/]",
+                "Mathematics and Statistics", "should textilize"
+          end
+        end
+      end
     end
 
     assert_select "h1#staff", "Staff"
@@ -133,6 +152,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_standard_layout
     
     assert_select "h1", "Jeremy D. Frens"
+    assert_select "p", "Assistant Professor"
     assert_select "div.img-right" do
       assert_select "img#cool-pic[src=/jeremyaction.png]"
       assert_select "p.img-caption", "jeremy in action"

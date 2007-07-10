@@ -97,6 +97,7 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "username",      :string
       t.column "first_name",    :string
       t.column "last_name",     :string
+      t.column "job_title",     :string
       t.column "office_phone",  :string
       t.column "office_location", :string
       t.column "password_hash", :string
