@@ -41,8 +41,12 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img[src=#{images(:joel_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
-          assert_select "p#joel_phone", false, "should have no phone"
-          assert_select "p#joel_location", false, "should have no office location"
+          assert_select ".contact_information" do
+            assert_select "p#joel_phone", false, "should have no phone"
+            assert_select "p#joel_location", false, "should have no office location"
+            assert_select "p#joel_email a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
+            assert_select "p#joel_home_page a[href=http://www.calvin.edu/~joel]", "Home page"
+          end
           assert_select "p#joel_interests", false, "should have no interests paragraph"
           assert_select "p#joel_status", false, "should have no status paragraph"
         end
@@ -51,8 +55,12 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img[src=#{images(:jeremy_headshot).url}]"
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
-          assert_select "p#jeremy_phone", "616-526-8666"
-          assert_select "p#jeremy_location", "North Hall 296"
+          assert_select ".contact_information" do
+            assert_select "p#jeremy_phone", "616-526-8666"
+            assert_select "p#jeremy_location", "North Hall 296"
+            assert_select "p#jeremy_email a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
+            assert_select "p#jeremy_home_page a[href=http://www.calvin.edu/~jeremy]", "Home page"
+          end
           assert_select "p#jeremy_interests", /Interests:\s+interest 1, interest 2/
           assert_select "p#jeremy_status", "status of jeremy"
         end
@@ -61,8 +69,12 @@ class PersonnelControllerTest < Test::Unit::TestCase
         assert_select "td img", false
         assert_select "td:nth-child(2)" do
           assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
-          assert_select "p#keith_phone", false, "should have no phone"
-          assert_select "p#keith_location", false, "should have no office location"
+          assert_select ".contact_information" do
+            assert_select "p#keith_phone", false, "should have no phone"
+            assert_select "p#keith_location", false, "should have no office location"
+            assert_select "p#keith_email a[href=mailto:keith@calvin.foo]", "keith@calvin.foo"
+            assert_select "p#keith_home_page a[href=http://www.calvin.edu/~keith]", "Home page"
+          end
           assert_select "p#keith_interests", false, "should have no interests paragraph"
           assert_select "p#keith_status", "Keith is chair."
           end

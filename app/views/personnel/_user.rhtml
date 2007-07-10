@@ -11,11 +11,13 @@
 
     <div class="contact_information">
       <% if user.office_phone -%>
-        <p id="<%= user.username %>_phone"><%= user.office_phone %></p>
+        <p <%= id_for(user, "phone") %>><%= user.office_phone %></p>
       <% end -%>
       <% if user.office_location -%>
-        <p id="<%= user.username %>_location"><%= user.office_location %></p>
+        <p <%= id_for(user, "location") %>><%= user.office_location %></p>
       <% end -%>
+      <p <%= id_for(user, "email") %>><%= mail_to user.email_address, user.email_address %></p>
+      <p <%= id_for(user, "home_page") %>><%= link_to "Home page", "http://www.calvin.edu/~#{user.username}" %></p>
     </div>
         
 	<% if user.subpage(:interests) -%>
