@@ -1,24 +1,24 @@
 <h1 id="faculty">Faculty</h1>
-<table id="faculty_listing">
+<table class="listing" id="faculty_listing">
   <%= render :partial => 'user', :collection => @faculty -%>
 </table>
 
 <h1 id="adjuncts">Adjunct Faculty</h1>
-<table id="adjuncts_listing">
+<table class="listing" id="adjuncts_listing">
   <%= render :partial => 'user', :collection => @adjuncts -%>
 </table>
     
 <h1 id="emeriti">Emeriti</h1>
-<table id="emeriti_listing">
+<table class="listing" id="emeriti_listing">
   <%= render :partial => 'user', :collection => @emeriti -%>
 </table>
 
 <h1 id="contributors">Contributing Faculty</h1>
-<table id="contributors_listing">
+<table class="listing" id="contributors_listing">
   <%= render :partial => 'user', :collection => @contributors -%>
 </table>
 
 <h1 id="staff">Staff</h1>
-<table id="staff_listing">
+<table class="listing" id="staff_listing">
   <%= render :partial => 'user', :collection => @staff -%>
 </table>

@@ -35,7 +35,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "h1#faculty", "Faculty"
-    assert_select "table#faculty_listing" do
+    assert_select "table#faculty_listing.listing" do
       assert_entry_count "faculty"
       assert_select "tr:nth-child(1)" do
         assert_select "td img[src=#{images(:joel_headshot).url}]"
@@ -82,7 +82,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
 
     assert_select "h1#adjuncts", "Adjunct Faculty"
-    assert_select "table#adjuncts_listing" do
+    assert_select "table#adjuncts_listing.listing" do
       assert_entry_count "adjuncts"
       assert_select "tr:nth-child(1)" do
         assert_select "td img", 0
@@ -100,17 +100,17 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
 
     assert_select "h1#emeriti", "Emeriti"
-    assert_select "table#emeriti_listing" do
+    assert_select "table#emeriti_listing.listing" do
       assert_entry_count "emeriti"
     end
 
     assert_select "h1#contributors", "Contributing Faculty"
-    assert_select "table#contributors_listing" do
+    assert_select "table#contributors_listing.listing" do
       assert_entry_count "contributors"
     end
 
     assert_select "h1#staff", "Staff"
-    assert_select "table#staff_listing" do
+    assert_select "table#staff_listing.listing" do
       assert_entry_count "staff"
       assert_select "tr:nth-child(1)" do
         assert_select "td img[src=#{images(:sharon_headshot).url}]"

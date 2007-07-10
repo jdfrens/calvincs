@@ -69,18 +69,26 @@ div#news_teaser {
 
 /* Faculty listing */
 
-table#faculty_listing td {
+table.listing td {
     vertical-align: top;
 }
 
-table#faculty_listing ul {
+table.listing ul {
     list-style-type: none;
-    padding-left: 0;
+    padding: .15em 0;
+    margin: 0;
     font-size: small;
 }
 
-table#faculty_listing p {
+table.listing h2 {
+    padding: .15em 0;
+    margin: 0;
+}
+
+table.listing p {
 	font-size: small;
+    padding: .15em 0;
+    margin: 0;
 }
 
 /* Mean formatting. */
