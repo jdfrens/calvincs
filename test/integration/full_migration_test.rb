@@ -30,7 +30,7 @@ class FullMigrationTest < Test::Unit::TestCase
   
   def see_course_tables(s)
     s.table "courses" do |t|
-      t.column :id,          :integer
+      t.column :id,           :integer
       t.column "label",       :string
       t.column "number",      :integer
       t.column "title",       :string
@@ -46,6 +46,7 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "identifier",  :string
       t.column "title",       :string
       t.column "content",     :text
+      t.column "updated_at",  :datetime
     end
     
     s.table "news_items" do |t|
