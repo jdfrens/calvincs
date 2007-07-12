@@ -30,7 +30,9 @@ class Test::Unit::TestCase
     assert_equal expected.to_set, actual.to_set, message
   end
   
-  def assert_standard_layout
+  def assert_standard_layout(options = {})
+    options = { :last_updated => false }.merge(options)
+    
     assert_select "title" , "Computing at Calvin College"
     
     [ "calvintemplate", "department" ].each do |filename|
@@ -63,7 +65,9 @@ class Test::Unit::TestCase
           assert_select "li:nth-child(10) a[href=/p/contact_us]", "Contact Us"
         end
       end
-      assert_select "div#footer-css"
+      assert_select "div#footer-css" do
+        assert_select "#last_updated", options[:last_updated]
+      end
     end
     if logged_in?
       assert_select "a[href=/users/logout]", /logout/i
@@ -83,12 +87,18 @@ class Test::Unit::TestCase
   def assert_remote_form_for_and_spinner(id, route)
     form = find_tag :tag => "form", :attributes => { :id => id }
     assert_not_nil form, "should have form"
-    assert_match /Element\.show\('spinner/, form.attributes["onsubmit"],
-        "should have JavaScript to show spinner"
-    assert_match /Element\.hide\('spinner/, form.attributes["onsubmit"],
-        "should have JavaScript to hide spinner"
-    assert_match /Ajax\.Request\('(.+?)'/, form.attributes["onsubmit"],
-        "should have JavaScript for Ajax request"
+    assert_match(
+        /Element\.show\('spinner/,
+        form.attributes["onsubmit"],
+        "should have JavaScript to show spinner")
+    assert_match(
+        /Element\.hide\('spinner/,
+        form.attributes["onsubmit"],
+        "should have JavaScript to hide spinner")
+    assert_match(
+        /Ajax\.Request\('(.+?)'/,
+        form.attributes["onsubmit"],
+        "should have JavaScript for Ajax request")
     form.attributes["onsubmit"] =~ /Ajax\.Request\('(.+?)'/
     assert_equal route, "#$1", "should have correct route in Ajax request"
   end
@@ -149,4 +159,7 @@ class Test::Unit::TestCase
     string.gsub("*", "").gsub("_", "")
   end
   
+  def last_modified_text(time)
+    "Last updated " + time.strftime("%A, %B %d, %Y") + "."
+  end
 end

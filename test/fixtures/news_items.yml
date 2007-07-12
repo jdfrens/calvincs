@@ -7,6 +7,7 @@ another_todays_news:
   user_id: 2
   goes_live_at: <%= 1.hour.ago.to_s(:db) %>
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
+  updated_at: <%= 28.hours.ago.to_s(:db) %>
 todays_news:
   id: 3
   headline: News of Today
@@ -15,6 +16,7 @@ todays_news:
   user_id: 1
   goes_live_at: <%= 2.hours.ago.to_s(:db) %>
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
+  updated_at: <%= 30.hours.ago.to_s(:db) %>
 past_news:
   id: 8
   headline: News of Yesterday
@@ -23,6 +25,7 @@ past_news:
   user_id: 2
   goes_live_at: <%= 2.days.ago.to_s(:db) %>
   expires_at: <%= 1.day.ago.to_s(:db) %>
+  updated_at: <%= 90.hours.ago.to_s(:db) %>
 future_news:
   id: 25
   headline: News of the Future!
@@ -31,4 +34,4 @@ future_news:
   user_id: 1
   goes_live_at: <%= 2.hours.from_now.to_s(:db) %>
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
-
+  updated_at: <%= 28.hours.ago.to_s(:db) %>

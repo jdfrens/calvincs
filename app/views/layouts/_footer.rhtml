@@ -30,7 +30,9 @@
 <dl>
 <dt>Contact</dt>
 <dd class="bodycopy-small"><a href="mailto:kvlinden@calvin.edu" title="Computer Science Department" id="footer-contact-name">Computer Science Department</a></dd>
-<dd class="bodycopy-small">Last updated when it was last updated.</dd>
+<% if @last_updated -%>
+  <dd id="last_updated" class="bodycopy-small">Last updated <%= @last_updated.strftime("%A, %B %d, %Y") %>.</dd>
+<% end -%>
 </dl>
 
 </div>

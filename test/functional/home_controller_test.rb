@@ -18,18 +18,38 @@ class HomeControllerTest < Test::Unit::TestCase
     get :index
     
     assert_response :success
-    assert_home_page_assignments
     assert_home_page_layout
+    
+    assert_home_page_assignments
     assert_template 'home/index'
+  end
+  
+  def test_index_last_modified_also_depends_on_news_items
+    get :index
+    
+    assert_response :success
+    assert_standard_layout :last_updated => last_modified_text(pages(:home_page).updated_at)
+    
+    news_item = news_items(:todays_news)
+    news_item.teaser = 'changed for new updated_at'
+    news_item.save!
+    news_item.reload
+    
+    get :index
+    
+    assert_response :success
+    assert_standard_layout :last_updated => last_modified_text(news_item.updated_at)
   end
 
   def test_index_when_logged_in
     get :index, {}, user_session(:edit)
     
     assert_response :success
-    assert_home_page_assignments
     assert_home_page_layout
+    
+    assert_home_page_assignments
     assert_template 'home/index'
+    
     assert_select "h1", "Computing at Calvin College"
     assert_select "p", "home page text written in textile"
     assert_select "p strong", "textile"
@@ -96,10 +116,11 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_equal pages(:home_splash), assigns(:splash)
     assert_equal pages(:home_page), assigns(:content)
     assert_equal NewsItem.find_current, assigns(:news_items)
+    assert_equal pages(:home_page).updated_at, assigns(:last_updated)
   end
   
   def assert_home_page_layout
-    assert_standard_layout
+    assert_standard_layout :last_updated => last_modified_text(pages(:home_page).updated_at)
     assert_select "div#content" do
       assert_select "div#home_splash p:first-of-type", pages(:home_splash).content do
         assert_select "h1", 0, "*no* title in splash"

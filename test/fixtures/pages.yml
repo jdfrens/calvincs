@@ -14,11 +14,13 @@ home_page:
   identifier: _home_page
   title: Computing at Calvin College
   content: home page text written in *textile*
+  updated_at: <%= 1.day.ago.to_s(:db) %>
 home_splash:
   id: 4
   identifier: _home_splash
   title: Images (Probably) at Top of Home Page
   content: images!
+  updated_at: <%= 2.days.ago.to_s(:db) %>
 jeremy_interests:
   id: 5
   identifier: _jeremy_interests
