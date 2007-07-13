@@ -253,20 +253,18 @@ a#footer-contact-name:hover {
 
 
 /* NAMEPLATES */
+/*
+  jdfrens modified from Luke Robinson's original since he had real text,
+  not an image.
+  */
 h1#nameplate-dept {
 	font-size: 18px;
 	float: right;
-	padding: 0;
+	background: transparent url(/images/nameplate.gif) no-repeat left top;
+	text-indent: -9000px; /* Move text link off-screen */
 	margin: 0;
-	margin-top: -10px;
-	display: block;
-	width: 200px;
-	text-align: right;
-	color: #660000;
-	font-size: 18px;
-	font-weight: bold;
-	text-decoration: none;
-	vertical-align: middle;
+    width: 200px;
+    height: 50px;
 }
 
 /* 
