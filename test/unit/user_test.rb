@@ -35,11 +35,11 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_has_many_degrees_destroys_all
-    original_count = Degree.find(:all).size
+    original_count = Degree.count
     
     users(:jeremy).destroy
     
-    assert_equal original_count - 2, Degree.find(:all).size
+    assert_equal original_count - 2, Degree.count
   end
   
   def test_full_name

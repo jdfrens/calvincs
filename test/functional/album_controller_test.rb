@@ -22,7 +22,7 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_standard_layout
     assert_select "h1", "List of Images"
     assert_select "div#image_list" do
-      assert_select "table", Image.find(:all).size, "should be one table per image"
+      assert_select "table", Image.count, "should be one table per image"
       assert_select "div#image_form_1"
       assert_image_table images(:mission)
       assert_select "div#image_form_2"
@@ -68,8 +68,8 @@ class AlbumControllerTest < Test::Unit::TestCase
   end
   
   def test_new_image_form_redirects_when_NOT_logged_in
-    original_image_count = Image.find(:all).size
-    original_tag_count = ImageTag.find(:all).size
+    original_image_count = Image.count
+    original_tag_count = ImageTag.count
     
     get :create,
         { :image => { :url => "http://example.com/foo.gif",
@@ -77,10 +77,8 @@ class AlbumControllerTest < Test::Unit::TestCase
             :tags_string => "foo bar" }}
     
     assert_redirected_to_login
-    assert_equal original_image_count, Image.find(:all).size,
-        "shouldn't add new image"
-    assert_equal original_tag_count, ImageTag.find(:all).size,
-        "shouldn't add new image tags"
+    assert_equal original_image_count, Image.count, "shouldn't add new image"
+    assert_equal original_tag_count, ImageTag.count, "shouldn't add new image tags"
   end
   
   def test_update_image

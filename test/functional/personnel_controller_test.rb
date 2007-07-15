@@ -430,7 +430,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
   
   def test_add_degree
     keith = users(:keith)
-    assert_equal 1, keith.degrees.size, "should start with 1 degree"
+    assert_equal 1, keith.degrees.count, "should start with 1 degree"
     
     xhr :post, :add_degree, { :id => keith.id }, user_session(:edit)
         
@@ -447,7 +447,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
       end
     end
     
-    assert_equal 2, keith.degrees.size, "should have 2 degrees now"
+    assert_equal 2, keith.degrees.count, "should have 2 degrees now"
     degree = Degree.find_by_institution("Somewhere U")
     assert_not_nil degree
     assert keith.degrees.include?(degree)
@@ -457,12 +457,12 @@ class PersonnelControllerTest < Test::Unit::TestCase
 
   def test_add_degree_fails_when_NOT_logged_in
     keith = users(:keith)
-    assert_equal 1, keith.degrees.size, "should start with 1 degree"
+    assert_equal 1, keith.degrees.count, "should start with 1 degree"
     
     xhr :post, :add_degree, { :id => keith.id }
     
     assert_redirected_to_login
-    assert_equal 1, keith.degrees.size, "should still have 1 degrees"
+    assert_equal 1, keith.degrees.count, "should still have 1 degrees"
   end
   
   def test_set_user_office_phone
@@ -549,7 +549,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
   private
   
   def assert_entry_count(name)
-    assert_select "tr", Group.find_by_name(name).users.size,
+    assert_select "tr", Group.find_by_name(name).users.count,
         "should have one row per #{name}"
   end
   

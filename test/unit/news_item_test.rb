@@ -86,42 +86,35 @@ class NewsItemTest < Test::Unit::TestCase
   end
   
   def test_find_just_current_news
-    news_items = NewsItem.find_current
-    assert_equal 2, news_items.size
-    assert news_items.include?(news_items(:todays_news))
-    assert news_items.include?(news_items(:another_todays_news))
+    assert_equal_set [news_items(:todays_news), news_items(:another_todays_news)],
+      NewsItem.find_current
     
     make_past(news_items(:todays_news))
-    news_items = NewsItem.find_current
-    assert_equal 1, news_items.size
-    assert news_items.include?(news_items(:another_todays_news))
+    assert_equal_set [news_items(:another_todays_news)], NewsItem.find_current
     
     make_current(news_items(:past_news))
-    news_items = NewsItem.find_current
-    assert_equal 2, news_items.size
-    assert news_items.include?(news_items(:another_todays_news))
-    assert news_items.include?(news_items(:past_news))
+    assert_equal_set [news_items(:past_news), news_items(:another_todays_news)],
+      NewsItem.find_current
   end
   
   def test_find_filtered_all
-    found_items = NewsItem.find_filtered_news('all')
-    assert_equal 4, found_items.size
-    assert found_items.include?(news_items(:todays_news))
-    assert found_items.include?(news_items(:another_todays_news))
-    assert found_items.include?(news_items(:past_news))
-    assert found_items.include?(news_items(:future_news))
+    assert_equal_set(
+        [ news_items(:todays_news), news_items(:another_todays_news),
+          news_items(:past_news), news_items(:future_news) ],
+        NewsItem.find_filtered_news('all')
+        )
   end
   
   def test_find_filtered_current
-    found_items = NewsItem.find_filtered_news("current")
-    assert_equal 2, found_items.size
-    assert found_items.include?(news_items(:todays_news))
-    assert found_items.include?(news_items(:another_todays_news))
+    assert_equal_set(
+        [ news_items(:todays_news), news_items(:another_todays_news) ],
+        NewsItem.find_filtered_news('current')
+        )
   end
   
   def test_is_current
-    assert news_items(:todays_news).is_current?
-    assert news_items(:another_todays_news).is_current?
+    assert  news_items(:todays_news).is_current?
+    assert  news_items(:another_todays_news).is_current?
     assert !news_items(:past_news).is_current?
     assert !news_items(:future_news).is_current?
     

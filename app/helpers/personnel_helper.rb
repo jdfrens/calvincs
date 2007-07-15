@@ -1,7 +1,7 @@
 module PersonnelHelper
   
   def see_education(user)
-    user.education? && (user.degrees.size > 0 || current_user)
+    user.education? && (user.degrees.count > 0 || current_user)
   end
   
   def see_interests(user)

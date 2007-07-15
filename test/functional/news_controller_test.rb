@@ -87,8 +87,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the news item', flash[:error]
-    assert_equal 4, NewsItem.find(:all).size,
-        "should have only four news items still"
+    assert_equal 4, NewsItem.count, "should have only four news items still"
   end
   
   def test_list_should_redirect_when_not_given_an_id
@@ -305,18 +304,18 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_destroy_redirects_when_NOT_logged_in
     post :destroy, { :id => news_items(:todays_news).id }
     assert_redirected_to_login
-    assert_equal 4, NewsItem.find(:all).size, "should still have four news items"
+    assert_equal 4, NewsItem.count, "should still have four news items"
   end
   
   def test_destroy
     assert_not_nil NewsItem.find_by_headline("News of Today"), "sanity check"
-    assert_equal 4, NewsItem.find(:all).size
+    assert_equal 4, NewsItem.count
     
     post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' },
         user_session(:edit)
     
     assert_redirected_to :controller => 'news', :action => 'list', :id => 'foobar'
-    assert_equal 3, NewsItem.find(:all).size, "lost just one news item"
+    assert_equal 3, NewsItem.count, "lost just one news item"
     assert_nil NewsItem.find_by_headline("News of Today")
   end
   

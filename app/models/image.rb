@@ -5,7 +5,7 @@ class Image < ActiveRecord::Base
   validates_presence_of :url
   
   def self.pick_random(tag, index=-1)
-    images = ImageTag.find_all_by_tag(tag).map { |image_tag| image_tag.image }
+    images = ImageTag.find_all_by_tag(tag).map(&:image)
     if index == -1
       index = rand(images.size)
     end

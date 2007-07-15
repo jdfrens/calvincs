@@ -43,7 +43,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "h1", "All Pages"
     assert_select "div#error", "Error flash!"
     assert_select "table[summary=page list]" do
-      assert_select "tr", Page.find(:all).size+1,
+      assert_select "tr", Page.count+1,
           "should have one row per page plus a header"
       assert_select "tr" do
         assert_select "th", /identifier/i
@@ -170,7 +170,7 @@ class PageControllerTest < Test::Unit::TestCase
   end
   
   def test_save_redirects_when_NOT_logged_in
-    original_count = count_pages
+    original_count = Page.count
     
     post :save,
         :page => {
@@ -180,11 +180,11 @@ class PageControllerTest < Test::Unit::TestCase
 
     assert_redirected_to_login
 
-    assert_equal original_count, count_pages, "should have #{original_count} pages still"
+    assert_equal original_count, Page.count, "should have #{original_count} pages still"
   end
   
   def test_save_fails_with_bad_data
-    original_count = count_pages
+    original_count = Page.count
     
     post :save,
         { :page => { :identifier => 'bad!', :content => 'whatever' } },
@@ -194,8 +194,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert !flash.empty?
     assert_equal 'Invalid values for the page', flash[:error]
     
-    assert_equal original_count, Page.find(:all).size,
-        "should have only four pages still"
+    assert_equal original_count, Page.count, "should have only four pages still"
   end
   
   def test_set_page_title
@@ -278,10 +277,6 @@ class PageControllerTest < Test::Unit::TestCase
   # Helpers
   #
   private
-  
-  def count_pages
-    Page.find(:all).size
-  end
   
   def assert_standard_page_entries
     assert_page_entry pages(:alphabet)
