@@ -96,24 +96,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_redirected_to :action => "list", :id => "current"
   end
   
-  def test_list_should_list_current_news_items
-    get :list, { :id => "current" }
-
-    assert_response :success
-    assert_standard_layout
-    assert_news_listing
-    assert_select "div#newsItems table[summary=news items]" do
-      assert_select "tr", 2, "Only two *current* news items"
-      assert_news_item_entry 1, news_items(:todays_news), "current"
-      assert_news_item_entry 2, news_items(:another_todays_news), "current"
-    end
-  end
-  
   def test_list_current
     get :list, { :id => 'current' }
     
     assert_response :success
-    assert_standard_layout
+    assert_standard_layout :last_updated => news_items(:another_todays_news).updated_at
     assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 2, "Only two *current* news items"
@@ -126,7 +113,7 @@ class NewsControllerTest < Test::Unit::TestCase
     get :list, :id => 'all'
     
     assert_response :success
-    assert_standard_layout
+    assert_standard_layout :last_updated => news_items(:future_news).updated_at
     assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 4
@@ -139,8 +126,9 @@ class NewsControllerTest < Test::Unit::TestCase
   
   def test_list_all_when_LOGGED_in
     get :list, { :id => 'all' }, user_session(:edit)
+    
     assert_response :success
-    assert_standard_layout
+    assert_standard_layout :last_updated => news_items(:future_news).updated_at
     assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 4
@@ -155,28 +143,31 @@ class NewsControllerTest < Test::Unit::TestCase
     get :view, { :id => news_items(:todays_news) }
     
     assert_response :success
+    assert_standard_layout :last_updated => news_items(:todays_news).updated_at
     assert_select "h1", news_items(:todays_news).headline
     assert_select "div#news_item_content p", "Something happened today."
     assert_select "div#news_item_content p strong", "today",
         "content should be Textiled"
         
     # no admin stuff
-    assert_select "form[action=/news/update_news_content/3]", 0
-    assert_select "p#expires_at", 0
+    assert_select "form[action=/news/update_news_content/3]", false
+    assert_select "p#expires_at", false
   end
   
   def test_view_a_news_item_WHEN_logged_in
     item = news_items(:todays_news)
     id = item.id
+    
     get :view, { :id => id }, user_session(:edit)
     
     assert_response :success
+    assert_standard_layout :last_updated => news_items(:todays_news).updated_at
     
     assert_select "h1 span#news_item_headline_#{id}_in_place_editor", item.headline
-    assert_select "div#content h1 input#edit_headline", 1
+    assert_select "div#content h1 input#edit_headline", true
     
     assert_select "div#news_item_teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
-    assert_select "div#news_item_teaser input#edit_teaser", 1
+    assert_select "div#news_item_teaser input#edit_teaser", true
 
     assert_select "div#news_item_content p", "Something happened today."
     assert_select "div#news_item_content p strong", "today",

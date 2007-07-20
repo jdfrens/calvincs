@@ -34,4 +34,4 @@ future_news:
   user_id: 1
   goes_live_at: <%= 2.hours.from_now.to_s(:db) %>
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
-  updated_at: <%= 28.hours.ago.to_s(:db) %>
+  updated_at: <%= 27.hours.ago.to_s(:db) %>

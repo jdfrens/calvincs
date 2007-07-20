@@ -64,7 +64,7 @@ class PageControllerTest < Test::Unit::TestCase
     get :view, :id => 'mission'
     
     assert_response :success
-    assert_standard_layout :last_updated => last_modified_text(pages(:mission).updated_at)
+    assert_standard_layout :last_updated => pages(:mission).updated_at
     assert_template "page/view"
     assert_select "div#content" do
       assert_select "h1", "Mission Statement"
@@ -86,7 +86,7 @@ class PageControllerTest < Test::Unit::TestCase
     get :view, :id => 'alphabet'
     
     assert_response :success
-    assert_standard_layout :last_updated => last_modified_text(pages(:alphabet).updated_at)
+    assert_standard_layout :last_updated => pages(:alphabet).updated_at
     assert_select "div#content div.img-right", false
   end
 
@@ -100,7 +100,7 @@ class PageControllerTest < Test::Unit::TestCase
     get :view, { :id => '_home_page' }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :last_updated => last_modified_text(pages(:home_page).updated_at)
+    assert_standard_layout :last_updated => pages(:home_page).updated_at
     assert_select "div#content" do
       assert_select "h1", "{{ A SUBPAGE HAS NO TITLE }}"
       assert_select "h1 input#edit_title", false, "should not edit unused title"
@@ -121,7 +121,7 @@ class PageControllerTest < Test::Unit::TestCase
     get :view, { :id => 'mission' }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :last_updated => last_modified_text(pages(:mission).updated_at)
+    assert_standard_layout :last_updated => pages(:mission).updated_at
     assert_template "page/view"
     assert_select "div#content" do
       assert_select "div#page_content" do

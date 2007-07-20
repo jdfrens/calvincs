@@ -66,7 +66,12 @@ class Test::Unit::TestCase
         end
       end
       assert_select "div#footer-css" do
-        assert_select "#last_updated", options[:last_updated]
+        if options[:last_updated]
+          assert_select "#last_updated", last_updated_text(options[:last_updated]),
+              "should have last updated on #{last_updated_text(options[:last_updated])}"
+        else
+          assert_select "#last_updated", false, "should have no last updated"
+        end
       end
     end
     if logged_in?
@@ -159,7 +164,11 @@ class Test::Unit::TestCase
     string.gsub("*", "").gsub("_", "")
   end
   
-  def last_modified_text(time)
-    "Last updated " + time.strftime("%A, %B %d, %Y") + "."
+  def last_updated_text(time)
+    if time
+      "Last updated " + time.strftime("%A, %B %d, %Y") + "."
+    else
+      time
+    end
   end
 end

@@ -8,7 +8,8 @@ class NewsController < ApplicationController
   
   def list
     if (params[:id])
-      @news_items = NewsItem.find_filtered_news params[:id]
+      @news_items = NewsItem.find_filtered_news(params[:id])
+      @last_updated = @news_items.map(&:updated_at).max
     else
       redirect_to :action => 'list', :id => 'current'
     end
@@ -16,6 +17,7 @@ class NewsController < ApplicationController
   
   def view
     @news_item = NewsItem.find(params[:id])
+    @last_updated = @news_item.updated_at
   end
     
   def new
