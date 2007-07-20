@@ -4,11 +4,13 @@ mission:
   identifier: mission
   title: Mission Statement
   content: We state *our* mission.
+  updated_at: <%= 12.days.ago.to_s(:db) %>
 alphabet:
   id: 2
   identifier: alphabet
   title: The Alphabet
   content: a b c d e f g _h i j k_
+  updated_at: <%= 1.hour.ago.to_s(:db) %>
 home_page:
   id: 3
   identifier: _home_page

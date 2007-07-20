@@ -18,6 +18,7 @@ class PageController < ApplicationController
         render :inline => "<p>This page does not exist.</p>", :layout => "application", :status => 404
       else
         @image = @page.random_image
+        @last_updated = @page.updated_at
         render :template => 'page/view'
       end
     elsif current_user
