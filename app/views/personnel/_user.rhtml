@@ -22,7 +22,6 @@
         <p <%= id_for(user, "location") %>><%= location %></p>
       <% end -%>
       <p <%= id_for(user, "email") %>><%= mail_to user.email_address, user.email_address %></p>
-      <p <%= id_for(user, "home_page") %>><%= link_to "Home page", "http://www.calvin.edu/~#{user.username}" %></p>
     </div>
         
 	<% output_if user.subpage(:interests) do |page| -%>
