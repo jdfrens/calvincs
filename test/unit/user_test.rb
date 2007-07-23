@@ -42,6 +42,16 @@ class UserTest < Test::Unit::TestCase
     assert_equal original_count - 2, Degree.count
   end
   
+  def test_last_updated_dates
+    assert_equal_set [users(:joel).updated_at], users(:joel).last_updated_dates
+    assert_equal_set [users(:keith).updated_at, pages(:keith_status).updated_at],
+        users(:keith).last_updated_dates
+    assert_equal_set(
+        [ users(:jeremy).updated_at, pages(:jeremy_interests).updated_at,
+          pages(:jeremy_status).updated_at, pages(:jeremy_profile).updated_at],
+        users(:jeremy).last_updated_dates)
+  end
+  
   def test_full_name
     assert_equal "Jeremy D.", users(:jeremy).first_name
     assert_equal "Frens", users(:jeremy).last_name

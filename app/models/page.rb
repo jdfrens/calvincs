@@ -6,6 +6,10 @@ class Page < ActiveRecord::Base
   validates_format_of :identifier, :with => /^(\w|_)+$/,
       :message => 'should be like a Java identifier'
   
+  def last_updated_dates
+    [updated_at]
+  end
+  
   def render_content
     RedCloth.new(content).to_html
   end

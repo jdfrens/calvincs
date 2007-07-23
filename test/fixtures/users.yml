@@ -7,6 +7,8 @@ calvin:
   password_hash: <%= User.hash_password('calvinpassword') %>
   group_id: 1
   email_address: calvin@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
 sharon:
   id: 2
   username: sharon
@@ -18,6 +20,8 @@ sharon:
   password_hash: <%= User.hash_password('sharonpassword') %>
   group_id: 3
   email_address: sharon@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 2.days.ago.to_s(:db) %>
 jeremy:
   id: 3
   username: jeremy
@@ -29,6 +33,8 @@ jeremy:
   password_hash: <%= User.hash_password('jeremypassword') %>
   group_id: 2
   email_address: jeremy@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 3.days.ago.to_s(:db) %>
 keith:
   id: 4
   username: keith
@@ -37,6 +43,8 @@ keith:
   password_hash: <%= User.hash_password('keithpassword') %>
   group_id: 2
   email_address: keith@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 4.days.ago.to_s(:db) %>
 joel:
   id: 5
   username: joel
@@ -45,6 +53,8 @@ joel:
   password_hash: <%= User.hash_password('joelpassword') %>
   group_id: 2
   email_address: joel@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 5.days.ago.to_s(:db) %>
 fred:
   id: 6
   username: fred
@@ -54,6 +64,8 @@ fred:
   password_hash: <%= User.hash_password('fredpassword') %>
   group_id: 5
   email_address: fred@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 6.days.ago.to_s(:db) %>
 larry:
   id: 7
   username: larry
@@ -62,6 +74,8 @@ larry:
   password_hash: <%= User.hash_password('larrypassword') %>
   group_id: 4
   email_address: larry@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 7.days.ago.to_s(:db) %>
 randy:
   id: 8
   username: randy
@@ -71,3 +85,5 @@ randy:
   password_hash: <%= User.hash_password('randypassword') %>
   group_id: 6
   email_address: randy@calvin.foo
+  created_at: <%= 1.year.ago.to_s(:db) %>
+  updated_at: <%= 8.days.ago.to_s(:db) %>

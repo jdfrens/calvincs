@@ -104,6 +104,8 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "password_hash", :string
       t.column "group_id",      :integer
       t.column "email_address", :string
+      t.column "created_at",    :datetime
+      t.column "updated_at",    :datetime
     end
   end
   

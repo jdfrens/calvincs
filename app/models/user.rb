@@ -28,4 +28,8 @@ class User < ActiveRecord::Base
     end
   end
   
+  def last_updated_dates
+    [self, subpage(:interests), subpage(:status), subpage(:profile)].compact.map(&:updated_at)
+  end
+  
 end

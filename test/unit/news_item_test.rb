@@ -97,6 +97,11 @@ class NewsItemTest < Test::Unit::TestCase
       NewsItem.find_current
   end
   
+  def test_last_updated_dates
+    assert_equal [news_items(:todays_news).updated_at], news_items(:todays_news).last_updated_dates
+    assert_equal [news_items(:past_news).updated_at], news_items(:past_news).last_updated_dates
+    assert_equal [news_items(:future_news).updated_at], news_items(:future_news).last_updated_dates
+  end
   def test_find_filtered_all
     assert_equal_set(
         [ news_items(:todays_news), news_items(:another_todays_news),

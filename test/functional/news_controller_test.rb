@@ -18,7 +18,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_standard_layout
+    assert_standard_layout :last_updated => news_items(:another_todays_news).updated_at
     assert_select "h1", "Current News"
     assert_full_news_item news_items(:another_todays_news)
     assert_full_news_item news_items(:todays_news), [ "today" ]

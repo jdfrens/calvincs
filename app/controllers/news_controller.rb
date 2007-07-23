@@ -4,10 +4,11 @@ class NewsController < ApplicationController
   
   def index
     @news_items = NewsItem.find_current
+    @last_updated = @news_items.map(&:updated_at).max
   end
   
   def list
-    if (params[:id])
+    if params[:id]
       @news_items = NewsItem.find_filtered_news(params[:id])
       @last_updated = @news_items.map(&:updated_at).max
     else

@@ -15,6 +15,7 @@ class PersonnelController < ApplicationController
       @emeriti = find_users("emeriti")
       @contributors = find_users("contributors")
       @staff = find_users("staff")
+      @last_updated = last_updated(@faculty + @adjuncts + @emeriti + @contributors + @staff)
       render    
     end
   end
@@ -25,6 +26,7 @@ class PersonnelController < ApplicationController
       redirect_to :action => 'list'
     else
       @image = Image.pick_random(@user.username)
+      @last_updated = last_updated([@user])
       render
     end
   end

@@ -24,6 +24,10 @@ class NewsItem < ActiveRecord::Base
       NewsItem.find_current
     end
   end
+  
+  def last_updated_dates
+    [updated_at]
+  end
 
   def goes_live_at_formatted
     goes_live_at.strftime '%m/%d/%Y'

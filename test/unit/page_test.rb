@@ -50,6 +50,12 @@ class PageTest < Test::Unit::TestCase
     assert_equal "can't be blank", page.errors[:content]
   end
   
+  def test_last_updated_dates
+    assert_equal [pages(:mission).updated_at], pages(:mission).last_updated_dates
+    assert_equal [pages(:alphabet).updated_at], pages(:alphabet).last_updated_dates
+    assert_equal [pages(:home_page).updated_at], pages(:home_page).last_updated_dates
+  end
+  
   def test_render_content
     assert_equal "<p>We state <strong>our</strong> mission.</p>",
         pages(:mission).render_content
