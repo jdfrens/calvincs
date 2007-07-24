@@ -170,7 +170,7 @@ class Test::Unit::TestCase
   
   def last_updated_text(time)
     if time
-      "Last updated " + time.strftime("%A, %B %d, %Y") + "."
+      "Last updated " + time.to_s(:last_updated) + "."
     else
       time
     end

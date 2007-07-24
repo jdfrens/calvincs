@@ -52,3 +52,4 @@ end
 # end
 
 # Include your application configuration below
+Time::DATE_FORMATS[:last_updated] = "%A, %B %d, %Y"
