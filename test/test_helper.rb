@@ -31,9 +31,13 @@ class Test::Unit::TestCase
   end
   
   def assert_standard_layout(options = {})
-    options = { :last_updated => false }.merge(options)
+    options = { :title => nil, :last_updated => false }.merge(options)
     
-    assert_select "title" , "Computing at Calvin College"
+    if options[:title]
+      assert_select "title" , "Calvin College Computer Science - #{options[:title]}"
+    else
+      assert_select "title" , "Calvin College Computer Science"
+    end
     
     [ "calvintemplate", "department" ].each do |filename|
       assert_select "link[type=text/css][href^=/stylesheets/#{filename}.css]",

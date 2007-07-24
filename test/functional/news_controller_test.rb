@@ -18,7 +18,8 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_standard_layout :last_updated => news_items(:another_todays_news).updated_at
+    assert_standard_layout :title => "News",
+        :last_updated => news_items(:another_todays_news).updated_at
     assert_select "h1", "Current News"
     assert_full_news_item news_items(:another_todays_news)
     assert_full_news_item news_items(:todays_news), [ "today" ]
@@ -100,7 +101,8 @@ class NewsControllerTest < Test::Unit::TestCase
     get :list, { :id => 'current' }
     
     assert_response :success
-    assert_standard_layout :last_updated => news_items(:another_todays_news).updated_at
+    assert_standard_layout :title => "List of Current News",
+        :last_updated => news_items(:another_todays_news).updated_at
     assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 2, "Only two *current* news items"
@@ -113,7 +115,8 @@ class NewsControllerTest < Test::Unit::TestCase
     get :list, :id => 'all'
     
     assert_response :success
-    assert_standard_layout :last_updated => news_items(:future_news).updated_at
+    assert_standard_layout :title => "List of All News",
+        :last_updated => news_items(:future_news).updated_at
     assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 4
@@ -128,7 +131,8 @@ class NewsControllerTest < Test::Unit::TestCase
     get :list, { :id => 'all' }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :last_updated => news_items(:future_news).updated_at
+    assert_standard_layout :title => "List of All News",
+         :last_updated => news_items(:future_news).updated_at
     assert_news_listing
     assert_select "div#newsItems table[summary=news items]" do
       assert_select "tr", 4
@@ -140,11 +144,14 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   def test_view_news_item_when_NOT_logged_in
-    get :view, { :id => news_items(:todays_news) }
+    item = news_items(:todays_news)
+    
+    get :view, { :id => item.id }
     
     assert_response :success
-    assert_standard_layout :last_updated => news_items(:todays_news).updated_at
-    assert_select "h1", news_items(:todays_news).headline
+    assert_standard_layout :title => item.headline,
+         :last_updated => item.updated_at
+    assert_select "h1", item.headline
     assert_select "div#news_item_content p", "Something happened today."
     assert_select "div#news_item_content p strong", "today",
         "content should be Textiled"
@@ -161,7 +168,8 @@ class NewsControllerTest < Test::Unit::TestCase
     get :view, { :id => id }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :last_updated => news_items(:todays_news).updated_at
+    assert_standard_layout :title => item.headline,
+         :last_updated => news_items(:todays_news).updated_at
     
     assert_select "h1 span#news_item_headline_#{id}_in_place_editor", item.headline
     assert_select "div#content h1 input#edit_headline", true

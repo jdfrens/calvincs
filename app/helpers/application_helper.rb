@@ -27,6 +27,12 @@ module ApplicationHelper
       '</a>'
   end
   
+  def title
+    "<title>" +
+    ["Calvin College Computer Science", @title].compact.join(" - ") +
+    "</title>"
+  end
+
   def spinner_id(suffix = nil)
     suffix ? "spinner_#{suffix}" : "spinner"    
   end

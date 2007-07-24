@@ -33,7 +33,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     get :list
     
     assert_response :success
-    assert_standard_layout :last_updated => users(:sharon).updated_at
+    assert_standard_layout :title => "Faculty & Staff", :last_updated => users(:sharon).updated_at
     assert_select "h1#faculty", "Faculty"
     assert_select "table#faculty_listing.listing" do
       assert_entry_count "faculty"
@@ -151,7 +151,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     user.reload
-    assert_standard_layout :last_updated => user.updated_at
+    assert_standard_layout :title => "Faculty & Staff",
+        :last_updated => user.updated_at
   end
   
   def test_list_uses_most_recent_updated_at_from_users_status
@@ -163,14 +164,16 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     page.reload
-    assert_standard_layout :last_updated => page.updated_at
+    assert_standard_layout :title => "Faculty & Staff",
+        :last_updated => page.updated_at
   end
   
   def test_view
     get :view, { :id => 'jeremy' }
     
     assert_response :success
-    assert_standard_layout :last_updated => users(:jeremy).last_updated_dates.max
+    assert_standard_layout :title => "Jeremy D. Frens",
+        :last_updated => users(:jeremy).last_updated_dates.max
     
     assert_select "h1", "Jeremy D. Frens"
     assert_select "p#job_title", "Assistant Professor"
@@ -209,7 +212,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     get :view, { :id => 'joel' }
     
     assert_response :success
-    assert_standard_layout :last_updated => users(:joel).last_updated_dates.max
+    assert_standard_layout :title => "Joel C. Adams",
+        :last_updated => users(:joel).last_updated_dates.max
     
     assert_select "h1", "Joel C. Adams"
     assert_select "#contact_information" do
@@ -228,7 +232,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     get :view, { :id => 'jeremy' }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :last_updated => users(:jeremy).last_updated_dates.max
+    assert_standard_layout :title => "Jeremy D. Frens",
+        :last_updated => users(:jeremy).last_updated_dates.max
     
     assert_select "div#full_name_header h1", "Jeremy D. Frens"
     assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
@@ -307,7 +312,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     get :view, { :id => 'joel' }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :last_updated => users(:joel).last_updated_dates.max
+    assert_standard_layout :title => "Joel C. Adams",
+        :last_updated => users(:joel).last_updated_dates.max
     
     assert_select "div#full_name_header h1", "Joel C. Adams"
     assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
@@ -360,7 +366,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     get :view, { :id => 'sharon' }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :last_updated => users(:sharon).last_updated_dates.max
+    assert_standard_layout :title => "Sharon Gould",
+        :last_updated => users(:sharon).last_updated_dates.max
     
     assert_select "#education", false, "should not have any option for education"
     assert_select "#interests", false, "should not have any interests"

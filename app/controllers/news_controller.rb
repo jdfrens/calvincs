@@ -4,12 +4,14 @@ class NewsController < ApplicationController
   
   def index
     @news_items = NewsItem.find_current
+    @title = "News"
     @last_updated = @news_items.map(&:updated_at).max
   end
   
   def list
     if params[:id]
       @news_items = NewsItem.find_filtered_news(params[:id])
+      @title = "List of #{params[:id].capitalize} News"
       @last_updated = @news_items.map(&:updated_at).max
     else
       redirect_to :action => 'list', :id => 'current'
@@ -18,6 +20,7 @@ class NewsController < ApplicationController
   
   def view
     @news_item = NewsItem.find(params[:id])
+    @title = @news_item.headline
     @last_updated = @news_item.updated_at
   end
     
