@@ -258,13 +258,23 @@ a#footer-contact-name:hover {
   not an image.
   */
 h1#nameplate-dept {
-	font-size: 18px;
-	float: right;
-	background: transparent url(/images/nameplate.gif) no-repeat left top;
-	text-indent: -9000px; /* Move text link off-screen */
+	display: block;
 	margin: 0;
-    width: 200px;
-    height: 50px;
+  width: 181px;
+  height: 39px;
+	background: transparent url(/images/nameplate.gif) no-repeat left top;
+  border: none;
+	text-indent: -9000px; /* Move text link off-screen */
+  text-decoration: none;
+	float: right;
+}
+
+h1#nameplate-dept a {
+	display: block;
+	width: 181px;
+	height: 39px;
+	background: transparent url(/images/nameplate.gif) no-repeat left top;
+	border: none;
 }
 
 /* 
