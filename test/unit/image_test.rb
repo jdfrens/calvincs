@@ -10,6 +10,21 @@ class ImageTest < Test::Unit::TestCase
     assert image.errors.invalid?(:url)
   end
   
+  def test_setting_width_and_height
+    ImageInfo.fake_size("somewhere", :width => 123, :height => 665)
+    ImageInfo.fake_size("somewhereelse", :width => 8, :height => 32)
+    
+    image = Image.new(:url => "somewhere")
+    image.save!
+    assert_equal 123, image.width
+    assert_equal 665, image.height
+    
+    image = Image.new(:url => "somewhereelse")
+    image.save!
+    assert_equal 8, image.width
+    assert_equal 32, image.height
+  end
+  
   def test_tagging
     assert_equal "", images(:alphabet).tags_string
     assert_equal "mission", images(:mission).tags_string

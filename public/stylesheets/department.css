@@ -22,6 +22,26 @@ div#error {
     background-color: pink;
 }
 
+.instruction {
+	color: #949494;
+	font: 14px Tahoma;
+}
+
+/* List of images */
+
+#image_list {
+  width: 775px;
+}
+
+#image_list td, #image_list th {
+  vertical-align: top;
+}
+
+#image_list .image_form {
+  border: dotted;
+  margin-bottom: 20px;
+}
+
 /* Editing mode changes */
 
 div.content-editor {

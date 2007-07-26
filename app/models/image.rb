@@ -2,6 +2,7 @@ class Image < ActiveRecord::Base
 
   has_many :image_tags, :dependent => :delete_all
 
+  before_validation :obtain_dimensions
   validates_presence_of :url
   
   def self.pick_random(tag, index=-1)
@@ -32,6 +33,14 @@ class Image < ActiveRecord::Base
     image_tags.delete_all
     string.split(/\s+/).each do |new_tag|
       image_tags.create!(:tag => new_tag)
+    end
+  end
+  
+  def obtain_dimensions
+    if url
+      info = ImageInfo.new(self.url)
+      self.width = info.width
+      self.height = info.height
     end
   end
   

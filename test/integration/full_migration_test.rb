@@ -66,6 +66,8 @@ class FullMigrationTest < Test::Unit::TestCase
     s.table "images" do |t|
       t.column "id",            :integer
       t.column "url",           :string
+      t.column "width",         :integer
+      t.column "height",        :integer
       t.column "caption",       :text
     end
     

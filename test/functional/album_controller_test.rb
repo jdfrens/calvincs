@@ -46,12 +46,16 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_select "form[action=/album/create]" do
       assert_select "input#image_url"
       assert_select "textarea#image_caption"
-      assert_select "input#tags_string[name=tags_string]"
+      assert_select "input#image_tags_string"
+      assert_select "input#image_tags_string[value*=]", false,
+          "should not have a value for the tags string"
       assert_select "input[type=submit]"
     end
   end
   
   def test_new_image_creation
+    ImageInfo.fake_size("http://example.com/foo.gif", :width => 265, :height => 200)
+
     get :create,
         { :image => {
             :url => "http://example.com/foo.gif",
@@ -61,8 +65,11 @@ class AlbumControllerTest < Test::Unit::TestCase
     
     assert_redirected_to :action => 'list'
     image = Image.find_by_caption("Foo is bar!")
+    
     assert_not_nil image
     assert_equal "http://example.com/foo.gif", image.url
+    assert_equal 265, image.width
+    assert_equal 200, image.height
     assert_equal "Foo is bar!", image.caption
     assert_equal ["foobar", "barfoo"], image.tags
   end
@@ -82,6 +89,8 @@ class AlbumControllerTest < Test::Unit::TestCase
   end
   
   def test_update_image
+    ImageInfo.fake_size("http://example.com/lovely.gif", :width => 199, :height => 265)
+
     image = Image.find(2)
     assert_equal "http://calvin.edu/abcd.png", image.url
     assert_equal "A B C, indeed!", image.caption
@@ -97,6 +106,8 @@ class AlbumControllerTest < Test::Unit::TestCase
     image.reload
     assert_equal "http://example.com/lovely.gif", image.url
     assert_equal "Lovely.", image.caption
+    assert_equal 199, image.width
+    assert_equal 265, image.height
     assert_equal "very lovely", image.tags_string
 
     assert_response :success
@@ -139,6 +150,7 @@ class AlbumControllerTest < Test::Unit::TestCase
       assert_select "table" do
         assert_select "tr td input#image_url_#{id}[value=#{image.url}]"
         assert_select "tr td a[href=#{image.url}]", "see picture"
+        assert_select "tr td .dimension", "#{image.width}x#{image.height}"
         assert_select "tr td", strip_textile(image.caption)
         assert_select "textarea#image_caption_#{id}", image.caption
         assert_select "tr td input#image_tags_string_#{id}[value=#{image.tags_string}]"

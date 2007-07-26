@@ -1,4 +1,4 @@
-<div id="image_form_<%= image.id %>">
+<div class="image_form" id="image_form_<%= image.id %>">
     <%
         remote_form_for(:image, image, 
                         :url => { :action => 'update_image', :id => image.id },
@@ -13,7 +13,20 @@
             </tr>
             <tr>
                 <th>&nbsp;</th>
-                <td><%= link_to "see picture", image.url %></td>
+                <td>
+                  <%= link_to "see picture", image.url %>
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="2">Dimensions:</th>
+                <td>
+                  <span class="dimension"><%= image.width %>x<%= image.height %></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <span class="instruction">Hit "Update" to update the image's dimensions.</span>
+                </td>
             </tr>
             <tr>
                 <th>Caption:</th>
