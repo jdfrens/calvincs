@@ -1,30 +1,11 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
-  @@STATIC_URLS = {
-    :abet => 'http://www.abet.org/',
-    :abstraction => 'http://clubs.calvin.edu/abstract/',
-    :calvin => 'http://www.calvin.edu/',
-    :csx => 'http://csx.calvin.edu/',
-    :home => '/',
-    :url_only => 'something',  # for testing... dumb, I know
-  }
-  
-  @@STATIC_TEXT = {
-    :abet => 'ABET',
-    :abstraction => 'Abstraction',
-    :calvin => 'Calvin College',
-    :csx => 'CSX',
-    :home => 'Computer Science Department',
-  }
-  
-  def link_to_static(keyword, text='')
-    if (@@STATIC_URLS[keyword] == nil) || (@@STATIC_TEXT[keyword] == nil)
-      raise RuntimeError.new('invalid keyword for static link: ' + keyword.to_s)
-    end
-    '<a href="' + @@STATIC_URLS[keyword] + '">' +
-      (text == '' ? @@STATIC_TEXT[keyword] : text) +
-      '</a>'
+  def link_to_current_news_item(news_item, options = {})
+    options = { :text => h(news_item.headline) }.merge(options)
+    link_to options[:text],
+          { :controller => "news", :anchor => "news_item_#{news_item.id}" },
+          { :class => options[:class] }
   end
   
   def title

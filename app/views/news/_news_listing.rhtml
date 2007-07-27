@@ -1,0 +1,9 @@
+<div id="news_listing">
+  <ul>
+    <% @news_items.each do |news_item| -%>
+      <li>
+        <%= link_to_current_news_item(news_item) %>
+      </li>
+    <% end -%>
+  </ul>
+</div>

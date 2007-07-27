@@ -27,6 +27,10 @@ div#error {
 	font: 14px Tahoma;
 }
 
+.more {
+  font-size: xx-small;
+}
+
 /* List of images */
 
 #image_list {
@@ -63,9 +67,6 @@ div#news ul {
 div#news li {
   padding-bottom: 0.25em;
   list-style-type: none;
-}
-div#news a.more {
-  font-size: xx-small;
 }
 
 /* Displaying whole news items */

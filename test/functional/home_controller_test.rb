@@ -132,12 +132,13 @@ class HomeControllerTest < Test::Unit::TestCase
       end
       assert_select "div#news" do
         assert_select "h1", "News"
-        assert_select "ul li", 2
+        assert_select "ul li", :count => (NewsItem.find_current.size + 1)
         NewsItem.find_current.each do |news_item|
           assert_select "li#news_item_#{news_item.id}"
           assert_select "span.news-teaser", strip_textile(news_item.teaser)
-          assert_select "a.more[href=/news/view/#{news_item.id}]", "more..."
+          assert_select "a.more[href=/news#news_item_#{news_item.id}]", "more..."
         end
+        assert_select "ul li a.more[href=/news]", "other news..."
       end
     end
   end

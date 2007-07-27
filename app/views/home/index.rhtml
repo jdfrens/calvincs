@@ -11,6 +11,11 @@
     <h1>News</h1>
     <ul>
       <%= render(:partial => "news_item" , :collection => @news_items) %>
+      <li>
+        <%= link_to "other news...",
+                { :controller => "news" },
+                { :class => "more" } %>
+      </li>
     </ul>
   </div>
 

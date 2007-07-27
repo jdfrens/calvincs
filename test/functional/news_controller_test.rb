@@ -17,10 +17,18 @@ class NewsControllerTest < Test::Unit::TestCase
   
   def test_index
     get :index
+    
     assert_response :success
     assert_standard_layout :title => "News",
         :last_updated => news_items(:another_todays_news).updated_at
-    assert_select "h1", "Current News"
+    assert_select "h1#top", "Current News"
+    
+    assert_select "#news_listing ul" do
+      assert_select "li", 2
+      assert_select "li a[href=/news#news_item_5]", "News of Today II"
+      assert_select "li a[href=/news#news_item_3]", "News of Today"
+    end
+    
     assert_full_news_item news_items(:another_todays_news)
     assert_full_news_item news_items(:todays_news), [ "today" ]
   end
@@ -365,6 +373,7 @@ class NewsControllerTest < Test::Unit::TestCase
           assert_select "strong", strong
         end
       end
+      assert_select "p.more a[href=#top]", "back to top..."
     end
   end
   
