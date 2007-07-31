@@ -5,6 +5,8 @@ class Image < ActiveRecord::Base
   before_validation :obtain_dimensions
   validates_presence_of :url
   
+  attr_accessible :url, :width, :height, :caption
+  
   def self.pick_random(tag, index=-1)
     images = ImageTag.find_all_by_tag(tag).map(&:image)
     if index == -1

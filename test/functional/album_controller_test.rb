@@ -59,8 +59,8 @@ class AlbumControllerTest < Test::Unit::TestCase
     get :create,
         { :image => {
             :url => "http://example.com/foo.gif",
-            :caption => "Foo is bar!" },
-          :tags_string => "foobar barfoo" },
+            :caption => "Foo is bar!",
+            :tags_string => "foobar barfoo" } },
         user_session(:edit)
     
     assert_redirected_to :action => 'list'
@@ -79,7 +79,8 @@ class AlbumControllerTest < Test::Unit::TestCase
     original_tag_count = ImageTag.count
     
     get :create,
-        { :image => { :url => "http://example.com/foo.gif",
+        { :image => {
+            :url => "http://example.com/foo.gif",
             :caption => "Foo is bar!",
             :tags_string => "foo bar" }}
     
@@ -98,9 +99,10 @@ class AlbumControllerTest < Test::Unit::TestCase
   
     xhr :post, :update_image, 
         { :id => 2,
-          :image => { :url => "http://example.com/lovely.gif",
+          :image => {
+            :url => "http://example.com/lovely.gif",
             :caption => "Lovely.",
-            :tags_string => "very lovely" }},
+            :tags_string => "very lovely" } },
         user_session(:edit)
 
     image.reload
@@ -119,9 +121,10 @@ class AlbumControllerTest < Test::Unit::TestCase
   def test_update_image_fails_when_NOT_logged_in
     xhr :post, :update_image, 
         { :id => 2, 
-          :image => { :url => "http://example.com/lovely.gif",
+          :image => {
+            :url => "http://example.com/lovely.gif",
             :caption => "Lovely.",
-            :tag => "lovely" }}
+            :tags_string => "lovely" }}
     assert_redirected_to_login
   end
   
