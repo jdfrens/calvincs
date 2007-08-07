@@ -28,6 +28,7 @@ div#error {
 }
 
 .more {
+  clear: both;
   font-size: xx-small;
 }
 
