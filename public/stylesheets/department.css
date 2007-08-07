@@ -57,6 +57,7 @@ div#error {
 div.content-editor {
   padding: 10px 10px 10px 10px;
   background-color: pink;
+  clear: both;
 }
 
 .comment {
@@ -76,6 +77,20 @@ div#news li {
 }
 
 /* Displaying whole news items */
+
+#news_listing li {
+	list-style-image: url(/images/arrow.gif);
+	line-height: 1.5em;
+}
+
+#news_listing li.other {
+  list-style: none;
+  font-style: italic;
+}
+
+#news_listing td {
+  line-height: 1.5em;
+}
 
 div.news_item {
     padding-top: 2px;

@@ -24,9 +24,10 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h1#top", "Current News"
     
     assert_select "#news_listing ul" do
-      assert_select "li", 2
+      assert_select "li", 3
       assert_select "li a[href=/news#news_item_5]", "News of Today II"
       assert_select "li a[href=/news#news_item_3]", "News of Today"
+      assert_select "li.other a[href=/news/list]", "other news..."
     end
     
     assert_full_news_item news_items(:another_todays_news)
@@ -112,7 +113,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => "News of #{current_year}",
         :last_updated => news_items(:another_todays_news).updated_at
     assert_news_listing(current_year)
-    assert_select "div#newsItems table[summary=news items]" do
+    assert_select "div#news_listing table[summary=news items]" do
       assert_select "tr", 2
       assert_news_item_entry 1, news_items(:another_todays_news), "current"
       assert_news_item_entry 2, news_items(:todays_news), "current"
@@ -125,7 +126,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout :title => "News of #{current_year - 1}"
     assert_news_listing(current_year-1)
-    assert_select "div#newsItems table[summary=news items]" do
+    assert_select "div#news_listing table[summary=news items]" do
       assert_select "tr", 0
     end
   end
@@ -137,7 +138,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => "News of #{current_year - 2}",
         :last_updated => news_items(:past_news).updated_at
     assert_news_listing(current_year-2)
-    assert_select "div#newsItems table[summary=news items]" do
+    assert_select "div#news_listing table[summary=news items]" do
       assert_select "tr", 1
       assert_news_item_entry 1, news_items(:past_news), "all"
     end
@@ -150,7 +151,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => "News of 2007",
          :last_updated => news_items(:future_news).updated_at
     assert_news_listing(current_year)
-    assert_select "div#newsItems table[summary=news items]" do
+    assert_select "div#news_listing table[summary=news items]" do
       assert_select "tr", 3, "should have two current and one in the future (this year)"
       assert_news_item_entry 1, news_items(:future_news), "2007"
       assert_news_item_entry 2, news_items(:another_todays_news), "2007"
