@@ -22,14 +22,19 @@ div#error {
     background-color: pink;
 }
 
-.instruction {
-	color: #949494;
-	font: 14px Tahoma;
-}
-
 .more {
   clear: both;
   font-size: xx-small;
+}
+
+.goes_live_date {
+  font-size: xx-small;
+  font-style: italic;
+}
+
+.instruction {
+	color: #949494;
+	font: 14px Tahoma;
 }
 
 /* List of images */

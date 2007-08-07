@@ -368,6 +368,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def assert_full_news_item(news_item, strongs=[])
     assert_select "div#news_item_#{news_item.id}[class=news_item]" do
       assert_select "h2", news_item.headline
+      assert_select "p.goes_live_date", "Posted on #{news_item.goes_live_at.to_s(:last_updated)}"
       assert_select "div.content", news_item.content.gsub('*', '') do
         strongs.each do |strong|
           assert_select "strong", strong
