@@ -1,12 +1,4 @@
-<h1>News</h1>
-
-<p>
-  <%= link_to "all", { :action => "list", :id => "all" } %>
-  |
-  <%= link_to "current", { :action => "list", :id => "current" } %>
-</p>
-
-<p>News items are listed in reverse chronological order based on the expiration date.  Expired news is pink.</p>
+<h1>News of <%= @year %></h1>
 
 <div id="newsItems">
   <%= render :partial => 'newsitems' %>
@@ -15,4 +7,3 @@
 <% restrict_to :edit do -%>
   <p><%= link_to 'Create new news item', :action => 'new' %></p>
 <% end -%>
-

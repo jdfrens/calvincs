@@ -10,11 +10,12 @@ class NewsController < ApplicationController
   
   def list
     if params[:id]
-      @news_items = NewsItem.find_filtered_news(params[:id])
-      @title = "List of #{params[:id].capitalize} News"
+      @year = params[:id].to_i
+      @news_items = NewsItem.find_by_year(@year, current_user ? :all : :today)
+      @title = "News of #{@year}"
       @last_updated = @news_items.map(&:updated_at).max
     else
-      redirect_to :action => 'list', :id => 'current'
+      redirect_to :action => 'list', :id => Time.now.year
     end
   end
   

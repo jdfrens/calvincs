@@ -23,8 +23,8 @@ past_news:
   teaser: Past event.
   content: Something happened in the distant _past_.
   user_id: 2
-  goes_live_at: <%= 2.days.ago.to_s(:db) %>
-  expires_at: <%= 1.day.ago.to_s(:db) %>
+  goes_live_at: <%= 2.years.ago.to_s(:db) %>
+  expires_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 90.hours.ago.to_s(:db) %>
 future_news:
   id: 25

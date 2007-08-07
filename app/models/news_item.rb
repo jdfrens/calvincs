@@ -16,13 +16,17 @@ class NewsItem < ActiveRecord::Base
     end
   end
 
-  def self.find_filtered_news(filter)
-    case filter
-    when 'all'
-      NewsItem.find(:all, :order => "expires_at DESC, id ASC")
-    else
-      NewsItem.find_current
+  def self.find_by_year(year, max = :today)
+    lower_bound = Time.local(year, 1, 1)
+    upper_bound = Time.local(year, 12, 31)
+    if max == :today
+      upper_bound = [upper_bound, Time.now].min
     end
+    self.find(
+        :all,
+        :conditions => { :goes_live_at => lower_bound..upper_bound },
+        :order => 'goes_live_at DESC'
+        )
   end
   
   def last_updated_dates

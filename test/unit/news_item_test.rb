@@ -102,18 +102,27 @@ class NewsItemTest < Test::Unit::TestCase
     assert_equal [news_items(:past_news).updated_at], news_items(:past_news).last_updated_dates
     assert_equal [news_items(:future_news).updated_at], news_items(:future_news).last_updated_dates
   end
-  def test_find_filtered_all
-    assert_equal_set(
-        [ news_items(:todays_news), news_items(:another_todays_news),
-          news_items(:past_news), news_items(:future_news) ],
-        NewsItem.find_filtered_news('all')
-        )
-  end
   
-  def test_find_filtered_current
-    assert_equal_set(
-        [ news_items(:todays_news), news_items(:another_todays_news) ],
-        NewsItem.find_filtered_news('current')
+  def test_find_by_year
+    assert_equal(
+        [ news_items(:another_todays_news), news_items(:todays_news) ],
+        NewsItem.find_by_year(current_year)
+        )
+    assert_equal(
+        [ news_items(:past_news) ],
+        NewsItem.find_by_year(current_year-2)
+        )
+    assert_equal(
+        [ news_items(:another_todays_news), news_items(:todays_news) ],
+        NewsItem.find_by_year(current_year, :today)
+        )
+    assert_equal(
+        [ news_items(:past_news) ],
+        NewsItem.find_by_year(current_year-2, :today)
+        )
+    assert_equal(
+        [ news_items(:future_news), news_items(:another_todays_news), news_items(:todays_news) ],
+        NewsItem.find_by_year(current_year, :all)
         )
   end
   
@@ -177,7 +186,11 @@ class NewsItemTest < Test::Unit::TestCase
   # Helpers
   #
   private
-  
+
+  def current_year
+    news_items(:todays_news).goes_live_at.year
+  end
+    
   def make_past(news_item)
     news_item.expires_at = 2.days.ago
     news_item.save!

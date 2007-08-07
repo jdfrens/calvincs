@@ -102,52 +102,59 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_list_should_redirect_when_not_given_an_id
     get :list
     assert_response :redirect
-    assert_redirected_to :action => "list", :id => "current"
+    assert_redirected_to :action => "list", :id => current_year
   end
   
-  def test_list_current
-    get :list, { :id => 'current' }
+  def test_list_by_this_year
+    get :list, { :id => current_year }
     
     assert_response :success
-    assert_standard_layout :title => "List of Current News",
+    assert_standard_layout :title => "News of #{current_year}",
         :last_updated => news_items(:another_todays_news).updated_at
-    assert_news_listing
+    assert_news_listing(current_year)
     assert_select "div#newsItems table[summary=news items]" do
-      assert_select "tr", 2, "Only two *current* news items"
-      assert_news_item_entry 1, news_items(:todays_news), "current"
-      assert_news_item_entry 2, news_items(:another_todays_news), "current"
+      assert_select "tr", 2
+      assert_news_item_entry 1, news_items(:another_todays_news), "current"
+      assert_news_item_entry 2, news_items(:todays_news), "current"
     end
   end
   
-  def test_list_all
-    get :list, :id => 'all'
+  def test_list_by_last_year
+    get :list, { :id => current_year - 1 }
     
     assert_response :success
-    assert_standard_layout :title => "List of All News",
-        :last_updated => news_items(:future_news).updated_at
-    assert_news_listing
+    assert_standard_layout :title => "News of #{current_year - 1}"
+    assert_news_listing(current_year-1)
     assert_select "div#newsItems table[summary=news items]" do
-      assert_select "tr", 4
-      assert_news_item_entry 1, news_items(:todays_news), "all"
-      assert_news_item_entry 2, news_items(:another_todays_news), "all"
-      assert_news_item_entry 3, news_items(:future_news), "all"
-      assert_news_item_entry 4, news_items(:past_news), "all"
+      assert_select "tr", 0
+    end
+  end
+  
+  def test_list_by_year_in_past
+    get :list, { :id => current_year - 2 }
+    
+    assert_response :success
+    assert_standard_layout :title => "News of #{current_year - 2}",
+        :last_updated => news_items(:past_news).updated_at
+    assert_news_listing(current_year-2)
+    assert_select "div#newsItems table[summary=news items]" do
+      assert_select "tr", 1
+      assert_news_item_entry 1, news_items(:past_news), "all"
     end
   end  
   
-  def test_list_all_when_LOGGED_in
-    get :list, { :id => 'all' }, user_session(:edit)
+  def test_list_this_year_when_LOGGED_in
+    get :list, { :id => current_year }, user_session(:edit)
     
     assert_response :success
-    assert_standard_layout :title => "List of All News",
+    assert_standard_layout :title => "News of 2007",
          :last_updated => news_items(:future_news).updated_at
-    assert_news_listing
+    assert_news_listing(current_year)
     assert_select "div#newsItems table[summary=news items]" do
-      assert_select "tr", 4
-      assert_news_item_entry 1, news_items(:todays_news), "all"
-      assert_news_item_entry 2, news_items(:another_todays_news), "all"
-      assert_news_item_entry 3, news_items(:future_news), "all"
-      assert_news_item_entry 4, news_items(:past_news), "all"
+      assert_select "tr", 3, "should have two current and one in the future (this year)"
+      assert_news_item_entry 1, news_items(:future_news), "2007"
+      assert_news_item_entry 2, news_items(:another_todays_news), "2007"
+      assert_news_item_entry 3, news_items(:todays_news), "2007"
     end
   end
   
@@ -331,6 +338,10 @@ class NewsControllerTest < Test::Unit::TestCase
   #
   private
   
+  def current_year
+    news_items(:todays_news).goes_live_at.year
+  end
+  
   def assert_date_entry(nth, label, date, field)
     assert_select "tr:nth-child(#{nth})" do
       assert_select "td", label
@@ -358,10 +369,8 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  def assert_news_listing
-    assert_select "h1", "News"
-    assert_select "p a[href=/news/list/all]", "all"
-    assert_select "p a[href=/news/list/current]", "current"
+  def assert_news_listing(year)
+    assert_select "h1", "News of #{year}"
     assert_select "a[href=/news/new]", (logged_in? ? 1 : 0)
   end
   
