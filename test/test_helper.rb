@@ -70,6 +70,7 @@ class Test::Unit::TestCase
         end
       end
       assert_select "div#footer-css" do
+        assert_select "a[href=mailto:computing@calvin.edu]", "Computer Science Department"
         if options[:last_updated]
           assert_select "#last_updated", last_updated_text(options[:last_updated]),
               "should have last updated on #{last_updated_text(options[:last_updated])}"

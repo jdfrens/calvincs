@@ -29,7 +29,9 @@
 
 <dl>
 <dt>Contact</dt>
-<dd class="bodycopy-small"><a href="mailto:kvlinden@calvin.edu" title="Computer Science Department" id="footer-contact-name">Computer Science Department</a></dd>
+  <dd class="bodycopy-small">
+    <%= mail_to "computing@calvin.edu", "Computer Science Department", :id => "footer-contact-name" %>
+  </dd>
 <% if @last_updated -%>
   <dd id="last_updated" class="bodycopy-small">Last updated <%= @last_updated.to_s(:last_updated) %>.</dd>
 <% end -%>
