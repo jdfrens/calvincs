@@ -24,11 +24,11 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_select "div#image_list" do
       assert_select "table", Image.count, "should be one table per image"
       assert_select "div#image_form_1"
-      assert_image_table images(:mission)
+      assert_image_table images(:mission_wide)
       assert_select "div#image_form_2"
       assert_image_table images(:alphabet)
       assert_select "div#image_form_3"
-      assert_image_table images(:mission2)
+      assert_image_table images(:mission_narrow)
       # assuming other images are okay...
     end
   end

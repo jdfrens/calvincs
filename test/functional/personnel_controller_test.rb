@@ -177,7 +177,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_select "h1", "Jeremy D. Frens"
     assert_select "p#job_title", "Assistant Professor"
-    assert_select "div.img-right" do
+    assert_select "div.img-right-unusable" do
       assert_select "img#cool-pic[src=/jeremyaction.png]"
       assert_select "p.img-caption", "jeremy in action"
     end

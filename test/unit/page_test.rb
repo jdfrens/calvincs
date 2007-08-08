@@ -73,10 +73,10 @@ class PageTest < Test::Unit::TestCase
   end
   
   def test_random_image
-    assert_equal images(:mission), pages(:mission).random_image(0)
-    assert_equal images(:mission2), pages(:mission).random_image(1)
+    assert_equal images(:mission_wide), pages(:mission).random_image(0)
+    assert_equal images(:mission_narrow), pages(:mission).random_image(1)
     5.times do |i|
-      assert [images(:mission), images(:mission2)].include?(pages(:mission).random_image)
+      assert [images(:mission_wide), images(:mission_narrow)].include?(pages(:mission).random_image)
     end
   end
   

@@ -38,6 +38,36 @@ class Image < ActiveRecord::Base
     end
   end
   
+  def usability
+    if wide?
+      :wide
+    elsif narrow?
+      :narrow
+    elsif square?
+      :square
+    elsif headshot?
+      :headshot
+    else
+      :unusable
+    end
+  end
+  
+  def wide?
+    (260..270).include?(width) && (195..205).include?(height)
+  end
+  
+  def narrow?
+    (195..205).include?(width) && (260..270).include?(height)
+  end
+  
+  def square?
+    (260..270).include?(width) && (260..270).include?(height)
+  end
+  
+  def headshot?
+    (145..155).include?(width) && (195..205).include?(height)
+  end
+  
   def obtain_dimensions
     if url
       info = ImageInfo.new(self.url)

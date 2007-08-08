@@ -22,5 +22,9 @@ module ApplicationHelper
     id_suffix = options[:number] || options[:suffix]
     image_tag 'spinner_moz.gif', :id => spinner_id(id_suffix), :style => "display:none;"
   end
-  
+
+  def image_class(image)
+    "img-right-#{image.usability}"
+  end
+
 end

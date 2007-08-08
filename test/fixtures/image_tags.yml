@@ -1,29 +1,33 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-mission:
+for_mission:
   id: 1
   image_id: 1
   tag: mission
-mission2:
+for_mission2:
   id: 2
   image_id: 3
   tag: mission
-another:
-  id: 3
+for_mission_wide:
+  id: 4
+  image_id: 1
+  tag: mission_wide
+for_mission_narrow:
+  id: 9
   image_id: 3
-  tag: another
-joel_headshot:
+  tag: mission_narrow
+for_joel_headshot:
   id: 5
   image_id: 5
   tag: joel_headshot
-jeremy_headshot:
+for_jeremy_headshot:
   id: 6
   image_id: 4
   tag: jeremy_headshot
-jeremy:
+for_jeremy:
   id: 7
   image_id: 6
   tag: jeremy
-sharon_headshot:
+for_sharon_headshot:
   id: 8
   image_id: 7
   tag: sharon_headshot

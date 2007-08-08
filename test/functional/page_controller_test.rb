@@ -17,11 +17,13 @@ class PageControllerTest < Test::Unit::TestCase
   
   def test_index_redirects_to_list
     get :index
+    
     assert_redirected_to :controller => 'page', :action => 'list'
   end
   
   def test_create
     get :create, {}, user_session(:edit)
+    
     assert_response :success
     assert_standard_layout
     assert_template "page/create"
@@ -31,6 +33,7 @@ class PageControllerTest < Test::Unit::TestCase
   
   def test_create_redirects_when_NOT_logged_in
     get :create
+    
     assert_redirected_to_login
   end
   
@@ -60,8 +63,8 @@ class PageControllerTest < Test::Unit::TestCase
     assert_redirected_to_login
   end
   
-  def test_view_page_when_NOT_logged_in
-    get :view, :id => 'mission'
+  def test_view_page_with_wide_image_when_NOT_logged_in
+    get :view, :id => 'mission_wide'
     
     assert_response :success
     assert_standard_layout :title => 'Mission Statement',
@@ -73,13 +76,25 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "p", 'We state our mission.'
         assert_select "p strong", "our"
       end
-      assert_select "div.img-right" do
+      assert_select "div.img-right-wide" do
         assert_select "img#cool-pic"
-        assert_select "p.img-caption", assigns(:image).caption.gsub("*", "")
+        assert_select "p.img-caption", images(:mission_wide).caption.gsub("*", "")
       end
       assert_select "h1 #page_title_1_in_place_editor", false
       assert_select "p #page_content_1_in_place_editor", false
       assert_select "p.identifier #page_identifier_1_in_place_editor", false
+    end
+  end
+  
+  def test_view_page_with_narrow_image_when_NOT_logged_in
+    get :view, :id => 'mission_narrow'
+    
+    assert_response :success
+    assert_select "div#content" do
+      assert_select "div.img-right-narrow" do
+        assert_select "img#cool-pic"
+        assert_select "p.img-caption", images(:mission_narrow).caption.gsub("*", "")
+      end
     end
   end
   

@@ -1,5 +1,5 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-mission:
+mission_wide:
   id: 1
   url: http://calvin.edu/mission.jpg
   width: 265
@@ -9,9 +9,9 @@ alphabet:
   id: 2
   url: http://calvin.edu/abcd.png
   width: 265
-  height: 200
+  height: 265
   caption: A B C, indeed!
-mission2:
+mission_narrow:
   id: 3
   url: http://calvin.edu/mission2.jpg
   width: 200
@@ -25,8 +25,8 @@ jeremy_headshot:
 jeremy_in_action:
   id: 6
   url: /jeremyaction.png
-  width: 265
-  height: 200
+  width: 400
+  height: 300
   caption: jeremy in action
 joel_headshot:
   id: 5

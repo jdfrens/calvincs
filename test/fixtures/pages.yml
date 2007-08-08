@@ -5,6 +5,18 @@ mission:
   title: Mission Statement
   content: We state *our* mission.
   updated_at: <%= 12.days.ago.to_s(:db) %>
+mission_narrow:
+  id: 11
+  identifier: mission_narrow
+  title: Mission Statement
+  content: We state *our* mission.
+  updated_at: <%= 12.days.ago.to_s(:db) %>
+mission_wide:
+  id: 12
+  identifier: mission_wide
+  title: Mission Statement
+  content: We state *our* mission.
+  updated_at: <%= 12.days.ago.to_s(:db) %>
 alphabet:
   id: 2
   identifier: alphabet

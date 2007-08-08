@@ -86,6 +86,28 @@ div.img-right {
 	border: none;
 	width: 266px;
 }
+div.img-right-wide, div.img-right-square {
+	float: right;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	border: none;
+	width: 266px;
+}
+div.img-right-narrow {
+	float: right;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	border: none;
+	width: 202px;
+}
+div.img-right-unusable {
+	display: none;
+}
+
 .img-right {
 	float: right;
 	margin-top: 0px;
