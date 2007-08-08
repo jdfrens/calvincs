@@ -21,6 +21,7 @@
                 <th rowspan="2">Dimensions:</th>
                 <td>
                   <span class="dimension"><%= image.width %>x<%= image.height %></span>
+				  <span class="usability"><%= image.usability.to_s %></span>
                 </td>
             </tr>
             <tr>
@@ -48,9 +49,11 @@
                 </td>
             </tr>
         </table>
-    <% end %><%=
+    <% end %>
+	
+	<%=
         button_to 'Destroy', { :action => 'destroy_image', :id => image },
-        :confirm => 'Are you sure you want to destroy this image?',
-        :method => :post
-%>
+            :confirm => 'Are you sure you want to destroy this image?',
+            :method => :post
+    %>
 </div>

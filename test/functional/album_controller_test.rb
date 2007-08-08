@@ -154,6 +154,7 @@ class AlbumControllerTest < Test::Unit::TestCase
         assert_select "tr td input#image_url_#{id}[value=#{image.url}]"
         assert_select "tr td a[href=#{image.url}]", "see picture"
         assert_select "tr td .dimension", "#{image.width}x#{image.height}"
+        assert_select "tr td .usability", image.usability.to_s
         assert_select "tr td", strip_textile(image.caption)
         assert_select "textarea#image_caption_#{id}", image.caption
         assert_select "tr td input#image_tags_string_#{id}[value=#{image.tags_string}]"

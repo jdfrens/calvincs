@@ -47,7 +47,7 @@ div#error {
   vertical-align: top;
 }
 
-#image_list .image_form {
+#image_list .image_form form {
   border: dotted;
   margin-bottom: 20px;
 }
