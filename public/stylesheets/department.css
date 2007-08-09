@@ -26,11 +26,11 @@ div#error {
   font-size: xx-small;
 }
 
-.goes_live_date {
+.goes-live-date {
   font-size: xx-small;
   font-style: italic;
 }
-#news_listing .goes_live_date {
+#news-listing .goes-live-date {
 	padding-left: 2em;
 }
 
@@ -41,15 +41,15 @@ div#error {
 
 /* List of images */
 
-#image_list {
+#image-list {
   width: 775px;
 }
 
-#image_list td, #image_list th {
+#image-list td, #image-list th {
   vertical-align: top;
 }
 
-#image_list .image_form form {
+#image-list .image-form form {
   border: dotted;
   margin-bottom: 20px;
 }
@@ -80,35 +80,31 @@ div#news li {
 
 /* Displaying whole news items */
 
-#news_listing li {
+#news-listing li {
 	list-style-image: url(/images/arrow.gif);
 	line-height: 1.5em;
 }
 
-#news_listing li.other {
+#news-listing li.other {
   list-style: none;
   font-style: italic;
 }
 
-#news_listing td {
+#news-listing td {
   line-height: 1.5em;
 }
 
-div.news_item {
+div.news-item {
     padding-top: 2px;
     padding-bottom: 2px;
 }
 
-div.news_item h2 {
+div.news-item h2 {
     display: inline;
 }
 
-div.news_item div.content {
+div.news-item div.content {
     display: inline;
-}
-
-div#news_teaser {
-    font-style: italic;
 }
 
 /* Faculty & staff listing */

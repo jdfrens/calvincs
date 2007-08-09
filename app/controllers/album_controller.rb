@@ -23,7 +23,7 @@ class AlbumController < ApplicationController
     image.save!
     image.reload
     render :update do |p|
-      p.replace_html "image_form_#{image.id}", :partial => 'image', :object => image
+      p.replace_html "image-form-#{image.id}", :partial => 'image', :object => image
     end
   end
   

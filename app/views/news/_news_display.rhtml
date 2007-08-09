@@ -1,7 +1,7 @@
 <% @news_items.each do |news_item| %>
-  <div id="<%= "news_item_#{news_item.id}" %>" class="news_item">
+  <div id="<%= "news-item-#{news_item.id}" %>" class="news-item">
     <h2><%= h(news_item.headline) %></h2>
-	<p class="goes_live_date">Posted on <%= news_item.goes_live_at.to_s(:news_posted) %></p>
+	<p class="goes-live-date">Posted on <%= news_item.goes_live_at.to_s(:news_posted) %></p>
     <div class="content">
       <%= news_item.render_content %>
     </div>

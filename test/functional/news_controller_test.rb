@@ -23,10 +23,10 @@ class NewsControllerTest < Test::Unit::TestCase
         :last_updated => news_items(:another_todays_news).updated_at
     assert_select "h1#top", "Current News"
     
-    assert_select "#news_listing ul" do
+    assert_select "#news-listing ul" do
       assert_select "li", 3
-      assert_select "li a[href=/news#news_item_5]", "News of Today II"
-      assert_select "li a[href=/news#news_item_3]", "News of Today"
+      assert_select "li a[href=/news#news-item-5]", "News of Today II"
+      assert_select "li a[href=/news#news-item-3]", "News of Today"
       assert_select "li.other a[href=/news/list]", "other news..."
     end
     
@@ -115,7 +115,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => "News of #{current_year}",
         :last_updated => news_items(:another_todays_news).updated_at
     assert_news_listing(current_year)
-    assert_select "div#news_listing table[summary=news items]" do
+    assert_select "div#news-listing table[summary=news items]" do
       assert_select "tr", 2*2
       assert_news_item_entry 1, news_items(:another_todays_news), "current"
       assert_news_item_entry 2, news_items(:todays_news), "current"
@@ -128,7 +128,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout :title => "News of #{current_year - 1}"
     assert_news_listing(current_year-1)
-    assert_select "div#news_listing table[summary=news items]" do
+    assert_select "div#news-listing table[summary=news items]" do
       assert_select "tr", 0
     end
   end
@@ -140,7 +140,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => "News of #{current_year - 2}",
         :last_updated => news_items(:past_news).updated_at
     assert_news_listing(current_year-2)
-    assert_select "div#news_listing table[summary=news items]" do
+    assert_select "div#news-listing table[summary=news items]" do
       assert_select "tr", 1*2
       assert_news_item_entry 1, news_items(:past_news), "all"
     end
@@ -153,7 +153,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => "News of 2007",
          :last_updated => news_items(:future_news).updated_at
     assert_news_listing(current_year)
-    assert_select "div#news_listing table[summary=news items]" do
+    assert_select "div#news-listing table[summary=news items]" do
       assert_select "tr", 3*2, "should have two current and one in the future (this year)"
       assert_news_item_entry 1, news_items(:future_news), "2007"
       assert_news_item_entry 2, news_items(:another_todays_news), "2007"
@@ -170,8 +170,8 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => item.headline,
          :last_updated => item.updated_at
     assert_select "h1", item.headline
-    assert_select "div#news_item_content p", "Something happened today."
-    assert_select "div#news_item_content p strong", "today",
+    assert_select "div#news-item-content p", "Something happened today."
+    assert_select "div#news-item-content p strong", "today",
         "content should be Textiled"
         
     # no admin stuff
@@ -192,11 +192,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "h1 span#news_item_headline_#{id}_in_place_editor", item.headline
     assert_select "div#content h1 input#edit_headline", true
     
-    assert_select "div#news_item_teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
-    assert_select "div#news_item_teaser input#edit_teaser", true
+    assert_select "div#news-item-teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
+    assert_select "div#news-item-teaser input#edit_teaser", true
 
-    assert_select "div#news_item_content p", "Something happened today."
-    assert_select "div#news_item_content p strong", "today",
+    assert_select "div#news-item-content p", "Something happened today."
+    assert_select "div#news-item-content p strong", "today",
         "content should be Textiled"
         
     assert_link_to_markup_help
@@ -366,7 +366,7 @@ class NewsControllerTest < Test::Unit::TestCase
       assert_select "td a[href=/news/view/#{news_item.id}]", news_item.headline
     end
     assert_select "tr[class=#{time_class}]:nth-child(#{n*2})" do
-      assert_select "td.goes_live_date", "posted on #{news_item.goes_live_at.to_s(:news_posted)}"
+      assert_select "td.goes-live-date", "posted on #{news_item.goes_live_at.to_s(:news_posted)}"
     end
     if logged_in?
       assert_select "form[action=/news/destroy/#{news_item.id}?listing=#{listing}]" do
@@ -381,9 +381,9 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   def assert_full_news_item(news_item, strongs=[])
-    assert_select "div#news_item_#{news_item.id}[class=news_item]" do
+    assert_select "div#news-item-#{news_item.id}[class=news-item]" do
       assert_select "h2", news_item.headline
-      assert_select "p.goes_live_date", "Posted on #{news_item.goes_live_at.to_s(:news_posted)}"
+      assert_select "p.goes-live-date", "Posted on #{news_item.goes_live_at.to_s(:news_posted)}"
       assert_select "div.content", news_item.content.gsub('*', '') do
         strongs.each do |strong|
           assert_select "strong", strong

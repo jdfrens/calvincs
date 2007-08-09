@@ -21,13 +21,13 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_standard_layout
     assert_select "h1", "List of Images"
-    assert_select "div#image_list" do
+    assert_select "div#image-list" do
       assert_select "table", Image.count, "should be one table per image"
-      assert_select "div#image_form_1"
+      assert_select "div#image-form-1"
       assert_image_table images(:mission_wide)
-      assert_select "div#image_form_2"
+      assert_select "div#image-form-2"
       assert_image_table images(:alphabet)
-      assert_select "div#image_form_3"
+      assert_select "div#image-form-3"
       assert_image_table images(:mission_narrow)
       # assuming other images are okay...
     end
@@ -113,7 +113,7 @@ class AlbumControllerTest < Test::Unit::TestCase
     assert_equal "very lovely", image.tags_string
 
     assert_response :success
-    assert_select_rjs :replace_html, "image_form_2" do
+    assert_select_rjs :replace_html, "image-form-2" do
       assert_image_table image
     end
   end
