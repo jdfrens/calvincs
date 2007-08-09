@@ -44,7 +44,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
             assert_select "p#joel_job_title", false, "should have no job title"
           end
-          assert_select ".contact_information" do
+          assert_select ".contact-information" do
             assert_select "p#joel_phone", false, "should have no phone"
             assert_select "p#joel_location", false, "should have no office location"
             assert_select "p#joel_email a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
@@ -60,7 +60,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
             assert_select "p#jeremy_job_title", "Assistant Professor"
           end
-          assert_select ".contact_information" do
+          assert_select ".contact-information" do
             assert_select "p#jeremy_phone", "616-526-8666"
             assert_select "p#jeremy_location", "North Hall 296"
             assert_select "p#jeremy_email a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
@@ -76,7 +76,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
             assert_select "p#joel_job_title", false, "should have no job title"
           end
-          assert_select ".contact_information" do
+          assert_select ".contact-information" do
             assert_select "p#keith_phone", false, "should have no phone"
             assert_select "p#keith_location", false, "should have no office location"
             assert_select "p#keith_email a[href=mailto:keith@calvin.foo]", "keith@calvin.foo"
@@ -181,7 +181,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "img#cool-pic[src=/jeremyaction.png]"
       assert_select "p.img-caption", "jeremy in action"
     end
-    assert_select "#contact_information" do
+    assert_select "#contact-information" do
       assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
       assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
       assert_select "p", "Office phone: 616-526-8666"
@@ -216,7 +216,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
         :last_updated => users(:joel).last_updated_dates.max
     
     assert_select "h1", "Joel C. Adams"
-    assert_select "#contact_information" do
+    assert_select "#contact-information" do
       assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
       assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
       assert_select "p", :text => /Office phone/, :count => 0
@@ -249,7 +249,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[type=submit]", true
       assert_spinner :suffix => "job_title"
     end
-    assert_select "#contact_information" do
+    assert_select "#contact-information" do
       assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
       assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
       assert_select "p:nth-child(2)" do
@@ -329,7 +329,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
       assert_select "input[type=submit]", true
       assert_spinner :suffix => "job_title"
     end
-    assert_select "#contact_information" do
+    assert_select "#contact-information" do
       assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
       assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
       assert_select "p:nth-child(2)" do
