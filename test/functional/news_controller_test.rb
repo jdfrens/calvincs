@@ -257,7 +257,7 @@ class NewsControllerTest < Test::Unit::TestCase
         user_session(:edit)
         
     assert_response :success
-    assert_select_rjs :replace_html, "news_item_content" do
+    assert_select_rjs :replace_html, "news-item-content" do
       assert_select "p", "News that is fit to print."
       assert_select "strong", "fit"
     end

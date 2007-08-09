@@ -37,7 +37,7 @@ class NewsController < ApplicationController
     item = NewsItem.find(params[:id])
     item.update_attribute(:content, params[:news_item][:content])
     render :update do |p|
-      p.replace_html "news_item_content", :inline => item.render_content
+      p.replace_html "news-item-content", :inline => item.render_content
     end
   end
   
