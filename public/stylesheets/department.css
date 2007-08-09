@@ -19,7 +19,6 @@ div#error {
 .current-news {
 }
 .past-news {
-    background-color: pink;
 }
 
 .more {
@@ -30,6 +29,9 @@ div#error {
 .goes_live_date {
   font-size: xx-small;
   font-style: italic;
+}
+#news_listing .goes_live_date {
+	padding-left: 2em;
 }
 
 .instruction {

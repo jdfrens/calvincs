@@ -94,6 +94,7 @@ class NewsControllerTest < Test::Unit::TestCase
     post :save, { :news_item => {
         :headline => '', :content => ''
       }}, user_session(:edit)
+      
     assert_response :success
     assert !flash.empty?
     assert_equal 'Invalid values for the news item', flash[:error]
@@ -102,6 +103,7 @@ class NewsControllerTest < Test::Unit::TestCase
   
   def test_list_should_redirect_when_not_given_an_id
     get :list
+
     assert_response :redirect
     assert_redirected_to :action => "list", :id => current_year
   end
@@ -114,7 +116,7 @@ class NewsControllerTest < Test::Unit::TestCase
         :last_updated => news_items(:another_todays_news).updated_at
     assert_news_listing(current_year)
     assert_select "div#news_listing table[summary=news items]" do
-      assert_select "tr", 2
+      assert_select "tr", 2*2
       assert_news_item_entry 1, news_items(:another_todays_news), "current"
       assert_news_item_entry 2, news_items(:todays_news), "current"
     end
@@ -139,7 +141,7 @@ class NewsControllerTest < Test::Unit::TestCase
         :last_updated => news_items(:past_news).updated_at
     assert_news_listing(current_year-2)
     assert_select "div#news_listing table[summary=news items]" do
-      assert_select "tr", 1
+      assert_select "tr", 1*2
       assert_news_item_entry 1, news_items(:past_news), "all"
     end
   end  
@@ -152,7 +154,7 @@ class NewsControllerTest < Test::Unit::TestCase
          :last_updated => news_items(:future_news).updated_at
     assert_news_listing(current_year)
     assert_select "div#news_listing table[summary=news items]" do
-      assert_select "tr", 3, "should have two current and one in the future (this year)"
+      assert_select "tr", 3*2, "should have two current and one in the future (this year)"
       assert_news_item_entry 1, news_items(:future_news), "2007"
       assert_news_item_entry 2, news_items(:another_todays_news), "2007"
       assert_news_item_entry 3, news_items(:todays_news), "2007"
@@ -358,10 +360,13 @@ class NewsControllerTest < Test::Unit::TestCase
     end
   end
   
-  def assert_news_item_entry(nth, news_item, listing)
+  def assert_news_item_entry(n, news_item, listing)
     time_class = news_item.is_current? ? "current-news" : "past-news"
-    assert_select "tr[class=#{time_class}]:nth-child(#{nth})" do
+    assert_select "tr[class=#{time_class}]:nth-child(#{n*2-1})" do
       assert_select "td a[href=/news/view/#{news_item.id}]", news_item.headline
+    end
+    assert_select "tr[class=#{time_class}]:nth-child(#{n*2})" do
+      assert_select "td.goes_live_date", "posted on #{news_item.goes_live_at.to_s(:news_posted)}"
     end
     if logged_in?
       assert_select "form[action=/news/destroy/#{news_item.id}?listing=#{listing}]" do
@@ -378,7 +383,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def assert_full_news_item(news_item, strongs=[])
     assert_select "div#news_item_#{news_item.id}[class=news_item]" do
       assert_select "h2", news_item.headline
-      assert_select "p.goes_live_date", "Posted on #{news_item.goes_live_at.to_s(:last_updated)}"
+      assert_select "p.goes_live_date", "Posted on #{news_item.goes_live_at.to_s(:news_posted)}"
       assert_select "div.content", news_item.content.gsub('*', '') do
         strongs.each do |strong|
           assert_select "strong", strong

@@ -1,14 +1,14 @@
 <table summary="news items">
   <% @news_items.each do |news_item| %>
-    <tr class="<%= news_item.is_current? ? "current-news" : "past-news" %>">
+    <tr class="<%= news_item_class(news_item) %>">
     
       <td>
         <%= link_to h(news_item.headline),
               :action => 'view', :id => news_item.id %>
       </td>
-      
+	  
       <% restrict_to :edit do -%>
-        <td>
+        <td rowspan="2">
           <%= button_to 'Destroy', { :action => 'destroy', :id => news_item, :listing => params[:id] },
               :confirm => 'Are you sure you want to destroy this news item?',
               :method => :post %>
@@ -16,6 +16,12 @@
       <% end -%>
       
     </tr>
+	
+	<tr class="<%= news_item_class(news_item) %>">
+	  <td class="goes_live_date">
+	  	posted on <%= news_item.goes_live_at.to_s(:news_posted) %>
+	  </td>
+	</tr>
   <% end %>
 </table>
 

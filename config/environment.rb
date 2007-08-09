@@ -55,4 +55,5 @@ end
 # end
 
 # Include your application configuration below
-Time::DATE_FORMATS[:last_updated] = "%A, %B %d, %Y"
+Time::DATE_FORMATS[:last_updated] = "%A, %B %e, %Y"
+Time::DATE_FORMATS[:news_posted] = "%B %e, %Y"
