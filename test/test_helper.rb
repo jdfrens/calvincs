@@ -30,6 +30,16 @@ class Test::Unit::TestCase
     assert_equal expected.to_set, actual.to_set, message
   end
   
+  def assert_invalid(object, invalids, valids=[])
+    assert !object.valid?, "#{object} should not be valid"
+    invalids.each do |invalid|
+      assert object.errors.invalid?(invalid), "#{invalid} should not be valid, but it is"
+    end
+    valids.each do |valid|
+      assert !object.errors.invalid?(valid), "#{valid} should be valid, but it's not"
+    end
+   end
+  
   def assert_standard_layout(options = {})
     options = { :title => nil, :last_updated => false }.merge(options)
     

@@ -4,14 +4,8 @@ class DegreeTest < Test::Unit::TestCase
 
   fixtures :degrees, :users
   
-  def test_missing_initialization_errors
-    degree = Degree.new
-    
-    assert !degree.valid? 
-    assert degree.errors.invalid?(:user_id)
-    assert degree.errors.invalid?(:degree_type)
-    assert degree.errors.invalid?(:institution)
-    assert degree.errors.invalid?(:year)
+  def test_validations_of_presence
+    assert_invalid Degree.new, [:user_id, :degree_type, :institution, :year]
   end
   
   def test_bad_initialization_errors
