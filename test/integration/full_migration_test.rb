@@ -22,6 +22,7 @@ class FullMigrationTest < Test::Unit::TestCase
     assert_schema do |s|
       see_course_tables(s)
       see_pages_and_news_tables(s)
+      see_faq_tables(s)
       see_image_tables(s)
       see_authentication_tables(s)
       see_user_info_tables(s)
@@ -59,6 +60,21 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "updated_at",    :datetime
       t.column "goes_live_at",  :datetime
       t.column "expires_at",    :datetime
+    end
+  end
+  
+  def see_faq_tables(s)
+    s.table "faqs" do |t|
+      t.column :id,             :integer
+      t.column :title,          :string
+      t.column :identifier,     :string
+    end
+    
+    s.table :questions do |t|
+      t.column :id,             :integer
+      t.column :faq_id,         :integer
+      t.column :query,          :text
+      t.column :answer,         :text
     end
   end
   
