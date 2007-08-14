@@ -73,6 +73,7 @@ class FullMigrationTest < Test::Unit::TestCase
     s.table :questions do |t|
       t.column :id,             :integer
       t.column :faq_id,         :integer
+      t.column :position,       :integer
       t.column :query,          :text
       t.column :answer,         :text
     end

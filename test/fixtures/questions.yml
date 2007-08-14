@@ -1,5 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+student2:
   id: 1
-two:
+  faq_id: 2
+  position: 2
+  query: Second query?
+  answer: Second answer.
+student1:
   id: 2
+  faq_id: 2
+  position: 1
+  query: First query?
+  answer: First answer.
