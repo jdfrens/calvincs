@@ -68,6 +68,7 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column :id,             :integer
       t.column :title,          :string
       t.column :identifier,     :string
+      t.column :updated_at,     :datetime
     end
     
     s.table :questions do |t|
@@ -76,6 +77,7 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column :position,       :integer
       t.column :query,          :text
       t.column :answer,         :text
+      t.column :updated_at,     :datetime
     end
   end
   

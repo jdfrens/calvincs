@@ -19,5 +19,14 @@ class FaqTest < Test::Unit::TestCase
     faqs(:student_faq).destroy
     assert_equal 0, Question.count
   end
+  
+  def test_last_modified
+    assert_equal faqs(:student_faq).updated_at, faqs(:student_faq).last_modified
+    question = questions(:student1)
+    question.query = 'Modified query'
+    question.save!
+    question.reload
+    assert_equal question.updated_at, faqs(:student_faq).last_modified
+  end
 
 end
