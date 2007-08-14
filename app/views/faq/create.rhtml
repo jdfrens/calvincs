@@ -1,0 +1,22 @@
+<h1>Create a New FAQ</h1>
+
+<%= error_messages_for 'faq' %> 
+
+<% form_for :faq do |form| -%>
+  <table>
+    <tr>
+      <th>Title:</th>
+      <td><%= form.text_field :title %></td>
+    </tr>
+    <tr>
+      <th>Identifier:</th>
+      <td><%= form.text_field :identifier %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= submit_tag "Create" %>
+      </td>
+    </tr>
+  </table>
+<% end -%>
