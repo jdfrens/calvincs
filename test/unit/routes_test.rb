@@ -34,5 +34,4 @@ class RoutesTest < Test::Unit::TestCase
         )
   end
   
-  
 end

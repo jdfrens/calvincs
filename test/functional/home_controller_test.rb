@@ -28,7 +28,7 @@ class HomeControllerTest < Test::Unit::TestCase
     get :index
     
     assert_response :success
-    assert_standard_layout :last_updated => pages(:home_page).updated_at
+    assert_standard_layout :last_updated => pages(:home_page).updated_at, :menu => :home
     
     news_item = news_items(:todays_news)
     news_item.teaser = 'changed for new updated_at'
@@ -38,7 +38,7 @@ class HomeControllerTest < Test::Unit::TestCase
     get :index
     
     assert_response :success
-    assert_standard_layout :last_updated => news_item.updated_at
+    assert_standard_layout :last_updated => news_item.updated_at, :menu => :home
   end
 
   def test_index_when_logged_in
@@ -119,7 +119,7 @@ class HomeControllerTest < Test::Unit::TestCase
   end
   
   def assert_home_page_layout
-    assert_standard_layout :last_updated => pages(:home_page).updated_at
+    assert_standard_layout :last_updated => pages(:home_page).updated_at, :menu => :home
     assert_select "div#content" do
       assert_select "div#home_splash p:first-of-type", pages(:home_splash).content do
         assert_select "h1", 0, "*no* title in splash"

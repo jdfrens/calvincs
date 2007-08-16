@@ -67,7 +67,12 @@ class Test::Unit::TestCase
       assert_select "div#sidebar" do
         assert_select "div#navbar ul" do
           assert_select "li", 10, "ten menu items"
-          assert_select "li:nth-child(1) a[href=/]", "Home"
+          if options[:menu] == :home
+            assert_select "li:nth-child(1) a", false
+            assert_select "li:nth-child(1)", "Home"
+          else
+            assert_select "li:nth-child(1) a[href=/]", "Home"
+          end
           assert_select "li:nth-child(2) a[href=/p/about_us]", "About Us"
           assert_select "li:nth-child(3) a[href=/p/academics]", "Academics"
           assert_select "li:nth-child(4) a[href=/p/students]", "Students"
