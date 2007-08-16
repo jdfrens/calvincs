@@ -26,5 +26,10 @@ module ApplicationHelper
   def image_class(image)
     "img-right-#{image.usability}"
   end
+  
+  def menu_item(text, url, options = {})
+    options = { :title => text }.merge(options)
+    content_tag(:li, link_to_unless_current(text, url, { :title => options[:title] }))
+  end
 
 end

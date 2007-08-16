@@ -19,7 +19,7 @@ class NewsControllerTest < Test::Unit::TestCase
     get :index
     
     assert_response :success
-    assert_standard_layout :title => "News",
+    assert_standard_layout :title => "News", :menu => :news,
         :last_updated => news_items(:another_todays_news).updated_at
     assert_select "h1#top", "Current News"
     

@@ -33,7 +33,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     get :list
     
     assert_response :success
-    assert_standard_layout :title => "Faculty & Staff", :last_updated => users(:sharon).updated_at
+    assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
+        :last_updated => users(:sharon).updated_at
     assert_select "h1#faculty", "Faculty"
     assert_select "table#faculty_listing.listing" do
       assert_entry_count "faculty"
@@ -151,7 +152,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     user.reload
-    assert_standard_layout :title => "Faculty & Staff",
+    assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
         :last_updated => user.updated_at
   end
   
@@ -164,7 +165,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     page.reload
-    assert_standard_layout :title => "Faculty & Staff",
+    assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
         :last_updated => page.updated_at
   end
   

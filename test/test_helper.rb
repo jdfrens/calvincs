@@ -66,21 +66,16 @@ class Test::Unit::TestCase
       assert_select "div#content"
       assert_select "div#sidebar" do
         assert_select "div#navbar ul" do
-          assert_select "li", 10, "ten menu items"
-          if options[:menu] == :home
-            assert_select "li:nth-child(1) a", false
-            assert_select "li:nth-child(1)", "Home"
-          else
-            assert_select "li:nth-child(1) a[href=/]", "Home"
-          end
+          assert_select "li", 10, "should have ten menu items"
+          assert_menu_item options[:menu], :home, 1, "/", "Home"
           assert_select "li:nth-child(2) a[href=/p/about_us]", "About Us"
           assert_select "li:nth-child(3) a[href=/p/academics]", "Academics"
           assert_select "li:nth-child(4) a[href=/p/students]", "Students"
-          assert_select "li:nth-child(5) a[href=/personnel/list]", "Faculty &amp; Staff"
+          assert_menu_item options[:menu], :personnel_list, 5, "/personnel/list", "Faculty &amp; Staff"
           assert_select "li:nth-child(6) a[href=/p/facilities]", "Facilities"
           assert_select "li:nth-child(7) a[href=/p/research]", "Research"
           assert_select "li:nth-child(8) a[href=/p/alumni]", "Alumni Profiles"
-          assert_select "li:nth-child(9) a[href=/news]", "News"
+          assert_menu_item options[:menu], :news, 9, "/news", "News"
           assert_select "li:nth-child(10) a[href=/p/contact_us]", "Contact Us"
         end
       end
@@ -102,7 +97,16 @@ class Test::Unit::TestCase
       assert_select "a[href=/home/administrate]", 0
     end
   end
-  
+
+  def assert_menu_item(current, item, n, path, text)
+    if current == item
+      assert_select "li:nth-child(#{n}) a", false
+      assert_select "li:nth-child(#{n})", text
+    else
+      assert_select "li:nth-child(#{n}) a[href=#{path}]", text
+    end
+  end
+        
   def assert_spinner(options = {})
     id_suffix = options[:number] || options[:suffix]
     id = id_suffix ? "spinner_#{id_suffix}" : "spinner"

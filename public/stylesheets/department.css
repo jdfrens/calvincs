@@ -39,6 +39,14 @@ div#error {
 	font: 14px Tahoma;
 }
 
+div#navbar li {
+  font-weight: bold;
+}
+div#navbar li a {
+  font-weight: normal;
+}
+
+
 /***********************/
 /* Administration page */
 /***********************/
