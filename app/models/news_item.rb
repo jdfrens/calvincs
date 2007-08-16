@@ -11,7 +11,7 @@ class NewsItem < ActiveRecord::Base
   validates_presence_of :expires_at
   
   def self.find_current
-    find(:all, :order => 'expires_at DESC, id ASC').reject do |news_item|
+    find(:all, :order => 'goes_live_at DESC').reject do |news_item|
       !news_item.is_current?
     end
   end

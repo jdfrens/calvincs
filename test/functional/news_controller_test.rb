@@ -25,9 +25,9 @@ class NewsControllerTest < Test::Unit::TestCase
     
     assert_select "#news-listing ul" do
       assert_select "li", 3
-      assert_select "li a[href=/news#news-item-5]", "News of Today II"
-      assert_select "li a[href=/news#news-item-3]", "News of Today"
-      assert_select "li.other a[href=/news/list]", "other news..."
+      assert_select "li:nth-child(1) a[href=/news#news-item-5]", "News of Today II"
+      assert_select "li:nth-child(2) a[href=/news#news-item-3]", "News of Today"
+      assert_select "li.other:nth-child(3) a[href=/news/list]", "other news..."
     end
     
     assert_full_news_item news_items(:another_todays_news)
