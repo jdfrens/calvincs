@@ -1,14 +1,18 @@
 <ul>
 
-  <li><a title="The home page" href="/">Home</a></li>
-  <li><a title="About us" href="/p/about_us">About Us</a></li>
-  <li><a title="Academics" href="/p/academics">Academics</a></li>
-  <li><a title="Students" href="/p/students">Students</a></li>
-  <li><a title="Faculty" href="/personnel/list">Faculty &amp; Staff</a></li>
-  <li><a title="Facilities" href="/p/facilities">Facilities</a></li>
-  <li><a title="Research" href="/p/research">Research</a></li>
-  <li><a title="Alumni" href="/p/alumni">Alumni Profiles</a></li>
-  <li><a title="News" href="/news">News</a></li>
-  <li><a title="Contact Us" href="/p/contact_us">Contact Us</a></li>
+  <% if request.request_uri == home_path -%>
+    <li>Home</li>
+  <% else -%>
+    <li><%= link_to "Home", { :controller => :home }, { :title => "The home page" } %></li>
+  <% end -%>
+  <li><%= link_to "About Us", view_page_path(:id => :about_us), { :title => "About us" } %></li>
+  <li><%= link_to "Academics", view_page_path(:id => :academics), { :title => "Academic" } %></li>
+  <li><%= link_to "Students", view_page_path(:id => :students), { :title => "Students" } %></li>
+  <li><%= link_to "Faculty &amp; Staff", { :controller => :personnel, :action => :list }, { :title => "Faculty & Staff" }%></li>
+  <li><%= link_to "Facilities", view_page_path(:id => :facilities), { :title => "Facilities" } %></li>
+  <li><%= link_to "Research", view_page_path(:id => :research), { :title => "Research" } %></li>
+  <li><%= link_to "Alumni Profiles", view_page_path(:id => :alumni), { :title => "Alumni Profiles" } %></li>
+  <li><%= link_to "News", { :controller => :news }, { :title => "News" } %></li>
+  <li><%= link_to "Contact Us", view_page_path(:id => :contact_us), { :title => "Contact Us" } %></li>
 
 </ul>
