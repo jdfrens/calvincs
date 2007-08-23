@@ -1,0 +1,1 @@
+chrome://selenium-ide/content/selenium/TestRunner.html?baseURL=http://cs.calvin.edu/&test=file:///Users/jdfrens/Aptana/workspace/Department%20Website/test/selenium/calvin/TestSuite.html&auto=true
