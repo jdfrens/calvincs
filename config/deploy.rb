@@ -2,7 +2,8 @@ load File.join(File.dirname(__FILE__), '..', 'vendor', 'plugins', 'lwt_deploymen
 
 set :application, "calvincs"
 set :repository_host, "csforge.calvin.edu"
-set :repository, "https://#{repository_host}/svn/#{application}/#{repository_path}"
+set(:repository) { "https://#{repository_host}/svn/DepartmentWebsites/RoR/#{application}" }
+set(:deploy_to) { "/srv/www/#{application}/#{rails_env}" }
 
 # Used for web.disable and web.enable
 role :web, "cs.calvin.edu"
