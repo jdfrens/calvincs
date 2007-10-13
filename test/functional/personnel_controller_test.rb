@@ -554,10 +554,10 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_select_rjs :replace_html, "job_title" do
-      assert_match(/Professional <strong>Sidekick<\/strong>/, @response.body)
+      assert_match(/Professional .*strong.*Sidekick.*\/strong.*/, @response.body)
     end
     keith.reload
-    assert_equal 'Professional *Sidekick*', keith.job_title
+    assert_equal "Professional *Sidekick*", keith.job_title
   end
   
   def test_update_job_title_redirects_when_NOT_logged_in
