@@ -21,7 +21,9 @@ class FullMigrationTest < Test::Unit::TestCase
   def see_full_schema
     assert_schema do |s|
       see_course_tables(s)
-      see_pages_and_news_tables(s)
+      see_pages_table(s)
+      see_news_table(s)
+      see_events_table(s)
       see_faq_tables(s)
       see_image_tables(s)
       see_authentication_tables(s)
@@ -41,7 +43,7 @@ class FullMigrationTest < Test::Unit::TestCase
     end
   end
   
-  def see_pages_and_news_tables(s)
+  def see_pages_table(s)
     s.table "pages" do |t|
       t.column "id",          :integer
       t.column "identifier",  :string
@@ -49,7 +51,9 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "content",     :text
       t.column "updated_at",  :datetime
     end
-    
+  end
+
+  def see_news_table(s)
     s.table "news_items" do |t|
       t.column "id",            :integer
       t.column "headline",      :string
@@ -60,6 +64,18 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "updated_at",    :datetime
       t.column "goes_live_at",  :datetime
       t.column "expires_at",    :datetime
+    end
+  end
+  
+  def see_events_table(s)
+    s.table "events" do |t|
+      t.column "id",            :integer
+      t.column "type",          :string
+      t.column "title",         :string
+      t.column "subtitle",      :string
+      t.column "description",   :text
+      t.column "start",         :datetime
+      t.column "length",        :integer
     end
   end
   

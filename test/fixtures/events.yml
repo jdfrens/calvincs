@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+old_colloquium:
+  id: 1
+  type: Colloquium
+  title: Old Colloquium
+  subtitle: Old Subtitle
+  description: The old colloquium ain't what it used to be.
+  start: <%= 2.days.ago.to_s(:db) %>
+  length: 1
