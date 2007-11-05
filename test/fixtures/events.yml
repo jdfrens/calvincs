@@ -7,3 +7,32 @@ old_colloquium:
   description: The old colloquium ain't what it used to be.
   start: <%= 2.days.ago.to_s(:db) %>
   length: 1
+old_conference:
+  id: 2
+  type: Conference
+  title: Old Conference
+  subtitle: Old Subtitle
+  description: Oldie, but goodie.
+  start: <%= 5.days.ago.to_s(:db) %>
+  length: 3
+todays_colloquium:
+  id: 3
+  type: Colloquium
+  title: Today's Colloquium
+  description: Go!
+  start: <%= 1.hour.from_now.to_s(:db) %>
+  length: 1
+within_a_week_colloquium:
+  id: 4
+  type: Colloquium
+  title: Six Days from Now
+  description: Prepare to go!
+  start: <%= 6.days.from_now.to_s(:db) %>
+  length: 1
+within_a_month_colloquium:
+  id: 5
+  type: Colloquium
+  title: Eight Days from Now
+  description: Wait to go.
+  start: <%= 8.days.from_now.to_s(:db) %>
+  length: 1
