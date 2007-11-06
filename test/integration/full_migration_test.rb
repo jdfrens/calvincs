@@ -75,7 +75,7 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "subtitle",      :string
       t.column "description",   :text
       t.column "start",         :datetime
-      t.column "length",        :integer
+      t.column "stop",          :datetime
     end
   end
   
