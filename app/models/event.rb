@@ -12,8 +12,13 @@ class Event < ActiveRecord::Base
     find_within(Time.local(today.year, today.month, today.day, 0, 0), Time.local(today.year, today.month, today.day, 23, 59))
   end
   
-  def self.find_by_week_of(date=Time.now)
-    start = date - date.wday.days
+  def self.find_by_week_of(date=Time.now, options = {})
+    options[:sunday] = true if options[:sunday].nil?
+    if options[:sunday]
+      start = date - date.wday.days
+    else
+      start = date
+    end
     stop = date + 6.days - date.wday.days
     find_within(start, stop)
   end
