@@ -1,5 +1,5 @@
 <div id="home_splash">
-    <%= render :partial => 'shared/page', :object => @splash, :locals => { :no_header => true } %>
+  <%= render :partial => 'shared/page', :object => @splash, :locals => { :no_header => true } %>
 </div>
 
 <div class="columns">
@@ -10,6 +10,8 @@
   <div id="news" class="columns-2">
     <h1>News</h1>
     <ul>
+      <%= render(:partial => "event", :collection => @todays_events, :locals => { :timing => "today" }) %>
+      <%= render(:partial => "event", :collection => @this_weeks_events, :locals => { :timing => "this week" }) %>
       <%= render(:partial => "news_item" , :collection => @news_items) %>
       <li>
         <%= link_to "other news...",

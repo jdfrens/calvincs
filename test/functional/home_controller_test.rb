@@ -6,7 +6,8 @@ class HomeController; def rescue_action(e) raise e end; end
 
 class HomeControllerTest < Test::Unit::TestCase
   
-  fixtures :users, :groups, :privileges, :groups_privileges, :news_items, :pages
+  fixtures  :news_items, :events, :pages
+  user_fixtures
   
   def setup
     @controller = HomeController.new
@@ -115,6 +116,8 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_equal pages(:home_splash), assigns(:splash)
     assert_equal pages(:home_page), assigns(:content)
     assert_equal NewsItem.find_current, assigns(:news_items)
+    assert_equal Event.find_by_today, assigns(:todays_events)
+    assert_equal Event.find_by_week_of(Time.now), assigns(:this_weeks_events)
     assert_equal pages(:home_page).updated_at, assigns(:last_updated)
   end
   
@@ -131,7 +134,21 @@ class HomeControllerTest < Test::Unit::TestCase
       end
       assert_select "div#news" do
         assert_select "h1", "News"
-        assert_select "ul li", :count => (NewsItem.find_current.size + 1)
+        assert_select "ul li", :count => (NewsItem.find_current.size + Event.find_by_today.size + Event.find_by_week_of.size + 1)
+        Event.find_by_today.each do |event|
+          assert_select "li#event_#{event.id}" do
+            assert_select "strong", "Event today!"
+            assert_select "span", event.title
+            assert_select "a.more[href=/events#event-#{event.id}]", "more..."
+          end
+        end
+        Event.find_by_week_of.each do |event|
+          assert_select "li#event_#{event.id}" do
+            assert_select "strong", "Event this week!"
+            assert_select "span", event.title
+            assert_select "a.more[href=/events#event-#{event.id}]", "more..."
+          end
+        end
         NewsItem.find_current.each do |news_item|
           assert_select "li#news_item_#{news_item.id}"
           assert_select "span.news-teaser", strip_textile(news_item.teaser)

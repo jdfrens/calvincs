@@ -8,6 +8,10 @@ class Event < ActiveRecord::Base
                       range_start, range_start])
   end
   
+  def self.find_by_today(today=Time.now)
+    find_within(Time.local(today.year, today.month, today.day, 0, 0), Time.local(today.year, today.month, today.day, 23, 59))
+  end
+  
   def self.find_by_week_of(date=Time.now)
     start = date - date.wday.days
     stop = date + 6.days - date.wday.days

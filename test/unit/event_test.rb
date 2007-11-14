@@ -27,6 +27,14 @@ class EventTest < Test::Unit::TestCase
       Event.find_within(Time.now, 2.months.from_now)
   end
   
+  should "find today's events" do
+    today = Time.local(2007, 11, 13, 13, 30, 58)
+    start = Time.local(2007, 11, 13,  0,  0)
+    stop  = Time.local(2007, 11, 13, 23, 59)
+    Event.expects(:find_within).with(start, stop).returns(:all_of_todays_events)
+    assert_same(:all_of_todays_events, Event.find_by_today(today))
+  end
+  
   should "find within a whole week" do
     sunday =    Time.local(2007, 11,  4, 13)
     monday =    Time.local(2007, 11,  5, 13)
