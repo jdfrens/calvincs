@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
   
+  validates_presence_of :title, :descriptor, :start, :stop
+
   def self.find_within(range_start, range_stop)
     self.find(:all,
       :conditions => ["(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",

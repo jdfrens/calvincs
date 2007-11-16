@@ -15,64 +15,68 @@ class HomeControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  def test_index
-    get :index
-    
-    assert_response :success
-    assert_home_page_layout
-    
-    assert_home_page_assignments
-    assert_template 'home/index'
+  context "exercising the index action" do
+    should "have a normal index page" do
+      get :index
+
+      assert_response :success
+      assert_home_page_layout
+
+      assert_home_page_assignments
+      assert_template 'home/index'
+    end
+
+    should "have the last modified depend on dates of news items" do
+      get :index
+
+      assert_response :success
+      assert_standard_layout :last_updated => pages(:home_page).updated_at, :menu => :home
+
+      news_item = news_items(:todays_news)
+      news_item.teaser = 'changed for new updated_at'
+      news_item.save!
+      news_item.reload
+
+      get :index
+
+      assert_response :success
+      assert_standard_layout :last_updated => news_item.updated_at, :menu => :home
+    end
+
+    should "see a different index page when logged in" do
+      get :index, {}, user_session(:edit)
+
+      assert_response :success
+      assert_home_page_layout
+
+      assert_home_page_assignments
+      assert_template 'home/index'
+
+      assert_select "h1", "Computing at Calvin College"
+      assert_select "p", "home page text written in textile"
+      assert_select "p strong", "textile"
+      assert_select "a[href=/p/_home_page]"
+    end
   end
   
-  def test_index_last_modified_also_depends_on_news_items
-    get :index
-    
-    assert_response :success
-    assert_standard_layout :last_updated => pages(:home_page).updated_at, :menu => :home
-    
-    news_item = news_items(:todays_news)
-    news_item.teaser = 'changed for new updated_at'
-    news_item.save!
-    news_item.reload
-    
-    get :index
-    
-    assert_response :success
-    assert_standard_layout :last_updated => news_item.updated_at, :menu => :home
-  end
+  context "the administration page" do
+    should "redirect when not logged in" do
+      get :administrate
+      assert_redirected_to :controller => 'users', :action => 'login'
+    end
 
-  def test_index_when_logged_in
-    get :index, {}, user_session(:edit)
-    
-    assert_response :success
-    assert_home_page_layout
-    
-    assert_home_page_assignments
-    assert_template 'home/index'
-    
-    assert_select "h1", "Computing at Calvin College"
-    assert_select "p", "home page text written in textile"
-    assert_select "p strong", "textile"
-    assert_select "a[href=/p/_home_page]"
-  end
+    should "administrate when logged in" do
+      get :administrate, {}, user_session(:edit)
 
-  def test_administrate_redirects_when_NOT_logged_in
-    get :administrate
-    assert_redirected_to :controller => 'users', :action => 'login'
-  end
-      
-  def test_administration_page
-    get :administrate, {}, user_session(:edit)
-
-    assert_response :success
-    assert_standard_layout
-    assert_template 'home/administrate'
-    assert_select 'h1', "Master Administration"
-    assert_news_menu
-    assert_page_menu
-    assert_album_menu
-    assert_course_menu
+      assert_response :success
+      assert_standard_layout
+      assert_template 'home/administrate'
+      assert_select 'h1', "Master Administration"
+      assert_news_menu
+      assert_page_menu
+      assert_album_menu
+      assert_course_menu
+    end
   end
   
   #
@@ -137,14 +141,14 @@ class HomeControllerTest < Test::Unit::TestCase
         assert_select "ul li", :count => (NewsItem.find_current.size + Event.find_by_today.size + Event.find_by_week_of.size + 1)
         Event.find_by_today.each do |event|
           assert_select "li#event_#{event.id}" do
-            assert_select "strong", "Event today!"
+            assert_select "strong", "#{event.descriptor.capitalize} today!"
             assert_select "span", event.title
             assert_select "a.more[href=/events#event-#{event.id}]", "more..."
           end
         end
         Event.find_by_week_of.each do |event|
           assert_select "li#event_#{event.id}" do
-            assert_select "strong", "Event this week!"
+            assert_select "strong", "#{event.descriptor.capitalize} this week!"
             assert_select "span", event.title
             assert_select "a.more[href=/events#event-#{event.id}]", "more..."
           end

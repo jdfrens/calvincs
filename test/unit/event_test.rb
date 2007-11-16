@@ -3,6 +3,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 class EventTest < Test::Unit::TestCase
   fixtures :events
   
+  should_require_attributes :title
+  should_require_attributes :descriptor
+  should_require_attributes :start
+  should_require_attributes :stop
+   
   context "testing the system" do
     should "have single-table inheritance" do
       assert_equal Colloquium, events(:old_colloquium).class
@@ -26,7 +31,7 @@ class EventTest < Test::Unit::TestCase
     end
     
     should "find more than one event with a given range" do
-      assert_equal [events(:todays_colloquium), events(:within_a_week_colloquium), events(:within_a_month_colloquium)],
+      assert_equal [events(:todays_colloquium), events(:within_a_week_colloquium), events(:within_a_month_colloquium), events(:next_weeks_conference)],
         Event.find_within(Time.now, 2.months.from_now)
     end
   end

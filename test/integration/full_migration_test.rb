@@ -71,6 +71,7 @@ class FullMigrationTest < Test::Unit::TestCase
     s.table "events" do |t|
       t.column "id",            :integer
       t.column "type",          :string
+      t.column "descriptor",    :string
       t.column "title",         :string
       t.column "subtitle",      :string
       t.column "description",   :text
