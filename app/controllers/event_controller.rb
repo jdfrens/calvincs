@@ -5,7 +5,7 @@ class EventController < ApplicationController
   end
   
   def list
-    
+    @events = Event.find_by_semester_of
   end
   
   def view

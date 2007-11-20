@@ -14,12 +14,25 @@ class EventControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  context "the index should list upcoming events" do
+  context "the index action" do
     should "redirect index to list" do
       get :index
       
       assert_response :redirect
       assert_redirected_to :action => :list
+    end
+  end
+  
+  context "listing events" do
+    should "list upcoming events by default" do
+      get :list
+      
+      assert_response :success
+      assert_select "h1", "Upcoming Events"
+      assert_select "h2", "Today's Colloquium"
+      assert_select "h2", "Six Days from Now"
+      assert_select "h2", "Eight Days from Now"
+      assert_select "h2", "Future Conference"
     end
   end
   
