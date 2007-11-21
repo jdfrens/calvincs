@@ -28,6 +28,8 @@ class EventControllerTest < Test::Unit::TestCase
       get :list
       
       assert_response :success
+      assert_standard_layout  # TODO: need date check?
+      
       assert_select "h1", "Upcoming Events"
       assert_select "h2", "Today's Colloquium"
       assert_select "h2", "Six Days from Now"
@@ -43,6 +45,8 @@ class EventControllerTest < Test::Unit::TestCase
       get :view, :id => event.id
       
       assert_response :success
+      assert_standard_layout  # TODO: need date check?
+      
       assert_select "div#event-title" do
         assert_select "h1", event.title
         assert_select "h2", event.subtitle
@@ -55,6 +59,28 @@ class EventControllerTest < Test::Unit::TestCase
       
       assert_response :redirect
       assert_redirected_to :action => :list
+    end
+  end
+  
+  context "building a new event" do
+    should "have a new action with a form" do
+      get :new
+      
+      assert_response :success
+      assert_standard_layout
+      
+      assert_select "h1", "New Event"
+      assert_select "form[action=/event/create]" do
+        assert_select "select#event_type" do
+          assert_select "option", 2
+          assert_select "option", /colloquium/i
+          assert_select "option", /conference/i
+        end
+        assert_select "input#event_title"
+        assert_select "input#event_subtitle"
+        assert_datetime_selector "event", "start"
+        assert_select "input#event_length"
+      end
     end
   end
 end

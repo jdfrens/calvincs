@@ -35,12 +35,28 @@ class Event < ActiveRecord::Base
     end
     find_within(start, stop)
   end
+  
+  def elapsed
+    stop - start
+  end
+  
+  def length
+    nil
+  end
 end
 
 class Colloquium < Event
-
+  
+  def length
+    elapsed / 1.hour
+  end
+  
 end
 
 class Conference < Event
 
+  def length
+    elapsed / 1.day
+  end
+  
 end

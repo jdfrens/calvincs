@@ -14,6 +14,18 @@ class EventTest < Test::Unit::TestCase
       assert_equal(Conference, events(:old_conference).class)
     end
   end
+  
+  context "the length of an event" do
+    should "be in hours for a colloquium" do
+      assert_equal 1, events(:old_colloquium).length
+      assert_equal 2, events(:todays_colloquium).length
+    end
+    
+    should "be in days for a conference" do
+      assert_equal 3, events(:old_conference).length
+      assert_equal 1, events(:next_weeks_conference).length
+    end
+  end
 
   context "seeing if events can really be found by dates" do
     should "have a default return for finding within a range" do

@@ -1,0 +1,31 @@
+<h1>New Event</h1>
+
+<ul>
+  <li>A <strong>colloquium</strong> is measured in hours (possibly fractional) and the full date and time must be specified.</li>
+  <li>A <strong>conference</strong> is measured in whole days and only the full date (not the time) is used.</li>
+</ul>
+
+<% form_for :event, :url => { :action => "create" } do |form| -%>
+  <table border="0" summary="event form">
+    <tr>
+      <td>Type of event:</td>
+      <td><%= select_tag "event[type]", '<option value="colloquium">Colloquium</option><option value="conference">Conference</option>', :id => "event_type" %></td>
+    </tr>
+    <tr>
+      <td>Title:</td>
+      <td><%= form.text_field :title %></td>
+    </tr>
+    <tr>
+      <td>Subtitle (optional):</td>
+      <td><%= form.text_field :subtitle %></td>
+    </tr>
+    <tr>
+      <td>Starting date and time:</td>
+      <td><%= form.datetime_select :start %></td>
+    </tr>
+    <tr>
+      <td>Length:</td>
+      <td><%= form.text_field :length, :size => 3 %></td>
+    </tr>
+  </table>
+<% end %>

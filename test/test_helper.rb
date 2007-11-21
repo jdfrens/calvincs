@@ -89,6 +89,14 @@ class Test::Unit::TestCase
       assert_select "li:nth-child(#{n}) a[href=#{path}]", text
     end
   end
+  
+  def assert_datetime_selector(model, attribute)
+    assert_select "select##{model}_#{attribute}_1i", 1, "should have a year selector"
+    assert_select "select##{model}_#{attribute}_2i", 1, "should have a month selector"
+    assert_select "select##{model}_#{attribute}_3i", 1, "should have a day selector"
+    assert_select "select##{model}_#{attribute}_4i", 1, "should have a hour selector"
+    assert_select "select##{model}_#{attribute}_5i", 1, "should have a minute selector"
+  end
         
   def assert_spinner(options = {})
     id_suffix = options[:number] || options[:suffix]
