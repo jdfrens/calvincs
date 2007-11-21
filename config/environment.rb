@@ -55,5 +55,12 @@ end
 # end
 
 # Include your application configuration below
+
+# time formats
 Time::DATE_FORMATS[:last_updated] = "%A, %B %e, %Y"
 Time::DATE_FORMATS[:news_posted] = "%B %e, %Y"
+
+# Google Analytics
+Rubaidh::GoogleAnalytics.tracker_id = 'UA-864318-1'  
+Rubaidh::GoogleAnalytics.domain_name  = 'cs.calvin.edu'  
+Rubaidh::GoogleAnalytics.environments = ['production']  
