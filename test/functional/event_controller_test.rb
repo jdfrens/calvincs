@@ -78,8 +78,10 @@ class EventControllerTest < Test::Unit::TestCase
         end
         assert_select "input#event_title"
         assert_select "input#event_subtitle"
+        assert_select "textarea#event_description"
         assert_datetime_selector "event", "start"
         assert_select "input#event_length"
+        assert_select "input[type=submit]"
       end
     end
   end
