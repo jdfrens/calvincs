@@ -10,6 +10,8 @@ require 'fixtures/order'
 require 'fixtures/category'
 require 'fixtures/post'
 require 'fixtures/author'
+require 'fixtures/person'
+require 'fixtures/reader'
 
 
 class AssociationsTest < Test::Unit::TestCase
@@ -20,6 +22,14 @@ class AssociationsTest < Test::Unit::TestCase
     assert_raise(ArgumentError, 'ActiveRecord should have barked on bad collection keys') do
       Class.new(ActiveRecord::Base).has_many(:wheels, :name => 'wheels')
     end
+  end
+  
+  def test_should_construct_new_finder_sql_after_create
+    person = Person.new
+    assert_equal [], person.readers.find(:all)
+    person.save!
+    reader = Reader.create! :person => person, :post => Post.new(:title => "foo", :body => "bar")
+    assert_equal [reader], person.readers.find(:all)
   end
 
   def test_force_reload
@@ -1838,5 +1848,70 @@ class HasAndBelongsToManyAssociationsTest < Test::Unit::TestCase
     join_dep  = ActiveRecord::Associations::ClassMethods::JoinDependency.new(join_base, :developers, nil)
     projects  = Project.send(:select_limited_ids_list, {:order => 'developers.created_at'}, join_dep)
     assert_equal %w(1 2), projects.scan(/\d/).sort
+  end
+end
+
+
+class OverridingAssociationsTest < Test::Unit::TestCase
+  class Person < ActiveRecord::Base; end
+  class DifferentPerson < ActiveRecord::Base; end
+
+  class PeopleList < ActiveRecord::Base
+    has_and_belongs_to_many :has_and_belongs_to_many, :before_add => :enlist
+    has_many :has_many, :before_add => :enlist
+    belongs_to :belongs_to
+    has_one :has_one
+  end
+
+  class DifferentPeopleList < PeopleList
+    # Different association with the same name, callbacks should be omitted here.
+    has_and_belongs_to_many :has_and_belongs_to_many, :class_name => 'DifferentPerson'
+    has_many :has_many, :class_name => 'DifferentPerson'
+    belongs_to :belongs_to, :class_name => 'DifferentPerson', :foreign_key => 'belongs_to_id'
+    has_one :has_one, :class_name => 'DifferentPerson'
+  end
+
+  def test_habtm_association_redefinition_callbacks_should_differ_and_not_inherited
+    # redeclared association on AR descendant should not inherit callbacks from superclass
+    callbacks = PeopleList.read_inheritable_attribute(:before_add_for_has_and_belongs_to_many)
+    assert_equal([:enlist], callbacks)
+    callbacks = DifferentPeopleList.read_inheritable_attribute(:before_add_for_has_and_belongs_to_many)
+    assert_equal([], callbacks)
+  end
+
+  def test_has_many_association_redefinition_callbacks_should_differ_and_not_inherited
+    # redeclared association on AR descendant should not inherit callbacks from superclass
+    callbacks = PeopleList.read_inheritable_attribute(:before_add_for_has_many)
+    assert_equal([:enlist], callbacks)
+    callbacks = DifferentPeopleList.read_inheritable_attribute(:before_add_for_has_many)
+    assert_equal([], callbacks)
+  end
+
+  def test_habtm_association_redefinition_reflections_should_differ_and_not_inherited
+    assert_not_equal(
+      PeopleList.reflect_on_association(:has_and_belongs_to_many),
+      DifferentPeopleList.reflect_on_association(:has_and_belongs_to_many)
+    )
+  end
+
+  def test_has_many_association_redefinition_reflections_should_differ_and_not_inherited
+    assert_not_equal(
+      PeopleList.reflect_on_association(:has_many),
+      DifferentPeopleList.reflect_on_association(:has_many)
+    )
+  end
+
+  def test_belongs_to_association_redefinition_reflections_should_differ_and_not_inherited
+    assert_not_equal(
+      PeopleList.reflect_on_association(:belongs_to),
+      DifferentPeopleList.reflect_on_association(:belongs_to)
+    )
+  end
+
+  def test_has_one_association_redefinition_reflections_should_differ_and_not_inherited
+    assert_not_equal(
+      PeopleList.reflect_on_association(:has_one),
+      DifferentPeopleList.reflect_on_association(:has_one)
+    )
   end
 end

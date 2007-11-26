@@ -50,6 +50,12 @@ module ActiveRecord
     end
   end
 
+  class HasManyThroughCantDissociateNewRecords < ActiveRecordError #:nodoc:
+    def initialize(owner, reflection)
+      super("Cannot dissociate new records through '#{owner.class.name}##{reflection.name}' on '#{reflection.source_reflection.class_name rescue nil}##{reflection.source_reflection.name rescue nil}'. Both records must have an id in order to delete the has_many :through record associating them.")
+    end
+  end
+  
   class EagerLoadPolymorphicError < ActiveRecordError #:nodoc:
     def initialize(reflection)
       super("Can not eagerly load the polymorphic association #{reflection.name.inspect}")
@@ -862,7 +868,7 @@ module ActiveRecord
         # Don't use a before_destroy callback since users' before_destroy
         # callbacks will be executed after the association is wiped out.
         old_method = "destroy_without_habtm_shim_for_#{reflection.name}"
-        class_eval <<-end_eval
+        class_eval <<-end_eval unless method_defined?(old_method)
           alias_method :#{old_method}, :destroy_without_callbacks
           def destroy_without_callbacks
             #{reflection.name}.clear
@@ -1002,10 +1008,10 @@ module ActiveRecord
               []
             end
 
-            if !records_to_save.blank?
-              records_to_save.each { |record| association.send(:insert_record, record) }
-              association.send(:construct_sql)   # reconstruct the SQL queries now that we know the owner's id
-            end
+            records_to_save.each { |record| association.send(:insert_record, record) } unless records_to_save.blank?
+            
+            # reconstruct the SQL queries now that we know the owner's id
+            association.send(:construct_sql) if association.respond_to?(:construct_sql)
           end_eval
 
           # Doesn't use after_save as that would save associations added in after_create/after_update twice
@@ -1286,7 +1292,9 @@ module ActiveRecord
             defined_callbacks = options[callback_name.to_sym]
             if options.has_key?(callback_name.to_sym)
               class_inheritable_reader full_callback_name.to_sym
-              write_inheritable_array(full_callback_name.to_sym, [defined_callbacks].flatten)
+              write_inheritable_attribute(full_callback_name.to_sym, [defined_callbacks].flatten)
+            else
+              write_inheritable_attribute(full_callback_name.to_sym, [])
             end
           end
         end
