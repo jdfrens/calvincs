@@ -12,6 +12,7 @@ class EventControllerTest < Test::Unit::TestCase
     @controller = EventController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    reset_text_processing
   end
 
   context "the index action" do
@@ -41,7 +42,7 @@ class EventControllerTest < Test::Unit::TestCase
   context "viewing an event" do
     should "view an event" do
       event = events(:old_colloquium)
-      
+ 
       get :view, :id => event.id
       
       assert_response :success
@@ -49,9 +50,12 @@ class EventControllerTest < Test::Unit::TestCase
       
       assert_select "div#event-title" do
         assert_select "h1", event.title
+        assert_html_escaped event.title
         assert_select "h2", event.subtitle
+        assert_html_escaped event.subtitle
       end
       assert_select "div#event-description", event.description
+      assert_textilized event.description
     end
     
     should "redirect to list when viewing event that does not exist" do

@@ -81,7 +81,7 @@ randy:
   username: randy
   first_name: Randy
   last_name: Pruim
-  job_title: Professor of "Mathematics and Statistics":http://math.calvin.foo/
+  job_title: Professor of Mathematics and Statistics
   password_hash: <%= User.hash_password('randypassword') %>
   group_id: 6
   email_address: randy@calvin.foo

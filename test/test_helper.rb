@@ -2,6 +2,61 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
   
+module ERB::Util
+  
+  @@escaped = []
+  
+  def html_escape(s)
+    @@escaped = @@escaped << s
+    s
+  end
+  
+  def h(s)
+    @@escaped = @@escaped << s
+    s
+  end
+  
+  def self.was_escaped?(s)
+    @@escaped.include?(s)
+  end
+
+  def self.reset_recording
+    @@escaped = []
+  end
+  
+end
+
+module ActionView::Helpers::TextHelper
+  
+  @@textilized = []
+  
+  def textilize(text)
+    @@textilized = @@textilized << text
+    text
+  end
+  
+  def self.was_textilized?(text)
+    @@textilized.include?(text)
+  end
+  
+  @@textilized_without_paragraph = []
+  
+  def textilize_without_paragraph(text)
+    @@textilized_without_paragraph = @@textilized_without_paragraph << text
+    text
+  end
+  
+  def self.was_textilized_without_paragraph?(text)
+    @@textilized_without_paragraph.include?(text)
+  end
+
+  def self.reset_recording()
+    @@textilized = []
+    @@textilized_without_paragraph = []
+  end
+  
+end
+
 class Test::Unit::TestCase
   
   self.use_transactional_fixtures = true
@@ -21,7 +76,7 @@ class Test::Unit::TestCase
     valids.each do |valid|
       assert !object.errors.invalid?(valid), "#{valid} should be valid, but it's not"
     end
-   end
+  end
   
   def assert_standard_layout(options = {})
     options = { :title => nil, :last_updated => false }.merge(options)
@@ -34,7 +89,7 @@ class Test::Unit::TestCase
     
     [ "calvintemplate", "department" ].each do |filename|
       assert_select "link[type=text/css][href^=/stylesheets/#{filename}.css]",
-          { :count => 1 }, "should have link to #{filename}.css stylesheet"
+        { :count => 1 }, "should have link to #{filename}.css stylesheet"
     end
     
     assert_select "h1#nameplate-dept a[href=/]", "Computer Science &amp; Information Systems"
@@ -66,7 +121,7 @@ class Test::Unit::TestCase
         assert_select "a[href=mailto:computing@calvin.edu]", "Computer Science Department"
         if options[:last_updated]
           assert_select "#last_updated", last_updated_text(options[:last_updated]),
-              "should have last updated on #{last_updated_text(options[:last_updated])}"
+            "should have last updated on #{last_updated_text(options[:last_updated])}"
         else
           assert_select "#last_updated", false, "should have no last updated"
         end
@@ -108,17 +163,17 @@ class Test::Unit::TestCase
     form = find_tag :tag => "form", :attributes => { :id => id }
     assert_not_nil form, "should have form"
     assert_match(
-        /Element\.show\('spinner/,
-        form.attributes["onsubmit"],
-        "should have JavaScript to show spinner")
+      /Element\.show\('spinner/,
+      form.attributes["onsubmit"],
+      "should have JavaScript to show spinner")
     assert_match(
-        /Element\.hide\('spinner/,
-        form.attributes["onsubmit"],
-        "should have JavaScript to hide spinner")
+      /Element\.hide\('spinner/,
+      form.attributes["onsubmit"],
+      "should have JavaScript to hide spinner")
     assert_match(
-        /Ajax\.Request\('(.+?)'/,
-        form.attributes["onsubmit"],
-        "should have JavaScript for Ajax request")
+      /Ajax\.Request\('(.+?)'/,
+      form.attributes["onsubmit"],
+      "should have JavaScript for Ajax request")
     form.attributes["onsubmit"] =~ /Ajax\.Request\('(.+?)'/
     assert_equal route, "#$1", "should have correct route in Ajax request"
   end
@@ -139,7 +194,7 @@ class Test::Unit::TestCase
     privilege = Privilege.find_by_name(expected_privilege)
     assert_not_nil privilege, "privilege #{expected_privilege} not found"
     assert user.group.privileges.include?(privilege),
-        "#{user.username} does not have the #{privilege.name} privilege"
+      "#{user.username} does not have the #{privilege.name} privilege"
   end
   
   def login(username, password)
@@ -172,7 +227,7 @@ class Test::Unit::TestCase
   
   def assert_link_to_markup_help
     assert_select "a[href=http://hobix.com/textile/][target=_blank]",
-        "Textile reference"
+      "Textile reference"
   end
     
   def strip_textile(string)
@@ -186,4 +241,24 @@ class Test::Unit::TestCase
       time
     end
   end
+  
+  def reset_text_processing()
+    ERB::Util.reset_recording
+    ActionView::Helpers::TextHelper.reset_recording
+  end
+  
+  def assert_html_escaped(s)
+    assert ERB::Util.was_escaped?(s), "'#{s}' was not properly escaped"
+  end
+  
+  def assert_textilized(text)
+    assert ActionView::Helpers::TextHelper.was_textilized?(text),
+      "'#{text}' was not properly textilized"
+  end
+  
+  def assert_textilized_without_paragraph(text)
+    assert ActionView::Helpers::TextHelper.was_textilized_without_paragraph?(text),
+      "'#{text}' was not properly textilized without paragraph"
+  end
+  
 end

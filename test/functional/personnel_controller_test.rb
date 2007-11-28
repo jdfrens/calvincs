@@ -13,6 +13,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     @controller = PersonnelController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    reset_text_processing
   end
   
   def test_index_redirects_to_view_all
@@ -34,7 +35,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
-        :last_updated => users(:sharon).updated_at
+      :last_updated => users(:sharon).updated_at
     assert_select "h1#faculty", "Faculty"
     assert_select "table#faculty_listing.listing" do
       assert_entry_count "faculty"
@@ -118,8 +119,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
           assert_select "div.name" do
             assert_select "h2 a[href=/personnel/view/randy]", "Randy Pruim"
             assert_select "p#randy_job_title", "Professor of Mathematics and Statistics"
-            assert_select "p#randy_job_title a[href=http://math.calvin.foo/]",
-                "Mathematics and Statistics", "should textilize"
+            assert_textilized_without_paragraph "Professor of Mathematics and Statistics"
           end
         end
       end
@@ -153,7 +153,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_response :success
     user.reload
     assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
-        :last_updated => user.updated_at
+      :last_updated => user.updated_at
   end
   
   def test_list_uses_most_recent_updated_at_from_users_status
@@ -166,7 +166,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_response :success
     page.reload
     assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
-        :last_updated => page.updated_at
+      :last_updated => page.updated_at
   end
   
   def test_view
@@ -174,7 +174,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "Jeremy D. Frens",
-        :last_updated => users(:jeremy).last_updated_dates.max
+      :last_updated => users(:jeremy).last_updated_dates.max
     
     assert_select "h1", "Jeremy D. Frens"
     assert_select "p#job_title", "Assistant Professor"
@@ -214,7 +214,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "Joel C. Adams",
-        :last_updated => users(:joel).last_updated_dates.max
+      :last_updated => users(:joel).last_updated_dates.max
     
     assert_select "h1", "Joel C. Adams"
     assert_select "#contact-information" do
@@ -234,7 +234,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "Jeremy D. Frens",
-        :last_updated => users(:jeremy).last_updated_dates.max
+      :last_updated => users(:jeremy).last_updated_dates.max
     
     assert_select "div#full_name_header h1", "Jeremy D. Frens"
     assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
@@ -314,7 +314,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "Joel C. Adams",
-        :last_updated => users(:joel).last_updated_dates.max
+      :last_updated => users(:joel).last_updated_dates.max
     
     assert_select "div#full_name_header h1", "Joel C. Adams"
     assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
@@ -368,7 +368,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "Sharon Gould",
-        :last_updated => users(:sharon).last_updated_dates.max
+      :last_updated => users(:sharon).last_updated_dates.max
     
     assert_select "#education", false, "should not have any option for education"
     assert_select "#interests", false, "should not have any interests"
@@ -385,7 +385,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_equal "Keith Vander Linden", keith.full_name
     
     xhr :post, :update_name,
-    { :id => keith.id,
+      { :id => keith.id,
       :user => { :first_name => 'a', :last_name => 'b'}
     }, user_session(:edit)
     
@@ -403,7 +403,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_equal "Keith Vander Linden", keith.full_name
     
     xhr :post, :update_name,
-    { :id => keith.id,
+      { :id => keith.id,
       :user => { :first_name => 'a', :last_name => 'b'}
     }
     
@@ -417,7 +417,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     degree = degrees(:keith_central)
     
     xhr :post, :update_degree,
-    { :id => degree.id,
+      { :id => degree.id,
       :degree => {
         :degree_type => 'BS',
         :institution => 'Nowhere',
@@ -442,7 +442,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     degree = degrees(:keith_central)
     
     xhr :post, :update_degree,
-    { :id => degree.id,
+      { :id => degree.id,
       :degree => {
         :degree_type => 'BS',
         :institution => 'Nowhere',
@@ -499,8 +499,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_nil keith.office_phone
     
     xhr :post, :set_user_office_phone,
-    { :id => keith.id, :value => '616-111-9999' },
-    user_session(:edit)
+      { :id => keith.id, :value => '616-111-9999' },
+      user_session(:edit)
     
     assert_response :success
     keith.reload
@@ -512,7 +512,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_nil keith.office_phone
     
     xhr :post, :set_user_office_phone,
-    { :id => keith.id, :value => '616-111-9999' }
+      { :id => keith.id, :value => '616-111-9999' }
     
     assert_redirected_to_login
     keith.reload
@@ -524,8 +524,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_nil keith.office_location
     
     xhr :post, :set_user_office_location,
-    { :id => keith.id, :value => 'Funkytown' },
-    user_session(:edit)
+      { :id => keith.id, :value => 'Funkytown' },
+      user_session(:edit)
     
     assert_response :success
     keith.reload
@@ -537,7 +537,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_nil keith.office_location
     
     xhr :post, :set_user_office_location,
-    { :id => keith.id, :value => 'Funkytown' }
+      { :id => keith.id, :value => 'Funkytown' }
     
     assert_redirected_to_login
     keith.reload
@@ -549,15 +549,16 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_nil keith.job_title
     
     xhr :post, :update_job_title,
-    { :id => keith.id, :user => { :job_title => 'Professional *Sidekick*' } },
-    user_session(:edit)
+      { :id => keith.id, :user => { :job_title => 'Professional Sidekick' } },
+      user_session(:edit)
     
     assert_response :success
     assert_select_rjs :replace_html, "job_title" do
-      assert_match(/Professional .*strong.*Sidekick.*\/strong.*/, @response.body)
+      assert_match(/Professional Sidekick/, @response.body)
+      assert_textilized_without_paragraph "Professional Sidekick"
     end
     keith.reload
-    assert_equal "Professional *Sidekick*", keith.job_title
+    assert_equal "Professional Sidekick", keith.job_title
   end
   
   def test_update_job_title_redirects_when_NOT_logged_in
@@ -565,7 +566,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
     assert_nil keith.job_title
     
     xhr :post, :update_job_title,
-    { :id => keith.id, :value => 'Professional Sidekick' }
+      { :id => keith.id, :value => 'Professional Sidekick' }
     
     assert_redirected_to_login
     keith.reload
@@ -579,7 +580,7 @@ class PersonnelControllerTest < Test::Unit::TestCase
   
   def assert_entry_count(name)
     assert_select "tr", Group.find_by_name(name).users.count,
-        "should have one row per #{name}"
+      "should have one row per #{name}"
   end
   
   def assert_group_order
