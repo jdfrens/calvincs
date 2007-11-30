@@ -1,4 +1,4 @@
 <li id="news_item_<%= news_item.id %>">
-  <span class="news-teaser"><%= news_item.render_teaser %></span>
+  <span class="news-teaser"><%= textilize_without_paragraph news_item.teaser %></span>
   <%= link_to_current_news_item news_item, :text => "more...", :class => "more" %>
 </li>

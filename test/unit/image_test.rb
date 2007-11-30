@@ -66,16 +66,6 @@ class ImageTest < Test::Unit::TestCase
     assert_nil Image.pick_random("does_not_exist")
   end
   
-  def test_render_caption
-    assert_equal "Somebody works on our *mission*.",
-        images(:mission_wide).caption
-    assert_equal "Somebody works on our <strong>mission</strong>.",
-        images(:mission_wide).render_caption
-    
-    assert_nil images(:jeremy_headshot).caption
-    assert_equal "", images(:jeremy_headshot).render_caption
-  end
-  
   def test_tags
     assert_equal [], images(:alphabet).tags
     assert_equal ['mission', 'mission_wide'], images(:mission_wide).tags

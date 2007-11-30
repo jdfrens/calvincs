@@ -4,7 +4,7 @@ mission_wide:
   url: http://calvin.edu/mission.jpg
   width: 265
   height: 200
-  caption: Somebody works on our *mission*.
+  caption: Somebody works on our mission.
 alphabet:
   id: 2
   url: http://calvin.edu/abcd.png

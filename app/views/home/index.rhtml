@@ -6,7 +6,7 @@
   <div id="home_page" class="columns-1">
     <%= render :partial => 'shared/page', :object => @content %>
   </div>
-
+  
   <div id="news" class="columns-2">
     <h1>News</h1>
     <ul>
@@ -15,10 +15,10 @@
       <%= render(:partial => "news_item" , :collection => @news_items) %>
       <li>
         <%= link_to "other news...",
-                { :controller => "news" },
-                { :class => "more" } %>
+          { :controller => "news" },
+          { :class => "more" } %>
       </li>
     </ul>
   </div>
-
+  
 </div>

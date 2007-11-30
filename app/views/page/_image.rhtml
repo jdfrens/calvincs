@@ -1,6 +1,6 @@
 <% if !current_user && @image -%>
   <div class="<%= image_class @image %>">
     <%= image_tag @image.url, :id => "cool-pic", :class => "img-right" %>
-    <p class="img-caption"><%= @image.render_caption %></p>
+    <p class="img-caption"><%= textilize_without_paragraph @image.caption %></p>
   </div>
 <% end %>

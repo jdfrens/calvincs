@@ -229,12 +229,7 @@ class Test::Unit::TestCase
     assert_select "a[href=http://hobix.com/textile/][target=_blank]",
       "Textile reference"
   end
-    
-  # TODO: get rid of this in favor of #assert_textilized below
-  def strip_textile(string)
-    string.gsub("*", "").gsub("_", "")
-  end
-  
+      
   def last_updated_text(time)
     if time
       "Last updated " + time.to_s(:last_updated) + "."

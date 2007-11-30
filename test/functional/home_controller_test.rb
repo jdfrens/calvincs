@@ -156,7 +156,7 @@ class HomeControllerTest < Test::Unit::TestCase
         end
         NewsItem.find_current.each do |news_item|
           assert_select "li#news_item_#{news_item.id}"
-          assert_select "span.news-teaser", strip_textile(news_item.teaser)
+          assert_select "span.news-teaser .fake-textilized-without-paragraph", news_item.teaser
           assert_select "a.more[href=/news#news-item-#{news_item.id}]", "more..."
         end
         assert_select "ul li a.more[href=/news]", "other news..."

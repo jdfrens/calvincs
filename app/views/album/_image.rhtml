@@ -1,11 +1,9 @@
 <div class="image-form" id="image-form-<%= image.id %>">
-  <%
-  remote_form_for(:image, image, 
+  <% remote_form_for(:image, image, 
     :url => { :action => 'update_image', :id => image.id },
     :before => "Element.show('spinner_#{image.id}')", 
     :complete => "Element.hide('spinner_#{image.id}')"
-  ) do |form|
-    -%>
+  ) do |form| -%>
     <table id="image_<%= image.id %>">
       <tr>
         <th>URL:</th>
@@ -31,7 +29,7 @@
       </tr>
       <tr>
         <th>Caption:</th>
-        <td><%= image.render_caption %></td>
+        <td><%= textilize_without_paragraph image.caption %></td>
       </tr>
       <tr>
         <th>&nbsp;</th>
@@ -53,7 +51,7 @@
         </td>
       </tr>
     </table>
-  <% end %>
+  <% end -%>
   
   <%=
   button_to 'Destroy', { :action => 'destroy_image', :id => image },

@@ -15,14 +15,6 @@ class Image < ActiveRecord::Base
     images[index]
   end
 
-  def render_caption
-    if caption
-      RedCloth.new(caption, [:lite_mode]).to_html
-    else
-      ""
-    end
-  end
-  
   def tags
     image_tags.map { |object| object.tag }
   end

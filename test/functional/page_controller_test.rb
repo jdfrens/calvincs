@@ -77,7 +77,7 @@ class PageControllerTest < Test::Unit::TestCase
       end
       assert_select "div.img-right-wide" do
         assert_select "img#cool-pic"
-        assert_select "p.img-caption", images(:mission_wide).caption.gsub("*", "")
+        assert_select "p.img-caption .fake-textilized-without-paragraph", images(:mission_wide).caption
       end
       assert_select "h1 #page_title_1_in_place_editor", false
       assert_select "p #page_content_1_in_place_editor", false
@@ -92,7 +92,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "div#content" do
       assert_select "div.img-right-narrow" do
         assert_select "img#cool-pic"
-        assert_select "p.img-caption", images(:mission_narrow).caption.gsub("*", "")
+        assert_select "p.img-caption .fake-textilized-without-paragraph", images(:mission_narrow).caption
       end
     end
   end
