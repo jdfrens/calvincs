@@ -1,17 +1,17 @@
 <% if see_interests(@user) -%>
   <div id="interests">
     <h2>Interests</h2>
-
+  
     <% if @user.subpage(:interests) -%>
-      <%= @user.subpage(:interests).render_content %>
+      <%= textilize @user.subpage(:interests).content %>
     <% end -%>
-    
-	<% restrict_to :edit do -%>
+  
+    <% restrict_to :edit do -%>
       <p>
-          <!-- TODO: use Page#url_for -->
+        <!-- TODO: use Page#url_for -->
         <%= link_to "view/edit interests", :controller => "page",
-               :action => "view", :id => "_#{@user.username}_interests" %>
+          :action => "view", :id => "_#{@user.username}_interests" %>
       </p>
-	<% end -%>
+    <% end -%>
   </div>
 <% end -%>

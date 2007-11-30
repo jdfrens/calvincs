@@ -3,19 +3,19 @@ mission:
   id: 1
   identifier: mission
   title: Mission Statement
-  content: We state *our* mission.
+  content: We state our mission.
   updated_at: <%= 12.days.ago.to_s(:db) %>
 mission_narrow:
   id: 11
   identifier: mission_narrow
   title: Mission Statement
-  content: We state *our* mission.
+  content: We state our mission.
   updated_at: <%= 12.days.ago.to_s(:db) %>
 mission_wide:
   id: 12
   identifier: mission_wide
   title: Mission Statement
-  content: We state *our* mission.
+  content: We state our mission.
   updated_at: <%= 12.days.ago.to_s(:db) %>
 alphabet:
   id: 2
@@ -27,7 +27,7 @@ home_page:
   id: 3
   identifier: _home_page
   title: Computing at Calvin College
-  content: home page text written in *textile*
+  content: home page text
   updated_at: <%= 1.day.ago.to_s(:db) %>
 home_splash:
   id: 4

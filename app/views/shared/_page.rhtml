@@ -2,7 +2,7 @@
   <h1><%= h(page.title) %></h1>
 <% end -%>
 
-<p><%= page.render_content %></p>
+<p><%= textilize page.content %></p>
 
 <% restrict_to :edit do -%>
   <p class="view-edit">

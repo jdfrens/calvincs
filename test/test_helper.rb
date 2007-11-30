@@ -13,7 +13,7 @@ module ERB::Util
   
   def h(s)
     @@escaped = @@escaped << s
-    s
+    "<div class=\"fake-html-escaped\">" + s.to_s + "</div>"
   end
   
   def self.was_escaped?(s)
@@ -32,7 +32,7 @@ module ActionView::Helpers::TextHelper
   
   def textilize(text)
     @@textilized = @@textilized << text
-    text
+    "<div class=\"fake-textilized\">" + text + "</div>"
   end
   
   def self.was_textilized?(text)
@@ -43,7 +43,7 @@ module ActionView::Helpers::TextHelper
   
   def textilize_without_paragraph(text)
     @@textilized_without_paragraph = @@textilized_without_paragraph << text
-    text
+    "<div class=\"fake-textilized-without-paragraph\">" + text.to_s + "</div>"
   end
   
   def self.was_textilized_without_paragraph?(text)
@@ -230,6 +230,7 @@ class Test::Unit::TestCase
       "Textile reference"
   end
     
+  # TODO: get rid of this in favor of #assert_textilized below
   def strip_textile(string)
     string.gsub("*", "").gsub("_", "")
   end

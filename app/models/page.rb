@@ -9,15 +9,7 @@ class Page < ActiveRecord::Base
   def last_updated_dates
     [updated_at]
   end
-  
-  def render_content
-    RedCloth.new(content).to_html
-  end
-  
-  def render_content_lite
-    RedCloth.new(content, [:lite_mode]).to_html
-  end
-  
+    
   def random_image(index=-1)
     Image.pick_random(identifier, index)
   end

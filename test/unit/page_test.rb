@@ -55,23 +55,7 @@ class PageTest < Test::Unit::TestCase
     assert_equal [pages(:alphabet).updated_at], pages(:alphabet).last_updated_dates
     assert_equal [pages(:home_page).updated_at], pages(:home_page).last_updated_dates
   end
-  
-  def test_render_content
-    assert_equal "<p>We state <strong>our</strong> mission.</p>",
-        pages(:mission).render_content
-    assert_equal "<p>a b c d e f g <em>h i j k</em></p>",
-        pages(:alphabet).render_content
-    assert_equal "<p>home page text written in <strong>textile</strong></p>",
-        pages(:home_page).render_content
-  end
-  
-  def test_render_content_lite
-    assert_equal "We state <strong>our</strong> mission.",
-        pages(:mission).render_content_lite
-    assert_equal "home page text written in <strong>textile</strong>",
-        pages(:home_page).render_content_lite
-  end
-  
+    
   def test_random_image
     assert_equal images(:mission_wide), pages(:mission).random_image(0)
     assert_equal images(:mission_narrow), pages(:mission).random_image(1)

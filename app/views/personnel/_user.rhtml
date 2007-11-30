@@ -1,14 +1,14 @@
 <tr>
-
+  
   <td>
-	<% output_if user.image do |image| -%>
+    <% output_if user.image do |image| -%>
       <%= link_to(image_tag(image.url, :border => 0), :action => 'view', :id => user.username) %>
-	<% end -%>
+    <% end -%>
   </td>
-
+  
   <td>
     <div class="name">
-	  <h2><%= link_to h(user.full_name), :action => 'view', :id => user.username %></h2>
+      <h2><%= link_to h(user.full_name), :action => 'view', :id => user.username %></h2>
       <% output_if user.job_title do |title| -%>
         <p <%= id_for(user, "job_title") %>><%= textilize_without_paragraph(title) %></p>
       <% end -%>
@@ -23,20 +23,19 @@
       <% end -%>
       <p <%= id_for(user, "email") %>><%= mail_to user.email_address, user.email_address %></p>
     </div>
-        
-	<% output_if user.subpage(:interests) do |page| -%>
-	  <p id="<%= user.username %>_interests">
-	    <strong>Interests:</strong>
-        <%= page.render_content_lite %>
+    
+    <% output_if user.subpage(:interests) do |page| -%>
+      <p id="<%= user.username %>_interests">
+        <strong>Interests:</strong>
+        <%= textilize_without_paragraph page.content %>
       </p>
-	<% end -%>
+    <% end -%>
     
     <% output_if user.subpage(:status) do |page| -%>
       <p id="<%= user.username %>_status">
-        <%= page.render_content_lite %>
+        <%= textilize_without_paragraph page.content %>
       </p>
     <% end -%>
-
   </td>
-
+  
 </tr>

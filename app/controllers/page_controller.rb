@@ -51,7 +51,7 @@ class PageController < ApplicationController
     page = Page.find(params[:id])
     page.update_attribute(:content, params[:page][:content])
     render :update do |p|
-      p.replace_html "page_content", :inline => page.render_content
+      p.replace_html "page_content", :inline => textilize(page.content)
     end
   end
   

@@ -68,7 +68,8 @@ class PersonnelControllerTest < Test::Unit::TestCase
             assert_select "p#jeremy_email a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
           end
           assert_select "p#jeremy_interests", /Interests:\s+interest 1, interest 2/
-          assert_select "p#jeremy_status", "status of jeremy"
+          assert_select ".fake-textilized-without-paragraph", "interest 1, interest 2"
+          assert_select ".fake-textilized-without-paragraph", "status of jeremy"
         end
       end
       assert_select "tr:nth-child(3)" do
@@ -198,13 +199,13 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
     assert_select "#interests" do
       assert_select "h2", "Interests"
-      assert_select "p", "interest 1, interest 2"
+      assert_select ".fake-textilized", "interest 1, interest 2"
       assert_select "a[href=/p/jeremy_interests]", false
     end
     assert_select "#status", false, "should NOT see status when NOT logged in"
     assert_select "#profile" do
       assert_select "h2", "Profile"
-      assert_select "p", "profile of jeremy"
+      assert_select ".fake-textilized", "profile of jeremy"
       assert_select "a[href=/p/jeremy_profile]", false
     end
   end
@@ -294,17 +295,17 @@ class PersonnelControllerTest < Test::Unit::TestCase
     end
     assert_select "#interests" do
       assert_select "h2", "Interests"
-      assert_select "p", "interest 1, interest 2"
+      assert_select ".fake-textilized", "interest 1, interest 2"
       assert_select "a[href=/p/_jeremy_interests]", "view/edit interests"
     end
     assert_select "#status" do
       assert_select "h2", "Status"
-      assert_select "p", "status of jeremy"
+      assert_select ".fake-textilized", "status of jeremy"
       assert_select "a[href=/p/_jeremy_status]", "view/edit status"
     end
     assert_select "#profile" do
       assert_select "h2", "Profile"
-      assert_select "p", "profile of jeremy"
+      assert_select ".fake-textilized", "profile of jeremy"
       assert_select "a[href=/p/_jeremy_profile]", "view/edit profile"
     end
   end

@@ -73,8 +73,7 @@ class PageControllerTest < Test::Unit::TestCase
     assert_select "div#content" do
       assert_select "h1", "Mission Statement"
       assert_select "div#page_content" do
-        assert_select "p", 'We state our mission.'
-        assert_select "p strong", "our"
+        assert_select ".fake-textilized", 'We state our mission.'
       end
       assert_select "div.img-right-wide" do
         assert_select "img#cool-pic"
@@ -122,7 +121,7 @@ class PageControllerTest < Test::Unit::TestCase
       assert_select "h1", "{{ A SUBPAGE HAS NO TITLE }}"
       assert_select "h1 input#edit_title", false, "should not edit unused title"
       assert_select "div#page_content" do
-        assert_select "p", strip_textile(pages(:home_page).content)
+        assert_select ".fake-textilized", pages(:home_page).content
       end
     end
     assert_link_to_markup_help
@@ -142,15 +141,14 @@ class PageControllerTest < Test::Unit::TestCase
     assert_template "page/view"
     assert_select "div#content" do
       assert_select "div#page_content" do
-        assert_select "p", 'We state our mission.'
-        assert_select "p strong", "our"
+        assert_select ".fake-textilized", 'We state our mission.'
       end
       assert_select "div[class=img-right]", false
       assert_select "h1 input#edit_title", true
       assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
       assert_link_to_markup_help
       assert_select "form[action=/page/update_page_content/1]" do
-        assert_select "textarea#page_content", 'We state *our* mission.'
+        assert_select "textarea#page_content", 'We state our mission.'
         assert_select "input[type=submit][value=Update content]"
       end
       assert_select "p.identifier #page_identifier_1_in_place_editor",
@@ -236,17 +234,17 @@ class PageControllerTest < Test::Unit::TestCase
   
   def test_update_page_content
     xhr :post, :update_page_content,
-        { :id => 1, :page => { :content => 'Mission *away*!' } },
+        { :id => 1, :page => { :content => 'Mission away!' } },
         user_session(:edit)
         
     assert_response :success
     assert_select_rjs :replace_html, "page_content" do
-      assert_select "p", "Mission away!"
-      assert_select "strong", "away"
+      assert_select "div", "Mission away!"
+      assert_textilized "Mission away!"
     end
     
     page = Page.find(1)
-    assert_equal 'Mission *away*!', page.content
+    assert_equal 'Mission away!', page.content
   end
   
   def test_update_page_content_redirects_when_NOT_logged_in
@@ -254,7 +252,7 @@ class PageControllerTest < Test::Unit::TestCase
         { :id => 1, :page => { :content => 'Mission away!' } }
     
     assert_redirected_to_login
-    assert_equal "We state *our* mission.", Page.find(1).content
+    assert_equal "We state our mission.", Page.find(1).content
   end
   
   def test_set_page_identifier

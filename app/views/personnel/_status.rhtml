@@ -1,21 +1,21 @@
 <% if current_user -%>
   <div id="status">
     <h2>Status</h2>
-
+  
     <p class="comment">The status is normally not seen on this page; it appears
-    in the <%= link_to "master table", :action => "faculty" %>.  It should be
+      in the <%= link_to "master table", :action => "faculty" %>.  It should be
     used for situations which are not easily summaried in the job title above.</p>
-    
+  
     <% if @user.subpage(:status) -%>
-      <%= @user.subpage(:status).render_content %>
+      <%= textilize @user.subpage(:status).content %>
     <% end -%>
-    
-	<% restrict_to :edit do -%>
+  
+    <% restrict_to :edit do -%>
       <p>
-          <!-- TODO: use Page#url_for -->
+        <!-- TODO: use Page#url_for -->
         <%= link_to "view/edit status", :controller => "page",
-               :action => "view", :id => "_#{@user.username}_status" %>
+          :action => "view", :id => "_#{@user.username}_status" %>
       </p>
-	<% end -%>
+    <% end -%>
   </div>
 <% end -%>
