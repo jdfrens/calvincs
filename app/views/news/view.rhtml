@@ -1,10 +1,9 @@
 <h1>
   <% if current_user -%>
     <input type="button" id="edit_headline" value="edit" />
-    <%=
-      in_place_editor_field :news_item, "headline", {},
+    <%= in_place_editor_field :news_item, "headline", {},
       { :external_control => 'edit_headline' }
-%>
+    %>
   <% else -%>
     <%= h(@news_item.headline) %>
   <% end -%>
@@ -13,27 +12,25 @@
 <% if current_user -%>
   <div id="news-item-teaser">
     <input type="button" id="edit_teaser" value="edit" />
-    <%=
-        in_place_editor_field :news_item, "teaser", {}, { :external_control => 'edit_teaser' }
-    %>
+    <%= in_place_editor_field :news_item, "teaser", {}, { :external_control => 'edit_teaser' } %>
   </div>
 <% end -%>
 
 <div id="news-item-content">
-  <%= @news_item.render_content %>
+  <%= textilize @news_item.content %>
 </div>
 
 <% restrict_to :edit do -%>
 
   <div class="content-editor" id="content-editor">
     <h2>Content Editor</h2>
-    
+  
     <%= render :partial => 'shared/markupreference' %>
-    
+  
     <p>
       <% remote_form_for(:news_item,
-             :url => { :action => 'update_news_item_content', :id => @news_item.id } 
-             ) do |form| -%>
+        :url => { :action => 'update_news_item_content', :id => @news_item.id } 
+      ) do |form| -%>
         <%= form.text_area :content, :rows => 10, :cols => 80 %>
         <%= submit_tag "Update content", :class => "submit" %>
       <% end -%>

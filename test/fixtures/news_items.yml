@@ -12,7 +12,7 @@ todays_news:
   id: 3
   headline: News of Today
   teaser: Some *teaser*.
-  content: Something happened *today*.
+  content: Something happened today.
   user_id: 1
   goes_live_at: <%= 2.hours.ago.to_s(:db) %>
   expires_at: <%= 3.hours.from_now.to_s(:db) %>
@@ -21,7 +21,7 @@ past_news:
   id: 8
   headline: News of Yesterday
   teaser: Past event.
-  content: Something happened in the distant _past_.
+  content: Something happened in the distant past.
   user_id: 2
   goes_live_at: <%= 2.years.ago.to_s(:db) %>
   expires_at: <%= 1.year.ago.to_s(:db) %>

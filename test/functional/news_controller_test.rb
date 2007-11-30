@@ -20,7 +20,7 @@ class NewsControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "News", :menu => :news,
-        :last_updated => news_items(:another_todays_news).updated_at
+      :last_updated => news_items(:another_todays_news).updated_at
     assert_select "h1#top", "Current News"
     
     assert_select "#news-listing ul" do
@@ -31,7 +31,7 @@ class NewsControllerTest < Test::Unit::TestCase
     end
     
     assert_full_news_item news_items(:another_todays_news)
-    assert_full_news_item news_items(:todays_news), [ "today" ]
+    assert_full_news_item news_items(:todays_news)
   end
   
   def test_new_redirects_when_NOT_logged_in
@@ -113,7 +113,7 @@ class NewsControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "News of #{current_year}",
-        :last_updated => news_items(:another_todays_news).updated_at
+      :last_updated => news_items(:another_todays_news).updated_at
     assert_news_listing(current_year)
     assert_select "div#news-listing table[summary=news items]" do
       assert_select "tr", 2*2
@@ -138,7 +138,7 @@ class NewsControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "News of #{current_year - 2}",
-        :last_updated => news_items(:past_news).updated_at
+      :last_updated => news_items(:past_news).updated_at
     assert_news_listing(current_year-2)
     assert_select "div#news-listing table[summary=news items]" do
       assert_select "tr", 1*2
@@ -151,7 +151,7 @@ class NewsControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => "News of 2007",
-         :last_updated => news_items(:future_news).updated_at
+      :last_updated => news_items(:future_news).updated_at
     assert_news_listing(current_year)
     assert_select "div#news-listing table[summary=news items]" do
       assert_select "tr", 3*2, "should have two current and one in the future (this year)"
@@ -168,11 +168,9 @@ class NewsControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => item.headline,
-         :last_updated => item.updated_at
+      :last_updated => item.updated_at
     assert_select "h1", item.headline
-    assert_select "div#news-item-content p", "Something happened today."
-    assert_select "div#news-item-content p strong", "today",
-        "content should be Textiled"
+    assert_select "div#news-item-content .fake-textilized", "Something happened today."
         
     # no admin stuff
     assert_select "form[action=/news/update_news_content/3]", false
@@ -187,7 +185,7 @@ class NewsControllerTest < Test::Unit::TestCase
     
     assert_response :success
     assert_standard_layout :title => item.headline,
-         :last_updated => news_items(:todays_news).updated_at
+      :last_updated => news_items(:todays_news).updated_at
     
     assert_select "h1 span#news_item_headline_#{id}_in_place_editor", item.headline
     assert_select "div#content h1 input#edit_headline", true
@@ -195,9 +193,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "div#news-item-teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
     assert_select "div#news-item-teaser input#edit_teaser", true
 
-    assert_select "div#news-item-content p", "Something happened today."
-    assert_select "div#news-item-content p strong", "today",
-        "content should be Textiled"
+    assert_select "div#news-item-content .fake-textilized", "Something happened today."
         
     assert_link_to_markup_help
     assert_select "form[action=/news/update_news_item_content/#{id}]" do
@@ -207,11 +203,11 @@ class NewsControllerTest < Test::Unit::TestCase
 
     assert_select "p#goes_live_at strong", "Goes live:"
     assert_select "p#goes_live_at span#news_item_goes_live_at_formatted_#{id}_in_place_editor",
-        item.goes_live_at_formatted
+      item.goes_live_at_formatted
 
     assert_select "p#expires_at strong", "Expires:"
     assert_select "p#expires_at span#news_item_expires_at_formatted_#{id}_in_place_editor",
-        item.expires_at_formatted
+      item.expires_at_formatted
   end
   
   def test_set_news_item_headline
@@ -253,24 +249,23 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_update_news_item_content
     item = news_items(:todays_news)
     xhr :get, :update_news_item_content,
-        { :id => item.id, :news_item => { :content => 'News that is *fit* to print.' } },
-        user_session(:edit)
+      { :id => item.id, :news_item => { :content => 'News that is fit to print.' } },
+      user_session(:edit)
         
     assert_response :success
     assert_select_rjs :replace_html, "news-item-content" do
-      assert_select "p", "News that is fit to print."
-      assert_select "strong", "fit"
+      assert_select ".fake-textilized", "News that is fit to print."
     end
     
     item.reload
-    assert_equal 'News that is *fit* to print.', item.content
+    assert_equal 'News that is fit to print.', item.content
   end
   
   def test_update_news_item_content_fails_when_NOT_logged_in
     item = news_items(:todays_news)
     original_content = item.content
     xhr :get, :update_news_item_content,
-        { :id => item.id, :news_item => { :content => 'foobar!' } }
+      { :id => item.id, :news_item => { :content => 'foobar!' } }
         
     assert_redirected_to_login
     item.reload
@@ -280,7 +275,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_set_goes_live_of_news_item
     item = news_items(:todays_news)
     xhr :get, :set_news_item_goes_live_at_formatted,
-        { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
+      { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
         
     assert_response :success
     assert_equal '01/05/2007', @response.body
@@ -292,7 +287,7 @@ class NewsControllerTest < Test::Unit::TestCase
     item = news_items(:todays_news)
     original_date = item.goes_live_at
     xhr :get, :set_news_item_goes_live_at_formatted,
-        { :id => news_items(:todays_news).id, :value => '01/05/2007' }
+      { :id => news_items(:todays_news).id, :value => '01/05/2007' }
     assert_redirected_to_login
     item.reload
     assert_equal original_date, item.goes_live_at, 'goes-live remains unchanged'
@@ -301,7 +296,7 @@ class NewsControllerTest < Test::Unit::TestCase
   def test_set_news_item_expires_at_formatted
     item = news_items(:todays_news)
     xhr :get, :set_news_item_expires_at_formatted,
-        { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
+      { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
     assert_response :success
     assert_equal '01/05/2007', @response.body
     item.reload
@@ -312,7 +307,7 @@ class NewsControllerTest < Test::Unit::TestCase
     item = news_items(:todays_news)
     original_date = item.expires_at
     xhr :get, :set_news_item_expires_at_formatted,
-        { :id => item.id, :value => '01/05/2007' }
+      { :id => item.id, :value => '01/05/2007' }
     assert_redirected_to_login
     item.reload
     assert_equal original_date, item.expires_at, 'expires-at remains unchanged'
@@ -329,7 +324,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_equal 4, NewsItem.count
     
     post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' },
-        user_session(:edit)
+      user_session(:edit)
     
     assert_redirected_to :controller => 'news', :action => 'list', :id => 'foobar'
     assert_equal 3, NewsItem.count, "lost just one news item"
@@ -380,15 +375,11 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "a[href=/news/new]", (logged_in? ? 1 : 0)
   end
   
-  def assert_full_news_item(news_item, strongs=[])
+  def assert_full_news_item(news_item)
     assert_select "div#news-item-#{news_item.id}[class=news-item]" do
       assert_select "h2", news_item.headline
       assert_select "p.goes-live-date", "Posted on #{news_item.goes_live_at.to_s(:news_posted)}"
-      assert_select "div.content", news_item.content.gsub('*', '') do
-        strongs.each do |strong|
-          assert_select "strong", strong
-        end
-      end
+      assert_select "div.content .fake-textilized", news_item.content
       assert_select "p.more a[href=#top]", "back to top..."
     end
   end

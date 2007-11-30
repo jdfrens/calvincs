@@ -166,22 +166,6 @@ class NewsItemTest < Test::Unit::TestCase
     assert_equal Time.parse('01/05/1993'), item.goes_live_at
   end
   
-  def test_rendered_content
-    assert_equal "Something happened *today*.",
-        news_items(:todays_news).content
-    assert_equal "<p>Something happened <strong>today</strong>.</p>",
-        news_items(:todays_news).render_content
-    assert_equal "<p>Something else happened today.</p>",
-        news_items(:another_todays_news).render_content
-    assert_equal "<p>Something happened in the distant <em>past</em>.</p>",
-        news_items(:past_news).render_content
-  end
-  
-  def test_rendered_teaser
-    assert_equal "Some *teaser*.", news_items(:todays_news).teaser
-    assert_equal "Some <strong>teaser</strong>.", news_items(:todays_news).render_teaser
-  end
-  
   #
   # Helpers
   #
