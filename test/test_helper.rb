@@ -208,6 +208,13 @@ class Test::Unit::TestCase
     assert_redirected_to :controller => 'users', :action => 'login'
   end
   
+  def self.should_redirect_to_login_when_NOT_logged_in(action)
+    should "redirect #{action} to login when NOT logged in" do
+      get action
+      assert_redirected_to_login
+    end
+  end
+  
   def logged_in?
     session[:current_user_id] != nil
   end

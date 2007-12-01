@@ -52,13 +52,5 @@ class NewsItem < ActiveRecord::Base
   def is_current?
     (goes_live_at <= Time.now) && (expires_at >= Time.now)
   end
-        
-#  def render_content
-#    "<p>" + RedCloth.new(content, [:lite_mode]).to_html + "</p>"
-#  end
-#  
-#  def render_teaser
-#    RedCloth.new(teaser, [:lite_mode]).to_html
-#  end
   
 end
