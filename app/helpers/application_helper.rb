@@ -33,3 +33,7 @@ module ApplicationHelper
   end
 
 end
+
+class RedCloth
+  def hard_breaks; false end
+end

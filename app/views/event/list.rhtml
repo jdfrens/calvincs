@@ -1,5 +1,10 @@
 <h1>Upcoming Events</h1>
 
 <% @events.each do |event| -%>
-  <h2><%= textilize_without_paragraph event.title %></h2>
+  <h2 id="event-<%= event.id %>">
+    <span class="title"><%= textilize_without_paragraph event.title %></span>
+    <% if event.subtitle -%>
+        <span class="subtitle"><%= textilize_without_paragraph event.subtitle %></span>
+    <% end -%>
+  </h2>
 <% end -%>

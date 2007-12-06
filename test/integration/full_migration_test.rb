@@ -74,6 +74,7 @@ class FullMigrationTest < Test::Unit::TestCase
       t.column "descriptor",    :string
       t.column "title",         :string
       t.column "subtitle",      :string
+      t.column "presenter",     :string
       t.column "description",   :text
       t.column "start",         :datetime
       t.column "stop",          :datetime
