@@ -32,10 +32,10 @@ class EventControllerTest < Test::Unit::TestCase
       assert_standard_layout  # TODO: need date check?
       
       assert_select "h1", "Upcoming Events"
-      assert_select "h2", "Today's Colloquium"
-      assert_select "h2", "Six Days from Now"
-      assert_select "h2", "Eight Days from Now"
-      assert_select "h2", "Future Conference"
+      assert_select "h2 .fake-textilized-without-paragraph", "Today's Colloquium"
+      assert_select "h2 .fake-textilized-without-paragraph", "Six Days from Now"
+      assert_select "h2 .fake-textilized-without-paragraph", "Eight Days from Now"
+      assert_select "h2 .fake-textilized-without-paragraph", "Future Conference"
     end
   end
   
