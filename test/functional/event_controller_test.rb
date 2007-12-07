@@ -32,21 +32,37 @@ class EventControllerTest < Test::Unit::TestCase
       assert_standard_layout  # TODO: need date check?
       
       assert_select "h1", "Upcoming Events"
-      assert_select "h2#event-3" do
-        assert_select ".title .fake-textilized-without-paragraph", "Today's Colloquium"
-        assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Today!"
+      assert_select "div#event-3" do
+        assert_select "h2", "Today's Colloquium: Talk about Today!" do
+          assert_select ".title .fake-textilized-without-paragraph", "Today's Colloquium"
+          assert_select "br", true
+          assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Today!"
+        end
+        assert_select "p.when", events(:todays_colloquium).start.to_s(:colloquium)
       end
-      assert_select "h2#event-4" do
-        assert_select ".title .fake-textilized-without-paragraph", "Six Days from Now"
-        assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Six Days!"
+      assert_select "div#event-4" do
+        assert_select "h2", "Six Days from Now: Talk about Six Days!" do
+          assert_select ".title .fake-textilized-without-paragraph", "Six Days from Now"
+          assert_select "br", true
+          assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Six Days!"
+        end
+        assert_select "p.when", events(:within_a_week_colloquium).start.to_s(:colloquium)
       end
-      assert_select "h2#event-5" do
-        assert_select ".title .fake-textilized-without-paragraph", "Eight Days from Now"
-        assert_select ".subtitle", false
+      assert_select "div#event-5" do
+        assert_select "h2", "Eight Days from Now" do
+          assert_select ".title .fake-textilized-without-paragraph", "Eight Days from Now"
+          assert_select "br", false
+          assert_select ".subtitle", false
+        end
+        assert_select "p.when", events(:within_a_month_colloquium).start.to_s(:colloquium)
       end
-      assert_select "h2#event-6" do
-        assert_select ".title .fake-textilized-without-paragraph", "Future Conference"
-        assert_select ".subtitle", false
+      assert_select "div#event-6" do
+        assert_select "h2", "Future Conference" do
+          assert_select ".title .fake-textilized-without-paragraph", "Future Conference"
+          assert_select "br", false
+          assert_select ".subtitle", false
+        end
+        assert_select "p.when", events(:next_weeks_conference).start.to_s(:colloquium)
       end
     end
   end
