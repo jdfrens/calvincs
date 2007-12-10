@@ -140,18 +140,19 @@ class HomeControllerTest < Test::Unit::TestCase
       assert_select "div#news" do
         assert_select "h1", "News"
         assert_select "ul li", :count => (NewsItem.find_current.size + Event.find_by_today.size + Event.find_by_week_of.size + 1)
+        # TODO: spotcheck the look of a few events and news items, otherwise rely on assigns(...) assertions
         Event.find_by_today.each do |event|
           assert_select "li#event_#{event.id}" do
             assert_select "strong", "#{event.descriptor.capitalize} today!"
             assert_select "span", event.title
-            assert_select "a.more[href=/events#event-#{event.id}]", "more..."
+            assert_select "a.more[href=/event#event-#{event.id}]", "more..."
           end
         end
         Event.find_by_week_of.each do |event|
           assert_select "li#event_#{event.id}" do
             assert_select "strong", "#{event.descriptor.capitalize} this week!"
             assert_select "span", event.title
-            assert_select "a.more[href=/events#event-#{event.id}]", "more..."
+            assert_select "a.more[href=/event#event-#{event.id}]", "more..."
           end
         end
         NewsItem.find_current.each do |news_item|

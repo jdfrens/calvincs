@@ -5,6 +5,7 @@ old_colloquium:
   descriptor: colloquium
   title: Old Colloquium
   subtitle: Old Subtitle
+  presenter: Old Presenter
   description: The old colloquium ain't what it used to be.
   start: <%= 2.days.ago.to_s(:db) %>
   stop: <%= (2.days.ago + 1.hour).to_s(:db) %>

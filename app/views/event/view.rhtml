@@ -1,7 +1,15 @@
 <div id="event-title">
-  <h1><%= html_escape @event.title %></h1>
-  <h2><%= h @event.subtitle %></h2>
+  <h1><%= textilize_without_paragraph @event.title %></h1>
+  <% if @event.subtitle -%>
+    <h2 id="subtitle"><%= textilize_without_paragraph @event.subtitle %></h2>
+  <% end -%>
 </div>
+
+<% if @event.presenter -%>
+  <div id="event-presenter">
+    <p><%= textilize_without_paragraph @event.presenter %></p>
+  </div>
+<% end -%>
 
 <div id="event-description">
   <%= textilize @event.description %>

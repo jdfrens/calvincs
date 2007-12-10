@@ -25,65 +25,94 @@ class EventControllerTest < Test::Unit::TestCase
   end
   
   context "listing events" do
-    should "list upcoming events by default" do
+    should "set the right data and use the right template" do
       get :list
       
       assert_response :success
-      assert_standard_layout  # TODO: need date check?
-      
-      assert_select "h1", "Upcoming Events"
-      assert_select "div#event-3" do
-        assert_select "h2", "Today's Colloquium: Talk about Today!" do
-          assert_select ".title .fake-textilized-without-paragraph", "Today's Colloquium"
-          assert_select "br", true
-          assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Today!"
+      assert_equal [
+        events(:old_colloquium), events(:old_conference),
+        events(:todays_colloquium), events(:within_a_week_colloquium),
+        events(:within_a_month_colloquium), events(:next_weeks_conference)
+      ], assigns(:events)
+      assert_template 'event/list'
+    end
+
+    context "and the list view" do
+      should "display data for a complete event" do
+        get :list
+ 
+        assert_response :success
+        assert_standard_layout  # TODO: need date check?
+        assert_select "h1", "Upcoming Events"
+        assert_select "div#event-3" do
+          assert_select "h2", "Today's Colloquium: Talk about Today!" do
+            assert_select ".title .fake-textilized-without-paragraph", "Today's Colloquium"
+            assert_select "br", true
+            assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Today!"
+          end
+          assert_select "p.when", events(:todays_colloquium).start.to_s(:colloquium)
         end
-        assert_select "p.when", events(:todays_colloquium).start.to_s(:colloquium)
       end
-      assert_select "div#event-4" do
-        assert_select "h2", "Six Days from Now: Talk about Six Days!" do
-          assert_select ".title .fake-textilized-without-paragraph", "Six Days from Now"
-          assert_select "br", true
-          assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Six Days!"
+
+      should "display data for an event without optional fields" do
+        get :list
+ 
+        assert_response :success
+        assert_standard_layout  # TODO: need date check?
+        assert_select "div#event-6" do
+          assert_select "h2", "Future Conference" do
+            assert_select ".title .fake-textilized-without-paragraph", "Future Conference"
+            assert_select "br", false
+            assert_select ".subtitle", false
+          end
+          assert_select "p.when", events(:next_weeks_conference).start.to_s(:colloquium)
         end
-        assert_select "p.when", events(:within_a_week_colloquium).start.to_s(:colloquium)
-      end
-      assert_select "div#event-5" do
-        assert_select "h2", "Eight Days from Now" do
-          assert_select ".title .fake-textilized-without-paragraph", "Eight Days from Now"
-          assert_select "br", false
-          assert_select ".subtitle", false
-        end
-        assert_select "p.when", events(:within_a_month_colloquium).start.to_s(:colloquium)
-      end
-      assert_select "div#event-6" do
-        assert_select "h2", "Future Conference" do
-          assert_select ".title .fake-textilized-without-paragraph", "Future Conference"
-          assert_select "br", false
-          assert_select ".subtitle", false
-        end
-        assert_select "p.when", events(:next_weeks_conference).start.to_s(:colloquium)
       end
     end
   end
   
   context "viewing an event" do
-    should "view an event" do
+    should "does the right things" do
       event = events(:old_colloquium)
  
       get :view, :id => event.id
       
       assert_response :success
-      assert_standard_layout  # TODO: need date check?
+      assert_standard_layout
+      # TODO: add timestamp columns, then add this next assertion
+      # assert_equal event.updated_at, assigns(:last_updated)
+      assert_equal event, assigns(:event)
+      assert_template "event/view"
+    end
+
+    context "shows" do
+      should "view a complete event" do
+        event = events(:old_colloquium)
+ 
+        get :view, :id => event.id
       
-      assert_select "div#event-title" do
-        assert_select "h1", event.title
-        assert_html_escaped event.title
-        assert_select "h2", event.subtitle
-        assert_html_escaped event.subtitle
+        assert_response :success
+        assert_select "div#event-title" do
+          assert_select "h1 .fake-textilized-without-paragraph", event.title
+          assert_select "h2#subtitle .fake-textilized-without-paragraph", event.subtitle
+        end
+        assert_select "div#event-presenter .fake-textilized-without-paragraph", event.presenter
+        assert_select "div#event-description .fake-textilized", event.description
       end
-      assert_select "div#event-description", event.description
-      assert_textilized event.description
+
+      should "view a minimal event" do
+        event = events(:within_a_month_colloquium)
+ 
+        get :view, :id => event.id
+      
+        assert_response :success
+        assert_select "div#event-title" do
+          assert_select "h1 .fake-textilized-without-paragraph", event.title
+          assert_select "h2#subtitle", false
+        end
+        assert_select "div#event-presenter", false
+        assert_select "div#event-description .fake-textilized", event.description
+      end
     end
     
     should "redirect to list when viewing event that does not exist" do
