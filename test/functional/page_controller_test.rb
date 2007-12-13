@@ -13,7 +13,6 @@ class PageControllerTest < Test::Unit::TestCase
     @controller = PageController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    reset_text_processing
   end
   
   context "index action" do
@@ -73,11 +72,11 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "div#content" do
           assert_select "h1", "Mission Statement"
           assert_select "div#page_content" do
-            assert_select ".fake-textilized", 'We state our mission.'
+            assert_select ".textilized", 'We state our mission.'
           end
           assert_select "div.img-right-wide" do
             assert_select "img#cool-pic"
-            assert_select "p.img-caption .fake-textilized-without-paragraph", images(:mission_wide).caption
+            assert_select "p.img-caption .textilized-wop", images(:mission_wide).caption
           end
           assert_select "h1 #page_title_1_in_place_editor", false
           assert_select "p #page_content_1_in_place_editor", false
@@ -92,7 +91,7 @@ class PageControllerTest < Test::Unit::TestCase
         assert_select "div#content" do
           assert_select "div.img-right-narrow" do
             assert_select "img#cool-pic"
-            assert_select "p.img-caption .fake-textilized-without-paragraph", images(:mission_narrow).caption
+            assert_select "p.img-caption .textilized-wop", images(:mission_narrow).caption
           end
         end
       end
@@ -121,7 +120,7 @@ class PageControllerTest < Test::Unit::TestCase
         assert_template "page/view"
         assert_select "div#content" do
           assert_select "div#page_content" do
-            assert_select ".fake-textilized", 'We state our mission.'
+            assert_select ".textilized", 'We state our mission.'
           end
           assert_select "div[class=img-right]", false
           assert_select "h1 input#edit_title", true
@@ -163,7 +162,7 @@ class PageControllerTest < Test::Unit::TestCase
           assert_select "h1", "{{ A SUBPAGE HAS NO TITLE }}"
           assert_select "h1 input#edit_title", false, "should not edit unused title"
           assert_select "div#page_content" do
-            assert_select ".fake-textilized", pages(:home_page).content
+            assert_select ".textilized", pages(:home_page).content
           end
         end
         assert_link_to_markup_help
@@ -252,8 +251,7 @@ class PageControllerTest < Test::Unit::TestCase
         
     assert_response :success
     assert_select_rjs :replace_html, "page_content" do
-      assert_select "div", "Mission away!"
-      assert_textilized "Mission away!"
+      assert_select ".textilized", "Mission away!"
     end
     
     page = Page.find(1)

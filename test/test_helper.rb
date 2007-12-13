@@ -4,55 +4,27 @@ require 'test_help'
   
 module ERB::Util
   
-  @@escaped = []
-  
-  def html_escape(s)
-    @@escaped = @@escaped << s
-    s
-  end
+  alias_method :h_original, :h
   
   def h(s)
-    @@escaped = @@escaped << s
-    "<div class=\"fake-html-escaped\">" + s.to_s + "</div>"
-  end
-  
-  def self.was_escaped?(s)
-    @@escaped.include?(s)
-  end
-
-  def self.reset_recording
-    @@escaped = []
+    "<div class=\"h-escaped\">" + h_original(s) + "</div>"
   end
   
 end
 
 module ActionView::Helpers::TextHelper
-  
-  @@textilized = []
-  
+
+  alias_method :textilize_original, :textilize
+  alias_method :textilize_without_paragraph_original, :textilize_without_paragraph
+
   def textilize(text)
-    @@textilized = @@textilized << text
-    "<div class=\"fake-textilized\">" + text + "</div>"
+    "<div class=\"textilized\">" + textilize_original(text) + "</div>"
   end
-  
-  def self.was_textilized?(text)
-    @@textilized.include?(text)
-  end
-  
-  @@textilized_without_paragraph = []
   
   def textilize_without_paragraph(text)
-    @@textilized_without_paragraph = @@textilized_without_paragraph << text
-    "<div class=\"fake-textilized-without-paragraph\">" + text.to_s + "</div>"
-  end
-  
-  def self.was_textilized_without_paragraph?(text)
-    @@textilized_without_paragraph.include?(text)
-  end
-
-  def self.reset_recording()
-    @@textilized = []
-    @@textilized_without_paragraph = []
+    "<div class=\"textilized-wop\">" + 
+      textilize_without_paragraph_original(text) + 
+      "</div>"
   end
   
 end
@@ -232,6 +204,10 @@ class Test::Unit::TestCase
   # HTML content helpers
   #
   
+  def strip_textile(string)
+    string.gsub("*", "").gsub("_", "")
+  end
+
   def assert_link_to_markup_help
     assert_select "a[href=http://hobix.com/textile/][target=_blank]",
       "Textile reference"
@@ -243,25 +219,6 @@ class Test::Unit::TestCase
     else
       time
     end
-  end
-  
-  def reset_text_processing()
-    ERB::Util.reset_recording
-    ActionView::Helpers::TextHelper.reset_recording
-  end
-  
-  def assert_html_escaped(s)
-    assert ERB::Util.was_escaped?(s), "'#{s}' was not properly escaped"
-  end
-  
-  def assert_textilized(text)
-    assert ActionView::Helpers::TextHelper.was_textilized?(text),
-      "'#{text}' was not properly textilized"
-  end
-  
-  def assert_textilized_without_paragraph(text)
-    assert ActionView::Helpers::TextHelper.was_textilized_without_paragraph?(text),
-      "'#{text}' was not properly textilized without paragraph"
   end
   
 end

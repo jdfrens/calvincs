@@ -13,7 +13,6 @@ class AlbumControllerTest < Test::Unit::TestCase
     @controller = AlbumController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    reset_text_processing
   end
   
   def test_list
@@ -156,7 +155,7 @@ class AlbumControllerTest < Test::Unit::TestCase
         assert_select "tr td a[href=#{image.url}]", "see picture"
         assert_select "tr td .dimension", "#{image.width}x#{image.height}"
         assert_select "tr td .usability", image.usability.to_s
-        assert_select "tr td .fake-textilized-without-paragraph", image.caption
+        assert_select "tr td .textilized-wop", image.caption
         assert_select "textarea#image_caption_#{id}", image.caption
         assert_select "tr td input#image_tags_string_#{id}[value=#{image.tags_string}]"
         assert_select "input[type=submit][value=Update]"

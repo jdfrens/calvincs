@@ -6,7 +6,7 @@ old_colloquium:
   title: Old Colloquium
   subtitle: Old Subtitle
   presenter: Old Presenter
-  description: The old colloquium ain't what it used to be.
+  description: The old colloquium was in the past.
   start: <%= 2.days.ago.to_s(:db) %>
   stop: <%= (2.days.ago + 1.hour).to_s(:db) %>
 old_conference:
@@ -22,7 +22,7 @@ todays_colloquium:
   id: 3
   type: Colloquium
   descriptor: colloquium
-  title: Today's Colloquium
+  title: Colloquium of Today
   subtitle: Talk about Today!
   description: Go!
   start: <%= 1.hour.from_now.to_s(:db) %>

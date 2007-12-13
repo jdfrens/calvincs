@@ -12,7 +12,6 @@ class EventControllerTest < Test::Unit::TestCase
     @controller = EventController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    reset_text_processing
   end
 
   context "the index action" do
@@ -45,10 +44,10 @@ class EventControllerTest < Test::Unit::TestCase
         assert_standard_layout  # TODO: need date check?
         assert_select "h1", "Upcoming Events"
         assert_select "div#event-3" do
-          assert_select "h2", "Today's Colloquium: Talk about Today!" do
-            assert_select ".title .fake-textilized-without-paragraph", "Today's Colloquium"
+          assert_select "h2", "Colloquium of Today: Talk about Today!" do
+            assert_select ".title .textilized-wop", "Colloquium of Today"
             assert_select "br", true
-            assert_select ".subtitle .fake-textilized-without-paragraph", "Talk about Today!"
+            assert_select ".subtitle .textilized-wop", "Talk about Today!"
           end
           assert_select "p.when", events(:todays_colloquium).start.to_s(:colloquium)
         end
@@ -61,7 +60,7 @@ class EventControllerTest < Test::Unit::TestCase
         assert_standard_layout  # TODO: need date check?
         assert_select "div#event-6" do
           assert_select "h2", "Future Conference" do
-            assert_select ".title .fake-textilized-without-paragraph", "Future Conference"
+            assert_select ".title .textilized-wop", "Future Conference"
             assert_select "br", false
             assert_select ".subtitle", false
           end
@@ -93,11 +92,11 @@ class EventControllerTest < Test::Unit::TestCase
       
         assert_response :success
         assert_select "div#event-title" do
-          assert_select "h1 .fake-textilized-without-paragraph", event.title
-          assert_select "h2#subtitle .fake-textilized-without-paragraph", event.subtitle
+          assert_select "h1 .textilized-wop", event.title
+          assert_select "h2#subtitle .textilized-wop", event.subtitle
         end
-        assert_select "div#event-presenter .fake-textilized-without-paragraph", event.presenter
-        assert_select "div#event-description .fake-textilized", event.description
+        assert_select "div#event-presenter .textilized-wop", event.presenter
+        assert_select "div#event-description .textilized", event.description
       end
 
       should "view a minimal event" do
@@ -107,11 +106,11 @@ class EventControllerTest < Test::Unit::TestCase
       
         assert_response :success
         assert_select "div#event-title" do
-          assert_select "h1 .fake-textilized-without-paragraph", event.title
+          assert_select "h1 .textilized-wop", event.title
           assert_select "h2#subtitle", false
         end
         assert_select "div#event-presenter", false
-        assert_select "div#event-description .fake-textilized", event.description
+        assert_select "div#event-description .textilized", event.description
       end
     end
     

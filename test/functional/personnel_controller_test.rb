@@ -13,565 +13,502 @@ class PersonnelControllerTest < Test::Unit::TestCase
     @controller = PersonnelController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    reset_text_processing
   end
   
-  def test_index_redirects_to_view_all
-    get :index
+  context "index action" do
+    should "redirect to viewing all" do
+      get :index
     
-    assert_response :redirect
-    assert_redirected_to :action => 'view', :id => 'all'
+      assert_response :redirect
+      assert_redirected_to :action => 'view', :id => 'all'      
+    end
   end
-  
-  def test_list_explicit_all
-    get :list, { :id => 'all' }
+
+  context "list action" do
+    should "redirect for an explicit 'all' id" do
+      get :list, { :id => 'all' }
     
-    assert_response :redirect
-    assert_redirected_to :action => 'list'
-  end
-  
-  def test_list
-    get :list
-    
-    assert_response :success
-    assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
-      :last_updated => users(:sharon).updated_at
-    assert_select "h1#faculty", "Faculty"
-    assert_select "table#faculty_listing.listing" do
-      assert_entry_count "faculty"
-      assert_select "tr:nth-child(1)" do
-        assert_select "td a[href=/personnel/view/joel] img[src=#{images(:joel_headshot).url}]"
-        assert_select "td:nth-child(2)" do
-          assert_select "div.name" do
-            assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
-            assert_select "p#joel_job_title", false, "should have no job title"
-          end
-          assert_select ".contact-information" do
-            assert_select "p#joel_phone", false, "should have no phone"
-            assert_select "p#joel_location", false, "should have no office location"
-            assert_select "p#joel_email a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
-          end
-          assert_select "p#joel_interests", false, "should have no interests paragraph"
-          assert_select "p#joel_status", false, "should have no status paragraph"
-        end
-      end
-      assert_select "tr:nth-child(2)" do
-        assert_select "td a[href=/personnel/view/jeremy] img[src=#{images(:jeremy_headshot).url}]"
-        assert_select "td:nth-child(2)" do
-          assert_select "div.name" do
-            assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
-            assert_select "p#jeremy_job_title", "Assistant Professor"
-          end
-          assert_select ".contact-information" do
-            assert_select "p#jeremy_phone", "616-526-8666"
-            assert_select "p#jeremy_location", "North Hall 296"
-            assert_select "p#jeremy_email a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
-          end
-          assert_select "p#jeremy_interests", /Interests:\s+interest 1, interest 2/
-          assert_select ".fake-textilized-without-paragraph", "interest 1, interest 2"
-          assert_select ".fake-textilized-without-paragraph", "status of jeremy"
-        end
-      end
-      assert_select "tr:nth-child(3)" do
-        assert_select "td a[href=/personnel/view/keith] img", false
-        assert_select "td:nth-child(2)" do
-          assert_select "div.name" do
-            assert_select "h2 a[href=/personnel/view/keith]", "Keith Vander Linden"
-            assert_select "p#joel_job_title", false, "should have no job title"
-          end
-          assert_select ".contact-information" do
-            assert_select "p#keith_phone", false, "should have no phone"
-            assert_select "p#keith_location", false, "should have no office location"
-            assert_select "p#keith_email a[href=mailto:keith@calvin.foo]", "keith@calvin.foo"
-          end
-          assert_select "p#keith_interests", false, "should have no interests paragraph"
-          assert_select "p#keith_status", "Keith is chair."
-        end
-      end
+      assert_response :redirect
+      assert_redirected_to :action => 'list'
     end
-    
-    assert_select "h1#adjuncts", "Adjunct Faculty"
-    assert_select "table#adjuncts_listing.listing" do
-      assert_entry_count "adjuncts"
-      assert_select "tr:nth-child(1)" do
-        assert_select "td img", 0
-        assert_select "td:nth-child(2)" do
-          assert_select "h2 a[href=/personnel/view/fred]", "Fred Ferwerda"
-          assert_select "p#fred_phone", false, "should have no phone"
-          assert_select "p#fred_location", false, "should have no office location"
-          assert_select "p#fred_interests", false
-          assert_select "p#fred_status", false
-        end
+
+    context "done normally" do
+      should "set the proper data" do
+        get :list
+      
+        assert_response :success
+        assert_equal users(:sharon).updated_at, assigns(:last_updated)
+        assert_equal [users(:joel), users(:jeremy), users(:keith)], assigns(:faculty)
+        assert_equal [users(:fred)], assigns(:adjuncts)
+        assert_equal [users(:randy)], assigns(:contributors)
+        assert_equal [users(:larry)], assigns(:emeriti)
+        assert_equal [users(:sharon)], assigns(:staff)
       end
-    end
     
-    assert_select "h1#emeriti", "Emeriti"
-    assert_select "table#emeriti_listing.listing" do
-      assert_entry_count "emeriti"
-      # not testing details
-    end
+      should "use the standard layout" do
+        get :list
+      
+        assert_response :success
+        assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
+          :last_updated => users(:sharon).updated_at
+      end
     
-    assert_select "h1#contributors", "Contributing Faculty"
-    assert_select "table#contributors_listing.listing" do
-      assert_entry_count "contributors"
-      # selective testing of details
-      assert_select "tr:nth-child(1)" do
-        assert_select "td:nth-child(2)" do
-          assert_select "div.name" do
-            assert_select "h2 a[href=/personnel/view/randy]", "Randy Pruim"
-            assert_select "p#randy_job_title", "Professor of Mathematics and Statistics"
-            assert_textilized_without_paragraph "Professor of Mathematics and Statistics"
+      should "see personel in a particular order" do
+        get :list
+    
+        assert_response :success
+        assert_select "#faculty ~ #adjuncts", true
+        assert_select "#adjuncts ~ #emeriti", true
+        assert_select "#emeriti ~ #contributors", true
+        assert_select "#contributors ~ #staff", true
+      end
+
+      should "have proper headers" do
+        get :list
+    
+        assert_response :success
+        assert_select "h1#faculty", "Faculty"
+        assert_select "h1#adjuncts", "Adjunct Faculty"
+        assert_select "h1#emeriti", "Emeriti"
+        assert_select "h1#contributors", "Contributing Faculty"
+        assert_select "h1#staff", "Staff"
+      end
+    
+      should "see dataless faculty" do
+        get :list
+    
+        assert_response :success
+        assert_select "table#faculty_listing.listing" do
+          assert_select "tr:nth-child(1)" do
+            assert_select "td a[href=/personnel/view/joel] img[src=#{images(:joel_headshot).url}]"
+            assert_select "td:nth-child(2)" do
+              assert_select "div.name" do
+                assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
+                assert_select "p#joel_job_title", false, "should have no job title"
+              end
+              assert_select ".contact-information" do
+                assert_select "p#joel_phone", false, "should have no phone"
+                assert_select "p#joel_location", false, "should have no office location"
+                assert_select "p#joel_email a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
+              end
+              assert_select "p#joel_interests", false, "should have no interests paragraph"
+              assert_select "p#joel_status", false, "should have no status paragraph"
+            end
           end
         end
       end
-    end
+  
+      should "see dataful faculty" do
+        get :list
     
-    assert_select "h1#staff", "Staff"
-    assert_select "table#staff_listing.listing" do
-      assert_entry_count "staff"
-      assert_select "tr:nth-child(1)" do
-        assert_select "td img[src=#{images(:sharon_headshot).url}]"
-        assert_select "td:nth-child(2)" do
-          assert_select "h2 a[href=/personnel/view/sharon]", "Sharon Gould"
-          assert_select "p#sharon_phone", "616-526-7163"
-          assert_select "p#sharon_location", "North Hall 270"
-          assert_select "p#sharon_interests", false
-          assert_select "p#sharon_status", "Sharon is department secretary."
+        assert_response :success
+        assert_select "tr:nth-child(2)" do
+          assert_select "td a[href=/personnel/view/jeremy] img[src=#{images(:jeremy_headshot).url}]"
+          assert_select "td:nth-child(2)" do
+            assert_select "div.name" do
+              assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
+              assert_select "p#jeremy_job_title", "Assistant Professor"
+            end
+            assert_select ".contact-information" do
+              assert_select "p#jeremy_phone", "616-526-8666"
+              assert_select "p#jeremy_location", "North Hall 296"
+              assert_select "p#jeremy_email a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
+            end
+            assert_select "p#jeremy_interests", /Interests:\s+interest 1, interest 2/
+            assert_select ".textilized-wop", "interest 1, interest 2"
+            assert_select ".textilized-wop", "status of jeremy"
+          end
+        end
+      end   
+  
+      should "see adjuncts" do
+        get :list
+        assert_personnel_briefly "adjuncts", "fred", "Fred Ferwerda"
+      end   
+  
+      should "see emeriti" do
+        get :list
+        assert_personnel_briefly "emeriti", "larry", "Larry Nyhoff"
+      end   
+  
+      should "see contributing faculty" do
+        get :list
+        assert_personnel_briefly "contributors", "randy", "Randy Pruim"
+      end   
+  
+      should "see staff" do
+        get :list
+        assert_personnel_briefly "staff", "sharon", "Sharon Gould"
+      end
+    end
+  
+    should "use date of last updated" do
+      user = users(:jeremy)
+      user.first_name = "bob"
+      user.save!
+    
+      get :list
+    
+      assert_response :success
+      user.reload
+      assert_equal user.updated_at, assigns(:last_updated)
+    end
+  end
+
+  context "view action" do
+    context "when NOT logged in" do
+      should "see dataful user" do
+        get :view, { :id => 'jeremy' }
+    
+        assert_response :success
+        assert_equal users(:jeremy).last_updated_dates.max, assigns(:last_updated)
+        assert_equal "Jeremy D. Frens", assigns(:title)
+        assert_standard_layout :title => "Jeremy D. Frens",
+          :last_updated => users(:jeremy).last_updated_dates.max
+    
+        assert_select "h1", "Jeremy D. Frens"
+        assert_select "p#job_title", "Assistant Professor"
+        assert_select "div.img-right-unusable" do
+          assert_select "img#cool-pic[src=/jeremyaction.png]"
+          assert_select "p.img-caption", "jeremy in action"
+        end
+        assert_select "#contact-information" do
+          assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
+          assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
+          assert_select "p", "Office phone: 616-526-8666"
+          assert_select "p", "Office location: North Hall 296"
+        end
+        assert_select "#education" do
+          assert_select "h2", "Education"
+          assert_select "ul" do
+            assert_select "li", 2, "should have two degrees"
+            assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
+            assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
+          end
+        end
+        assert_select "#interests" do
+          assert_select "h2", "Interests"
+          assert_select ".textilized", "interest 1, interest 2"
+          assert_select "a[href=/p/jeremy_interests]", false
+        end
+        assert_select "#status", false, "should NOT see status when NOT logged in"
+        assert_select "#profile" do
+          assert_select "h2", "Profile"
+          assert_select ".textilized", "profile of jeremy"
+          assert_select "a[href=/p/jeremy_profile]", false
         end
       end
-    end
-    
-    assert_group_order
-  end
   
-  def test_list_uses_most_recent_updated_at_from_user
-    user = users(:jeremy)
-    user.first_name = "bob"
-    user.save!
+      should "see less of dataless user" do
+        get :view, { :id => 'joel' }
     
-    get :list
+        assert_response :success
+        assert_standard_layout :title => "Joel C. Adams",
+          :last_updated => users(:joel).last_updated_dates.max
     
-    assert_response :success
-    user.reload
-    assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
-      :last_updated => user.updated_at
-  end
-  
-  def test_list_uses_most_recent_updated_at_from_users_status
-    page = pages(:jeremy_status)
-    page.content = "updated!"
-    page.save!
-    
-    get :list
-    
-    assert_response :success
-    page.reload
-    assert_standard_layout :title => "Faculty & Staff", :menu => :personnel_list,
-      :last_updated => page.updated_at
-  end
-  
-  def test_view
-    get :view, { :id => 'jeremy' }
-    
-    assert_response :success
-    assert_standard_layout :title => "Jeremy D. Frens",
-      :last_updated => users(:jeremy).last_updated_dates.max
-    
-    assert_select "h1", "Jeremy D. Frens"
-    assert_select "p#job_title", "Assistant Professor"
-    assert_select "div.img-right-unusable" do
-      assert_select "img#cool-pic[src=/jeremyaction.png]"
-      assert_select "p.img-caption", "jeremy in action"
-    end
-    assert_select "#contact-information" do
-      assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
-      assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
-      assert_select "p", "Office phone: 616-526-8666"
-      assert_select "p", "Office location: North Hall 296"
-    end
-    assert_select "#education" do
-      assert_select "h2", "Education"
-      assert_select "ul" do
-        assert_select "li", 2, "should have two degrees"
-        assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
-        assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
+        assert_select "h1", "Joel C. Adams"
+        assert_select "#contact-information" do
+          assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
+          assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
+          assert_select "p", :text => /Office phone/, :count => 0
+          assert_select "p", :text => /Office location/, :count => 0
+        end
+        assert_select "#education", false
+        assert_select "#interests", false
+        assert_select "#status", false
+        assert_select "#profile", false
       end
     end
-    assert_select "#interests" do
-      assert_select "h2", "Interests"
-      assert_select ".fake-textilized", "interest 1, interest 2"
-      assert_select "a[href=/p/jeremy_interests]", false
-    end
-    assert_select "#status", false, "should NOT see status when NOT logged in"
-    assert_select "#profile" do
-      assert_select "h2", "Profile"
-      assert_select ".fake-textilized", "profile of jeremy"
-      assert_select "a[href=/p/jeremy_profile]", false
-    end
-  end
-  
-  def test_view_of_dataless_user
-    get :view, { :id => 'joel' }
     
-    assert_response :success
-    assert_standard_layout :title => "Joel C. Adams",
-      :last_updated => users(:joel).last_updated_dates.max
+    context "when logged in" do
+      should "edit a dataful user" do
+        get :view, { :id => 'jeremy' }, user_session(:edit)
     
-    assert_select "h1", "Joel C. Adams"
-    assert_select "#contact-information" do
-      assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
-      assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
-      assert_select "p", :text => /Office phone/, :count => 0
-      assert_select "p", :text => /Office location/, :count => 0
-    end
-    assert_select "#education", false
-    assert_select "#interests", false
-    assert_select "#status", false
-    assert_select "#profile", false
-  end
-  
-  def test_view_WHEN_logged_in
-    get :view, { :id => 'jeremy' }, user_session(:edit)
+        assert_response :success
+        assert_standard_layout :title => "Jeremy D. Frens",
+          :last_updated => users(:jeremy).last_updated_dates.max
     
-    assert_response :success
-    assert_standard_layout :title => "Jeremy D. Frens",
-      :last_updated => users(:jeremy).last_updated_dates.max
-    
-    assert_select "div#full_name_header h1", "Jeremy D. Frens"
-    assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
-    assert_select "form" do
-      assert_select "input[value=Jeremy D.]"
-      assert_select "input[value=Frens]"
-      assert_select "input[type=submit]"
-      assert_spinner :suffix => "name"
-    end
-    assert_select "p#job_title", "Assistant Professor"
-    assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
-      assert_select "input[type=text][value=Assistant Professor]", true
-      assert_select "input[type=submit]", true
-      assert_spinner :suffix => "job_title"
-    end
-    assert_select "#contact-information" do
-      assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
-      assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
-      assert_select "p:nth-child(2)" do
-        assert_select "strong", "Office phone:"
-        assert_select "input#edit_office_phone[type=button]", true
-        assert_select "#user_office_phone_3_in_place_editor", "616-526-8666"
-      end
-      assert_select "p:nth-child(3)" do
-        assert_select "strong", "Office location:"
-        assert_select "input#edit_office_location[type=button]", true
-        assert_select "#user_office_location_3_in_place_editor", "North Hall 296"
-      end
-    end
-    assert_select "#education" do
-      assert_select "ul" do
-        assert_select "li", 2, "should have two degrees"
-        assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
-        assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
-      end
-      assert_select "div#education_edits" do
-        assert_remote_form_for_and_spinner("degree_edit_1", "/personnel/update_degree/1")
-        assert_select "form#degree_edit_1" do
-          assert_select "input[type=text][value=B.A. in CS and MATH]"
-          assert_select "input[type=text][value=Calvin College]"
-          assert_select "input[type=text][value=http://cs.calvin.edu/]"
-          assert_select "input[type=text][value=1992]"
+        assert_select "div#full_name_header h1", "Jeremy D. Frens"
+        assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
+        assert_select "form" do
+          assert_select "input[value=Jeremy D.]"
+          assert_select "input[value=Frens]"
           assert_select "input[type=submit]"
-          assert_spinner :number => 1
+          assert_spinner :suffix => "name"
         end
-        assert_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
-        assert_select "form#degree_edit_3" do
-          assert_select "input[type=text][value=Ph.D. in CS]"
-          assert_select "input[type=text][value=Indiana University]"
-          assert_select "input[type=text][value=http://cs.indiana.edu/]"
-          assert_select "input[type=text][value=2002]"
+        assert_select "p#job_title", "Assistant Professor"
+        assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
+          assert_select "input[type=text][value=Assistant Professor]", true
+          assert_select "input[type=submit]", true
+          assert_spinner :suffix => "job_title"
+        end
+        assert_select "#contact-information" do
+          assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
+          assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
+          assert_select "p:nth-child(2)" do
+            assert_select "strong", "Office phone:"
+            assert_select "input#edit_office_phone[type=button]", true
+            assert_select "#user_office_phone_3_in_place_editor", "616-526-8666"
+          end
+          assert_select "p:nth-child(3)" do
+            assert_select "strong", "Office location:"
+            assert_select "input#edit_office_location[type=button]", true
+            assert_select "#user_office_location_3_in_place_editor", "North Hall 296"
+          end
+        end
+        assert_select "#education" do
+          assert_select "ul" do
+            assert_select "li", 2, "should have two degrees"
+            assert_select "div#degree_1 li", "B.A. in CS and MATH, Calvin College, 1992"
+            assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
+          end
+          assert_select "div#education_edits" do
+            assert_remote_form_for_and_spinner("degree_edit_1", "/personnel/update_degree/1")
+            assert_select "form#degree_edit_1" do
+              assert_select "input[type=text][value=B.A. in CS and MATH]"
+              assert_select "input[type=text][value=Calvin College]"
+              assert_select "input[type=text][value=http://cs.calvin.edu/]"
+              assert_select "input[type=text][value=1992]"
+              assert_select "input[type=submit]"
+              assert_spinner :number => 1
+            end
+            assert_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
+            assert_select "form#degree_edit_3" do
+              assert_select "input[type=text][value=Ph.D. in CS]"
+              assert_select "input[type=text][value=Indiana University]"
+              assert_select "input[type=text][value=http://cs.indiana.edu/]"
+              assert_select "input[type=text][value=2002]"
+              assert_select "input[type=submit]"
+              assert_spinner :number => 3
+            end
+          end
+          assert_select "a[onclick*=/personnel/add_degree/3]", "Add degree"
+        end
+        assert_select "#interests" do
+          assert_select "h2", "Interests"
+          assert_select ".textilized", "interest 1, interest 2"
+          assert_select "a[href=/p/_jeremy_interests]", "view/edit interests"
+        end
+        assert_select "#status" do
+          assert_select "h2", "Status"
+          assert_select ".textilized", "status of jeremy"
+          assert_select "a[href=/p/_jeremy_status]", "view/edit status"
+        end
+        assert_select "#profile" do
+          assert_select "h2", "Profile"
+          assert_select ".textilized", "profile of jeremy"
+          assert_select "a[href=/p/_jeremy_profile]", "view/edit profile"
+        end
+      end
+  
+      should "edit a dataless user" do
+        get :view, { :id => 'joel' }, user_session(:edit)
+    
+        assert_response :success
+        assert_standard_layout :title => "Joel C. Adams",
+          :last_updated => users(:joel).last_updated_dates.max
+    
+        assert_select "div#full_name_header h1", "Joel C. Adams"
+        assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
+        assert_select "form" do
+          assert_select "input[value=Joel C.]"
+          assert_select "input[value=Adams]"
           assert_select "input[type=submit]"
-          assert_spinner :number => 3
+          assert_spinner :suffix => "name"
+        end 
+        assert_select "p#job_title", true
+        assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
+          assert_select "input[type=text]", true
+          assert_select "input[type=submit]", true
+          assert_spinner :suffix => "job_title"
+        end
+        assert_select "#contact-information" do
+          assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
+          assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
+          assert_select "p:nth-child(2)" do
+            assert_select "strong", "Office phone:"
+            assert_select "input#edit_office_phone[type=button]", true
+            assert_select "#user_office_phone_5_in_place_editor", ""
+          end
+          assert_select "p:nth-child(3)" do
+            assert_select "strong", "Office location:"
+            assert_select "input#edit_office_location[type=button]", true
+            assert_select "#user_office_location_5_in_place_editor", ""
+          end
+        end
+        assert_select "#education" do
+          assert_select "ul", true
+          assert_select "div#education_edits", true
+          assert_select "a[onclick*=/personnel/add_degree/5]", "Add degree"
+        end
+        assert_select "#interests" do
+          assert_select "h2", "Interests"
+          assert_select "a[href=/p/_joel_interests]", "view/edit interests"
+        end
+        assert_select "#status" do
+          assert_select "h2", "Status"
+          assert_select "a[href=/p/_joel_status]", "view/edit status"
+        end
+        assert_select "#profile" do
+          assert_select "h2", "Profile"
+          assert_select "a[href=/p/_joel_profile]", "view/edit profile"
         end
       end
-      assert_select "a[onclick*=/personnel/add_degree/3]", "Add degree"
-    end
-    assert_select "#interests" do
-      assert_select "h2", "Interests"
-      assert_select ".fake-textilized", "interest 1, interest 2"
-      assert_select "a[href=/p/_jeremy_interests]", "view/edit interests"
-    end
-    assert_select "#status" do
-      assert_select "h2", "Status"
-      assert_select ".fake-textilized", "status of jeremy"
-      assert_select "a[href=/p/_jeremy_status]", "view/edit status"
-    end
-    assert_select "#profile" do
-      assert_select "h2", "Profile"
-      assert_select ".fake-textilized", "profile of jeremy"
-      assert_select "a[href=/p/_jeremy_profile]", "view/edit profile"
-    end
-  end
-  
-  def test_view_dataless_user_WHEN_logged_in
-    get :view, { :id => 'joel' }, user_session(:edit)
+      
+      should "have fewer editing fields for staff" do
+        get :view, { :id => 'sharon' }, user_session(:edit)
     
-    assert_response :success
-    assert_standard_layout :title => "Joel C. Adams",
-      :last_updated => users(:joel).last_updated_dates.max
+        assert_response :success
+        assert_standard_layout :title => "Sharon Gould",
+          :last_updated => users(:sharon).last_updated_dates.max
     
-    assert_select "div#full_name_header h1", "Joel C. Adams"
-    assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
-    assert_select "form" do
-      assert_select "input[value=Joel C.]"
-      assert_select "input[value=Adams]"
-      assert_select "input[type=submit]"
-      assert_spinner :suffix => "name"
-    end 
-    assert_select "p#job_title", true
-    assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
-      assert_select "input[type=text]", true
-      assert_select "input[type=submit]", true
-      assert_spinner :suffix => "job_title"
-    end
-    assert_select "#contact-information" do
-      assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
-      assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
-      assert_select "p:nth-child(2)" do
-        assert_select "strong", "Office phone:"
-        assert_select "input#edit_office_phone[type=button]", true
-        assert_select "#user_office_phone_5_in_place_editor", ""
-      end
-      assert_select "p:nth-child(3)" do
-        assert_select "strong", "Office location:"
-        assert_select "input#edit_office_location[type=button]", true
-        assert_select "#user_office_location_5_in_place_editor", ""
+        assert_select "#education", false, "should not have any option for education"
+        assert_select "#interests", false, "should not have any interests"
       end
     end
-    assert_select "#education" do
-      assert_select "ul", true
-      assert_select "div#education_edits", true
-      assert_select "a[onclick*=/personnel/add_degree/5]", "Add degree"
-    end
-    assert_select "#interests" do
-      assert_select "h2", "Interests"
-      assert_select "a[href=/p/_joel_interests]", "view/edit interests"
-    end
-    assert_select "#status" do
-      assert_select "h2", "Status"
-      assert_select "a[href=/p/_joel_status]", "view/edit status"
-    end
-    assert_select "#profile" do
-      assert_select "h2", "Profile"
-      assert_select "a[href=/p/_joel_profile]", "view/edit profile"
+  
+    should "redirect with an invalid id" do
+      get :view, { :id => 'does not exist' }
+      assert_redirected_to :action => 'list'
     end
   end
   
-  def test_view_staff_user_WHEN_logged_in
-    get :view, { :id => 'sharon' }, user_session(:edit)
+  context "update name action" do
+    context "when logged in" do
+      should "update name" do
+        keith = users(:keith)
+        assert_equal "Keith Vander Linden", keith.full_name
     
-    assert_response :success
-    assert_standard_layout :title => "Sharon Gould",
-      :last_updated => users(:sharon).last_updated_dates.max
+        xhr :post, :update_name,
+          { :id => keith.id,
+          :user => { :first_name => 'a', :last_name => 'b'}
+        }, user_session(:edit)
     
-    assert_select "#education", false, "should not have any option for education"
-    assert_select "#interests", false, "should not have any interests"
-  end
-  
-  def test_view_with_invalid_username
-    get :view, { :id => 'does not exist' }
+        assert_response :success
+        assert_select_rjs :replace_html, "full_name_header" do
+          assert_select "h1", "a b"
+        end
     
-    assert_redirected_to :action => 'list'
-  end
-  
-  def test_update_name
-    keith = users(:keith)
-    assert_equal "Keith Vander Linden", keith.full_name
-    
-    xhr :post, :update_name,
-      { :id => keith.id,
-      :user => { :first_name => 'a', :last_name => 'b'}
-    }, user_session(:edit)
-    
-    assert_response :success
-    assert_select_rjs :replace_html, "full_name_header" do
-      assert_select "h1", "a b"
-    end
-    
-    keith.reload
-    assert_equal "a b", keith.full_name
-  end
-  
-  def test_update_name_when_NOT_logged_in
-    keith = users(:keith)
-    assert_equal "Keith Vander Linden", keith.full_name
-    
-    xhr :post, :update_name,
-      { :id => keith.id,
-      :user => { :first_name => 'a', :last_name => 'b'}
-    }
-    
-    assert_redirected_to_login
-    
-    keith.reload
-    assert_equal "Keith Vander Linden", keith.full_name
-  end
-  
-  def test_update_degree
-    degree = degrees(:keith_central)
-    
-    xhr :post, :update_degree,
-      { :id => degree.id,
-      :degree => {
-        :degree_type => 'BS',
-        :institution => 'Nowhere',
-        :url => 'foo',
-        :year => '1666'
-      }
-    }, user_session(:edit)
-    
-    assert_response :success
-    assert_select_rjs :replace_html, "degree_#{degree.id}" do
-      assert_select "li", "BS, Nowhere, 1666"
-    end
-    
-    degree.reload
-    assert_equal "BS", degree.degree_type
-    assert_equal "Nowhere", degree.institution
-    assert_equal "foo", degree.url
-    assert_equal 1666, degree.year
-  end
-  
-  def test_update_degree_fails_when_NOT_logged_in
-    degree = degrees(:keith_central)
-    
-    xhr :post, :update_degree,
-      { :id => degree.id,
-      :degree => {
-        :degree_type => 'BS',
-        :institution => 'Nowhere',
-        :url => 'foo',
-        :year => '2666'
-      }
-    }
-    
-    assert_redirected_to_login
-    
-    degree.reload
-    assert_equal "Central College", degree.institution
-  end
-  
-  def test_add_degree
-    keith = users(:keith)
-    assert_equal 1, keith.degrees.count, "should start with 1 degree"
-    
-    xhr :post, :add_degree, { :id => keith.id }, user_session(:edit)
-    
-    assert_response :success
-    assert_select_rjs :insert, :bottom, "education" do
-      assert_select "li", "BA in CS, Somewhere U, 1959"
-    end
-    assert_select_rjs :insert, :bottom, "education_edits" do
-      assert_select "form" do
-        assert_select "input[type=text]", 4
-        assert_select "input[value=BA in CS]"
-        assert_select "input[value=Somewhere U]"
-        assert_select "input[value=1959]"
+        keith.reload
+        assert_equal "a b", keith.full_name
       end
     end
-    
-    assert_equal 2, keith.degrees.count, "should have 2 degrees now"
-    degree = Degree.find_by_institution("Somewhere U")
-    assert_not_nil degree
-    assert keith.degrees.include?(degree)
-    assert_equal "BA in CS", degree.degree_type
-    assert_equal 1959, degree.year
+
+    should_redirect_to_login_when_NOT_logged_in :update_name
   end
   
-  def test_add_degree_fails_when_NOT_logged_in
-    keith = users(:keith)
-    assert_equal 1, keith.degrees.count, "should start with 1 degree"
+  context "update degree action" do
+    should "update when logged in" do
+      degree = degrees(:keith_central)
     
-    xhr :post, :add_degree, { :id => keith.id }
+      xhr :post, :update_degree,
+        { :id => degree.id,
+        :degree => {
+          :degree_type => 'BS',
+          :institution => 'Nowhere',
+          :url => 'foo',
+          :year => '1666'
+        }
+      }, user_session(:edit)
     
-    assert_redirected_to_login
-    assert_equal 1, keith.degrees.count, "should still have 1 degrees"
-  end
-  
-  def test_set_user_office_phone
-    keith = users(:keith)
-    assert_nil keith.office_phone
+      assert_response :success
+      assert_select_rjs :replace_html, "degree_#{degree.id}" do
+        assert_select "li", "BS, Nowhere, 1666"
+      end
     
-    xhr :post, :set_user_office_phone,
-      { :id => keith.id, :value => '616-111-9999' },
-      user_session(:edit)
-    
-    assert_response :success
-    keith.reload
-    assert_equal '616-111-9999', keith.office_phone
-  end
-  
-  def test_set_user_office_phone_redirects_when_NOT_logged_in
-    keith = users(:keith)
-    assert_nil keith.office_phone
-    
-    xhr :post, :set_user_office_phone,
-      { :id => keith.id, :value => '616-111-9999' }
-    
-    assert_redirected_to_login
-    keith.reload
-    assert_nil keith.office_phone
-  end
-  
-  def test_set_user_office_location
-    keith = users(:keith)
-    assert_nil keith.office_location
-    
-    xhr :post, :set_user_office_location,
-      { :id => keith.id, :value => 'Funkytown' },
-      user_session(:edit)
-    
-    assert_response :success
-    keith.reload
-    assert_equal 'Funkytown', keith.office_location
-  end
-  
-  def test_set_user_office_location_redirects_when_NOT_logged_in
-    keith = users(:keith)
-    assert_nil keith.office_location
-    
-    xhr :post, :set_user_office_location,
-      { :id => keith.id, :value => 'Funkytown' }
-    
-    assert_redirected_to_login
-    keith.reload
-    assert_nil keith.office_location
-  end
-  
-  def test_update_job_title
-    keith = users(:keith)
-    assert_nil keith.job_title
-    
-    xhr :post, :update_job_title,
-      { :id => keith.id, :user => { :job_title => 'Professional Sidekick' } },
-      user_session(:edit)
-    
-    assert_response :success
-    assert_select_rjs :replace_html, "job_title" do
-      assert_match(/Professional Sidekick/, @response.body)
-      assert_textilized_without_paragraph "Professional Sidekick"
+      degree.reload
+      assert_equal "BS", degree.degree_type
+      assert_equal "Nowhere", degree.institution
+      assert_equal "foo", degree.url
+      assert_equal 1666, degree.year
     end
-    keith.reload
-    assert_equal "Professional Sidekick", keith.job_title
+  
+    should_redirect_to_login_when_NOT_logged_in :update_degree
+  end
+
+  context "add degree action" do
+    should "add degree when logged in" do
+      keith = users(:keith)
+      assert_equal 1, keith.degrees.count, "should start with 1 degree"
+    
+      xhr :post, :add_degree, { :id => keith.id }, user_session(:edit)
+    
+      assert_response :success
+      assert_select_rjs :insert, :bottom, "education" do
+        assert_select "li", "BA in CS, Somewhere U, 1959"
+      end
+      assert_select_rjs :insert, :bottom, "education_edits" do
+        assert_select "form" do
+          assert_select "input[type=text]", 4
+          assert_select "input[value=BA in CS]"
+          assert_select "input[value=Somewhere U]"
+          assert_select "input[value=1959]"
+        end
+      end
+    
+      assert_equal 2, keith.degrees.count, "should have 2 degrees now"
+      degree = Degree.find_by_institution("Somewhere U")
+      assert_not_nil degree
+      assert keith.degrees.include?(degree)
+      assert_equal "BA in CS", degree.degree_type
+      assert_equal 1959, degree.year
+    end
+  
+    should_redirect_to_login_when_NOT_logged_in :add_degree
   end
   
-  def test_update_job_title_redirects_when_NOT_logged_in
-    keith = users(:keith)
-    assert_nil keith.job_title
+  context "set office-phone action" do
+    should "be set when logged in" do
+      keith = users(:keith)
+      assert_nil keith.office_phone
     
-    xhr :post, :update_job_title,
-      { :id => keith.id, :value => 'Professional Sidekick' }
+      xhr :post, :set_user_office_phone,
+        { :id => keith.id, :value => '616-111-9999' },
+        user_session(:edit)
     
-    assert_redirected_to_login
-    keith.reload
-    assert_nil keith.job_title
+      assert_response :success
+      keith.reload
+      assert_equal '616-111-9999', keith.office_phone
+    end
+  
+    should_redirect_to_login_when_NOT_logged_in :set_user_office_phone
+  end
+  
+  context "set office-location action" do
+    should "be set when logged in" do
+      keith = users(:keith)
+      assert_nil keith.office_location
+    
+      xhr :post, :set_user_office_location,
+        { :id => keith.id, :value => 'Funkytown' },
+        user_session(:edit)
+    
+      assert_response :success
+      keith.reload
+      assert_equal 'Funkytown', keith.office_location
+    end
+  
+    should_redirect_to_login_when_NOT_logged_in :set_user_office_location
+  end
+  
+  context "updating job title" do
+    should "work when logged in" do
+      keith = users(:keith)
+      assert_nil keith.job_title
+    
+      xhr :post, :update_job_title,
+        { :id => keith.id, :user => { :job_title => 'Professional Sidekick' } },
+        user_session(:edit)
+    
+      assert_response :success
+      assert_select_rjs :replace_html, "job_title" do
+        assert_select ".textilized-wop", "Professional Sidekick"
+      end
+      keith.reload
+      assert_equal "Professional Sidekick", keith.job_title
+    end
+  
+    should_redirect_to_login_when_NOT_logged_in :update_job_title
   end
   
   #
@@ -579,16 +516,15 @@ class PersonnelControllerTest < Test::Unit::TestCase
   #
   private
   
-  def assert_entry_count(name)
-    assert_select "tr", Group.find_by_name(name).users.count,
-      "should have one row per #{name}"
+  def assert_personnel_briefly(type, id, name)
+    assert_response :success
+    assert_select "table##{type}_listing.listing" do
+      assert_select "tr:nth-child(1)" do
+        assert_select "td:nth-child(2)" do
+          assert_select "h2 a[href=/personnel/view/#{id}]", name
+        end
+      end
+    end
   end
-  
-  def assert_group_order
-    assert_select "h1#faculty ~ h1#adjuncts", true
-    assert_select "h1#adjuncts ~ h1#emeriti", true
-    assert_select "h1#emeriti ~ h1#contributors", true
-    assert_select "h1#contributors ~ h1#staff", true
-  end
-  
+    
 end

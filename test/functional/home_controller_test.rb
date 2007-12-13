@@ -13,7 +13,6 @@ class HomeControllerTest < Test::Unit::TestCase
     @controller = HomeController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    reset_text_processing
   end
 
   context "exercising the index action" do
@@ -54,8 +53,7 @@ class HomeControllerTest < Test::Unit::TestCase
       assert_template 'home/index'
 
       assert_select "h1", "Computing at Calvin College"
-      assert_select "p", "home page text"
-      assert_textilized "home page text"
+      assert_select "p .textilized", "home page text"
       assert_select "a[href=/p/_home_page]"
     end
   end
@@ -134,8 +132,7 @@ class HomeControllerTest < Test::Unit::TestCase
       end
       assert_select "div#home_page" do
         assert_select "h1", pages(:home_page).title
-        assert_select "p", pages(:home_page).content
-        assert_textilized pages(:home_page).content
+        assert_select "p .textilized", pages(:home_page).content
       end
       assert_select "div#news" do
         assert_select "h1", "News"
@@ -157,7 +154,7 @@ class HomeControllerTest < Test::Unit::TestCase
         end
         NewsItem.find_current.each do |news_item|
           assert_select "li#news_item_#{news_item.id}"
-          assert_select "span.news-teaser .fake-textilized-without-paragraph", news_item.teaser
+          assert_select "span.news-teaser .textilized-wop", strip_textile(news_item.teaser)
           assert_select "a.more[href=/news#news-item-#{news_item.id}]", "more..."
         end
         assert_select "ul li a.more[href=/news]", "other news..."

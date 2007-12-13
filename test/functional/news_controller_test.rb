@@ -170,7 +170,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_standard_layout :title => item.headline,
       :last_updated => item.updated_at
     assert_select "h1", item.headline
-    assert_select "div#news-item-content .fake-textilized", "Something happened today."
+    assert_select "div#news-item-content .textilized", "Something happened today."
         
     # no admin stuff
     assert_select "form[action=/news/update_news_content/3]", false
@@ -193,7 +193,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "div#news-item-teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
     assert_select "div#news-item-teaser input#edit_teaser", true
 
-    assert_select "div#news-item-content .fake-textilized", "Something happened today."
+    assert_select "div#news-item-content .textilized", "Something happened today."
         
     assert_link_to_markup_help
     assert_select "form[action=/news/update_news_item_content/#{id}]" do
@@ -254,7 +254,7 @@ class NewsControllerTest < Test::Unit::TestCase
         
     assert_response :success
     assert_select_rjs :replace_html, "news-item-content" do
-      assert_select ".fake-textilized", "News that is fit to print."
+      assert_select ".textilized", "News that is fit to print."
     end
     
     item.reload
@@ -379,7 +379,7 @@ class NewsControllerTest < Test::Unit::TestCase
     assert_select "div#news-item-#{news_item.id}[class=news-item]" do
       assert_select "h2", news_item.headline
       assert_select "p.goes-live-date", "Posted on #{news_item.goes_live_at.to_s(:news_posted)}"
-      assert_select "div.content .fake-textilized", news_item.content
+      assert_select "div.content .textilized", news_item.content
       assert_select "p.more a[href=#top]", "back to top..."
     end
   end
