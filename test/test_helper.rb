@@ -7,7 +7,7 @@ module ERB::Util
   alias_method :h_original, :h
   
   def h(s)
-    "<div class=\"h-escaped\">" + h_original(s) + "</div>"
+    "<div class=\"h-escaped\">" + s.to_s + "</div>"
   end
   
 end
@@ -18,12 +18,12 @@ module ActionView::Helpers::TextHelper
   alias_method :textilize_without_paragraph_original, :textilize_without_paragraph
 
   def textilize(text)
-    "<div class=\"textilized\">" + textilize_original(text) + "</div>"
+    "<div class=\"textilized\">" + text.to_s.gsub('*', '') + "</div>"
   end
   
   def textilize_without_paragraph(text)
     "<div class=\"textilized-wop\">" + 
-      textilize_without_paragraph_original(text) + 
+      text.to_s.gsub('*', '') + 
       "</div>"
   end
   
