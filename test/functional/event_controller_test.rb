@@ -7,6 +7,7 @@ class EventController; def rescue_action(e) raise e end; end
 class EventControllerTest < Test::Unit::TestCase
   
   fixtures :events
+  user_fixtures
   
   def setup
     @controller = EventController.new
@@ -124,7 +125,7 @@ class EventControllerTest < Test::Unit::TestCase
   
   context "building a new event" do
     should "have a new action with a form" do
-      get :new
+      get :new, {}, user_session(:edit)
       
       assert_response :success
       assert_standard_layout
@@ -144,5 +145,7 @@ class EventControllerTest < Test::Unit::TestCase
         assert_select "input[type=submit]"
       end
     end
+    
+    should_redirect_to_login_when_NOT_logged_in :new
   end
 end
