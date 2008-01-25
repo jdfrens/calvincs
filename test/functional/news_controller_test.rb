@@ -28,12 +28,14 @@ class NewsControllerTest < Test::Unit::TestCase
         assert_select "li", 3
         assert_select "li:nth-child(1) a[href=/news#news-item-5]", "News of Today II"
         assert_select "li:nth-child(2) a[href=/news#news-item-3]", "News of Today"
-        assert_select "li.other:nth-child(3) a[href=/news/list]", "other news..."
+        assert_select "li.other:nth-child(3) a[href=/news/list]", "News Archive..."
       end
     
       assert_full_news_item news_items(:another_todays_news)
       assert_full_news_item news_items(:todays_news)
     end
+    
+    # TODO: should "redirect to list if no current news items?"
   end
   
   context "new action" do
@@ -107,11 +109,24 @@ class NewsControllerTest < Test::Unit::TestCase
   end
   
   context "list action" do
-    should "redirect when not given an id" do
+    should "list years with actual news" do
       get :list
+      
+      assert_response :success
+      assert_standard_layout :title => "News Archive"
 
-      assert_response :redirect
-      assert_redirected_to :action => "list", :id => current_year
+      assert_equal((current_year-2..current_year), assigns(:years))
+      
+      assert_select "h1", "News Archive"
+      assert_select "ul#news-years" do
+        assert_select "li", 3
+        assert_select "li a[href=/news/list/#{current_year}]",
+          "News of #{current_year}"
+        assert_select "li a[href=/news/list/#{current_year-1}]",
+          "News of #{current_year - 1}"
+        assert_select "li a[href=/news/list/#{current_year-2}]",
+          "News of #{current_year - 2}"
+      end
     end
   
     should "list by this year" do
@@ -126,6 +141,7 @@ class NewsControllerTest < Test::Unit::TestCase
         assert_news_item_entry 1, news_items(:another_todays_news), "current"
         assert_news_item_entry 2, news_items(:todays_news), "current"
       end
+      assert_select "a[href=/news/list]", "News Archive..."
     end
   
     should "list by last year" do
@@ -137,6 +153,7 @@ class NewsControllerTest < Test::Unit::TestCase
       assert_select "div#news-listing table[summary=news items]" do
         assert_select "tr", 0
       end
+      assert_select "a[href=/news/list]", "News Archive..."
     end
   
     should "list by year in past" do
@@ -150,6 +167,7 @@ class NewsControllerTest < Test::Unit::TestCase
         assert_select "tr", 1*2
         assert_news_item_entry 1, news_items(:past_news), "all"
       end
+      assert_select "a[href=/news/list]", "News Archive..."
     end  
   
     context "when logged in" do

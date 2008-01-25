@@ -3,66 +3,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 class NewsItemTest < Test::Unit::TestCase
   
   fixtures :news_items, :users
-  
-  def test_have_connection_to_creators
-    assert_equal User.find(1), news_items(:todays_news).user
-    assert_equal User.find(2), news_items(:another_todays_news).user
-  end
-  
-  def test_headline_required
-    news_item = NewsItem.new(
-        :headline => '',
-        :teaser => 'a teaser', :content => 'Valid content.',
-        :goes_live_at => 1.day.ago, :expires_at => 1.hour.ago, 
-        :user_id => 1
-        )
-    assert !news_item.valid?
-    assert_equal "can't be blank", news_item.errors[:headline]
-  end
-  
-  def test_teaser_required
-    news_item = NewsItem.new(
-        :headline => 'Valid headline',
-        :teaser => '', :content => 'Valid content.',
-        :goes_live_at => 1.day.ago, :expires_at => 1.hour.ago,
-        :user_id => 1
-        )
-    assert !news_item.valid?
-    assert_equal "can't be blank", news_item.errors[:teaser]
-  end
-  
-  def test_content_required
-    news_item = NewsItem.new(
-        :headline => 'Valid headline',
-        :teaser => 'a teaser', :content => '',
-        :goes_live_at => 1.day.ago, :expires_at => 1.hour.ago,
-        :user_id => 1
-        )
-    assert !news_item.valid?
-    assert_equal "can't be blank", news_item.errors[:content]
-  end
-  
-  def test_expires_at_required
-    news_item = NewsItem.new(
-        :headline => 'Valid headline',
-        :teaser => 'a teaser', :content => 'Valid content.',
-        :goes_live_at => 1.day.ago,
-        :user_id => 1
-        )
-    assert !news_item.valid?
-    assert_equal "can't be blank", news_item.errors[:expires_at]
-  end
-  
-  def test_goes_live_at_required
-    news_item = NewsItem.new(
-        :headline => 'Valid headline',
-        :teaser => 'a teaser', :content => 'Valid content.',
-        :expires_at => 1.hour.ago,
-        :user_id => 1
-        )
-    assert !news_item.valid?
-    assert_equal "can't be blank", news_item.errors[:goes_live_at]
-  end
+
+  should_require_attributes :headline, :teaser, :content, :expires_at, :goes_live_at
+  should_belong_to :user
   
   def test_user_required
     news_item = NewsItem.new(
@@ -86,6 +29,7 @@ class NewsItemTest < Test::Unit::TestCase
   end
   
   def test_find_just_current_news
+    # TODO: with Rails 2.0, use new fixture method to simplify!
     assert_equal_set [news_items(:todays_news), news_items(:another_todays_news)],
       NewsItem.find_current
     
@@ -124,6 +68,10 @@ class NewsItemTest < Test::Unit::TestCase
         [ news_items(:future_news), news_items(:another_todays_news), news_items(:todays_news) ],
         NewsItem.find_by_year(current_year, :all)
         )
+  end
+  
+  def test_find_news_years
+    assert_equal((current_year-2)..current_year, NewsItem.find_news_years)
   end
   
   def test_is_current

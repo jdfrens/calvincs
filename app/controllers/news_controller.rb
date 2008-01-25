@@ -15,7 +15,9 @@ class NewsController < ApplicationController
       @title = "News of #{@year}"
       @last_updated = @news_items.map(&:updated_at).max
     else
-      redirect_to :action => 'list', :id => Time.now.year
+      @title = "News Archive"
+      @years = NewsItem.find_news_years
+      render :action => "archive"
     end
   end
   

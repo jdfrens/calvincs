@@ -1,0 +1,7 @@
+<h1>News Archive</h1>
+
+<ul id="news-years">
+  <% @years.to_a.reverse.each do |year| -%>
+    <li><%= link_to "News of #{year}", :action => :list, :id => year %></li>
+  <% end -%>
+</ul>

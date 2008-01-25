@@ -29,6 +29,10 @@ class NewsItem < ActiveRecord::Base
         )
   end
   
+  def self.find_news_years
+    self.minimum(:goes_live_at).year..self.maximum(:goes_live_at).year
+  end
+  
   def last_updated_dates
     [updated_at]
   end
