@@ -85,17 +85,17 @@ namespace :deploy do
   
   desc "Restarts the mongrel_cluster"
   task :restart, :roles => :app, :except => { :no_release => true } do
-    restart_mongrel_cluster
+    mongrel.cluster.restart
   end
   
   desc "Starts the mongrel_cluster"
   task :start, :roles => :app do
-    start_mongrel_cluster
+    mongrel.cluster.start
   end
   
   desc "Stops the mongrel_cluster"
   task :stop, :roles => :app do
-    stop_mongrel_cluster
+    mongrel.cluster.stop
   end
   
   task :setup_extras, :except => { :no_release => true } do
