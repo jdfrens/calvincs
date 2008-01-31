@@ -25,15 +25,20 @@ class EventControllerTest < Test::Unit::TestCase
   end
   
   context "listing events" do
+    setup do
+      @semester_events = [
+        events(:old_colloquium), events(:old_conference),
+        events(:todays_colloquium), events(:within_a_week_colloquium),
+        events(:within_a_month_colloquium), events(:next_weeks_conference)
+      ]
+      Event.expects(:find_by_semester_of).with().returns(@semester_events)
+    end
+    
     should "set the right data and use the right template" do
       get :list
       
       assert_response :success
-      assert_equal [
-        events(:old_colloquium), events(:old_conference),
-        events(:todays_colloquium), events(:within_a_week_colloquium),
-        events(:within_a_month_colloquium), events(:next_weeks_conference)
-      ], assigns(:events)
+      assert_equal @semester_events, assigns(:events)
       assert_template 'event/list'
     end
 

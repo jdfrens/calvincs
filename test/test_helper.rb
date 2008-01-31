@@ -1,10 +1,12 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
-  
+
 module ERB::Util
   
-  alias_method :h_original, :h
+  def h_original(s)
+    s.to_s
+  end
   
   def h(s)
     "<div class=\"h-escaped\">" + s.to_s + "</div>"
@@ -14,9 +16,14 @@ end
 
 module ActionView::Helpers::TextHelper
 
-  alias_method :textilize_original, :textilize
-  alias_method :textilize_without_paragraph_original, :textilize_without_paragraph
-
+  def textilize_original(s)
+    s.to_s.gsub("*", "").gsub("_", "")
+  end
+  
+  def textilize_without_paragraph_original(s)
+    s.to_s.gsub("*", "").gsub("_", "")
+  end
+  
   def textilize(text)
     "<div class=\"textilized\">" + text.to_s.gsub('*', '') + "</div>"
   end

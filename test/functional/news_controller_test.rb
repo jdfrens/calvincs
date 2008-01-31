@@ -173,7 +173,7 @@ class NewsControllerTest < Test::Unit::TestCase
     context "when logged in" do
       should "list this year" do
         get :list, { :id => current_year }, user_session(:edit)
-    
+
         assert_response :success
         assert_standard_layout :title => "News of #{current_year}",
           :last_updated => news_items(:future_news).updated_at
