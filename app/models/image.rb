@@ -8,7 +8,7 @@ class Image < ActiveRecord::Base
   attr_accessible :url, :width, :height, :caption
   
   def self.pick_random(tag, index=-1)
-    images = ImageTag.find_all_by_tag(tag).map(&:image)
+    images = ImageTag.find(:all, :conditions => ["tag = ?", tag]).map(&:image)
     if index == -1
       index = rand(images.size)
     end
