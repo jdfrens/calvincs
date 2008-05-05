@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -26,6 +26,16 @@ Rails::Initializer.run do |config|
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
   config.active_record.colorize_logging = false
+
+  # Your secret key for verifying cookie session data integrity.
+  # If you change this key, all old sessions will become invalid!
+  # Make sure the secret is at least 30 characters and all random, 
+  # no regular words or you'll be exposed to dictionary attacks.
+  config.action_controller.session = {
+    :session_key => '_calvincs_session',
+    :secret      => '8592658a59e6ea19cd9b20cf63373e3f63959d719cb7ec219116cda15f79d46fffd13bce4d9e53d25e4ce5f6070b382283b1e
+ab42f1f26f41a724f67ac07538d'
+  }
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')

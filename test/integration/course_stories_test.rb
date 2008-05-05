@@ -3,8 +3,8 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 class CourseStoriesTest < ActionController::IntegrationTest
 
   fixtures :courses
-  user_fixtures
-  
+  user_fixtures  
+
   def test_adding_a_new_course
     login 'calvin', 'calvinpassword'
   
