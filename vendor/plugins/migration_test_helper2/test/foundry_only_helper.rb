@@ -12,6 +12,4 @@ class Test::Unit::TestCase
     should(behave,&block) if running_in_foundry
   end
 
-  def test_PLACEHOLDER; end
-
 end

@@ -22,6 +22,11 @@ class MigrationTestHelperTest < Test::Unit::TestCase
       yield
     end
   end
+
+  def declare_columns_on_table(t)
+    t.column :id,   :integer
+    t.column :tail, :string, :default => 'top dog', :limit => 187
+  end
   
   #
   # TESTS
@@ -30,9 +35,10 @@ class MigrationTestHelperTest < Test::Unit::TestCase
     see_no_failure do
       assert_schema do |s|
         s.table :dogs do |t|
-          t.column :id,   :integer
-          t.column :tail, :string, :default => 'top dog', :limit => 187
+	  declare_columns_on_table(t)
+	  t.index :tail, :name => 'index_tail_on_dogs'
         end
+
       end
     end
   end
@@ -88,8 +94,8 @@ class MigrationTestHelperTest < Test::Unit::TestCase
   def test_assert_table_should_not_fail_if_table_is_matched
     see_no_failure do
       assert_table :dogs do |t|
-        t.column :id,   :integer
-        t.column :tail, :string, :default => 'top dog', :limit => 187
+        declare_columns_on_table(t)
+	t.index :tail, :name => 'index_tail_on_dogs'
       end
     end
   end
@@ -125,6 +131,32 @@ class MigrationTestHelperTest < Test::Unit::TestCase
       assert_table :dogs do |t|
         t.column :id,   :integer
         t.column :tail, :string, :default => "blah"
+      end
+    end
+  end
+
+  def test_assert_table_should_fail_if_an_index_is_not_specified
+    see_failure 'wrong indexes for table: <dogs>' do
+      assert_table :dogs do |t|
+        declare_columns_on_table(t)
+      end
+    end
+  end
+
+  def test_assert_schema_should_fail_if_a_column_in_an_index_is_not_found
+    see_failure 'wrong indexes for table: <dogs>' do
+      assert_table :dogs do |t|
+        declare_columns_on_table(t)
+	t.index :legs, :name => 'index_legs_on_dogs'
+      end
+    end
+  end
+
+  def test_assert_schema_should_fail_if_wrong_options_on_an_index
+    see_failure 'wrong indexes for table: <dogs>' do
+      assert_table :dogs do |t|
+        declare_columns_on_table(t)
+	t.index :tail, :name => 'index_tail_on_dogs', :unique => true
       end
     end
   end

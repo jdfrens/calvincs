@@ -314,7 +314,7 @@ class PageControllerTest < Test::Unit::TestCase
 
   def assert_page_entries_order
     current_page = pages(:alphabet)
-    [:mission, :home_page, :home_splash].each do |next_identifier|
+    [ :mission, :home_page, :home_splash].each do |next_identifier|
       next_page = pages(next_identifier)
       assert_select "tr#page_#{current_page.id} ~ tr#page_#{next_page.id}", true,
         "page '#{current_page.identifier}' should be before '#{next_page.identifier}''"

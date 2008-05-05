@@ -41,11 +41,12 @@ If you're using it outside of a Rails environment (for whatever reason) include 
         t.column :book_id, :integer
         t.column :body,    :text
         t.column :rating,  :integer, :default => 0
+        t.index  :book_id, :name => 'index_book_id_on_reviews'
       end
     end
   end
 
-This would verify there are only two tables defined in the test database: _books_ and _reviews_ (schema_info is ignored).  It will also verify that the _book_ table has the three columns, _id_, _title_ and _author_, each with their respective types.
+This would verify there are only two tables defined in the test database: _books_ and _reviews_ (schema_info is ignored).  It will also verify that the _book_ table has the three columns, _id_, _title_ and _author_, each with their respective types. Indexes are verified too.
 
 
 *assert_table*: verify a table is found exactly as specified:
@@ -54,6 +55,7 @@ This would verify there are only two tables defined in the test database: _books
     t.column :id,     :integer
     t.column :title,  :string, :limit => 5
     t.column :author, :string
+    t.index  :author, :name => 'index_author_on_books'
   end
 
 
@@ -101,6 +103,7 @@ By combining the two helpers you can write a test that shows you can run all you
         t.column :book_id, :integer
         t.column :body,    :text
         t.column :rating,  :integer
+        t.index  :book_id, :name => 'index_book_id_on_reviews'
       end
     end
   end

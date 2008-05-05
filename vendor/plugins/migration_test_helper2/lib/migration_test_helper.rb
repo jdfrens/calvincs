@@ -128,6 +128,7 @@ module MigrationTestHelper
     def initialize(name) #:nodoc:
       @name = name.to_s
       @columns = []
+      @indexes = []
       assert conn.tables.include?(@name), "table <#{@name}> not found in schema"
     end
 
@@ -138,14 +139,21 @@ module MigrationTestHelper
       assert_not_nil col, "column <#{colname}> not found in table <#{self.name}>"
       assert_equal type, col.type, "wrong type for column <#{colname}> in table <#{name}>"
       options.each do |k,v|
-        k = k.to_sym
-        assert_equal v, col.send(k), "column <#{colname}> in table <#{name}> has wrong :#{k}"
+        k = k.to_sym; actual = col.send(k); actual = actual.is_a?(String) ? actual.sub(/'$/,'').sub(/^'/,'') : actual
+        assert_equal v, actual, "column <#{colname}> in table <#{name}> has wrong :#{k}"
       end
+    end
+
+    def index(column_name, options = {})
+      @indexes << "name <#{options[:name]}> columns <#{Array(column_name).join(",")}> unique <#{options[:unique] == true}>" 
     end
 
     def verify #:nodoc:
       actual_columns = conn.columns(name).map {|c| c.name }
       assert_equal @columns.sort, actual_columns.sort, "wrong columns for table: <#{name}>"
+
+      actual_indexes = conn.indexes(@name).collect { |i| "name <#{i.name}> columns <#{i.columns.join(",")}> unique <#{i.unique}>" }
+      assert_equal @indexes.sort, actual_indexes.sort, "wrong indexes for table: <#{name}>"
     end
   end
 end
