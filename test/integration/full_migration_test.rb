@@ -11,7 +11,7 @@ class FullMigrationTest < Test::Unit::TestCase
     see_data
     
     migrate :version => 0
-    see_empty_schema
+    see_nearly_empty_schema
     
     migrate
     see_full_schema
@@ -28,6 +28,10 @@ class FullMigrationTest < Test::Unit::TestCase
       see_image_tables(s)
       see_authentication_tables(s)
       see_user_info_tables(s)
+      s.table "schema_migrations" do |t|
+        t.column :version, :string
+        t.index :version, :name => :unique_schema_migrations, :unique => true
+      end
     end
   end
   
@@ -164,18 +168,27 @@ class FullMigrationTest < Test::Unit::TestCase
     end
   end
   
+  def see_nearly_empty_schema
+    assert_schema do |s|
+      s.table "schema_migrations" do |t|
+        t.column :version, :string
+        t.index :version, :name => :unique_schema_migrations, :unique => true
+      end
+    end
+  end
+  
   def see_data
     assert_names(
-        ["admin", "faculty", "staff", "adjuncts", "contributors", "emeriti"],
-        Group.find(:all)
-        )
+      ["admin", "faculty", "staff", "adjuncts", "contributors", "emeriti"],
+      Group.find(:all)
+    )
     
     assert_names ["edit"], Group.find_by_name("faculty").privileges
-#    assert_names ["edit"], Group.find_by_name("adjuncts").privileges
-#    assert_names ["edit"], Group.find_by_name("contributors").privileges
-#    assert_names ["edit"], Group.find_by_name("emeriti").privileges
-#    assert_names ["edit"], Group.find_by_name("staff").privileges
-#    assert_names ["edit"], Group.find_by_name("admin").privileges
+    #    assert_names ["edit"], Group.find_by_name("adjuncts").privileges
+    #    assert_names ["edit"], Group.find_by_name("contributors").privileges
+    #    assert_names ["edit"], Group.find_by_name("emeriti").privileges
+    #    assert_names ["edit"], Group.find_by_name("staff").privileges
+    #    assert_names ["edit"], Group.find_by_name("admin").privileges
   end
   
   def assert_names(expected, actual)

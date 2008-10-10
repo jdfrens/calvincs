@@ -1,0 +1,3 @@
+update RedCloth gem
+update plugins
+use native mysql

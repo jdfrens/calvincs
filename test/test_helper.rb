@@ -161,8 +161,8 @@ class Test::Unit::TestCase
   # LWT Authentication helpers
   #
   
-  def self.user_fixtures
-    fixtures :users, :groups, :privileges, :groups_privileges
+  def self.user_fixtures(*others)
+    fixtures([:users, :groups, :privileges, :groups_privileges] + others)
   end
   
   def assert_user_privilege(expected_id, expected_privilege)
