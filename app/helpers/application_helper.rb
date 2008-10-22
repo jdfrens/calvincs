@@ -35,6 +35,6 @@ module ApplicationHelper
 
 end
 
-class RedCloth
-  def hard_breaks; false end
-end
+#class RedCloth
+#  def hard_breaks; false end
+#end

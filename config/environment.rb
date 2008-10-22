@@ -28,7 +28,7 @@ ab42f1f26f41a724f67ac07538d'
   # gems
   # TODO: add version numbers when possible
   config.gem "thoughtbot-shoulda", :lib => "shoulda/rails", :source => "http://gems.github.com"
-  config.gem "RedCloth" # , :version => '4.0.3'
+#  config.gem "RedCloth" # , :version => '4.0.3'
   #  rake gems:install
   #  rake gems:unpack
 end
