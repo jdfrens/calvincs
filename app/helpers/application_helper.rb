@@ -1,7 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 
-module ApplicationHelper
-  
+module ApplicationHelper  
   def link_to_current_news_item(news_item, options = {})
     options = { :text => h(news_item.headline) }.merge(options)
     link_to options[:text],
@@ -34,7 +33,3 @@ module ApplicationHelper
   end
 
 end
-
-#class RedCloth
-#  def hard_breaks; false end
-#end

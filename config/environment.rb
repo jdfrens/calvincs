@@ -11,12 +11,6 @@ RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-  # Add additional load paths for your own custom dirs
-  config.load_paths += %W(
-      #{RAILS_ROOT}/vendor/RedCloth-3.0.4/lib
-      #{RAILS_ROOT}/vendor/imagesize-0.1.1/lib
-  )
-
   config.active_record.colorize_logging = false
 
   config.action_controller.session = {
@@ -28,7 +22,8 @@ ab42f1f26f41a724f67ac07538d'
   # gems
   # TODO: add version numbers when possible
   config.gem "thoughtbot-shoulda", :lib => "shoulda/rails", :source => "http://gems.github.com"
-#  config.gem "RedCloth" # , :version => '4.0.3'
+  config.gem "RedCloth", :lib => 'redcloth' #, :version => ">= 4.0"
+  config.gem "imagesize", :lib => 'image_size'
   #  rake gems:install
   #  rake gems:unpack
 end
