@@ -13,5 +13,5 @@ class HomeController < ApplicationController
   
   def administrate
   end
-    
+
 end

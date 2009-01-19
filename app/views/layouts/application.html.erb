@@ -39,10 +39,7 @@
       
       <% if current_user -%>
         <p class="logout">
-          <%= link_to "logout", :controller => "users", :action => "logout" %>
-          |
-          <%= link_to "administrate",
-                  :controller => "home", :action => "administrate" %>
+          <%= render :partial => 'layouts/adminmenu' %>
         </p>
       <% end -%>
       
