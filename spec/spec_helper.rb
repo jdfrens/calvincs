@@ -46,6 +46,22 @@ Spec::Runner.configure do |config|
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
 end
 
+# TODO: can this be phased out?
+def assert_equal_set(expected, actual, message=nil)
+  assert_equal expected.to_set, actual.to_set, message
+end
+
+# TODO: can this be phased out?
+def assert_invalid(object, invalids, valids=[])
+  assert !object.valid?, "#{object} should not be valid"
+  invalids.each do |invalid|
+    assert object.errors.invalid?(invalid), "#{invalid} should not be valid, but it is"
+  end
+  valids.each do |valid|
+    assert !object.errors.invalid?(valid), "#{valid} should be valid, but it's not"
+  end
+end
+
 def user_session(privilege)
   case privilege
   when :edit
