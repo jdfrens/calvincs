@@ -1,0 +1,54 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+old_colloquium:
+  id: 1
+  type: Colloquium
+  descriptor: colloquium
+  title: Old Colloquium
+  subtitle: Old Subtitle
+  presenter: Old Presenter
+  description: The old colloquium was in the past.
+  start: <%= 2.days.ago.to_s(:db) %>
+  stop: <%= (2.days.ago + 1.hour).to_s(:db) %>
+old_conference:
+  id: 2
+  type: Conference
+  descriptor: conference
+  title: Old Conference
+  subtitle: Old Subtitle
+  description: Oldie, but goodie.
+  start: <%= 5.days.ago.to_s(:db) %>
+  stop: <%= 2.days.ago.to_s(:db) %>
+todays_colloquium:
+  id: 3
+  type: Colloquium
+  descriptor: colloquium
+  title: Colloquium of Today
+  subtitle: Talk about Today!
+  description: Go!
+  start: <%= 1.hour.from_now.to_s(:db) %>
+  stop: <%= 3.hours.from_now.to_s(:db) %>
+within_a_week_colloquium:
+  id: 4
+  type: Colloquium
+  descriptor: colloquium
+  title: Six Days from Now
+  subtitle: Talk about Six Days!
+  description: Prepare to go!
+  start: <%= 6.days.from_now.to_s(:db) %>
+  stop: <%= (6.days.from_now + 1.hour).to_s(:db) %>
+within_a_month_colloquium:
+  id: 5
+  type: Colloquium
+  descriptor: colloquium
+  title: Eight Days from Now
+  description: Wait to go.
+  start: <%= 8.days.from_now.to_s(:db) %>
+  stop: <%= (8.days.from_now + 1.hour).to_s(:db) %>
+next_weeks_conference:
+  id: 6
+  type: Conference
+  descriptor: conference
+  title: Future Conference
+  description: A conference about The Future!
+  start: <%= 7.days.from_now.to_s(:db) %>
+  stop: <%= 8.days.from_now.to_s(:db) %>

@@ -63,58 +63,12 @@ class Test::Unit::TestCase
     options = { :title => nil, :last_updated => false }.merge(options)
     
     if options[:title]
-      assert_select "title" , "Calvin College Computer Science - #{options[:title]}"
-    else
-      assert_select "title" , "Calvin College Computer Science"
+      raise "use: assigns[:title].should == '#{options[:title]}'"
     end
-    
-    [ "calvintemplate", "department" ].each do |filename|
-      assert_select "link[type=text/css][href^=/stylesheets/#{filename}.css]",
-        { :count => 1 }, "should have link to #{filename}.css stylesheet"
+    if options[:last_updated]
+      raise "use: assigns[:last_updated].should == '#{options[:last_updated]}'"
     end
-    
-    assert_select "h1#nameplate-dept a[href=/]", "Computer Science &amp; Information Systems"
-    
-    assert_select "script[type=text/javascript]"
-    assert_select "div#accessibility" do
-      assert_select "a[href=#navbar]"
-      assert_select "a[href=#content]"
-    end
-    assert_select "div#header"
-    assert_select "div#wrapper" do
-      assert_select "div#content"
-      assert_select "div#sidebar" do
-        assert_select "div#navbar ul" do
-          assert_select "li", 10, "should have ten menu items"
-          assert_menu_item options[:menu], :home, 1, "/", "Home"
-          assert_select "li:nth-child(2) a[href=/p/about_us]", "About Us"
-          assert_select "li:nth-child(3) a[href=/p/academics]", "Academics"
-          assert_select "li:nth-child(4) a[href=/p/students]", "Students"
-          assert_menu_item options[:menu], :personnel_list, 5, "/personnel/list", "Faculty &amp; Staff"
-          assert_select "li:nth-child(6) a[href=/p/facilities]", "Facilities"
-          assert_select "li:nth-child(7) a[href=/p/research]", "Research"
-          assert_select "li:nth-child(8) a[href=/p/alumni]", "Alumni Profiles"
-          assert_menu_item options[:menu], :news, 9, "/news", "News"
-          assert_select "li:nth-child(10) a[href=/p/contact_us]", "Contact Us"
-        end
-      end
-      assert_select "div#footer-css" do
-        assert_select "a[href=mailto:computing@calvin.edu]", "Computer Science Department"
-        if options[:last_updated]
-          assert_select "#last_updated", last_updated_text(options[:last_updated]),
-            "should have last updated on #{last_updated_text(options[:last_updated])}"
-        else
-          assert_select "#last_updated", false, "should have no last updated"
-        end
-      end
-    end
-    if logged_in?
-      assert_select "a[href=/users/logout]", /logout/i
-      assert_select "a[href=/home/administrate]", /administrate/i
-    else
-      assert_select "a[href=/users/logout]", 0
-      assert_select "a[href=/home/administrate]", 0
-    end
+    raise "stop using me!"
   end
 
   def assert_menu_item(current, item, n, path, text)
