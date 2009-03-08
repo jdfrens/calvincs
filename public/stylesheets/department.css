@@ -84,12 +84,12 @@ div#navbar li a {
 
 div.content-editor {
   padding: 10px 10px 10px 10px;
-  background-color: pink;
+  background-color: yellow;
   clear: both;
 }
 
 .comment {
-  background-color: pink;
+  background-color: yellow;
 }
 
 /*************/

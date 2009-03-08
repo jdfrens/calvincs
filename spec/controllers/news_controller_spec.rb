@@ -246,7 +246,7 @@ describe NewsController do
           { :id => news_items(:todays_news).id, :value => 'New Headline' },
           user_session(:edit)
         assert_response :success
-        assert_equal "New Headline", @response.body
+        assert_equal "New Headline", response.body
     
         assert_equal 'New Headline', NewsItem.find(news_items(:todays_news).id).headline
       end
@@ -271,7 +271,7 @@ describe NewsController do
           user_session(:edit)
       
         assert_response :success
-        assert_equal "Teaser of Newness", @response.body
+        assert_equal "Teaser of Newness", response.body
     
         assert_equal 'Teaser of Newness', NewsItem.find(news_items(:todays_news).id).teaser
       end
@@ -328,7 +328,7 @@ describe NewsController do
           { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
         
         assert_response :success
-        assert_equal '01/05/2007', @response.body
+        assert_equal '01/05/2007', response.body
         item.reload
         assert_equal '01/05/2007', item.goes_live_at_formatted
       end
@@ -355,7 +355,7 @@ describe NewsController do
         xhr :get, :set_news_item_expires_at_formatted,
           { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
         assert_response :success
-        assert_equal '01/05/2007', @response.body
+        assert_equal '01/05/2007', response.body
         item.reload
         assert_equal '01/05/2007', item.expires_at_formatted
       end

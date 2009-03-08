@@ -222,13 +222,13 @@ describe PageController do
       user_session(:edit)
 
     assert_response :success
-    assert_equal "New Mission Statement", @response.body
+    assert_equal "New Mission Statement", response.body
     
     page = Page.find(1)
     assert_equal 'New Mission Statement', page.title
   end
   
-  def test_set_page_title_redirects_when_NOT_logged_in
+  it "should redirect when setting page title" do
     xhr :post, :set_page_title, :id => 1, :value => 'New Mission Statement'
     
     response.should redirect_to(:controller => 'users', :action => 'login')
@@ -249,7 +249,7 @@ describe PageController do
     assert_equal 'Mission away!', page.content
   end
   
-  def test_update_page_content_redirects_when_NOT_logged_in
+  it "should redirect updated page content" do
     xhr :get, :update_page_content,
       { :id => 1, :page => { :content => 'Mission away!' } }
     
@@ -262,13 +262,13 @@ describe PageController do
       user_session(:edit)
         
     assert_response :success
-    assert_equal "mission_2", @response.body
+    assert_equal "mission_2", response.body
     
     page = Page.find(1)
     assert_equal 'mission_2', page.identifier
   end
   
-  def test_set_page_identifier_fails_when_NOT_logged_in
+  it "should redirect page identifier" do
     xhr :get, :set_page_identifier, :id => 1, :value => 'phooey'
     
     response.should redirect_to(:controller => 'users', :action => 'login')

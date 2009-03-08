@@ -254,7 +254,7 @@ YML
         next if line =~ /^\s*#/ # skip commented lines
         for props in specs.values
           if props['where']
-            where = props['where'].scan /\w+/
+            where = props['where'].scan(/\w+/)
             next unless where.any? do |place|
               case place
               when 'controllers', 'models'

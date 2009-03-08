@@ -32,13 +32,13 @@ describe CurriculumController do
     assert_course_form
   end
   
-  def test_new_course_should_redirect_when_NOT_logged_in
+  it "should redirected when NOT logged in" do
     get :new_course
 
     response.should redirect_to(:controller => "users", :action => "login")
   end
   
-  def test_view_course_when_NOT_logged_in
+  it "should redirect course/view" do
     get :view_course, :id => 3
 
     assert_response :success
@@ -74,7 +74,7 @@ describe CurriculumController do
     assert_equal 'One Off Devilry', course.title
   end
   
-  def test_save_course_redirects_when_NOT_logged_in
+  it "should redirect save/course to login" do
     post :save_course, { :course => {
         :label => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
