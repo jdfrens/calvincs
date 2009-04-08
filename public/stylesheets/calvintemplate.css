@@ -522,4 +522,4 @@ dd#task-apply {
 }
 
 /* Fix IE */
-*html .columns { margin-bottom: 0px;}
+html .columns { margin-bottom: 0px;}

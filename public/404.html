@@ -1,47 +1,62 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>The page you were looking for doesn't exist (404)</title>
-	<style type="text/css">
-    div.dialog {
-    	margin: 0;
-    	padding: 10px;
-    	text-align: left;
-    	border: 1px solid #ccc;
-    	border-right: 1px solid #999;
-    	border-bottom: 1px solid #999;
-    	background-color: #fff;
-    	}
+  <meta name="keywords" content="calvin college, computer science, christian, academics"/>
+  <meta name="description" content="Website of the Department of Computer Science at Calvin College"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
-  	div.outer {
-  		position: absolute;
-  		left: 50%;
-  		top: 50%;
-  		width: 500px;
-  		height: 300px;
-  		margin-left: -260px; 
-  		margin-top: -150px;
-  	}
+  <link href="/stylesheets/calvintemplate.css" media="all" rel="Stylesheet" type="text/css" />
+  <link href="/stylesheets/department.css" media="all" rel="Stylesheet" type="text/css" />
 
-  	body { background-color: #fff; }
-	</style>
+  <%= title %>
 </head>
 
 <body>
 
-<div class="outer">
-  <!-- This file lives in public/404.html -->
+<div id="accessibility">
+  <a href="#navbar">Skip to Navigation</a>
+  |
+  <a href="#content">Skip to Content</a>
+</div>
 
-  <div class="dialog" style="text-align: center;">
-    <div style="text-align: center; width: 200px; margin: 0 auto;">
-    <p style="color: red; font-size: 16px; line-height: 20px;">The page you were looking for doesn't exist.</p>
-    <p style="color: #666;">You may have mistyped the address or the page may have moved.</p>
+<div id="header">
+  <div class="gutter">
+	  <h1 id="nameplate-calvin"><a href="http://www.calvin.edu/">Calvin College</a></h1>
+	  <h1 id="nameplate-dept"><a href="/">Computer Science &amp; Information Systems</a></h1>
   </div>
+</div>
+
+<div id="wrapper">
+
+  <div id="content">
+    <div class="gutter">
+
+      <%= yield :layout %>
+
+      <% if current_user -%>
+        <p class="logout">
+          <%= render :partial => 'layouts/adminmenu' %>
+        </p>
+      <% end -%>
+
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div id="navbar" class="navigation">
+      <%= render :partial => 'layouts/mainmenu' %>
+      <%= render :partial => 'layouts/googlesearch' %>
+      <%= render :partial => 'layouts/tasks' %>
+    </div>
+  </div>
+
+  <%= render :partial => 'layouts/footer' %>
+
 </div>
 
 </body>
 </html>
+
