@@ -15,7 +15,7 @@ class PageController < ApplicationController
     @page = Page.find_by_identifier(params[:id])
     if @page
       if @page.subpage? && !current_user
-        render :inline => "<p>This page does not exist.</p>", :layout => "application", :status => 404
+        render :template => "errors/404.html", :status => 404
       else
         @image = @page.random_image
         @title = @page.subpage? ? "SUBPAGE" : @page.title
@@ -26,7 +26,7 @@ class PageController < ApplicationController
       flash[:error] = "Page #{params[:id]} does not exist."
       redirect_to :action => 'list'
     else
-      render :text => "<p>This page does not exist.</p>", :layout => "application", :status => 404
+      render :template => "errors/404.html", :status => 404
     end
   end
   
