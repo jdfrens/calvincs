@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class EventTest < Test::Unit::TestCase
+class EventTest < ActiveRecord::TestCase
   fixtures :events
   
   should_require_attributes :title

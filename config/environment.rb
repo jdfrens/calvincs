@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -18,14 +18,11 @@ Rails::Initializer.run do |config|
     :secret      => '8592658a59e6ea19cd9b20cf63373e3f63959d719cb7ec219116cda15f79d46fffd13bce4d9e53d25e4ce5f6070b382283b1e
 ab42f1f26f41a724f67ac07538d'
   }
-
+  
   # gems
-  # TODO: add version numbers when possible
   config.gem "thoughtbot-shoulda", :lib => "shoulda/rails", :source => "http://gems.github.com"
   config.gem "RedCloth", :lib => 'redcloth' #, :version => ">= 4.0"
   config.gem "imagesize", :lib => 'image_size'
-  #  rake gems:install
-  #  rake gems:unpack
 end
 
 # time formats

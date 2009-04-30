@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class UserTest < Test::Unit::TestCase
+class UserTest < ActiveRecord::TestCase
 
   fixtures :degrees, :images, :image_tags, :pages
   user_fixtures

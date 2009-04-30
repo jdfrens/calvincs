@@ -11,6 +11,7 @@ describe "/layouts/application.html.erb" do
   end
 
   it "should render the application layout with partials" do
+    template.should_receive(:current_user).and_return(false)
     template.should_receive(:render).with(:partial => 'layouts/mainmenu').
       and_return("<div id='menu'></div>")
     template.should_receive(:render).with(:partial => 'layouts/googlesearch').

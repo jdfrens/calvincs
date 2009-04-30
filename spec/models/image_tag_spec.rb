@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class ImageTagTest < Test::Unit::TestCase
+class ImageTagTest < ActiveRecord::TestCase
 
   fixtures :image_tags, :images
 

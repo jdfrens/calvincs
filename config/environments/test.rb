@@ -18,5 +18,5 @@ config.action_controller.perform_caching             = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
-config.gem "rspec", :lib => false, :version => ">= 1.1.99.10"
-config.gem "rspec-rails", :lib => false, :version => ">= 1.1.99.10"
+config.gem "rspec", :lib => false, :version => ">= 1.2.5"
+config.gem "rspec-rails", :lib => false, :version => ">= 1.2.5"

@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class CourseTest < Test::Unit::TestCase
+class CourseTest < ActiveRecord::TestCase
   fixtures :courses
 
   def test_initialize_validations

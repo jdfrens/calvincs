@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class FaqTest < Test::Unit::TestCase
+class FaqTest < ActiveRecord::TestCase
   fixtures :faqs, :questions
 
   def test_validations

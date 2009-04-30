@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class PageTest < Test::Unit::TestCase
+class PageTest < ActiveRecord::TestCase
   fixtures :pages, :images, :image_tags
 
   def test_fail_to_inialize_with_duplicate_identifier
