@@ -12,7 +12,7 @@
       <td><%= select_tag "event[type]", '<option value="colloquium">Colloquium</option><option value="conference">Conference</option>', :id => "event_type" %></td>
     </tr>
     <tr>
-      <td>Title:</td>
+      <td><%= form.label :title, "Title:" %></td>
       <td><%= form.text_field :title %></td>
     </tr>
     <tr>

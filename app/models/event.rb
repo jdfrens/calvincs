@@ -43,6 +43,10 @@ class Event < ActiveRecord::Base
   def length
     nil
   end
+
+  def length=(t)
+    self.stop = self.start + t.hours
+  end
 end
 
 class Colloquium < Event

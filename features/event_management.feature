@@ -17,3 +17,12 @@ Feature: managing events
     And I should see "Get Fake"
     And I should see "Foobar 2009"
     And I should see "Barfoo 1692"
+
+  Scenario: add an event
+#    Given I am logged in as an editor
+    When I am on the create event page
+    And I fill in "event[title]" with "Amazing Ruby Code"
+    And I press "Create"
+    Then I should see "Amazing Ruby Code"
+    And I should be on the event list
+    

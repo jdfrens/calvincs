@@ -105,5 +105,27 @@ class EventTest < ActiveRecord::TestCase
       assert_same(:spring_events, Event.find_by_semester_of(spring))
     end
   end
+
+  describe "setting the length" do
+    before(:each) do
+      @event = Colloquium.create!(:title => "Something", :start => 1.hour.from_now, :stop => 2.hours.from_now, :descriptor => "colloquium")
+    end
+
+    it "should establish original length" do
+      @event.length.should be_close(1.0, 0.001)
+    end
+
+    it "should have new length" do
+      @event.length = 2
+      @event.save!
+      @event.length.should be_close(2.0, 0.001)
+    end
+
+    it "should adjust stop time" do
+      @event.length = 2
+      @event.save!
+      @event.stop.should == (@event.start + 2.hours)
+    end
+  end
   
 end

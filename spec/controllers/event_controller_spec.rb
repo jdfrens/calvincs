@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe EventController do
   
-  context "the index action" do
+  describe "the index action" do
     it "should redirect index to list" do
       get :index
       
@@ -11,7 +11,7 @@ describe EventController do
     end
   end
   
-  context "listing events" do    
+  describe "listing events" do    
     it "should set the right data and use the right template" do
       events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       Event.should_receive(:find_by_semester_of).with().and_return(events)
@@ -23,7 +23,7 @@ describe EventController do
       assert_template 'event/list'
     end
 
-    context "and the list view" do
+    describe "and the list view" do
       it "should display data for a complete event" do
         events = mock("array of events")
         Event.should_receive(:find_by_semester_of).and_return(events)
@@ -37,7 +37,7 @@ describe EventController do
     end
   end
   
-  context "viewing an event" do
+  describe "viewing an event" do
     it "should find event and view it" do
       event = mock_model(Event)
       Event.should_receive(:find).with(event.id.to_s).and_return(event)
@@ -61,7 +61,7 @@ describe EventController do
     end
   end
   
-  context "building a new event" do
+  describe "building a new event" do
     it "should have a new action with a form" do
       get :new, {}, mock_user_session(:edit)
       
@@ -70,7 +70,39 @@ describe EventController do
     end
 
     it "should redirect when not logged in" do
+      pending
       get :new
+
+      response.should redirect_to(:controller => 'users', :action => 'login')
+    end
+
+    it "should create a new event" do
+      params = { :event => mock("event params") }
+      event = mock("event")
+
+      Event.should_receive(:new).with(params[:event]).and_return(event)
+      event.should_receive(:save).and_return(true)
+
+      post :create, params, mock_user_session(:edit)
+      assigns[:event].should eql(event)
+      response.should redirect_to(:action => "list") 
+    end
+
+    it "should fail to create a new event" do
+      params = { :event => mock("event params") }
+      event = mock("event")
+
+      Event.should_receive(:new).with(params[:event]).and_return(event)
+      event.should_receive(:save).and_return(false)
+
+      post :create, params, mock_user_session(:edit)
+      assigns[:event].should eql(event)
+      response.should render_template("event/new")
+    end
+
+    it "should redirect create when not logged in" do
+      pending
+      get :create, mock("params")
 
       response.should redirect_to(:controller => 'users', :action => 'login')
     end
