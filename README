@@ -1,6 +1,16 @@
 This is a Ruby on Rails app for the Computer Science Department at Calvin College.
 It's been developed almost entirely by one person stumbling his way through Rails.
 
+Potential features of the site:
+  1) a CMS
+  2) images (with random selection on CMS pages)
+  3) faculty management
+  4) news items
+  5) events (in progress)
+  6) a FAQ system (partially implemented)
+  7) a course-catalog system (partially implemented)
+  
+
 CS Department Setup
 ===================
 
