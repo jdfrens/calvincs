@@ -53,13 +53,9 @@ class Event < ActiveRecord::Base
   def elapsed
     stop - start
   end
-  
+
   def length
     nil
-  end
-
-  def length=(t)
-    @length = t.to_i.hours
   end
 
   protected
@@ -83,6 +79,14 @@ class Colloquium < Event
     elapsed / 1.hour
   end
   
+  def length=(t)
+    @length = t.to_i.hours
+  end
+
+  def timing
+    start.to_s(:colloquium)
+  end
+
 end
 
 class Conference < Event
@@ -91,4 +95,12 @@ class Conference < Event
     elapsed / 1.day
   end
   
+  def length=(t)
+    @length = t.to_i.days
+  end
+
+  def timing
+    "#{start.to_s(:conference)} thru #{stop.to_s(:conference)}"
+  end
+
 end

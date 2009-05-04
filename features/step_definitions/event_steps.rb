@@ -19,3 +19,12 @@ end
 When /^I select tomorrow at "([^\"]*)" as the date and time$/ do |time|
   select_datetime((Date.today + 1).to_s + " " + time)
 end
+
+When /^I select tomorrow as the date$/ do
+  select_date((Date.today + 1).to_s)
+end
+
+Then /^I should see tomorrow and two days later$/ do
+  response.should contain(1.day.from_now.to_s(:conference))
+  response.should contain(3.days.from_now.to_s(:conference))
+end

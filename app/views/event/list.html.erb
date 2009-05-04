@@ -1,8 +1,9 @@
 <h1>Upcoming Events</h1>
 
 <% @events.each do |event| -%>
-  <div id="event-<%= event.id %>">
-    <h2><%= format_titles event %></h2>
-    <p class="when"><%= event.start.to_s(:colloquium) %></p>
-  </div>
+    <div id="event-<%= event.id %>">
+      <h2><%= format_titles event %></h2>
+
+      <p class="when"><%= event.timing %></p>
+    </div>
 <% end -%>

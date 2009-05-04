@@ -47,6 +47,44 @@ class EventTest < ActiveRecord::TestCase
     end
   end
 
+  describe "setting the length of an event" do
+    it "should be in hours for a colloquium" do
+      colloquium = events(:todays_colloquium)
+      colloquium.length = 5
+      colloquium.save!
+      colloquium.stop.should == (colloquium.start + 5.hours)
+    end
+
+    it "should be in days for a conference" do
+      conference = events(:next_weeks_conference)
+      conference.length = 5
+      conference.save!
+      conference.stop.should == (conference.start + 5.days)
+    end
+  end
+
+  describe "the timing of an event" do
+    it "should use just the start datetime of a colloquium" do
+      start = mock("start time")
+      event = Colloquium.new(:title => "foobar", :start => start)
+
+      start.should_receive(:to_s).with(:colloquium).and_return("the full time")
+      
+      event.timing.should == "the full time"
+    end
+
+    it "should use the start date and ending date" do
+      start = mock("start time")
+      stop = mock("stop time")
+      event = Conference.new(:title => "foobar", :start => start, :stop => stop)
+
+      start.should_receive(:to_s).with(:conference).and_return("START")
+      stop.should_receive(:to_s).with(:conference).and_return("STOP")
+
+      event.timing.should == "START thru STOP"
+    end
+  end
+
   context "seeing if events can really be found by dates" do
     should "have a default return for finding within a range" do
       assert_equal [], Event.find_within(Time.now, 1.minute.from_now)
