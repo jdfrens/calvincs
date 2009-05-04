@@ -70,7 +70,6 @@ describe EventController do
     end
 
     it "should redirect when not logged in" do
-      pending
       get :new
 
       response.should redirect_to(:controller => 'users', :action => 'login')
@@ -101,8 +100,7 @@ describe EventController do
     end
 
     it "should redirect create when not logged in" do
-      pending
-      get :create, mock("params")
+      get :create, {}
 
       response.should redirect_to(:controller => 'users', :action => 'login')
     end

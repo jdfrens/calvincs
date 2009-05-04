@@ -19,8 +19,8 @@ Feature: managing events
     And I should see "Barfoo 1692"
 
   Scenario: add a colloquium
-#    Given I am logged in as an editor
-    When I am on the create event page
+    Given I am logged in as an editor
+    When I am on the new event page
     And I select "Colloquium" from "event[type]"
     And I fill in "event[title]" with "Amazing Ruby Code"
     And I select tomorrow at "16:00" as the date and time

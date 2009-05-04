@@ -11,7 +11,7 @@ module NavigationHelpers
       when /the homepage/
         '/'
 
-      when /the create event page/
+      when /the new event page/
         '/event/new'
 
       when /the list of events/
