@@ -5,8 +5,8 @@ describe "/event/list.html.erb" do
   it "should render list" do
     start = mock("start time")
     event = mock_model(Event,
-      :title => "Colloquium of Today", :subtitle => "Talk about Today!",
-      :start => start
+            :title => "Colloquium of Today", :subtitle => "Talk about Today!",
+            :start => start
     )
     assigns[:events] = [event]
     start.should_receive(:to_s).with(:colloquium).and_return("starting time")

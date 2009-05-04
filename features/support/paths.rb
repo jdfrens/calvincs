@@ -14,6 +14,9 @@ module NavigationHelpers
       when /the create event page/
         '/event/new'
 
+      when /the list of events/
+        '/event/list'
+
       # Add more mappings here.
       # Here is a more fancy example:
       #

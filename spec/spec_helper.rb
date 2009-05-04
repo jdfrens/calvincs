@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
 require 'spec/autorun'
 require 'spec/rails'
+require 'webrat'
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
@@ -13,37 +14,7 @@ Spec::Runner.configure do |config|
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
-  # == Fixtures
-  #
-  # You can declare fixtures for each example_group like this:
-  #   describe "...." do
-  #     fixtures :table_a, :table_b
-  #
-  # Alternatively, if you prefer to declare them only once, you can
-  # do so right here. Just uncomment the next line and replace the fixture
-  # names with your fixtures.
-  #
-  # config.global_fixtures = :table_a, :table_b
-  #
-  # If you declare global fixtures, be aware that they will be declared
-  # for all of your examples, even those that don't use them.
-  #
-  # You can also declare which fixtures to use (for example fixtures for test/fixtures):
-  #
-  # config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
-  #
-  # == Mock Framework
-  #
-  # RSpec uses it's own mocking framework by default. If you prefer to
-  # use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
-  #
-  # == Notes
-  # 
-  # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+  config.include Webrat::Matchers, :type => :views
 end
 
 # TODO: can this be phased out?
@@ -60,19 +31,6 @@ def assert_invalid(object, invalids, valids=[])
   valids.each do |valid|
     assert !object.errors.invalid?(valid), "#{valid} should be valid, but it's not"
   end
-end
-
-# TODO: get rid of this!
-def assert_standard_layout(options = {})
-  options = { :title => nil, :last_updated => false }.merge(options)
-
-  if options[:title]
-    raise "use: assigns[:title].should == '#{options[:title]}'"
-  end
-  if options[:last_updated]
-    raise "use: assigns[:last_updated].should == '#{options[:last_updated]}'"
-  end
-  raise "stop using me!"
 end
 
 def user_session(privilege)

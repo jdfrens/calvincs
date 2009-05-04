@@ -2,41 +2,64 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe "/event/view.html.erb" do
 
-  it "should view a complete event" do
-    event = mock_model(Event,
-      :title => "The Title", :subtitle => "The Subtitle",
-      :presenter => "Dr. Presenter", :description => "The Description")
-    assigns[:event] = event
-    expect_textilize_wop("The Title")
-    expect_textilize_wop("The Subtitle")
-    expect_textilize_wop("Dr. Presenter")
-    expect_textilize("The Description")
+  describe "viewing a complete event" do
 
-    render "event/view"
+    before(:each) do
+      event = mock(
+              :title => "The Title", :subtitle => "The Subtitle",
+                      :presenter => "Dr. Presenter", :description => "The Description")
 
-    assert_select "div#event-title" do
-      assert_select "h1", "The Title"
-      assert_select "h2#subtitle", "The Subtitle"
+      assigns[:event] = event
+      expect_textilize_wop("The Title")
+      expect_textilize_wop("The Subtitle")
+      expect_textilize_wop("Dr. Presenter")
+      expect_textilize("The Description")
+
+      render "event/view"
     end
-    assert_select "div#event-presenter", "Dr. Presenter"
-    assert_select "div#event-description", "The Description"
+
+    it "should have a complete title" do
+      response.should have_selector("div#title") do |div|
+        div.should have_selector("h1", :content => "The Title")
+        div.should have_selector("h2#subtitle", :content => "The Subtitle")
+      end
+    end
+
+    it "should have a presenter" do
+      assert_select "div#event-presenter", "Dr. Presenter"
+    end
+
+    it "should have a description" do
+      assert_select "div#event-description", "The Description"
+    end
   end
 
-  it "should view a minimal event" do
-    event = mock_model(Event,
-      :title => "The Title", :subtitle => nil,
-      :presenter => nil, :description => "The Description")
-    assigns[:event] = event
-    expect_textilize_wop("The Title")
-    expect_textilize("The Description")
+  describe "viewing a minimal event" do
+    before(:each) do
+      event = mock_model(Event,
+              :title => "The Title", :subtitle => nil,
+              :presenter => nil, :description => "The Description")
+      assigns[:event] = event
+      expect_textilize_wop("The Title")
+      expect_textilize("The Description")
 
-    render "event/view"
-
-    assert_select "div#event-title" do
-      assert_select "h1", "The Title"
-      assert_select "h2#subtitle", false
+      render "event/view"
     end
-    assert_select "div#event-presenter", false
-    assert_select "div#event-description", "The Description"
+
+    it "should have minimal title" do
+      response.should have_selector("#title") do |title|
+        title.should have_selector("h1", :content => "The Title")
+      end
+      response.should_not have_selector("#subtitle")
+    end
+
+    it "should not have presenter" do
+      response.should_not have_selector("div#event-presenter")
+    end
+
+    it "should still have a description" do
+      response.should have_selector("div#event-description", :content => "The Description")
+    end
   end
+ 
 end

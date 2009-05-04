@@ -2,6 +2,9 @@ class Event < ActiveRecord::Base
   
   validates_presence_of :title, :descriptor, :start, :stop
 
+  before_validation :use_length_for_stop_time
+  before_validation :use_type_for_descriptor
+
   def self.find_within(range_start, range_stop)
     self.find(:all,
       :conditions => ["(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",
@@ -35,7 +38,18 @@ class Event < ActiveRecord::Base
     end
     find_within(start, stop)
   end
-  
+
+  def self.new_event(params)
+    case params[:type]
+      when "colloquium":
+        Colloquium.new(params)
+      when "conference":
+        Conference.new(params)
+      else
+        raise "Invalid event type #{params[:type]}"
+    end
+  end
+
   def elapsed
     stop - start
   end
@@ -45,7 +59,21 @@ class Event < ActiveRecord::Base
   end
 
   def length=(t)
-    self.stop = self.start + t.hours
+    @length = t.to_i.hours
+  end
+
+  protected
+
+  def use_length_for_stop_time
+    if @length
+      self.stop = self.start + @length
+    end
+  end
+
+  def use_type_for_descriptor
+    if not self.descriptor
+      self.descriptor = self[:type].downcase
+    end
   end
 end
 

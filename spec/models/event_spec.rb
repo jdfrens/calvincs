@@ -7,6 +7,26 @@ class EventTest < ActiveRecord::TestCase
   should_require_attributes :descriptor
   should_require_attributes :start
   should_require_attributes :stop
+
+  describe "creating instances of the subclasses" do
+    it "should create a colloquium" do
+      params = { :type => "colloquium", :foo => mock("foo param") }
+      colloquium = mock("colloquium")
+
+      Colloquium.should_receive(:new).with(params).and_return(colloquium)
+
+      Event.new_event(params).should eql(colloquium)
+    end
+
+    it "should create a conference" do
+      params = { :type => "conference", :foo => mock("foo param") }
+      conference = mock("conference")
+
+      Conference.should_receive(:new).with(params).and_return(conference)
+
+      Event.new_event(params).should eql(conference)
+    end
+  end
    
   context "testing the system" do
     should "have single-table inheritance" do
@@ -126,6 +146,13 @@ class EventTest < ActiveRecord::TestCase
       @event.save!
       @event.stop.should == (@event.start + 2.hours)
     end
+
+    it "should work for a string argument" do
+      @event.length = "2"
+      @event.save!
+      @event.stop.should == (@event.start + 2.hours)
+    end
+
   end
   
 end

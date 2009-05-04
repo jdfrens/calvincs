@@ -15,3 +15,7 @@ end
 When /^I view the list of events$/ do
   visit '/event'
 end
+
+When /^I select tomorrow at "([^\"]*)" as the date and time$/ do |time|
+  select_datetime((Date.today + 1).to_s + " " + time)
+end

@@ -80,7 +80,7 @@ describe EventController do
       params = { :event => mock("event params") }
       event = mock("event")
 
-      Event.should_receive(:new).with(params[:event]).and_return(event)
+      Event.should_receive(:new_event).with(params[:event]).and_return(event)
       event.should_receive(:save).and_return(true)
 
       post :create, params, mock_user_session(:edit)
@@ -92,7 +92,7 @@ describe EventController do
       params = { :event => mock("event params") }
       event = mock("event")
 
-      Event.should_receive(:new).with(params[:event]).and_return(event)
+      Event.should_receive(:new_event).with(params[:event]).and_return(event)
       event.should_receive(:save).and_return(false)
 
       post :create, params, mock_user_session(:edit)

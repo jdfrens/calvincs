@@ -21,7 +21,7 @@ class EventController < ApplicationController
   end
 
   def create
-    @event = Event.new(params[:event])
+    @event = Event.new_event(params[:event])
     if @event.save
       redirect_to :action => :list
     else
