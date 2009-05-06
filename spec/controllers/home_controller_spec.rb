@@ -11,8 +11,8 @@ describe HomeController do
       this_weeks_events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       last_updated = mock("last updated")
 
-      Page.should_receive(:find_by_identifier).with('_home_page').and_return(content)
-      Page.should_receive(:find_by_identifier).with('_home_splash').and_return(splash)
+      Page.should_receive(:find_by_identifier!).with('_home_page').and_return(content)
+      Page.should_receive(:find_by_identifier!).with('_home_splash').and_return(splash)
       NewsItem.should_receive(:find_current).and_return(news_items)
       Event.should_receive(:find_by_today).and_return(todays_events)
       Event.should_receive(:find_by_week_of).with(an_instance_of(Time)).and_return(this_weeks_events)
@@ -29,6 +29,23 @@ describe HomeController do
       assigns[:todays_events].should equal(todays_events)
       assigns[:this_weeks_events].should equal(this_weeks_events)
       assigns[:last_updated].should equal(last_updated)
+    end
+
+    it "should redirect when _home_page is not defined" do
+      Page.should_receive(:find_by_identifier!).with('_home_page').and_raise(ActiveRecord::RecordNotFound)
+
+      get :index
+
+      response.should redirect_to(:controller => "page", :action => "create", :id => "_home_page")
+    end
+
+    it "should redirect when _home_splash is not defined" do
+      Page.should_receive(:find_by_identifier!).with('_home_page').and_return(mock("content"))
+      Page.should_receive(:find_by_identifier!).with('_home_splash').and_raise(ActiveRecord::RecordNotFound)
+
+      get :index
+
+      response.should redirect_to(:controller => "page", :action => "create", :id => "_home_splash")
     end
   end
 
