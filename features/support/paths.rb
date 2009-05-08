@@ -11,6 +11,9 @@ module NavigationHelpers
       when /the homepage/
         '/'
 
+      when /the login page/
+        '/users/login'
+
       when /the new event page/
         '/event/new'
 
