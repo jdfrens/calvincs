@@ -31,7 +31,7 @@ class PageController < ApplicationController
   end
   
   def create
-    @page = nil
+    @page = Page.new(:identifier => params[:id])
   end
   
   # TODO: combine with create/new action

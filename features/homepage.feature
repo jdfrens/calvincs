@@ -8,3 +8,11 @@ Feature: the home page
     And I am logged in as an editor
     When I go to the homepage
     Then I should edit _home_page page
+
+  Scenario: ask for _home_splash
+    Given the following pages
+        | identifier | title           | content      |
+        | _home_page | does not matter | some content |
+    And I am logged in as an editor
+    When I go to the homepage
+    Then I should edit _home_splash page

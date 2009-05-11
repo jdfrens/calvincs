@@ -23,6 +23,14 @@ describe PageController do
       assert_page_form
     end
   
+    it "should use identifier in url" do
+      get :create, { :id => "identifier" }, user_session(:edit)
+
+      assert_response :success
+      response.should have_selector("input#page_identifier", :value => "identifier")
+      response.should_not contain("errors prohibited this page from being saved")
+    end
+
     it "should redirect when not logged in" do
       get :create
 

@@ -1,4 +1,4 @@
-<% if @page && !@page.valid? -%>
+<% if !@page.new_record? && !@page.valid? -%>
   <div id="error">
     <%= error_messages_for(:page) %>
   </div>
