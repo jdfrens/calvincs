@@ -29,7 +29,10 @@ module ApplicationHelper
   
   def menu_item(text, url, options = {})
     options = { :title => text }.merge(options)
-    content_tag(:li, link_to_unless_current(text, url, { :title => options[:title] }))
+    if current_page?(url)
+      options[:class] = "current"
+    end
+    content_tag(:li, link_to_unless_current(text, url, { :title => options[:title] }), :class => options[:class])
   end
 
 end

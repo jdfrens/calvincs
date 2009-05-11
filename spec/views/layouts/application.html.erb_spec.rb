@@ -16,8 +16,6 @@ describe "/layouts/application.html.erb" do
       and_return("<div id='menu'></div>")
     template.should_receive(:render).with(:partial => 'layouts/googlesearch').
       and_return("<div id='googlesearch'></div>")
-    template.should_receive(:render).with(:partial => 'layouts/tasks').
-      and_return("<div id='tasks'></div>")
     template.should_receive(:render).with(:partial => 'layouts/footer').
       and_return("<div id='footer'></div>")
     template.should_not_receive(:render).with(:partial => 'layouts/adminmenu')
@@ -27,7 +25,6 @@ describe "/layouts/application.html.erb" do
     response.should have_tag("#navbar") do
       with_tag("#menu")
       with_tag("#googlesearch")
-      with_tag("#tasks")
     end
     response.should have_tag("#footer")
   end

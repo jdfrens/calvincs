@@ -1,3 +1,29 @@
+/***************************/
+/* Main menu Google search */
+/***************************/
+
+#search {
+    padding: 0;
+    margin: 1em 0 2em 40px;
+}
+
+.search {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+#MenuGoogleSearch a {
+    display: inline;
+}
+
+div#navbar li.current {
+    background: #A59E60 url(http://www.calvin.edu/includes/templates/8/images/bg-border-navbar.gif) repeat-x scroll left bottom;
+}
+
+/***********************/
+/* Errors              */
+/***********************/
+
 div#error {
     font-size: larger;
     color: red;
@@ -18,47 +44,49 @@ div#error {
 
 .current-news {
 }
+
 .past-news {
 }
 
 .more {
-  clear: both;
-  font-size: xx-small;
+    clear: both;
+    font-size: xx-small;
 }
 
 .goes-live-date {
-  font-size: xx-small;
-  font-style: italic;
+    font-size: xx-small;
+    font-style: italic;
 }
+
 #news-listing .goes-live-date {
-	padding-left: 2em;
+    padding-left: 2em;
 }
 
 .instruction {
-	color: #949494;
-	font: 14px Tahoma;
+    color: #949494;
+    font: 14px Tahoma;
 }
 
 div#navbar li {
-  font-weight: bold;
-}
-div#navbar li a {
-  font-weight: normal;
+    font-weight: bold;
 }
 
+div#navbar li a {
+    font-weight: normal;
+}
 
 /***********************/
 /* Administration page */
 /***********************/
 
 #administration img {
-	float: left;
-	width: 128px;
+    float: left;
+    width: 128px;
 }
 
 #administration h2 {
-	clear: both;
-	padding-top: 1em;
+    clear: both;
+    padding-top: 1em;
 }
 
 /******************/
@@ -66,16 +94,16 @@ div#navbar li a {
 /******************/
 
 #image-list {
-  width: 775px;
+    width: 775px;
 }
 
 #image-list td, #image-list th {
-  vertical-align: top;
+    vertical-align: top;
 }
 
 #image-list .image-form form {
-  border: dotted;
-  margin-bottom: 20px;
+    border: dotted;
+    margin-bottom: 20px;
 }
 
 /************************/
@@ -83,13 +111,13 @@ div#navbar li a {
 /************************/
 
 div.content-editor {
-  padding: 10px 10px 10px 10px;
-  background-color: yellow;
-  clear: both;
+    padding: 10px 10px 10px 10px;
+    background-color: yellow;
+    clear: both;
 }
 
 .comment {
-  background-color: yellow;
+    background-color: yellow;
 }
 
 /*************/
@@ -97,12 +125,13 @@ div.content-editor {
 /*************/
 
 div#news ul {
-  font-size: small;
-  padding: 0;
+    font-size: small;
+    padding: 0;
 }
+
 div#news li {
-  padding-bottom: 0.25em;
-  list-style-type: none;
+    padding-bottom: 0.25em;
+    list-style-type: none;
 }
 
 /*******************************/
@@ -110,17 +139,17 @@ div#news li {
 /*******************************/
 
 #news-listing li {
-	list-style-image: url(/images/arrow.gif);
-	line-height: 1.5em;
+    list-style-image: url(/images/arrow.gif);
+    line-height: 1.5em;
 }
 
 #news-listing li.other {
-  list-style: none;
-  font-style: italic;
+    list-style: none;
+    font-style: italic;
 }
 
 #news-listing td {
-  line-height: 1.5em;
+    line-height: 1.5em;
 }
 
 div.news-item {
@@ -150,7 +179,7 @@ table.listing h2 {
 }
 
 table.listing p {
-	font-size: small;
+    font-size: small;
     padding: .2em 0;
     margin: 0;
 }
@@ -164,6 +193,7 @@ table.listing div.contact-information {
     padding: .2em 0;
     margin: 0;
 }
+
 table.listing div.contact-information p {
     padding: 0;
     margin: 0;
@@ -183,6 +213,7 @@ div#education ul {
 /********************/
 
 b {
-	font-size: 100px;
-	color: red;
+    font-size: 100px;
+    color: red;
 }
+
