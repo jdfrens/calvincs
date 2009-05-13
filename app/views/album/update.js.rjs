@@ -1,0 +1,1 @@
+page.replace_html "image-form-#{@image.id}", :partial => 'image', :object => @image
