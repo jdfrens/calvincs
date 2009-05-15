@@ -6,6 +6,10 @@ Given /^I am logged in as an editor$/ do
   click_button "Login"
 end
 
+Given /^I am not logged in$/ do
+  visit "/users/logout"
+end
+
 def create_editor
   edit = Privilege.new(:name => "edit")
   edit.save!

@@ -16,3 +16,14 @@ end
 Then /^there should be no pages$/ do
   Page.count.should == 0
 end
+
+
+
+
+Then /^I should see a listing of pages$/ do
+  pending
+end
+
+Then /^I should see the home page$/ do
+  pending
+end

@@ -20,6 +20,9 @@ module NavigationHelpers
       when /the list of events/
         '/event/list'
 
+      when /the page listing/
+        '/page/list'
+
       # Add more mappings here.
       # Here is a more fancy example:
       #
