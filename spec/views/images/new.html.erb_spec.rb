@@ -7,7 +7,7 @@ describe "/images/new.html.erb" do
     
     render "/images/new"
     
-    assert_select "form[action=/images/create]" do
+    assert_select "form[action=/images][method=post]" do
       assert_select "input#image_url"
       assert_select "textarea#image_caption"
       assert_select "input#image_tags_string[value=tags]"

@@ -12,7 +12,11 @@ describe "/images/_image.html.erb" do
   end
 
   it "should have a form" do
-    assert_select "form[action=/images/update/#{@image.id}]"
+    assert_select "form[action=/images/#{@image.id}]"
+  end
+
+  it "should be an update" do
+    response.should have_selector("input[name=_method][value=put]")  
   end
 
   it "should have url stuff" do
@@ -43,7 +47,8 @@ describe "/images/_image.html.erb" do
   end
 
   it "should have a destroy button" do
-    assert_select "form[action=/images/destroy/#{@image.id}] input[type=submit][value=Destroy]", 1
+    assert_select "form[action=/images/#{@image.id}] input[type=submit][value=Destroy]"
+    assert_select "input[name=_method][value=delete]"
   end
 
 end

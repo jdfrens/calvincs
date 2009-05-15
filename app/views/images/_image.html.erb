@@ -1,61 +1,57 @@
 <div class="image-form" id="image-form-<%= image.id %>">
-  <% remote_form_for(image, 
-    :url => { :action => 'update', :id => image.id },
-    :before => "Element.show('spinner_#{image.id}')", 
-    :complete => "Element.hide('spinner_#{image.id}')"
-  ) do |form| -%>
-    <table id="image_<%= image.id %>">
-      <tr>
-        <th>URL:</th>
-        <td><%= form.text_field :url, :size => 80, :id => "image_url_#{image.id}" %></td>
-      </tr>
-      <tr>
-        <th>&nbsp;</th>
-        <td>
-          <%= link_to "see picture", image.url %>
-        </td>
-      </tr>
-      <tr>
-        <th rowspan="2">Dimensions:</th>
-        <td>
-          <span class="dimension"><%= image.width %>x<%= image.height %></span>
-          <span class="usability"><%= image.usability.to_s %></span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="instruction">Hit "Update" to update the image's dimensions.</span>
-        </td>
-      </tr>
-      <tr>
-        <th>Caption:</th>
-        <td><%= textilize_without_paragraph image.caption %></td>
-      </tr>
-      <tr>
-        <th>&nbsp;</th>
-        <td>
-          <%= form.text_area :caption, :rows => 4, :cols => 80, :id => "image_caption_#{image.id}" %>
-        </td>
-      </tr>
-      <tr>
-        <th>Tags:</th>
-        <td>
-          <%= form.text_field :tags_string, :size => 30, :id => "image_tags_string_#{image.id}" %>
-        </td>
-      </tr>
-      <tr>
-        <th>&nbsp;</th>
-        <td>
-          <%= submit_tag "Update", :class => "submit" %>
-          <%= spinner :number => image.id %>
-        </td>
-      </tr>
-    </table>
+  <% remote_form_for(image,
+          :before => "Element.show('spinner_#{image.id}')",
+          :complete => "Element.hide('spinner_#{image.id}')") do |form| -%>
+      <table id="image_<%= image.id %>">
+        <tr>
+          <th>URL:</th>
+          <td><%= form.text_field :url, :size => 80, :id => "image_url_#{image.id}" %></td>
+        </tr>
+        <tr>
+          <th>&nbsp;</th>
+          <td>
+            <%= link_to "see picture", image.url %>
+          </td>
+        </tr>
+        <tr>
+          <th rowspan="2">Dimensions:</th>
+          <td>
+            <span class="dimension"><%= image.width %>x<%= image.height %></span>
+            <span class="usability"><%= image.usability.to_s %></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="instruction">Hit "Update" to update the image's dimensions.</span>
+          </td>
+        </tr>
+        <tr>
+          <th>Caption:</th>
+          <td><%= textilize_without_paragraph image.caption %></td>
+        </tr>
+        <tr>
+          <th>&nbsp;</th>
+          <td>
+            <%= form.text_area :caption, :rows => 4, :cols => 80, :id => "image_caption_#{image.id}" %>
+          </td>
+        </tr>
+        <tr>
+          <th>Tags:</th>
+          <td>
+            <%= form.text_field :tags_string, :size => 30, :id => "image_tags_string_#{image.id}" %>
+          </td>
+        </tr>
+        <tr>
+          <th>&nbsp;</th>
+          <td>
+            <%= submit_tag "Update", :class => "submit" %>
+            <%= spinner :number => image.id %>
+          </td>
+        </tr>
+      </table>
   <% end -%>
-  
+
   <%=
-  button_to 'Destroy', { :action => 'destroy', :id => image },
-    :confirm => 'Are you sure you want to destroy this image?',
-    :method => :post
+      button_to 'Destroy', image, :confirm => 'Are you sure you want to destroy this image?', :method => :delete
   %>
 </div>
