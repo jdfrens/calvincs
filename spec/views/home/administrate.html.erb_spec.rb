@@ -33,8 +33,8 @@ describe "/home/administrate.html.erb" do
 
     assert_select "h2", "Image Album"
     assert_select "ul#album_administration" do
-      assert_select "a[href=/album]", /list images/i
-      assert_select "a[href=/album/new]", /add image/i
+      assert_select "a[href=/images]", /list images/i
+      assert_select "a[href=/images/new]", /add image/i
     end
   end
 

@@ -1,4 +1,4 @@
-class AlbumController < ApplicationController
+class ImagesController < ApplicationController
 
   restrict_to :edit
 

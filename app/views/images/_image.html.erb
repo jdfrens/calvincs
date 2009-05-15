@@ -1,6 +1,6 @@
 <div class="image-form" id="image-form-<%= image.id %>">
-  <% remote_form_for(:image, image, 
-    :url => { :action => 'update_image', :id => image.id },
+  <% remote_form_for(image, 
+    :url => { :action => 'update', :id => image.id },
     :before => "Element.show('spinner_#{image.id}')", 
     :complete => "Element.hide('spinner_#{image.id}')"
   ) do |form| -%>
@@ -54,7 +54,7 @@
   <% end -%>
   
   <%=
-  button_to 'Destroy', { :action => 'destroy_image', :id => image },
+  button_to 'Destroy', { :action => 'destroy', :id => image },
     :confirm => 'Are you sure you want to destroy this image?',
     :method => :post
   %>
