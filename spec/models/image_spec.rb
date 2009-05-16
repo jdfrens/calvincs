@@ -11,15 +11,15 @@ class ImageTest < ActiveRecord::TestCase
   end
   
   def test_setting_width_and_height
-    ImageInfo.fake_size("somewhere", :width => 123, :height => 665)
-    ImageInfo.fake_size("somewhereelse", :width => 8, :height => 32)
+    ImageInfo.fake_size("http://example.com/somewhere.gif", :width => 123, :height => 665)
+    ImageInfo.fake_size("http://example.com/somewhereelse.gif", :width => 8, :height => 32)
     
-    image = Image.new(:url => "somewhere")
+    image = Image.new(:url => "http://example.com/somewhere.gif")
     image.save!
     assert_equal 123, image.width
     assert_equal 665, image.height
     
-    image = Image.new(:url => "somewhereelse")
+    image = Image.new(:url => "http://example.com/somewhereelse.gif")
     image.save!
     assert_equal 8, image.width
     assert_equal 32, image.height

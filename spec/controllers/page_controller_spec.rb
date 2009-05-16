@@ -1,8 +1,73 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+describe PageController, "without views" do
+  user_fixtures
+
+  describe "view a page" do
+    it "should show the title, content, and an image" do
+      page = mock_model(Page, :subpage? => false, :title => "the title")
+      image = mock_model(Image)
+      updated_at = mock("updated at time")
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
+      page.should_receive(:random_image).and_return(image)
+      page.should_receive(:updated_at).and_return(updated_at)
+
+      get :view, :id => "the identifier"
+
+      response.should render_template("view")
+      assigns[:page].should == page
+      assigns[:image].should == image
+      assigns[:last_updated].should == updated_at
+    end
+
+    it "should 404 if it doesn't exist" do
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(nil)
+
+      get :view, :id => "the identifier"
+
+      response.should render_template("errors/404")
+    end
+
+    it "should 404 if it's a subpage" do
+      page = mock_model(Page, :subpage? => true)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
+
+      get :view, :id => "the identifier"
+
+      response.should render_template("errors/404")
+    end
+
+    it "should redirect to list if it doesn't exist and logged in" do
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(nil)
+
+      get :view, { :id => "the identifier" }, user_session(:edit)
+
+      response.should redirect_to("/page/list")
+    end
+  end
+
+  describe "edit a page" do
+    it "should load up page and render edit form" do
+      page = mock_model(Page)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return( page)
+
+      get :edit, { :id => "the identifier" }, user_session(:edit)
+
+      response.should render_template("edit")
+      assigns[:page].should == page
+    end
+
+    it "should redirect when not logged in" do
+      get :edit, { :id => "the identifier" }
+
+      response.should redirect_to("/users/login")
+    end
+  end
+end
+
 describe PageController do
   integrate_views
-  
+
   fixtures :pages, :images, :image_tags
   user_fixtures
   
@@ -66,115 +131,7 @@ describe PageController do
     end
 
   end
-  
-  context "view a page" do
-    context "when NOT logged in" do
-      it "should handle a wide image" do
-        get :view, :id => 'mission_wide'
-    
-        assert_response :success
-        assigns[:title].should == "Mission Statement"
-        assigns[:last_updated].should == pages(:mission).updated_at
-        assert_template "page/view"
-        assert_select "div#content" do
-          assert_select "h1", "Mission Statement"
-          assert_select "div#page_content", /We state our mission./
-          assert_select "div.img-right-wide" do
-            assert_select "img#cool-pic"
-            assert_select "p.img-caption", images(:mission_wide).caption
-          end
-          assert_select "h1 #page_title_1_in_place_editor", false
-          assert_select "p #page_content_1_in_place_editor", false
-          assert_select "p.identifier #page_identifier_1_in_place_editor", false
-        end
-      end
-  
-      it "should handle narrow image" do
-        get :view, :id => 'mission_narrow'
-    
-        assert_response :success
-        assert_select "div#content" do
-          assert_select "div.img-right-narrow" do
-            assert_select "img#cool-pic"
-            assert_select "p.img-caption", images(:mission_narrow).caption
-          end
-        end
-      end
-      
-      it "should handle no image" do
-        get :view, :id => 'alphabet'
-    
-        assert_response :success
-        assigns[:title].should == pages(:alphabet).title
-        assigns[:last_updated].should == pages(:alphabet).updated_at
-        assert_select "div#content div.img-right", false
-      end
-    
-      it "should get 404 response for page that does not exist" do
-        get :view, { :id => 'does_not_exist' }
-        assert_response 404
-      end
-    end
-    
-    context "when logged in" do
-      it "should see and edit page" do
-        get :view, { :id => 'mission' }, user_session(:edit)
-    
-        assert_response :success
-        assigns[:title].should == "Mission Statement"
-        assigns[:last_updated].should == pages(:mission).updated_at
-        assert_template "page/view"
-        assert_select "div#content" do
-          assert_select "div#page_content", 'We state our mission.'
-          assert_select "div[class=img-right]", false
-          assert_select "h1 input#edit_title", true
-          assert_select "h1 span#page_title_1_in_place_editor", "Mission Statement"
-          assert_select "form[action=/page/update_page_content/1]" do
-            assert_select "textarea#page_content", 'We state our mission.'
-            assert_select "input[type=submit][value=Update content]"
-          end
-          assert_select "p.identifier #page_identifier_1_in_place_editor",
-            'mission'
-        end
-      end
-  
-      it "should redirect to list when page does not exist" do
-        get :view, { :id => 'does_not_exist' }, user_session(:edit)
-        assert_redirected_to :action => 'list'
-        assert_equal "Page does_not_exist does not exist.", flash[:error]
-      end
-    end
-  end
-  
-  context "view a subpage" do
-    context "when NOT logged in" do
-      it "should get 404 response" do
-        get :view, :id => '_home_page'
-        assert_response 404
-      end
-    end  
-
-    context "when logged in" do
-      it "should have editing capabilities" do
-        get :view, { :id => '_home_page' }, user_session(:edit)
-    
-        assert_response :success
-        assigns[:title].should == "SUBPAGE"
-        assigns[:last_updated].should == pages(:home_page).updated_at
-        assert_select "div#content" do
-          assert_select "h1", "{{ A SUBPAGE HAS NO TITLE }}"
-          assert_select "h1 input#edit_title", false, "should not edit unused title"
-          assert_select "div#page_content", pages(:home_page).content
-        end
-        assert_select "form[action=/page/update_page_content/3]" do
-          assert_select "textarea#page_content", pages(:home_page).content
-          assert_select "input[type=submit][value=Update content]"
-        end
-        assert_select "p.identifier #page_identifier_3_in_place_editor", '_home_page'
-      end
-    end
-  end
-  
+   
   context "save action" do
     context "when logged in" do
       it "should update page and model" do

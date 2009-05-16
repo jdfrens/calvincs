@@ -1,9 +1,11 @@
 Given /^the following images$/ do |table|
   table.hashes.each do |hash|
-    Image.create!(hash)
+    image = Image.create(hash)
+    image.tags_string = hash[:tags_string]
+    image.save!
   end
 end
 
-Then /^I should see an image "([^\"]*)"$/ do |arg1|
-  pending
+Then /^I should see an image "([^\"]*)"$/ do |src|
+  response.should have_selector("img", :src => src)
 end

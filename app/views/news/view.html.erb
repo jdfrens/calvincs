@@ -31,7 +31,7 @@
       <% remote_form_for(:news_item,
         :url => { :action => 'update_news_item_content', :id => @news_item.id } 
       ) do |form| -%>
-        <%= form.text_area :content, :rows => 10, :cols => 80 %>
+        <%= form.text_area :content, :rows => 10, :cols => 65 %>
         <%= submit_tag "Update content", :class => "submit" %>
       <% end -%>
     </p>

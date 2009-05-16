@@ -61,7 +61,7 @@ class Image < ActiveRecord::Base
   end
   
   def obtain_dimensions
-    if url
+    if url && url =~ /^http:/
       info = ImageInfo.new(self.url)
       self.width = info.width
       self.height = info.height

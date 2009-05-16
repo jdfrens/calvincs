@@ -8,7 +8,7 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
 
-      when /the homepage/
+      when /the home(\s*)page/
         '/'
 
       when /the login page/
@@ -23,6 +23,9 @@ module NavigationHelpers
       when /the page listing/
         '/page/list'
 
+      when /the "(.*)" page/
+        "/p/#{$1}"
+      
       # Add more mappings here.
       # Here is a more fancy example:
       #

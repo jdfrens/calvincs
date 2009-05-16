@@ -14,7 +14,7 @@ class PageController < ApplicationController
   def view
     @page = Page.find_by_identifier(params[:id])
     if @page
-      if @page.subpage? && !current_user
+      if @page.subpage?
         render :template => "errors/404.html", :status => 404
       else
         @image = @page.random_image
@@ -29,7 +29,11 @@ class PageController < ApplicationController
       render :template => "errors/404.html", :status => 404
     end
   end
-  
+
+  def edit
+    @page = Page.find_by_identifier(params[:id])
+  end
+
   def create
     @page = Page.new(:identifier => params[:id])
   end

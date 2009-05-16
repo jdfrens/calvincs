@@ -18,6 +18,11 @@ Feature: managing events
     And I should see "Foobar 2009"
     And I should see "Barfoo 1692"
 
+  Scenario: redirect to login when trying to add event
+    Given I am not logged in
+    When I go to the new event page
+    Then I should be on the login page
+
   Scenario: add a colloquium
     Given I am logged in as an editor
     When I am on the new event page
