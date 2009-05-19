@@ -8,7 +8,7 @@ describe "/page/new.html.erb" do
     
     template.should_receive(:error_messages_for).with(:page).and_return("errors!")
 
-    render "page/new"
+    render "/pages/new"
 
     response.should have_selector("#error") do |div|
       div.should contain("errors!")
@@ -21,7 +21,7 @@ describe "/page/new.html.erb" do
 
     template.should_not_receive(:error_messages_for)
 
-    render "page/new"
+    render "/pages/new"
 
     response.should_not have_selector("#error")
   end

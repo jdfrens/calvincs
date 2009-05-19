@@ -1,10 +1,9 @@
-class PageController < ApplicationController
+class PagesController < ApplicationController
 
   restrict_to :edit, :except => [ :show ]
   
   def index
     @pages = Page.find(:all, :order => 'identifier ASC')
-    render :template => 'page/index'
   end
   
   def show
@@ -16,7 +15,7 @@ class PageController < ApplicationController
         @image = @page.random_image
         @title = @page.subpage? ? "SUBPAGE" : @page.title
         @last_updated = @page.updated_at
-        render :template => 'page/show'
+        render :template => 'pages/show'
       end
     elsif current_user
       flash[:error] = "Page #{params[:id]} does not exist."
@@ -40,10 +39,15 @@ class PageController < ApplicationController
       redirect_to :action => 'show', :id => @page.identifier
     else
       flash[:error] = 'Invalid values for the page'
-      render :template => 'page/new'
+      render :template => 'pages/new'
     end
   end
   
+  def destroy
+    Page.destroy(params[:id])
+    redirect_to :action => 'index'
+  end
+
   in_place_edit_for :page, :title
   
   def update_page_content
@@ -56,9 +60,4 @@ class PageController < ApplicationController
   
   in_place_edit_for :page, :identifier
 
-  def destroy
-    Page.destroy(params[:id])
-    redirect_to :action => 'index'
-  end
-  
 end

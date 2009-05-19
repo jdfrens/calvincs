@@ -277,17 +277,17 @@ describe PersonnelController do
         assert_select "#interests" do
           assert_select "h2", "Interests"
           assert_select "p", "interest 1, interest 2"
-          assert_select "a[href=/page/edit/_jeremy_interests]", "edit interests"
+          assert_select "a[href=/pages/edit/_jeremy_interests]", "edit interests"
         end
         assert_select "#status" do
           assert_select "h2", "Status"
           assert_select "p", "status of jeremy"
-          assert_select "a[href=/page/edit/_jeremy_status]", "edit status"
+          assert_select "a[href=/pages/edit/_jeremy_status]", "edit status"
         end
         assert_select "#profile" do
           assert_select "h2", "Profile"
           assert_select "p", "profile of jeremy"
-          assert_select "a[href=/page/edit/_jeremy_profile]", "edit profile"
+          assert_select "a[href=/pages/edit/_jeremy_profile]", "edit profile"
         end
       end
   
@@ -333,15 +333,15 @@ describe PersonnelController do
         end
         assert_select "#interests" do
           assert_select "h2", "Interests"
-          assert_select "a[href=/page/edit/_joel_interests]", "edit interests"
+          assert_select "a[href=/pages/edit/_joel_interests]", "edit interests"
         end
         assert_select "#status" do
           assert_select "h2", "Status"
-          assert_select "a[href=/page/edit/_joel_status]", "edit status"
+          assert_select "a[href=/pages/edit/_joel_status]", "edit status"
         end
         assert_select "#profile" do
           assert_select "h2", "Profile"
-          assert_select "a[href=/page/edit/_joel_profile]", "edit profile"
+          assert_select "a[href=/pages/edit/_joel_profile]", "edit profile"
         end
       end
       

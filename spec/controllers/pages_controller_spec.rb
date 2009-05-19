@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe PageController, "without views" do
+describe PagesController, "without views" do
   user_fixtures
 
   describe "show a page" do
@@ -11,10 +11,10 @@ describe PageController, "without views" do
       Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
       page.should_receive(:random_image).and_return(image)
       page.should_receive(:updated_at).and_return(updated_at)
+      controller.should_receive(:render).with(:template => "pages/show")
 
       get :show, :id => "the identifier"
 
-      response.should render_template("show")
       assigns[:page].should == page
       assigns[:image].should == image
       assigns[:last_updated].should == updated_at
@@ -42,7 +42,7 @@ describe PageController, "without views" do
 
       get :show, { :id => "the identifier" }, user_session(:edit)
 
-      response.should redirect_to("/page")
+      response.should redirect_to("/pages")
     end
   end
 
@@ -65,7 +65,7 @@ describe PageController, "without views" do
   end
 end
 
-describe PageController do
+describe PagesController do
   integrate_views
 
   fixtures :pages, :images, :image_tags
@@ -76,7 +76,7 @@ describe PageController do
       get :new, {}, user_session(:edit)
 
       assert_response :success
-      assert_template "page/new"
+      assert_template "new"
       assert_select "h1", "Create Page"
       assert_page_form
     end
@@ -102,7 +102,7 @@ describe PageController do
       get :index, {}, user_session(:edit), { :error => 'Error flash!' }
     
       assert_response :success
-      assert_template "page/index"
+      assert_template "index"
       assert_select "h1", "All Pages"
       assert_select "div#error", "Error flash!"
       assert_select "table[summary=page list]" do
@@ -114,7 +114,7 @@ describe PageController do
         end
         assert_standard_page_entries
       end
-      assert_select "a[href=/page/create]", "Create a new page"
+      assert_select "a[href=/pages/create]", "Create a new page"
     end
   
     it "should redirect when not logged in" do
@@ -236,7 +236,7 @@ describe PageController do
   def test_destroy
     post :destroy, { :id => 1 }, user_session(:edit)
     
-    assert_redirected_to :controller => 'page', :action => 'index'
+    assert_redirected_to :controller => 'pages', :action => 'index'
 
     assert_nil Page.find_by_identifier('mission')
   end
@@ -286,14 +286,14 @@ describe PageController do
       end
       assert_select "td", identifier,
         "should have column with identifier in it"
-      assert_select "form[action=/page/destroy/#{id}]" do
+      assert_select "form[action=/pages/destroy/#{id}]" do
         assert_select "input[value=Destroy]", 1, "should have destroy button"
       end
     end
   end
   
   def assert_page_form
-    assert_select "form[action=/page/save]" do
+    assert_select "form[action=/pages/save]" do
       assert_select "input#page_identifier", 1
       assert_select "input#page_title", 1
       assert_select "textarea#page_content", 1

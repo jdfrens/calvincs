@@ -8,7 +8,7 @@
   
     <% restrict_to :edit do -%>
       <p>
-        <%= link_to "edit profile", :controller => "page",
+        <%= link_to "edit profile", :controller => "pages",
           :action => "edit", :id => "_#{@user.username}_profile" %>
       </p>
     <% end -%>

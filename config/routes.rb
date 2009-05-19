@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.home '', :controller => "home"
 
   # Special Calvin CS routes
-  map.view_page 'p/:id', :controller => 'page', :action => 'show', :id => /\w+/
+  map.view_page 'p/:id', :controller => 'pages', :action => 'show', :id => /\w+/
 
   map.resources :images
   

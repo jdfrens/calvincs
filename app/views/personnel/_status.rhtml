@@ -12,7 +12,7 @@
   
     <% restrict_to :edit do -%>
       <p>
-        <%= link_to "edit status", :controller => "page",
+        <%= link_to "edit status", :controller => "pages",
           :action => "edit", :id => "_#{@user.username}_status" %>
       </p>
     <% end -%>
