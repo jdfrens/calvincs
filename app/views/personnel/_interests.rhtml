@@ -8,9 +8,8 @@
   
     <% restrict_to :edit do -%>
       <p>
-        <!-- TODO: use Page#url_for -->
-        <%= link_to "view/edit interests", :controller => "page",
-          :action => "view", :id => "_#{@user.username}_interests" %>
+        <%= link_to "edit interests", :controller => "page",
+          :action => "edit", :id => "_#{@user.username}_interests" %>
       </p>
     <% end -%>
   </div>

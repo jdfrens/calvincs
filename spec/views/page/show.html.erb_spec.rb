@@ -8,7 +8,7 @@ describe "/page/view.html.erb" do
 
     template.should_receive(:render).with(:partial => "image").and_return("IMAGE!")
 
-    render "/page/view"
+    render "/page/show"
 
     assert_select "h1", "Mission Statement"
     response.should contain("IMAGE!")
@@ -21,7 +21,7 @@ describe "/page/view.html.erb" do
 
     template.should_receive(:render).with(:partial => "image").and_return("IMAGE!")
 
-    render "/page/view"
+    render "/page/show"
 
     assert_select "h1", "{{ A SUBPAGE HAS NO TITLE }}"
     response.should contain("IMAGE!")

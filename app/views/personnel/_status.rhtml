@@ -12,9 +12,8 @@
   
     <% restrict_to :edit do -%>
       <p>
-        <!-- TODO: use Page#url_for -->
-        <%= link_to "view/edit status", :controller => "page",
-          :action => "view", :id => "_#{@user.username}_status" %>
+        <%= link_to "edit status", :controller => "page",
+          :action => "edit", :id => "_#{@user.username}_status" %>
       </p>
     <% end -%>
   </div>

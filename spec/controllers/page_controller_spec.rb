@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe PageController, "without views" do
   user_fixtures
 
-  describe "view a page" do
+  describe "show a page" do
     it "should show the title, content, and an image" do
       page = mock_model(Page, :subpage? => false, :title => "the title")
       image = mock_model(Image)
@@ -12,9 +12,9 @@ describe PageController, "without views" do
       page.should_receive(:random_image).and_return(image)
       page.should_receive(:updated_at).and_return(updated_at)
 
-      get :view, :id => "the identifier"
+      get :show, :id => "the identifier"
 
-      response.should render_template("view")
+      response.should render_template("show")
       assigns[:page].should == page
       assigns[:image].should == image
       assigns[:last_updated].should == updated_at
@@ -23,7 +23,7 @@ describe PageController, "without views" do
     it "should 404 if it doesn't exist" do
       Page.should_receive(:find_by_identifier).with("the identifier").and_return(nil)
 
-      get :view, :id => "the identifier"
+      get :show, :id => "the identifier"
 
       response.should render_template("errors/404")
     end
@@ -32,7 +32,7 @@ describe PageController, "without views" do
       page = mock_model(Page, :subpage? => true)
       Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
 
-      get :view, :id => "the identifier"
+      get :show, :id => "the identifier"
 
       response.should render_template("errors/404")
     end
@@ -40,7 +40,7 @@ describe PageController, "without views" do
     it "should redirect to list if it doesn't exist and logged in" do
       Page.should_receive(:find_by_identifier).with("the identifier").and_return(nil)
 
-      get :view, { :id => "the identifier" }, user_session(:edit)
+      get :show, { :id => "the identifier" }, user_session(:edit)
 
       response.should redirect_to("/page")
     end
@@ -135,7 +135,7 @@ describe PageController do
           }
         }, user_session(:edit)
 
-        assert_redirected_to :action => 'view', :id => 'new_page'
+        assert_redirected_to :action => 'show', :id => 'new_page'
         assert flash.empty?
 
         page = Page.find_by_identifier('new_page')
