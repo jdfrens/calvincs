@@ -34,7 +34,7 @@ class PageController < ApplicationController
     @page = Page.new(:identifier => params[:id])
   end
   
-  def save
+  def create
     @page = Page.new(params[:page])
     if @page.save
       redirect_to :action => 'show', :id => @page.identifier

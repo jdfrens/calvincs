@@ -125,10 +125,10 @@ describe PageController do
 
   end
    
-  context "save action" do
+  context "create action" do
     context "when logged in" do
       it "should update page and model" do
-        post :save,
+        post :create,
           { :page => {
             :identifier => 'new_page', :title => 'New Page',
             :content => 'love me!'
@@ -146,7 +146,7 @@ describe PageController do
       it "should fail with bad data" do
         original_count = Page.count
     
-        post :save,
+        post :create,
           { :page => { :identifier => 'bad!', :content => 'whatever' } },
           user_session(:edit)
         
