@@ -1,14 +1,10 @@
 class PageController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :view, ]
+  restrict_to :edit, :except => [ :view, ]
   
   def index
-    redirect_to :action => 'list'
-  end
-  
-  def list
     @pages = Page.find(:all, :order => 'identifier ASC')
-    render :template => 'page/list'
+    render :template => 'page/index'
   end
   
   def view
@@ -24,7 +20,7 @@ class PageController < ApplicationController
       end
     elsif current_user
       flash[:error] = "Page #{params[:id]} does not exist."
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     else
       render :template => "errors/404.html", :status => 404
     end
@@ -63,7 +59,7 @@ class PageController < ApplicationController
 
   def destroy
     Page.destroy(params[:id])
-    redirect_to :action => 'list'
+    redirect_to :action => 'index'
   end
   
 end

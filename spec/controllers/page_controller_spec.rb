@@ -42,7 +42,7 @@ describe PageController, "without views" do
 
       get :view, { :id => "the identifier" }, user_session(:edit)
 
-      response.should redirect_to("/page/list")
+      response.should redirect_to("/page")
     end
   end
 
@@ -71,13 +71,6 @@ describe PageController do
   fixtures :pages, :images, :image_tags
   user_fixtures
   
-  context "index action" do
-    it "should redirect to the list action" do
-      get :index
-      assert_redirected_to :controller => 'page', :action => 'list'
-    end
-  end
-  
   context "create action" do
     it "should display a form when logged in" do
       get :create, {}, user_session(:edit)
@@ -104,12 +97,12 @@ describe PageController do
 
   end
   
-  context "list action" do
+  context "index action" do
     it "should display a table of pages when logged in" do
-      get :list, {}, user_session(:edit), { :error => 'Error flash!' }
+      get :index, {}, user_session(:edit), { :error => 'Error flash!' }
     
       assert_response :success
-      assert_template "page/list"
+      assert_template "page/index"
       assert_select "h1", "All Pages"
       assert_select "div#error", "Error flash!"
       assert_select "table[summary=page list]" do
@@ -125,7 +118,7 @@ describe PageController do
     end
   
     it "should redirect when not logged in" do
-      get :list
+      get :index
 
       response.should redirect_to(:controller => 'users', :action => 'login')
     end
@@ -243,7 +236,7 @@ describe PageController do
   def test_destroy
     post :destroy, { :id => 1 }, user_session(:edit)
     
-    assert_redirected_to :controller => 'page', :action => 'list'
+    assert_redirected_to :controller => 'page', :action => 'index'
 
     assert_nil Page.find_by_identifier('mission')
   end

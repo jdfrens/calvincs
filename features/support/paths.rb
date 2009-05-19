@@ -21,7 +21,7 @@ module NavigationHelpers
         '/event/list'
 
       when /the page listing/
-        '/page/list'
+        '/page'
 
       when /the "(.*)" page/
         "/p/#{$1}"
