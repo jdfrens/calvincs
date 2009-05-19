@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     render
   rescue ActiveRecord::RecordNotFound => e
     id = @content ? "_home_splash" : "_home_page"
-    redirect_to :controller => "page", :action => "create", :id => id    
+    redirect_to :controller => "page", :action => "new", :id => id    
   end
   
   def administrate

@@ -73,16 +73,16 @@ describe PageController do
   
   context "create action" do
     it "should display a form when logged in" do
-      get :create, {}, user_session(:edit)
+      get :new, {}, user_session(:edit)
 
       assert_response :success
-      assert_template "page/create"
+      assert_template "page/new"
       assert_select "h1", "Create Page"
       assert_page_form
     end
   
     it "should use identifier in url" do
-      get :create, { :id => "identifier" }, user_session(:edit)
+      get :new, { :id => "identifier" }, user_session(:edit)
 
       assert_response :success
       response.should have_selector("input#page_identifier", :value => "identifier")

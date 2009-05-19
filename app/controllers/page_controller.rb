@@ -30,18 +30,17 @@ class PageController < ApplicationController
     @page = Page.find_by_identifier(params[:id])
   end
 
-  def create
+  def new
     @page = Page.new(:identifier => params[:id])
   end
   
-  # TODO: combine with create/new action
   def save
     @page = Page.new(params[:page])
     if @page.save
       redirect_to :action => 'show', :id => @page.identifier
     else
       flash[:error] = 'Invalid values for the page'
-      render :template => 'page/create'
+      render :template => 'page/new'
     end
   end
   

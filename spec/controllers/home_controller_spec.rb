@@ -36,7 +36,7 @@ describe HomeController do
 
       get :index
 
-      response.should redirect_to(:controller => "page", :action => "create", :id => "_home_page")
+      response.should redirect_to(:controller => "page", :action => "new", :id => "_home_page")
     end
 
     it "should redirect when _home_splash is not defined" do
@@ -45,7 +45,7 @@ describe HomeController do
 
       get :index
 
-      response.should redirect_to(:controller => "page", :action => "create", :id => "_home_splash")
+      response.should redirect_to(:controller => "page", :action => "new", :id => "_home_splash")
     end
   end
 

@@ -9,7 +9,7 @@ Given /^the following pages$/ do |table|
 end
 
 Then /^I should edit (\w+) page$/ do |identifier|
-  URI.parse(current_url).path.should == "/page/create/#{identifier}"
+  URI.parse(current_url).path.should == "/page/new/#{identifier}"
   response.should have_selector("input#page_identifier", :value => identifier)
 end
 

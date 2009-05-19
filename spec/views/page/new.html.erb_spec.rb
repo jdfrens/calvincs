@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/page/create.html.erb" do
+describe "/page/new.html.erb" do
 
   it "should display errors" do
     page = mock_model(Page, :new_record? => false, :valid? => false, :identifier => "some_identifier", :title => "some title", :content => "some content")
@@ -8,7 +8,7 @@ describe "/page/create.html.erb" do
     
     template.should_receive(:error_messages_for).with(:page).and_return("errors!")
 
-    render "page/create"
+    render "page/new"
 
     response.should have_selector("#error") do |div|
       div.should contain("errors!")
@@ -21,7 +21,7 @@ describe "/page/create.html.erb" do
 
     template.should_not_receive(:error_messages_for)
 
-    render "page/create"
+    render "page/new"
 
     response.should_not have_selector("#error")
   end
