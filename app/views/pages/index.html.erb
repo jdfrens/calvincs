@@ -26,9 +26,7 @@
 
       <% if current_user -%>
         <td>
-          <%= button_to 'Destroy', { :action => 'destroy', :id => page },
-              :confirm => 'Are you sure you want to destroy this page?',
-              :method => :post %>
+          <%= button_to 'Destroy', page, :confirm => 'Are you sure you want to destroy this page?', :method => :delete %>
         </td>   
       <% end -%>
 
@@ -37,5 +35,5 @@
 </table>
 
 <% restrict_to :edit do -%>
-  <p><%= link_to 'Create a new page', :action => 'create' %></p>
+  <p><%= link_to 'Create a new page', new_page_path %></p>
 <% end -%>

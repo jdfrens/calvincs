@@ -13,16 +13,16 @@
 
   <img src="/images/page-icon.png" />
   <ul id="content_administration">
-    <li><%= link_to 'List', :controller => 'pages', :action => 'index' %></li>
-    <li><%= link_to 'Create', :controller => 'pages', :action => 'create' %></li>
+    <li><%= link_to 'List', pages_path %></li>
+    <li><%= link_to 'Create', new_page_path %></li>
   </ul>
 
   <h2>Image Album</h2>
 	
   <img src="/images/images-icon.png" />
   <ul id="album_administration">
-	<li><%= link_to 'List images', :controller => 'images', :action => 'index' %></li>
-	<li><%= link_to 'Add image', :controller => 'images', :action => 'new' %></li>
+	<li><%= link_to 'List images', images_path %></li>
+	<li><%= link_to 'Add image', new_image_path %></li>
   </ul>
 	
   <h2>Courses</h2>

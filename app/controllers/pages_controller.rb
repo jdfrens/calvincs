@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
   
   def show
-    @page = Page.find_by_identifier(params[:id])
+    @page = Page.find_by_an_id(params[:id])
     if @page
       if @page.subpage?
         render :template => "errors/404.html", :status => 404
@@ -26,7 +26,7 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @page = Page.find_by_identifier(params[:id])
+    @page = Page.find_by_an_id(params[:id])
   end
 
   def new

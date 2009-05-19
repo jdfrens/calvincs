@@ -5,7 +5,15 @@ class Page < ActiveRecord::Base
   validates_uniqueness_of :identifier
   validates_format_of :identifier, :with => /^(\w|_)+$/,
       :message => 'should be like a Java identifier'
-  
+
+  def self.find_by_an_id(id)
+    if id =~ /^\d+/
+      find(id)
+    else
+      find_by_identifier(id)
+    end
+  end
+
   def last_updated_dates
     [updated_at]
   end

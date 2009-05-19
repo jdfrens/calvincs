@@ -6,7 +6,8 @@ ActionController::Routing::Routes.draw do |map|
   map.view_page 'p/:id', :controller => 'pages', :action => 'show', :id => /\w+/
 
   map.resources :images
-  
+  map.resources :pages
+
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'

@@ -114,7 +114,7 @@ describe PagesController do
         end
         assert_standard_page_entries
       end
-      assert_select "a[href=/pages/create]", "Create a new page"
+      assert_select "a[href=/pages/new]", "Create a new page"
     end
   
     it "should redirect when not logged in" do
@@ -286,7 +286,8 @@ describe PagesController do
       end
       assert_select "td", identifier,
         "should have column with identifier in it"
-      assert_select "form[action=/pages/destroy/#{id}]" do
+      assert_select "form[action=/pages/#{id}]" do
+        assert_select "input[name=_method][value=delete]"
         assert_select "input[value=Destroy]", 1, "should have destroy button"
       end
     end

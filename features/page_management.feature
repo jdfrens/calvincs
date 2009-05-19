@@ -43,3 +43,14 @@ Feature: managing pages
     Then I should see "bar bar bar."
     And I should see an image "/images/somewhere.gif"
     And I should see "Somewhere"
+
+  Scenario: see and edit a page
+    Given I am logged in as an editor
+    And the following pages
+      | identifier | title | content      |
+      | foobar     | Foo   | bar bar bar. |
+    When I go to the "foobar" page
+    Then I should see "bar bar bar."
+    When I follow "edit this page"
+    Then I should be on the edit page 1 page
+    And the in place editor for "page_identifier_1" should contain "foobar"

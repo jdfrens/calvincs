@@ -21,17 +21,14 @@ module NavigationHelpers
         '/event/list'
 
       when /the page listing/
-        '/pages'
+        pages_path
 
       when /the "(.*)" page/
         "/p/#{$1}"
-      
-      # Add more mappings here.
-      # Here is a more fancy example:
-      #
-      #   when /^(.*)'s profile page$/i
-      #     user_profile_path(User.find_by_login($1))
 
+      when /the edit page (.*) page/
+        "/pages/#{$1}/edit"
+      
       else
         raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
                 "Now, go and add a mapping in #{__FILE__}"

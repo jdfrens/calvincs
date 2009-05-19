@@ -10,3 +10,7 @@
   <%= render :partial => "image" %>
   <%= textilize @page.content %>
 </div>
+
+<% if current_user -%>
+    <p class="view-edit"><%= link_to 'edit this page', edit_page_path(@page) %></p>
+<% end -%>

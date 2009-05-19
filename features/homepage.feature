@@ -16,3 +16,11 @@ Feature: the home page
     And I am logged in as an editor
     When I go to the homepage
     Then I should edit _home_splash page
+
+  Scenario: see the home the page
+    Given the following pages
+        | identifier   | title           | content      |
+        | _home_page   | does not matter | some content |
+        | _home_splash | does not matter | sploosh!     |
+    When I go to the homepage
+    Then I should be on the homepage
