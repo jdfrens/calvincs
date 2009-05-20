@@ -10,14 +10,18 @@ Given /^I am not logged in$/ do
   visit "/users/logout"
 end
 
-def create_editor
-  edit = Privilege.new(:name => "edit")
-  edit.save!
-  group = Group.new(:name => "editor")
-  group.privileges << edit
-  group.save!
-  user = User.create(:username => "editor", :email_address => "foobar@example.com",
-          :password_hash => User.hash_password('secret'), :group => group)
-  user.save!
-  User.find_by_username("editor").group.name.should == "editor"  
+module UserHelpers
+  def create_editor
+    edit = Privilege.new(:name => "edit")
+    edit.save!
+    group = Group.new(:name => "editor")
+    group.privileges << edit
+    group.save!
+    user = User.create(:username => "editor", :email_address => "foobar@example.com",
+            :password_hash => User.hash_password('secret'), :group => group)
+    user.save!
+    User.find_by_username("editor").group.name.should == "editor"
+  end
 end
+
+World(UserHelpers)
