@@ -35,10 +35,10 @@ end
 
 # Use this step when using multiple datetime_select helpers on a page or 
 # you want to specify which datetime to select. Given the following view:
-#   <%= f.label :preferred %><br />
-#   <%= f.datetime_select :preferred %>
-#   <%= f.label :alternative %><br />
-#   <%= f.datetime_select :alternative %>
+#   <%%= f.label :preferred %><br />
+#   <%%= f.datetime_select :preferred %>
+#   <%%= f.label :alternative %><br />
+#   <%%= f.datetime_select :alternative %>
 # The following steps would fill out the form:
 # When I select "November 23, 2004 11:20" as the "Preferred" date and time
 # And I select "November 25, 2004 10:30" as the "Alternative" date and time
@@ -91,25 +91,49 @@ When /^I attach the file at "([^\"]*)" to "([^\"]*)"$/ do |path, field|
 end
 
 Then /^I should see "([^\"]*)"$/ do |text|
+<% if framework == :rspec -%>
   response.should contain(text)
+<% else -%>
+  assert_contain text
+<% end -%>
 end
 
 Then /^I should not see "([^\"]*)"$/ do |text|
+<% if framework == :rspec -%>
   response.should_not contain(text)
+<% else -%>
+  assert_not_contain text
+<% end -%>
 end
 
 Then /^the "([^\"]*)" field should contain "([^\"]*)"$/ do |field, value|
+<% if framework == :rspec -%>
   field_labeled(field).value.should =~ /#{value}/
+<% else -%>
+  assert_match(/#{value}/, field_labeled(field).value)
+<% end -%>
 end
 
 Then /^the "([^\"]*)" field should not contain "([^\"]*)"$/ do |field, value|
+<% if framework == :rspec -%>
   field_labeled(field).value.should_not =~ /#{value}/
+<% else -%>
+  assert_no_match(/#{value}/, field_labeled(field).value)
+<% end -%>
 end
     
 Then /^the "([^\"]*)" checkbox should be checked$/ do |label|
+<% if framework == :rspec -%>
   field_labeled(label).should be_checked
+<% else -%>
+  assert field_labeled(label).checked?
+<% end -%>
 end
 
 Then /^I should be on (.+)$/ do |page_name|
+<% if framework == :rspec -%>
   URI.parse(current_url).path.should == path_to(page_name)
+<% else -%>
+  assert_equal path_to(page_name), URI.parse(current_url).path
+<% end -%>
 end
