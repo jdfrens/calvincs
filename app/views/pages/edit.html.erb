@@ -1,43 +1,30 @@
 <h1>
-  <% if @page.subpage? %>
-      {{ A SUBPAGE HAS NO TITLE }}
-  <% elsif current_user -%>
-      <input type="button" id="edit_title" value="edit"/>
-      <%= in_place_editor_field :page, "title", {}, { :external_control => 'edit_title' } %>
-  <% else -%>
-      <%= h(@page.title) %>
-  <% end %>
+  <%= in_place_editor_field :page, "title" %>
+  <% if @page.subpage? -%>
+      <em>rarely seen</em>
+  <% end -%>
+  <span class="instruction">click to edit</span>
 </h1>
 
+<p class="identifier">
+  <strong>identifier:</strong> <%= in_place_editor_field :page, 'identifier' %>
+</p>
+
+<p class="view-edit">
+  <%= link_to "show page", view_page_path(@page) %>
+</p>
+
 <div id="page_content">
-  <%= render :partial => "image" %>
   <%= textilize @page.content %>
 </div>
 
-<% restrict_to :edit do -%>
-
-    <div class="content-editor" id="content-editor">
-      <h2>Content Editor</h2><%= render :partial => 'shared/markupreference' %>
-
-      <p>
-        <%
-           remote_form_for(:page,
-                   :url => { :action => 'update_page_content', :id => @page.id }
-           ) do |form|
-        -%>
-            <%= form.text_area :content, :rows => 20, :cols => 65 %>
-            <%= submit_tag "Update content", :class => "submit" %>
-        <% end %>
-      </p>
-    </div>
-
-<% end %>
-
-<% restrict_to :edit do -%>
-    <p class="identifier">
-      <input type="button" id="edit_identifier" value="edit"/><%=
-        in_place_editor_field :page, 'identifier', {},
-                { :external_control => 'edit_identifier' }
-    %>
-    </p>
-<% end %>
+<div class="content-editor" id="content-editor">
+  <%= render :partial => 'shared/markupreference' %>
+  <h2>Content Editor</h2>
+  <p>
+    <% remote_form_for(:page, :url => { :action => 'update_page_content', :id => @page.id }) do |form| -%>
+        <%= form.text_area :content, :rows => 20, :cols => 65 %>
+        <%= submit_tag "Update content", :class => "submit" %>
+    <% end %>
+  </p>
+</div>
