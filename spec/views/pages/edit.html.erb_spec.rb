@@ -44,14 +44,14 @@ describe "/pages/edit.html.erb" do
     end
 
     it "should link back to show the page" do
-      pending()
       response.should have_selector("a", :href => "/p/mission", :content => 'show page')
     end
   end
 
   describe "render a subpage" do
     before(:each) do
-      @page = mock_model(Page, :subpage? => true, :title => "Whatever", :content => "No, really, whatever!")
+      @page = mock_model(Page, :subpage? => true, :title => "Whatever",
+              :content => "No, really, whatever!", :identifier => "whatever")
       assigns[:page] = @page
       template.should_not_receive(:render).with(:partial => "image")
       template.should_receive(:in_place_editor_field).with(:page, "title").and_return("title's in-place editor")
