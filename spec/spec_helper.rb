@@ -15,6 +15,7 @@ Spec::Runner.configure do |config|
 end
 
 # TODO: can this be phased out?
+
 def assert_invalid(object, invalids, valids=[])
   assert !object.valid?, "#{object} should not be valid"
   invalids.each do |invalid|
@@ -27,32 +28,32 @@ end
 
 def user_session(privilege)
   case privilege
-  when :edit
-    { :current_user_id => users(:jeremy).id }
-  else
-    raise "#{privilege.to_s} is an unrecognized privilege"
+    when :edit
+      { :current_user_id => users(:jeremy).id }
+    else
+      raise "#{privilege.to_s} is an unrecognized privilege"
   end
 end
 
 def mock_user_session(privilege)
-	case privilege
-  when :edit
-    editor = mock_model(User)
-    User.stub!(:find).with(editor.id, anything()).and_return(editor)
-    editor.stub!(:has_privilege?).with(:edit).and_return(true)
-    { :current_user_id => editor.id }
-  else
-    raise "#{privilege.to_s} is an unrecognized privilege"
+  case privilege
+    when :edit
+      editor = mock_model(User)
+      User.stub!(:find).with(editor.id, anything()).and_return(editor)
+      editor.stub!(:has_privilege?).with(:edit).and_return(true)
+      { :current_user_id => editor.id }
+    else
+      raise "#{privilege.to_s} is an unrecognized privilege"
   end
 end
 
 def user_fixtures
-	fixtures :users, :groups, :privileges, :groups_privileges
+  fixtures :users, :roles, :privileges, :privileges_roles
 end
 
 def expect_textilize_wop(text)
   template.should_receive(:textilize_without_paragraph).with(text).
-    and_return(text)
+          and_return(text)
 end
 
 def expect_textilize(text)
@@ -60,6 +61,7 @@ def expect_textilize(text)
 end
 
 # TODO: better RSpec way to do this?
+
 def assert_datetime_selector(model, attribute)
   assert_select "select##{model}_#{attribute}_1i", 1, "should have a year selector"
   assert_select "select##{model}_#{attribute}_2i", 1, "should have a month selector"
@@ -69,6 +71,7 @@ def assert_datetime_selector(model, attribute)
 end
 
 # TODO: replace with RSpec matcher
+
 def assert_spinner(options = {})
   id_suffix = options[:number] || options[:suffix]
   id = id_suffix ? "spinner_#{id_suffix}" : "spinner"
@@ -76,21 +79,22 @@ def assert_spinner(options = {})
 end
 
 # TODO: replace with RSpec matcher
+
 def assert_remote_form_for_and_spinner(id, route)
   form = find_tag :tag => "form", :attributes => { :id => id }
   assert_not_nil form, "should have form"
   assert_match(
-    /Element\.show\('spinner/,
-    form.attributes["onsubmit"],
-    "should have JavaScript to show spinner")
+          /Element\.show\('spinner/,
+                  form.attributes["onsubmit"],
+                  "should have JavaScript to show spinner")
   assert_match(
-    /Element\.hide\('spinner/,
-    form.attributes["onsubmit"],
-    "should have JavaScript to hide spinner")
+          /Element\.hide\('spinner/,
+                  form.attributes["onsubmit"],
+                  "should have JavaScript to hide spinner")
   assert_match(
-    /Ajax\.Request\('(.+?)'/,
-    form.attributes["onsubmit"],
-    "should have JavaScript for Ajax request")
+          /Ajax\.Request\('(.+?)'/,
+                  form.attributes["onsubmit"],
+                  "should have JavaScript for Ajax request")
   form.attributes["onsubmit"] =~ /Ajax\.Request\('(.+?)'/
   assert_equal route, "#$1", "should have correct route in Ajax request"
 end

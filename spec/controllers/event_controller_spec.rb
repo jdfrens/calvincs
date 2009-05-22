@@ -62,8 +62,11 @@ describe EventController do
   end
   
   describe "building a new event" do
+
+    user_fixtures
+
     it "should have a new action with a form" do
-      get :new, {}, mock_user_session(:edit)
+      get :new, {}, user_session(:edit)
       
       assert_response :success
       response.should render_template("event/new")
@@ -82,7 +85,7 @@ describe EventController do
       Event.should_receive(:new_event).with(params[:event]).and_return(event)
       event.should_receive(:save).and_return(true)
 
-      post :create, params, mock_user_session(:edit)
+      post :create, params, user_session(:edit)
       assigns[:event].should eql(event)
       response.should redirect_to(:action => "list") 
     end
@@ -94,7 +97,7 @@ describe EventController do
       Event.should_receive(:new_event).with(params[:event]).and_return(event)
       event.should_receive(:save).and_return(false)
 
-      post :create, params, mock_user_session(:edit)
+      post :create, params, user_session(:edit)
       assigns[:event].should eql(event)
       response.should render_template("event/new")
     end

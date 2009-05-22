@@ -5,7 +5,7 @@ calvin:
   first_name: John
   last_name: Calvin
   password_hash: <%= User.hash_password('calvinpassword') %>
-  group_id: 1
+  role_id: 1
   email_address: calvin@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 1.day.ago.to_s(:db) %>
@@ -18,7 +18,7 @@ sharon:
   office_phone: 616-526-7163
   office_location: North Hall 270
   password_hash: <%= User.hash_password('sharonpassword') %>
-  group_id: 3
+  role_id: 3
   email_address: sharon@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 2.days.ago.to_s(:db) %>
@@ -31,7 +31,7 @@ jeremy:
   office_phone: 616-526-8666
   office_location: North Hall 296
   password_hash: <%= User.hash_password('jeremypassword') %>
-  group_id: 2
+  role_id: 2
   email_address: jeremy@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 3.days.ago.to_s(:db) %>
@@ -41,7 +41,7 @@ keith:
   first_name: Keith
   last_name: Vander Linden
   password_hash: <%= User.hash_password('keithpassword') %>
-  group_id: 2
+  role_id: 2
   email_address: keith@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 4.days.ago.to_s(:db) %>
@@ -51,7 +51,7 @@ joel:
   first_name: Joel C.
   last_name: Adams
   password_hash: <%= User.hash_password('joelpassword') %>
-  group_id: 2
+  role_id: 2
   email_address: joel@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 5.days.ago.to_s(:db) %>
@@ -62,7 +62,7 @@ fred:
   last_name: Ferwerda
   job_title: Adjunct
   password_hash: <%= User.hash_password('fredpassword') %>
-  group_id: 5
+  role_id: 5
   email_address: fred@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 6.days.ago.to_s(:db) %>
@@ -72,7 +72,7 @@ larry:
   first_name: Larry
   last_name: Nyhoff
   password_hash: <%= User.hash_password('larrypassword') %>
-  group_id: 4
+  role_id: 4
   email_address: larry@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 7.days.ago.to_s(:db) %>
@@ -83,7 +83,7 @@ randy:
   last_name: Pruim
   job_title: Professor of Mathematics and Statistics
   password_hash: <%= User.hash_password('randypassword') %>
-  group_id: 6
+  role_id: 6
   email_address: randy@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
   updated_at: <%= 8.days.ago.to_s(:db) %>

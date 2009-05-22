@@ -86,7 +86,7 @@ class PersonnelController < ApplicationController
   private
   
   def find_users(name)
-    Group.find_by_name(name).users.sort { |a, b| a.last_name <=> b.last_name }
+    Role.find_by_name(name).users.sort { |a, b| a.last_name <=> b.last_name }
   end
   
 end

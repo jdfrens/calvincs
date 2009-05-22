@@ -1,0 +1,16 @@
+Description:
+    The generator will create the default files necessary to get the mhs_authentication_system up and running.
+
+Example:
+    ./script/generate mhs_authentication_system
+
+    This will create:
+        Model:      app/models/user.rb
+        Controller: app/controller/users_controller.rb
+        View:       app/view/users/login.erb
+        Migration:  db/migrate/XXX_add_mhs_authentication_system.rb
+        Fixtures:   spec/fixtures/privileges.yml
+                    spec/fixtures/roles.yml
+                    spec/fixtures/privileges_roles.yml
+                    spec/fixtures/users.yml
+

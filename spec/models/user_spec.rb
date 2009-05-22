@@ -9,7 +9,7 @@ describe User do
     user = User.new
     assert !user.valid?
     assert  user.errors.invalid?(:username)
-    assert  user.errors.invalid?(:group_id)
+    assert  user.errors.invalid?(:role_id)
     assert  user.errors.invalid?(:email_address)
 
     user = users(:jeremy)

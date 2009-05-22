@@ -50,6 +50,9 @@ describe HomeController do
   end
 
   describe "the administration page" do
+
+    user_fixtures
+
     it "should redirect when not logged in" do
       get :administrate
         
@@ -57,7 +60,7 @@ describe HomeController do
     end
 
     it "should administrate when logged in" do
-      get :administrate, {}, mock_user_session(:edit)
+      get :administrate, {}, user_session(:edit)
 
       response.should be_success
       response.should render_template("home/administrate")

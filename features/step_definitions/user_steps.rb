@@ -14,13 +14,13 @@ module UserHelpers
   def create_editor
     edit = Privilege.new(:name => "edit")
     edit.save!
-    group = Group.new(:name => "editor")
-    group.privileges << edit
-    group.save!
+    role = Role.new(:name => "editor")
+    role.privileges << edit
+    role.save!
     user = User.create(:username => "editor", :email_address => "foobar@example.com",
-            :password_hash => User.hash_password('secret'), :group => group)
+            :password_hash => User.hash_password('secret'), :role => role)
     user.save!
-    User.find_by_username("editor").group.name.should == "editor"
+    User.find_by_username("editor").role.name.should == "editor"
   end
 end
 

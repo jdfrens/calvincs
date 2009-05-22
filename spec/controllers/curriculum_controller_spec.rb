@@ -3,7 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe CurriculumController do
   integrate_views
 
-  fixtures :courses, :users, :groups, :privileges, :groups_privileges
+  user_fixtures
+  fixtures :courses
   
   def test_index_redirects_to_course_listing
     get :index

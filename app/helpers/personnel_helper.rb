@@ -5,7 +5,7 @@ module PersonnelHelper
   end
   
   def see_interests(user)
-    user.group.name != "staff" && (user.subpage(:interests) || current_user)
+    user.role.name != "staff" && (user.subpage(:interests) || current_user)
   end
 
   def id_for(user, id)

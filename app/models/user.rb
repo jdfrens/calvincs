@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   
   acts_as_login_model
-  
+
+  validates_presence_of :username
   validates_format_of :office_phone, :with => /^(()|(\d{3}-\d{3}-\d{4}))$/
   
   has_many :degrees, :order => 'year', :dependent => :delete_all
@@ -20,7 +21,7 @@ class User < ActiveRecord::Base
   end
   
   def education?
-    case group.name
+    case role.name
     when "faculty", "adjuncts", "emeriti", "contributors"
       true
     when "staff"

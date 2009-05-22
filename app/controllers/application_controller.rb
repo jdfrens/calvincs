@@ -8,12 +8,13 @@ class ApplicationController < ActionController::Base
   # Helpers
   #
   protected
-  
-  # this is so that I don't have to live on the edge
-  # needed for LWT Authentication
-  def authenticate_with_http_basic
-    nil
-  end
+
+  # TODO: delete this if issue 3 is finished
+#  # this is so that I don't have to live on the edge
+#  # needed for LWT Authentication
+#  def authenticate_with_http_basic
+#    nil
+#  end
 
   # find most recent updated_at
   def last_updated(items)
