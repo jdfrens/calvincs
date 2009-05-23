@@ -4,7 +4,9 @@ calvin:
   username: calvin
   first_name: John
   last_name: Calvin
-  password_hash: <%= User.hash_password('calvinpassword') %>
+  salt: salt
+  password_hash: <%= User.hash_password('calvinpassword', 'salt') %>
+  active: true
   role_id: 1
   email_address: calvin@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
@@ -17,7 +19,9 @@ sharon:
   job_title: Department Secretary
   office_phone: 616-526-7163
   office_location: North Hall 270
-  password_hash: <%= User.hash_password('sharonpassword') %>
+  salt: salt
+  password_hash: <%= User.hash_password('sharonpassword', 'salt') %>
+  active: true
   role_id: 3
   email_address: sharon@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
@@ -30,7 +34,9 @@ jeremy:
   job_title: Assistant Professor
   office_phone: 616-526-8666
   office_location: North Hall 296
-  password_hash: <%= User.hash_password('jeremypassword') %>
+  salt: salt
+  password_hash: <%= User.hash_password('jeremypassword', 'salt') %>
+  active: true
   role_id: 2
   email_address: jeremy@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
@@ -40,7 +46,9 @@ keith:
   username: keith
   first_name: Keith
   last_name: Vander Linden
-  password_hash: <%= User.hash_password('keithpassword') %>
+  salt: salt
+  password_hash: <%= User.hash_password('keithpassword', 'salt') %>
+  active: true
   role_id: 2
   email_address: keith@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
@@ -50,7 +58,9 @@ joel:
   username: joel
   first_name: Joel C.
   last_name: Adams
-  password_hash: <%= User.hash_password('joelpassword') %>
+  salt: salt
+  password_hash: <%= User.hash_password('joelpassword', 'salt') %>
+  active: true
   role_id: 2
   email_address: joel@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
@@ -61,7 +71,9 @@ fred:
   first_name: Fred
   last_name: Ferwerda
   job_title: Adjunct
-  password_hash: <%= User.hash_password('fredpassword') %>
+  salt: salt
+  password_hash: <%= User.hash_password('fredpassword', 'salt') %>
+  active: true
   role_id: 5
   email_address: fred@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
@@ -71,7 +83,9 @@ larry:
   username: larry
   first_name: Larry
   last_name: Nyhoff
-  password_hash: <%= User.hash_password('larrypassword') %>
+  password_hash: <%= User.hash_password('larrypassword', 'salt') %>
+  active: true
+  salt: salt
   role_id: 4
   email_address: larry@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>
@@ -82,7 +96,9 @@ randy:
   first_name: Randy
   last_name: Pruim
   job_title: Professor of Mathematics and Statistics
-  password_hash: <%= User.hash_password('randypassword') %>
+  salt: salt
+  password_hash: <%= User.hash_password('randypassword', 'salt') %>
+  active: true
   role_id: 6
   email_address: randy@calvin.foo
   created_at: <%= 1.year.ago.to_s(:db) %>

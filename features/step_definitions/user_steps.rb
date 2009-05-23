@@ -17,8 +17,12 @@ module UserHelpers
     role = Role.new(:name => "editor")
     role.privileges << edit
     role.save!
-    user = User.create(:username => "editor", :email_address => "foobar@example.com",
-            :password_hash => User.hash_password('secret'), :role => role)
+    user = User.create(:username => "editor",
+            :email_address => "foobar@example.com",
+            :salt => 'salt',
+            :password_hash => User.hash_password('secret', 'salt'),
+            :role => role,
+            :active => true)
     user.save!
     User.find_by_username("editor").role.name.should == "editor"
   end

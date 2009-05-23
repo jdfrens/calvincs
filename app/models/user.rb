@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   
-  acts_as_login_model
+  acts_as_login_model :login_attribute => :username
 
   validates_presence_of :username
   validates_format_of :office_phone, :with => /^(()|(\d{3}-\d{3}-\d{4}))$/

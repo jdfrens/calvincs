@@ -6,4 +6,8 @@ class UsersController < ApplicationController
     { :controller => "home", :action => 'administrate' }
   end
 
+  redirect_after_logout do
+    { :controller => "home", :action => "index" }
+  end
+
 end
