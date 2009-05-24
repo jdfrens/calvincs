@@ -33,6 +33,18 @@ Feature: managing pages
     Then I should see "SUBPAGE identified as _subpage"
     And I should see "normal page"
 
+  Scenario: titles of subpages are suppressed when editting
+    Given I am logged in as an editor
+    And the following pages
+      | identifier | title        | content        |
+      | _subpage   | subpage!     | It sub-tastic! |
+    When I go to the page listing
+    And I follow "SUBPAGE identified as _subpage"
+    Then I should be on the page to edit the page "1"
+    And I should see "This is a subpage, and subpages do not have titles."
+    And I should not see "SUBPAGE identified as _subpage"
+    And I should not see "subpage!"
+
   Scenario: seeing a page as an editor
     Given I am logged in as an editor
     And the following pages

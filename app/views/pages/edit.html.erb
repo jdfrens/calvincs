@@ -1,10 +1,9 @@
-<h1>
-  <%= in_place_editor_field :page, "title" %>
-  <% if @page.subpage? -%>
-      <em>rarely seen</em>
-  <% end -%>
-  <span class="instruction">click to edit</span>
-</h1>
+<% if @page.subpage? -%>
+    <p>This is a subpage, and subpages do not have titles.</p>
+<% else -%>
+    <h1><%= in_place_editor_field :page, "title" %> <span class="instruction">click to edit</span></h1>
+<% end -%>
+
 
 <p class="identifier">
   <strong>identifier:</strong> <%= in_place_editor_field :page, 'identifier' %>
@@ -21,6 +20,7 @@
 <div class="content-editor" id="content-editor">
   <%= render :partial => 'shared/markupreference' %>
   <h2>Content Editor</h2>
+
   <p>
     <% remote_form_for(:page, :url => { :action => 'update_page_content', :id => @page.id }) do |form| -%>
         <%= form.text_area :content, :rows => 20, :cols => 65 %>

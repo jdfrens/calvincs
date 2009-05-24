@@ -54,16 +54,15 @@ describe "/pages/edit.html.erb" do
               :content => "No, really, whatever!", :identifier => "whatever")
       assigns[:page] = @page
       template.should_not_receive(:render).with(:partial => "image")
-      template.should_receive(:in_place_editor_field).with(:page, "title").and_return("title's in-place editor")
+      template.should_not_receive(:in_place_editor_field).with(:page, "title")
       template.should_receive(:in_place_editor_field).with(:page, "identifier").and_return("identifier's in-place editor")
 
       render "/pages/edit"
+
     end
 
-    it "should annotate the title" do
-      response.should have_selector("h1") do |h1|
-        h1.should have_selector("em", :content => "rarely seen")
-      end
+    it "should have a note instead of a title" do
+      response.should have_selector("p", :content => "This is a subpage, and subpages do not have titles.")
     end
   end
 end
