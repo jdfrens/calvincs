@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/page/view.html.erb" do
+describe "/pages/view.html.erb" do
 
   it "should handle a normal page" do
     page = mock_model(Page, :subpage? => false, :title => "Mission Statement", :content => "We state our mission.")

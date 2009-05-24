@@ -1,5 +1,5 @@
 module PagesHelper
-  def subtitle_or_not(page)
-    page.subpage? ? "SUBPAGE (NO TITLE)" : h(page.title)
+  def page_title(page)
+    page.subpage? ? "SUBPAGE identified as #{page.identifier}" : h(page.title)
   end
 end

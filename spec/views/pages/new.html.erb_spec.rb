@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/page/new.html.erb" do
+describe "/pages/new.html.erb" do
 
   it "should display errors" do
     page = mock_model(Page, :new_record? => false, :valid? => false, :identifier => "some_identifier", :title => "some title", :content => "some content")

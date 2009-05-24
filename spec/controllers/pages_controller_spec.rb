@@ -3,6 +3,25 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe PagesController, "without views" do
   user_fixtures
 
+  describe "listing pages" do
+    it "should redirect if not logged in" do
+      get :index
+
+      response.should redirect_to("/users/login")
+    end
+
+    it "should list all pages" do
+      pages = mock("pages")
+      Page.should_receive(:find).with(:all, :order => 'identifier ASC').and_return( pages)
+
+      get :index, {}, user_session(:edit)
+
+      response.should be_success
+      response.should render_template("pages/index")
+      assigns[:pages] = pages
+    end
+  end
+
   describe "show a page" do
     it "should show the title, content, and an image" do
       page = mock_model(Page, :subpage? => false, :title => "the title")
@@ -97,34 +116,6 @@ describe PagesController do
 
   end
   
-  context "index action" do
-    it "should display a table of pages when logged in" do
-      get :index, {}, user_session(:edit), { :error => 'Error flash!' }
-    
-      assert_response :success
-      assert_template "index"
-      assert_select "h1", "All Pages"
-      assert_select "div#error", "Error flash!"
-      assert_select "table[summary=page list]" do
-        assert_select "tr", Page.count+1,
-          "should have one row per page plus a header"
-        assert_select "tr" do
-          assert_select "th", /identifier/i
-          assert_select "th", /title/i
-        end
-        assert_standard_page_entries
-      end
-      assert_select "a[href=/pages/new]", "Create a new page"
-    end
-  
-    it "should redirect when not logged in" do
-      get :index
-
-      response.should redirect_to(:controller => 'users', :action => 'login')
-    end
-
-  end
-   
   context "create action" do
     context "when logged in" do
       it "should update page and model" do
@@ -253,45 +244,6 @@ describe PagesController do
   # Helpers
   #
   private
-  
-  def assert_standard_page_entries
-    assert_page_entry pages(:alphabet)
-    assert_page_entry pages(:mission)
-    assert_page_entry pages(:home_page)
-    assert_page_entry pages(:home_splash)
-    assert_page_entries_order
-  end
-
-  def assert_page_entries_order
-    names = [:home_page, :home_splash, :alphabet, :mission]
-    current_page = pages(names.shift)
-    names.each do |next_identifier|
-      next_page = pages(next_identifier)
-      assert_select "tr#page_#{current_page.id} ~ tr#page_#{next_page.id}", true,
-        "page '#{current_page.identifier}' should be before '#{next_page.identifier}''"
-      current_page = next_page
-    end
-  end
-
-  def assert_page_entry(page)
-    id = page.id
-    identifier = page.identifier
-    title = page.title
-    assert_select "tr#page_#{page.id}" do
-      if page.subpage?
-        assert_select "td a[href=/pages/#{id}/edit]", "SUBPAGE (NO TITLE)"
-      else
-        assert_select "td a[href=/pages/#{id}/edit]", title,
-          "should have title in appropriate <a> in <td>"
-      end
-      assert_select "td", identifier,
-        "should have column with identifier in it"
-      assert_select "form[action=/pages/#{id}]" do
-        assert_select "input[name=_method][value=delete]"
-        assert_select "input[value=Destroy]", 1, "should have destroy button"
-      end
-    end
-  end
   
   def assert_page_form
     assert_select "form[action=/pages/save]" do

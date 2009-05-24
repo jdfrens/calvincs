@@ -18,12 +18,14 @@ Feature: the home page
     Then I should create _home_splash page
 
   Scenario: see the home the page
-    Given the following pages
+    Given I am logged in as an editor
+    And the following pages
         | identifier   | title           | content      |
         | _home_page   | does not matter | some content |
         | _home_splash | does not matter | sploosh!     |
     When I go to the homepage
-    Then I should be on the homepage
+    And I follow "edit _home_splash"
+    Then I should edit _home_splash page with id 2
 
   Scenario: see the home the page
     Given I am logged in as an editor
@@ -32,5 +34,5 @@ Feature: the home page
         | _home_page   | does not matter | some content |
         | _home_splash | does not matter | sploosh!     |
     When I go to the homepage
-    And I follow "edit this subpage"
-    Then I should edit _home_splash page with id 2
+    And I follow "edit _home_page"
+    Then I should edit _home_page page with id 1

@@ -2,6 +2,6 @@
 
 <% restrict_to :edit do -%>
   <p class="view-edit">
-    <%= link_to 'edit this subpage', edit_page_path(page) %>
+    <%= link_to "edit #{page.identifier}", edit_page_path(page) %>
   </p>
 <% end -%>

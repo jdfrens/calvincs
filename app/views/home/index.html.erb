@@ -1,10 +1,10 @@
 <div id="home_splash">
-  <%= render :partial => 'shared/headerlesspage', :locals => { :page => @splash } %>
+  <%= render :partial => 'shared/subpage', :locals => { :page => @splash } %>
 </div>
 
 <div class="columns">
   <div id="home_page" class="columns-1">
-    <%= render :partial => 'shared/page', :object => @content %>
+    <%= render :partial => 'shared/subpage', :locals => { :page => @content }%>
   </div>
   
   <div id="news" class="columns-2">

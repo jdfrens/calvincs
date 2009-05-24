@@ -3,12 +3,7 @@ Feature: managing pages
   I want to manage pages
   So that I write content for the website
 
-  Scenario: listing pages when not logged in
-    Given I am not logged in
-    When I go to the page listing
-    Then I should be on the login page
-
-  Scenario: listing pages when logged in
+  Scenario: listing pages
     Given I am logged in as an editor
     And the following pages
       | identifier | title  | content      |
@@ -27,6 +22,16 @@ Feature: managing pages
     When I go to the page listing
     And I follow "XMass!"
     Then I should be on the page to edit the page "2"
+
+  Scenario: titles of subpages are suppressed
+    Given I am logged in as an editor
+    And the following pages
+      | identifier | title        | content        |
+      | _subpage   | subpage!     | It sub-tastic! |
+      | normal     | normal page! | Check me out.  |
+    When I go to the page listing
+    Then I should see "SUBPAGE identified as _subpage"
+    And I should see "normal page"
 
   Scenario: seeing a page as an editor
     Given I am logged in as an editor

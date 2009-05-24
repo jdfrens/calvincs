@@ -1,39 +1,17 @@
 <h1>All Pages</h1>
 
 <% if flash[:error] -%>
-  <div id="error"><%= h(flash[:error]) %></div>
+    <div id="error"><%= h(flash[:error]) %></div>
 <% end -%>
+
+<p><%= link_to 'Create a new page', new_page_path %></p>
 
 <table summary="page list">
-  <% if current_user -%>
-    <tr>
-      <th>Identifier</th>
-      <th>Title (click to view/edit)</th>
-      <th> </th>
-    </tr>   
-  <% end -%>
-  <% @pages.each do |page| -%>
-    <tr id="page_<%= page.id %>">
-      <% if current_user -%>
-        <td>
-          <%= h(page.identifier) %>
-        </td>   
-      <% end -%>
-
-      <td>
-        <%= link_to(subtitle_or_not(page), edit_page_path(page)) %>
-      </td>
-
-      <% if current_user -%>
-        <td>
-          <%= button_to 'Destroy', page, :confirm => 'Are you sure you want to destroy this page?', :method => :delete %>
-        </td>   
-      <% end -%>
-
-    </tr>
-  <% end -%>
+  <tr>
+    <th>Identifier</th>
+    <th>Title (click to edit)</th>
+    <th></th>
+  </tr>
+  <%= render :partial => "page_entry", :collection => @pages %>
 </table>
 
-<% restrict_to :edit do -%>
-  <p><%= link_to 'Create a new page', new_page_path %></p>
-<% end -%>
