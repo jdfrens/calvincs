@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class NewsItemTest < ActiveRecord::TestCase
+describe NewsItem do
 
   fixtures :news_items, :users
 
@@ -74,9 +74,16 @@ class NewsItemTest < ActiveRecord::TestCase
     )
   end
 
-  def test_find_news_years
-    assert_equal((current_year-2)..current_year, NewsItem.find_news_years)
-  end
+  describe "finding news year" do
+    it "should get from the news items" do
+      assert_equal((current_year-2)..current_year, NewsItem.find_news_years)
+    end
+
+    it "should be an empty range when no news items" do
+      NewsItem.destroy_all
+      NewsItem.find_news_years.should == (2000..1999)
+    end
+  end 
 
   def test_is_current
     assert  news_items(:todays_news).is_current?
