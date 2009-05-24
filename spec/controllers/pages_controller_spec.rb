@@ -279,9 +279,9 @@ describe PagesController do
     title = page.title
     assert_select "tr#page_#{page.id}" do
       if page.subpage?
-        assert_select "td a[href=/p/#{identifier}]", "SUBPAGE (NO TITLE)"
+        assert_select "td a[href=/pages/#{id}/edit]", "SUBPAGE (NO TITLE)"
       else
-        assert_select "td a[href=/p/#{identifier}]", title,
+        assert_select "td a[href=/pages/#{id}/edit]", title,
           "should have title in appropriate <a> in <td>"
       end
       assert_select "td", identifier,

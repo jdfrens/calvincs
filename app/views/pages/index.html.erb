@@ -21,7 +21,7 @@
       <% end -%>
 
       <td>
-        <%= link_to((page.subpage? ? "SUBPAGE (NO TITLE)" : h(page.title)), :action => 'show', :id => page.identifier) %>
+        <%= link_to(subtitle_or_not(page), edit_page_path(page)) %>
       </td>
 
       <% if current_user -%>

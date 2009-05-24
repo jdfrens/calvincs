@@ -34,5 +34,4 @@ module ApplicationHelper
     end
     content_tag(:li, link_to_unless_current(text, url, { :title => options[:title] }), :class => options[:class])
   end
-
 end

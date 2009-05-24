@@ -23,10 +23,13 @@ module NavigationHelpers
       when /the page listing/
         pages_path
 
+      when /the new page page/
+        new_page_path
+      
       when /the "(.*)" page/
         "/p/#{$1}"
 
-      when /the edit page (.*) page/
+      when /the page to edit the page "(.*)"/
         "/pages/#{$1}/edit"
       
       else

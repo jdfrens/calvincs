@@ -1,8 +1,7 @@
-<p><%= textilize page.content %></p>
+<%= textilize page.content %>
 
 <% restrict_to :edit do -%>
   <p class="view-edit">
-    <%= link_to 'view/edit', :controller => 'page',
-            :action => 'view', :id => page.identifier %>
+    <%= link_to 'edit this subpage', edit_page_path(page) %>
   </p>
 <% end -%>
