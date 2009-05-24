@@ -18,19 +18,6 @@ Feature: managing pages
     When I go to the page listing
     Then I should be on the login page
 
-  Scenario: seeing a page as a visitor
-    Given I am not logged in
-    And the following pages
-      |identifier| title | content      |
-      |foobar| Foo   | bar bar bar. |
-    And the following images
-      | url                   | caption   | tags_string |
-      | /images/somewhere.gif | Somewhere |foobar|
-    When I go to the "foobar" page
-    Then I should see "bar bar bar."
-    And I should see an image "/images/somewhere.gif"
-    And I should see "Somewhere"
-
   Scenario: seeing a page as an editor
     Given I am logged in as an editor
     And the following pages
