@@ -17,6 +17,24 @@ describe Page do
     end
   end
 
+  describe "named scopes" do
+    it "should find normal pages" do
+      Page.normal_pages.should include(pages(:mission))
+      Page.normal_pages.should include(pages(:alphabet))
+      Page.normal_pages.should_not include(pages(:jeremy_interests))
+      Page.normal_pages.should_not include(pages(:jeremy_profile))
+      Page.normal_pages.should_not include(pages(:jeremy_status))
+    end
+
+    it "should find subpages" do
+      Page.subpages.should_not include(pages(:mission))
+      Page.subpages.should_not include(pages(:alphabet))
+      Page.subpages.should include(pages(:jeremy_interests))
+      Page.subpages.should include(pages(:jeremy_profile))
+      Page.subpages.should include(pages(:jeremy_status))
+    end
+  end
+
   describe "validation issues" do
     it "should insist on unique identifier" do
       page = Page.new(

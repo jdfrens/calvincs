@@ -6,6 +6,9 @@ class Page < ActiveRecord::Base
   validates_format_of :identifier, :with => /^(\w|_)+$/,
       :message => 'should be like a Java identifier'
 
+  named_scope :normal_pages, :conditions => "identifier not like '!_%' escape '!'"
+  named_scope :subpages, :conditions => "identifier like '!_%' escape '!'"
+
   def self.find_by_an_id(id)
     if id =~ /^\d+/
       find(id)
