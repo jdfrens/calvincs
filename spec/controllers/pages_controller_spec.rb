@@ -11,14 +11,17 @@ describe PagesController, "without views" do
     end
 
     it "should list all pages" do
-      pages = mock("pages")
-      Page.should_receive(:find).with(:all, :order => 'identifier ASC').and_return( pages)
+      normal_pages = mock("normal pages")
+      subpages = mock("subpages")
+      Page.should_receive(:normal_pages).and_return(normal_pages)
+      Page.should_receive(:subpages).and_return(subpages)
 
       get :index, {}, user_session(:edit)
 
       response.should be_success
       response.should render_template("pages/index")
-      assigns[:pages] = pages
+      assigns[:normal_pages] = normal_pages
+      assigns[:subpages] = subpages
     end
   end
 

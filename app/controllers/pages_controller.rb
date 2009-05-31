@@ -3,7 +3,8 @@ class PagesController < ApplicationController
   restrict_to :edit, :except => [ :show ]
   
   def index
-    @pages = Page.find(:all, :order => 'identifier ASC')
+    @normal_pages = Page.normal_pages
+    @subpages = Page.subpages
   end
   
   def show

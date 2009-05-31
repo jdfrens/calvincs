@@ -1,11 +1,13 @@
 <tr id="page_<%= page_entry.id %>">
   <td>
-    <%= h(page_entry.identifier) %>
+    <%= link_to h(page_entry.identifier), edit_page_path(page_entry) %>
   </td>
 
-  <td>
-    <%= link_to(page_title(page_entry), edit_page_path(page_entry)) %>
-  </td>
+  <% unless page_entry.subpage? -%>
+      <td>
+        <%= page_title(page_entry) %>
+      </td>
+  <% end -%>
 
   <td>
     <%= button_to 'Destroy', page_entry, :confirm => 'Are you sure you want to destroy this page?', :method => :delete %>

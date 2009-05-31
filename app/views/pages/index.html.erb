@@ -1,4 +1,4 @@
-<h1>All Pages</h1>
+<h1>List of Pages</h1>
 
 <% if flash[:error] -%>
     <div id="error"><%= h(flash[:error]) %></div>
@@ -6,12 +6,23 @@
 
 <p><%= link_to 'Create a new page', new_page_path %></p>
 
-<table summary="page list">
+<h2>Normal Pages</h2>
+
+<table summary="normal pages">
   <tr>
     <th>Identifier</th>
-    <th>Title (click to edit)</th>
+    <th>Title</th>
     <th></th>
   </tr>
-  <%= render :partial => "page_entry", :collection => @pages %>
+  <%= render :partial => "page_entry", :collection => @normal_pages %>
 </table>
 
+<h2>Subpages</h2>
+
+<table summary="subpages">
+  <tr>
+    <th>Identifier</th>
+    <th></th>
+  </tr>
+  <%= render :partial => "page_entry", :collection => @subpages %>
+</table>

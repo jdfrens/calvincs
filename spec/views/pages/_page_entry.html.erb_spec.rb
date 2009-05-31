@@ -7,7 +7,7 @@ describe "/pages/_page_entry.html.erb" do
 
     render "/pages/_page_entry", :locals => { :page_entry => page }
 
-    response.should have_selector("td a", :href => "/pages/#{page.id}/edit", :content => "the nice title")
+    response.should have_selector("td a", :href => "/pages/#{page.id}/edit", :content => "hey")
     response.should have_selector("td", :content => "hey")
     response.should have_selector("form", :action => "/pages/#{page.id}")
     response.should have_selector("input", :name => "_method", :value => "delete")
@@ -17,11 +17,11 @@ describe "/pages/_page_entry.html.erb" do
   it "should render a subpage" do
     page = mock_model(Page, :subpage? => true, :identifier => "hey")
 
-    template.should_receive(:page_title).with(page).and_return("subpage title")
+    template.should_not_receive(:page_title).with(page)
 
     render "/pages/_page_entry", :locals => { :page_entry => page }
 
-    response.should have_selector("td a", :href => "/pages/#{page.id}/edit", :content => "subpage title")
+    response.should have_selector("td a", :href => "/pages/#{page.id}/edit", :content => "hey")
   end
 
 end

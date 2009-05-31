@@ -20,7 +20,7 @@ Feature: managing pages
       | foobar     | Foo    | bar bar bar. |
       | xmas       | XMass! | Merry!       |
     When I go to the page listing
-    And I follow "XMass!"
+    And I follow "xmas"
     Then I should be on the page to edit the page "2"
 
   Scenario: titles of subpages are suppressed
@@ -30,8 +30,9 @@ Feature: managing pages
       | _subpage   | subpage!     | It sub-tastic! |
       | normal     | normal page! | Check me out.  |
     When I go to the page listing
-    Then I should see "SUBPAGE identified as _subpage"
-    And I should see "normal page"
+    Then I should see "normal page!"
+    And I should not see "subpage!"
+    And I should not see "SUBPAGE identified as _subpage"
 
   Scenario: titles of subpages are suppressed when editting
     Given I am logged in as an editor
@@ -39,7 +40,7 @@ Feature: managing pages
       | identifier | title        | content        |
       | _subpage   | subpage!     | It sub-tastic! |
     When I go to the page listing
-    And I follow "SUBPAGE identified as _subpage"
+    And I follow "_subpage"
     Then I should be on the page to edit the page "1"
     And I should see "This is a subpage, and subpages do not have titles."
     And I should not see "SUBPAGE identified as _subpage"
