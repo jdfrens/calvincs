@@ -28,6 +28,8 @@ module NavigationHelpers
       # news items
       when /the list of news items/
         '/news'
+      when /the current news/
+        '/news'
       when /the archive of news items/
         '/news?year=all'
 

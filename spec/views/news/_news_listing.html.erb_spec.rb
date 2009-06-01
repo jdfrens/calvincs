@@ -15,5 +15,6 @@ describe "/news/_news_listing.html.erb" do
     response.should have_selector("li", :content => "newsy 0")
     response.should have_selector("li", :content => "newsy 1")
     response.should have_selector("li", :content => "newsy 2")
+    response.should have_selector("li a", :href => "/news?year=all", :content => "News Archive")
   end
 end

@@ -32,3 +32,12 @@ Feature: checking out news items
     When I follow "News of 2007"
     Then I should see "News!"
     And I should see "No news is good news."
+
+  Scenario: navigating between different views
+    Given the following news items
+      | headline | teaser | content               | goes_live_at | expires_at    |
+      | News!    | na na! | No news is good news. | May 28, 2007 | June 28, 2007 |
+    When I go to the current news
+    Then I should not see "News!"
+    When I follow "News Archive..."
+    Then I should see "News of 2007"
