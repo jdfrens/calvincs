@@ -11,30 +11,33 @@ module NavigationHelpers
       when /the home(\s*)page/
         '/'
 
+      # users
       when /the login page/
         '/users/login'
 
+      # administration
       when /the administration page/
         '/home/administrate'
 
+      # events
       when /the new event page/
         '/event/new'
-
       when /the list of events/
         '/event/list'
 
+      # news items
       when /the list of news items/
-        '/news/list'  # TODO: RESTful refactor!
+        '/news'
+      when /the archive of news items/
+        '/news?year=all'
 
+      # pages
       when /the page listing/
         pages_path
-
       when /the new page page/
         new_page_path
-      
       when /the "(.*)" page/
         "/p/#{$1}"
-
       when /the page to edit the page "(.*)"/
         "/pages/#{$1}/edit"
       

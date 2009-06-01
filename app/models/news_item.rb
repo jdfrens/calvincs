@@ -11,9 +11,8 @@ class NewsItem < ActiveRecord::Base
   validates_presence_of :expires_at
 
   def self.find_current
-    find(:all, :order => 'goes_live_at DESC').reject do |news_item|
-      !news_item.is_current?
-    end
+    self.scoped(:conditions => ['goes_live_at <= ? AND expires_at >= ?', Time.now, Time.now],
+            :order => 'goes_live_at DESC')
   end
 
   def self.find_by_year(year, max = :today)
@@ -22,10 +21,8 @@ class NewsItem < ActiveRecord::Base
     if max == :today
       upper_bound = [upper_bound, Time.now].min
     end
-    self.find(
-            :all,
-                    :conditions => { :goes_live_at => lower_bound..upper_bound },
-                    :order => 'goes_live_at DESC'
+    self.scoped(:conditions => { :goes_live_at => lower_bound..upper_bound },
+            :order => 'goes_live_at DESC'
     )
   end
 

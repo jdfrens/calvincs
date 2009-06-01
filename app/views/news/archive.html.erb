@@ -2,6 +2,6 @@
 
 <ul id="news-years">
   <% @years.to_a.reverse.each do |year| -%>
-    <li><%= link_to "News of #{year}", :action => :list, :id => year %></li>
+    <li><%= link_to "News of #{year}", :action => :index, :year => year %></li>
   <% end -%>
 </ul>
