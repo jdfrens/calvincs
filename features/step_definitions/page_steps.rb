@@ -13,22 +13,23 @@ Then /^I should create (\w+) page$/ do |identifier|
   response.should have_selector("input#page_identifier", :value => identifier)
 end
 
+Then /^I should edit (\w+) page$/ do |identifier|
+  id = Page.find_by_identifier(identifier).id
+  URI.parse(current_url).path.should == "/pages/#{id}/edit"
+  response.should have_selector("#page_identifier_#{id}_in_place_editor", :content => identifier)
+end
+
 Then /^I should edit (\w+) page with id (\d+)$/ do |identifier, id|
   URI.parse(current_url).path.should == "/pages/#{id}/edit"
   response.should have_selector("#page_identifier_#{id}_in_place_editor", :content => identifier)
 end
 
+Then /^I should be editing a page$/ do
+  URI.parse(current_url).path.should match(%r{/pages/(\d+)/edit})
+  URI.parse(current_url).path =~ %r{/pages/(\d+)/edit}
+  @page_id = $1
+end
+
 Then /^there should be no pages$/ do
   Page.count.should == 0
-end
-
-
-
-
-Then /^I should see a listing of pages$/ do
-  pending
-end
-
-Then /^I should see the home page$/ do
-  pending
 end

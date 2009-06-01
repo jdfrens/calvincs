@@ -1,3 +1,3 @@
 Then /^the in place editor for "([^\"]*)" should contain "([^\"]*)"$/ do |span_id, content|
-  response.should have_selector("##{span_id}_in_place_editor", :content => content)
+  response.should have_selector("#page_identifier_#{@page_id}_in_place_editor", :content => content)
 end

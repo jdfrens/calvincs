@@ -17,7 +17,7 @@ Feature: the home page
     When I go to the homepage
     Then I should create _home_splash page
 
-  Scenario: see the home the page
+  Scenario: see the home page and edit the splash
     Given I am logged in as an editor
     And the following pages
         | identifier   | title           | content      |
@@ -25,9 +25,9 @@ Feature: the home page
         | _home_splash | does not matter | sploosh!     |
     When I go to the homepage
     And I follow "edit _home_splash"
-    Then I should edit _home_splash page with id 2
+    Then I should edit _home_splash page
 
-  Scenario: see the home the page
+  Scenario: see the home page and edit the content
     Given I am logged in as an editor
     And the following pages
         | identifier   | title           | content      |
@@ -35,4 +35,4 @@ Feature: the home page
         | _home_splash | does not matter | sploosh!     |
     When I go to the homepage
     And I follow "edit _home_page"
-    Then I should edit _home_page page with id 1
+    Then I should edit _home_page page

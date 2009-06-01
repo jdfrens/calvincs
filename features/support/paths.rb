@@ -14,11 +14,17 @@ module NavigationHelpers
       when /the login page/
         '/users/login'
 
+      when /the administration page/
+        '/home/administrate'
+
       when /the new event page/
         '/event/new'
 
       when /the list of events/
         '/event/list'
+
+      when /the list of news items/
+        '/news/list'  # TODO: RESTful refactor!
 
       when /the page listing/
         pages_path

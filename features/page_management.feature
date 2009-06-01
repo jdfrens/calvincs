@@ -21,7 +21,8 @@ Feature: managing pages
       | xmas       | XMass! | Merry!       |
     When I go to the page listing
     And I follow "xmas"
-    Then I should be on the page to edit the page "2"
+    Then I should be editing a page
+    And I should see "xmas"
 
   Scenario: titles of subpages are suppressed
     Given I am logged in as an editor
@@ -41,7 +42,7 @@ Feature: managing pages
       | _subpage   | subpage!     | It sub-tastic! |
     When I go to the page listing
     And I follow "_subpage"
-    Then I should be on the page to edit the page "1"
+    Then I should be editing a page
     And I should see "This is a subpage, and subpages do not have titles."
     And I should not see "SUBPAGE identified as _subpage"
     And I should not see "subpage!"
@@ -67,5 +68,5 @@ Feature: managing pages
     When I go to the "foobar" page
     Then I should see "bar bar bar."
     When I follow "edit this page"
-    Then I should be on the page to edit the page "1"
+    Then I should be editing a page
     And the in place editor for "page_identifier_1" should contain "foobar"

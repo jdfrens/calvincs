@@ -1,31 +1,11 @@
 Given /^I am logged in as an editor$/ do
-  create_editor
+#  create_editor
   visit "/users/login"
-  fill_in("user[username]", :with => "editor")
-  fill_in("user[password]", :with => "secret")
+  fill_in("user[username]", :with => "jeremy")
+  fill_in("user[password]", :with => "jeremypassword")
   click_button "Login"
 end
 
 Given /^I am not logged in$/ do
   visit "/users/logout"
 end
-
-module UserHelpers
-  def create_editor
-    edit = Privilege.new(:name => "edit")
-    edit.save!
-    role = Role.new(:name => "editor")
-    role.privileges << edit
-    role.save!
-    user = User.create(:username => "editor",
-            :email_address => "foobar@example.com",
-            :salt => 'salt',
-            :password_hash => User.hash_password('secret', 'salt'),
-            :role => role,
-            :active => true)
-    user.save!
-    User.find_by_username("editor").role.name.should == "editor"
-  end
-end
-
-World(UserHelpers)

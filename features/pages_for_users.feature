@@ -1,4 +1,4 @@
-Feature: managing pages
+Feature: checking out the content on the website
   As a guest on the website
   I want to see the content from the CMS pages
   So that I can learn more about the department and its people
