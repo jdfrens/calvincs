@@ -9,7 +9,7 @@
 <% form_for :news_item, :url => { :action => :save } do |form| %>
   <table summary="news item form">
     <tr>
-      <td> Headline: </td>
+      <td> <%= form.label :headline, "Headline:" %> </td>
       <td> <%= form.text_field :headline, :size => 40 %> </td>
     </tr>
     <tr>
@@ -21,7 +21,7 @@
       <td> <%= form.text_area :content, :rows => 5, :cols => 65 %> </td>
     </tr>
     <tr>
-      <td> Goes live: </td>
+      <td> <%= form.label :goes_live_at, "Goes live:" %> </td>
       <td> <%= form.date_select :goes_live_at %> </td>
     </tr>
     <tr>

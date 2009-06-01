@@ -129,7 +129,8 @@ describe NewsController do
               'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
               'expires_at(3i)' => '31',
               }}, user_session(:edit)
-      assert_redirected_to :controller => 'news', :action => 'list'
+      
+      assert_redirected_to :controller => 'news', :action => 'index'
 
       news_item = NewsItem.find_by_headline('News Headline')
       assert_not_nil news_item

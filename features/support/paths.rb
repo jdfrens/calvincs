@@ -32,6 +32,8 @@ module NavigationHelpers
         '/news'
       when /the archive of news items/
         '/news?year=all'
+      when /the new news item page/
+        '/news/new'
 
       # pages
       when /the page listing/

@@ -49,7 +49,7 @@ class NewsController < ApplicationController
     params[:news_item][:user_id] = current_user.id
     @news_item = NewsItem.new(params[:news_item])
     if @news_item.save
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     else
       flash[:error] = 'Invalid values for the news item'
       render :template => 'news/new'
