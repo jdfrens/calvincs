@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe NewsController, "without views" do
+describe NewsItemsController, "without views" do
   user_fixtures
 
   context "index action" do
@@ -73,7 +73,7 @@ describe NewsController, "without views" do
 
       get :edit, { :id => "456" }, user_session(:edit)
 
-      response.should render_template("news/new")
+      response.should render_template("news_items/new")
       assigns[:news_item].should == news_item
     end
 
@@ -131,7 +131,7 @@ describe NewsController, "without views" do
 
       post :create, { :news_item => { :params => "values" } }, user_session(:edit)
 
-      response.should redirect_to(:controller => 'news', :action => 'index')
+      response.should redirect_to(:controller => 'news_items', :action => 'index')
     end
 
     it "should redirect when not saved" do
@@ -150,7 +150,7 @@ describe NewsController, "without views" do
 
 end
 
-describe NewsController do
+describe NewsItemsController do
   integrate_views
 
   fixtures :news_items
@@ -170,7 +170,7 @@ describe NewsController do
 
         assert_response :success
         assert_select "h1", "Create News Item"
-        assert_select "form[action=/news/save]" do
+        assert_select "form[action=/news_items/create]" do
           assert_select "tr:nth-child(1)" do
             assert_select "td", /headline/i
             assert_select "td input[type=text]"
@@ -345,7 +345,7 @@ describe NewsController do
         post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' },
                 user_session(:edit)
 
-        assert_redirected_to :controller => 'news', :action => 'list', :id => 'foobar'
+        assert_redirected_to :controller => 'news_items', :action => 'index'
         assert_equal 3, NewsItem.count, "lost just one news item"
         assert_nil NewsItem.find_by_headline("News of Today")
       end

@@ -14,7 +14,7 @@
       <%= render(:partial => "event", :collection => @this_weeks_events, :locals => { :timing => "this week" }) %>
       <%= render(:partial => "news_item" , :collection => @news_items) %>
       <li>
-        <%= link_to "other news...", { :controller => "news" }, { :class => "more" } %>
+        <%= link_to "other news...", { :controller => "news_items" }, { :class => "more" } %>
       </li>
     </ul>
   </div>

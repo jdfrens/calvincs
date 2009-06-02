@@ -1,12 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/news/show.html.erb" do
+describe "/news_items/show.html.erb" do
 
   it "should show news item" do
     item = mock_model(NewsItem, :headline => "Some Headline", :content => "Something happened today.")
     assigns[:news_item] = item
 
-    render "news/show"
+    render "news_items/show"
 
     assert_select "h1", item.headline
     assert_select "div#news-item-content", "Something happened today."
@@ -18,9 +18,9 @@ describe "/news/show.html.erb" do
     
     template.should_receive(:current_user).and_return(true)
 
-    render "news/show"
+    render "news_items/show"
 
-    response.should have_selector("a", :href => "/news/edit/#{item.id}", :content => "edit...")
+    response.should have_selector("a", :href => "/news_items/edit/#{item.id}", :content => "edit...")
   end
   
 end

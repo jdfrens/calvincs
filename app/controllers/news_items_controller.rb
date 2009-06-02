@@ -1,4 +1,4 @@
-class NewsController < ApplicationController
+class NewsItemsController < ApplicationController
 
   restrict_to :edit, :except => [ :index, :show ]
 
@@ -63,7 +63,7 @@ class NewsController < ApplicationController
 
   def destroy
     NewsItem.destroy(params[:id])
-    redirect_to :controller => 'news', :action => 'list', :id => params[:listing]
+    redirect_to :controller => 'news_items', :action => 'index'
   end
 
 end
