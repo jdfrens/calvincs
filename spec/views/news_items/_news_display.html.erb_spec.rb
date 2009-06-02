@@ -42,6 +42,6 @@ describe "/news/_news_display.html.erb" do
 
     render "news_items/_news_display"
 
-    response.should have_selector("a", :href => "/news_items/edit/#{news_item.id}", :content => "edit...")
+    response.should have_selector("a", :href => "/news_items/#{news_item.id}/edit", :content => "edit...")
   end
 end

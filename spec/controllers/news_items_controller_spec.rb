@@ -170,7 +170,7 @@ describe NewsItemsController do
 
         assert_response :success
         assert_select "h1", "Create News Item"
-        assert_select "form[action=/news_items/create]" do
+        assert_select "form[action=/news_items]" do
           assert_select "tr:nth-child(1)" do
             assert_select "td", /headline/i
             assert_select "td input[type=text]"

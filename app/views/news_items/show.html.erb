@@ -1,7 +1,7 @@
 <h1>
   <%= h(@news_item.headline) %>
   <% if current_user -%>
-      <%= link_to "edit...", { :action => "edit", :id => @news_item.id }, { :class => "more" } %>
+      <%= link_to "edit...", edit_news_item_path(@news_item), { :class => "more" } %>
   <% end -%>
 </h1>
 
