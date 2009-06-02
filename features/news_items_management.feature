@@ -13,3 +13,19 @@ Feature: managing news items
     And I fill in "news_item[content]" with "The Frellin' Content"
     And I press "Save changes"
     Then I should be on the current news page
+
+  Scenario: Editing an old news item
+    Given I am logged in as an editor
+    And the following news items
+      | headline | teaser | content               |
+      | News!    | na na! | No news is good news. |
+    When I go to the administration page
+    And I follow "List news items"
+    Then I should be on the current news page
+    When I follow "edit..."
+    Then I should see "No news is good news."
+    When I fill in "news_item[content]" with "Some new content."
+    And I press "Save changes"
+    Then I should be on the current news page
+    And I should see "Some new content."
+#    And I should not see "No news is good news."

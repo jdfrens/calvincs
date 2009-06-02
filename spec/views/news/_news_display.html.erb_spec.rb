@@ -29,5 +29,19 @@ describe "/news/_news_display.html.erb" do
     response.should have_selector("h2", :content => "Headline #1")
     response.should have_selector("h2", :content => "Headline B")
     response.should have_selector("h2", :content => "Headline gamma")
+    response.should_not contain("edit...")
+  end
+
+  it "should have links to edit news items when logged in" do
+    news_item = mock_model(NewsItem, :headline => "h",
+            :goes_live_at => Time.now,
+            :content => "c")
+    assigns[:news_items] = [news_item]
+
+    template.should_receive(:current_user).and_return(true)
+
+    render "news/_news_display"
+
+    response.should have_selector("a", :href => "/news/edit/#{news_item.id}", :content => "edit...")
   end
 end

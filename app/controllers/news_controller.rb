@@ -29,6 +29,11 @@ class NewsController < ApplicationController
     @news_item = NewsItem.new( :expires_at => 1.month.from_now )
   end
 
+  def edit
+    @news_item = NewsItem.find(params[:id])
+    render :action => "new"
+  end  
+
   in_place_edit_for :news_item, :headline
 
   in_place_edit_for :news_item, :teaser

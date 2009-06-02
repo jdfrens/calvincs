@@ -1,6 +1,11 @@
 <% @news_items.each do |news_item| %>
     <div id="news-item-<%= news_item.id %>" class="news-item">
-      <h2><%= h(news_item.headline) %></h2>
+      <h2>
+        <%= h(news_item.headline) %>
+        <% if current_user -%>
+            <%= link_to "edit...", { :controller => "news", :action => "edit", :id => news_item.id }, { :class => "more" } %>
+        <% end %>
+      </h2>
 
       <p class="goes-live-date">Posted on <%= news_item.goes_live_at.to_s(:news_posted) %></p>
 

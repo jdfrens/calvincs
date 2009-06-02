@@ -67,6 +67,18 @@ describe NewsController, "without views" do
     end
   end
 
+  context "editing a news item" do
+    it "should find the news item to be edited" do
+      news_item = mock_model(NewsItem)
+      NewsItem.should_receive(:find).with("456").and_return(news_item)
+
+      get :edit, { :id => "456" }, user_session(:edit)
+
+      response.should render_template("news/new")
+      assigns[:news_item].should == news_item
+    end
+  end
+
 end
 
 describe NewsController do
