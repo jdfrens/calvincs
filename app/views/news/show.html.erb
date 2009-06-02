@@ -1,0 +1,10 @@
+<h1>
+  <%= h(@news_item.headline) %>
+  <% if current_user -%>
+      <%= link_to "edit...", { :action => "edit", :id => @news_item.id }, { :class => "more" } %>
+  <% end -%>
+</h1>
+
+<div id="news-item-content">
+  <%= textilize @news_item.content %>
+</div>

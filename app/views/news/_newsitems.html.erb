@@ -4,7 +4,7 @@
     
       <td>
         <%= link_to h(news_item.headline),
-              :action => 'view', :id => news_item.id %>
+              :action => 'show', :id => news_item.id %>
       </td>
 	  
       <% restrict_to :edit do -%>

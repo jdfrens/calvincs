@@ -1,7 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe NewsController, "without views" do
-  fixtures :news_items
   user_fixtures
 
   context "index action" do
@@ -40,7 +39,7 @@ describe NewsController, "without views" do
       updated_at = mock("updated at time")
 
       NewsItem.should_receive(:find_by_year).with(1666, :today).and_return(news_items)
-      news_items.should_receive(:maximum).with(:updated_at).and_return(updated_at)   
+      news_items.should_receive(:maximum).with(:updated_at).and_return(updated_at)
 
       get :index, { :year => "1666" }
 
@@ -79,9 +78,39 @@ describe NewsController, "without views" do
     end
 
     it "should redirect to login when not logged in" do
-      get :edit, { :id => "456" }
+      get :edit
 
       response.should redirect_to("/users/login")
+    end
+  end
+
+  context "show action" do
+    it "should show basic news item" do
+      updated_at = mock("updated at")
+      item = mock_model(NewsItem, :headline => "The Headline", :updated_at => updated_at)
+
+      NewsItem.should_receive(:find).with(item.id.to_s).and_return(item)
+
+      get :show, { :id => item.id }
+
+      assert_response :success
+      assigns[:news_item].should == item
+      assigns[:title].should == "The Headline"
+      assigns[:last_updated].should == updated_at
+    end
+
+    it "should show more detail when logged in" do
+      updated_at = mock("updated at")
+      item = mock_model(NewsItem, :headline => "The Headline", :updated_at => updated_at)
+
+      NewsItem.should_receive(:find).with(item.id.to_s).and_return(item)
+
+      get :show, { :id => item.id }, user_session(:edit)
+
+      assert_response :success
+      assigns[:news_item].should == item
+      assigns[:title].should == "The Headline"
+      assigns[:last_updated].should == updated_at
     end
   end
 
@@ -147,7 +176,7 @@ describe NewsController do
               'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
               'expires_at(3i)' => '31',
               }}, user_session(:edit)
-      
+
       assert_redirected_to :controller => 'news', :action => 'index'
 
       news_item = NewsItem.find_by_headline('News Headline')
@@ -167,60 +196,6 @@ describe NewsController do
       assert !flash.empty?
       assert_equal 'Invalid values for the news item', flash[:error]
       assert_equal 4, NewsItem.count, "should have only four news items still"
-    end
-  end
-
-  context "view action" do
-    context "when NOT logged in" do
-      it "should view news item" do
-        item = news_items(:todays_news)
-
-        get :view, { :id => item.id }
-
-        assert_response :success
-        assigns[:title].should == item.headline
-        assigns[:last_updated].should == item.updated_at
-        assert_select "h1", item.headline
-        assert_select "div#news-item-content", "Something happened today."
-
-        # no admin stuff
-        assert_select "form[action=/news/update_news_content/3]", false
-        assert_select "p#expires_at", false
-      end
-    end
-
-    context "when logged in" do
-      it "should view a news item" do
-        item = news_items(:todays_news)
-        id = item.id
-
-        get :view, { :id => id }, user_session(:edit)
-
-        assert_response :success
-        assigns[:title].should == item.headline
-        assigns[:last_updated].should == item.updated_at
-
-        assert_select "h1 span#news_item_headline_#{id}_in_place_editor", item.headline
-        assert_select "div#content h1 input#edit_headline", true
-
-        assert_select "div#news-item-teaser span#news_item_teaser_#{id}_in_place_editor", item.teaser
-        assert_select "div#news-item-teaser input#edit_teaser", true
-
-        assert_select "div#news-item-content", "Something happened today."
-
-        assert_select "form[action=/news/update_news_item_content/#{id}]" do
-          assert_select "textarea#news_item_content", item.content
-          assert_select "input[type=submit][value=Update content]"
-        end
-
-        assert_select "p#goes_live_at strong", "Goes live:"
-        assert_select "p#goes_live_at span#news_item_goes_live_at_formatted_#{id}_in_place_editor",
-                item.goes_live_at_formatted
-
-        assert_select "p#expires_at strong", "Expires:"
-        assert_select "p#expires_at span#news_item_expires_at_formatted_#{id}_in_place_editor",
-                item.expires_at_formatted
-      end
     end
   end
 

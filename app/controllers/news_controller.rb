@@ -1,6 +1,6 @@
 class NewsController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :view ]
+  restrict_to :edit, :except => [ :index, :show ]
 
   def index
     if params[:year] =~ /^\d{4}$/
@@ -19,7 +19,7 @@ class NewsController < ApplicationController
     end
   end
 
-  def view
+  def show
     @news_item = NewsItem.find(params[:id])
     @title = @news_item.headline
     @last_updated = @news_item.updated_at
