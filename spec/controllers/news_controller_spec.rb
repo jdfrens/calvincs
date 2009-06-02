@@ -77,6 +77,12 @@ describe NewsController, "without views" do
       response.should render_template("news/new")
       assigns[:news_item].should == news_item
     end
+
+    it "should redirect to login when not logged in" do
+      get :edit, { :id => "456" }
+
+      response.should redirect_to("/users/login")
+    end
   end
 
 end

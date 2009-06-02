@@ -1,6 +1,6 @@
 class NewsController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :list, :view, ]
+  restrict_to :edit, :except => [ :index, :view ]
 
   def index
     if params[:year] =~ /^\d{4}$/
