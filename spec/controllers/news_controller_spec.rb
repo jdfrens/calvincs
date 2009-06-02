@@ -114,6 +114,40 @@ describe NewsController, "without views" do
     end
   end
 
+  context "create action" do
+    it "should redirect when NOT logged in" do
+      post :create
+
+      response.should redirect_to(:controller => "users", :action => "login")
+    end
+
+    it "should create a new news item" do
+      news_item = mock_model(NewsItem)
+
+      NewsItem.should_receive(:new).
+              with("user_id" => users(:jeremy).id, "params" => "values").
+              and_return(news_item)
+      news_item.should_receive(:save).and_return(true)
+
+      post :create, { :news_item => { :params => "values" } }, user_session(:edit)
+
+      response.should redirect_to(:controller => 'news', :action => 'index')
+    end
+
+    it "should redirect when not saved" do
+      news_item = mock_model(NewsItem)
+
+      NewsItem.should_receive(:new).
+              with("user_id" => users(:jeremy).id, "params" => "values").
+              and_return(news_item)
+      news_item.should_receive(:save).and_return(false)
+
+      post :create, { :news_item => { :params => "values" } }, user_session(:edit)
+
+      response.should render_template("news/new")
+    end
+  end
+
 end
 
 describe NewsController do
@@ -154,48 +188,6 @@ describe NewsController do
           assert_select "input[type=submit]"
         end
       end
-    end
-  end
-
-  context "save action" do
-    it "should redirect when NOT logged in" do
-      post :save, :news_item => {
-              :headline => 'News Headline', :content => 'News Content',
-              :expires_at => [2007, 12, 31]
-      }
-
-      response.should redirect_to(:controller => "users", :action => "login")
-    end
-
-    it "should save" do
-      post :save, { :news_item => {
-              :headline => 'News Headline',
-              :teaser => 'Brief Description', :content => 'News Content',
-              'goes_live_at(1i)' => '2007', 'goes_live_at(2i)' => '11',
-              'goes_live_at(3i)' => '15',
-              'expires_at(1i)' => '2007', 'expires_at(2i)' => '12',
-              'expires_at(3i)' => '31',
-              }}, user_session(:edit)
-
-      assert_redirected_to :controller => 'news', :action => 'index'
-
-      news_item = NewsItem.find_by_headline('News Headline')
-      assert_not_nil news_item
-      assert_equal 'News Headline', news_item.headline
-      assert_equal 'News Content', news_item.content
-      assert_equal Time.local(2007, 11, 15), news_item.goes_live_at
-      assert_equal Time.local(2007, 12, 31), news_item.expires_at
-    end
-
-    it "should fail when given bad data" do
-      post :save, { :news_item => {
-              :headline => '', :content => ''
-      }}, user_session(:edit)
-
-      assert_response :success
-      assert !flash.empty?
-      assert_equal 'Invalid values for the news item', flash[:error]
-      assert_equal 4, NewsItem.count, "should have only four news items still"
     end
   end
 

@@ -6,7 +6,7 @@
   </div>
 <% end -%>
 
-<% form_for :news_item, :url => { :action => :save } do |form| %>
+<% form_for :news_item, :url => { :action => :create } do |form| %>
   <table summary="news item form">
     <tr>
       <td> <%= form.label :headline, "Headline:" %> </td>

@@ -29,6 +29,17 @@ class NewsController < ApplicationController
     @news_item = NewsItem.new( :expires_at => 1.month.from_now )
   end
 
+  def create
+    params[:news_item][:user_id] = current_user.id
+    @news_item = NewsItem.new(params[:news_item])
+    if @news_item.save
+      redirect_to :action => 'index'
+    else
+      flash[:error] = 'Invalid values for the news item'
+      render :template => 'news/new'
+    end
+  end
+
   def edit
     @news_item = NewsItem.find(params[:id])
     render :action => "new"
@@ -49,17 +60,6 @@ class NewsController < ApplicationController
   in_place_edit_for :news_item, :goes_live_at_formatted
 
   in_place_edit_for :news_item, :expires_at_formatted
-
-  def save
-    params[:news_item][:user_id] = current_user.id
-    @news_item = NewsItem.new(params[:news_item])
-    if @news_item.save
-      redirect_to :action => 'index'
-    else
-      flash[:error] = 'Invalid values for the news item'
-      render :template => 'news/new'
-    end
-  end
 
   def destroy
     NewsItem.destroy(params[:id])
