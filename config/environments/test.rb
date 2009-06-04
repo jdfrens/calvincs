@@ -20,5 +20,5 @@ config.action_mailer.delivery_method = :test
 
 config.gem "rspec", :lib => false, :version => ">= 1.2.6"
 config.gem "rspec-rails", :lib => false, :version => ">= 1.2.6"
-config.gem "aslakhellesoy-cucumber", :lib => "cucumber", :version => ">= 0.3.5"
+config.gem "aslakhellesoy-cucumber", :lib => "cucumber", :version => ">= 0.3.9"
 config.gem "thoughtbot-shoulda", :lib => "shoulda", :source => "http://gems.github.com", :version => ">= 2.10.1"
