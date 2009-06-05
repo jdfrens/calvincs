@@ -12,7 +12,7 @@ Feature: managing events
       | title       |
       | Foobar 2009 |
       | Barfoo 1692 |
-    When I view the list of events
+    When I go to the list of events
     Then I should see "Get Real"
     And I should see "Get Fake"
     And I should see "Foobar 2009"

@@ -1,4 +1,4 @@
-class EventController < ApplicationController
+class EventsController < ApplicationController
 
   restrict_to :edit, :except => [ :index, :show ]
 

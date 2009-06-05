@@ -10,7 +10,7 @@ describe "/event/index.html.erb" do
       assigns[:events] = [@event]
       template.should_receive(:format_titles).with(@event).and_return("the titles!")
 
-      render "event/index"
+      render "events/index"
     end
 
     it "should have a header" do

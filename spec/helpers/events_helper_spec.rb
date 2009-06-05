@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe EventHelper do
+describe EventsHelper do
 
   describe "formatting a title" do
     it "should format a title and subtitle" do

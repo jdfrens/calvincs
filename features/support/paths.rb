@@ -21,9 +21,9 @@ module NavigationHelpers
 
       # events
       when /the new event page/
-        '/event/new'
+        new_event_path
       when /the list of events/
-        '/event'
+        events_path
 
       # news items
       when /the list of news items/

@@ -1,4 +1,4 @@
-module EventHelper
+module EventsHelper
   
   def format_titles(event)
     titles = "<span class=title>" + textilize_without_paragraph(event.title) + "</span>"

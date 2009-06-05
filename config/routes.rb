@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   # Special Calvin CS routes
   map.view_page 'p/:id', :controller => 'pages', :action => 'show', :id => /\w+/
 
+  map.resources :events
   map.resources :images
   map.resources :newsitems
   map.resources :pages

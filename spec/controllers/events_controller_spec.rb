@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe EventController do
+describe EventsController do
 
   describe "listing events" do
     it "should set the right data and use the right template" do
@@ -11,7 +11,7 @@ describe EventController do
 
       assert_response :success
       assigns[:events].should equal(events)
-      assert_template 'event/index'
+      assert_template 'events/index'
     end
 
     describe "and the list view" do
@@ -37,7 +37,7 @@ describe EventController do
       get :show, :id => event.id
 
       assert_response :success
-      assert_template "event/show"
+      assert_template "events/show"
       assigns[:event].should equal(event)
       assigns[:last_updated].should equal(last_updated)
     end
@@ -60,7 +60,7 @@ describe EventController do
       get :new, {}, user_session(:edit)
 
       assert_response :success
-      response.should render_template("event/new")
+      response.should render_template("events/new")
     end
 
     it "should redirect when not logged in" do
@@ -90,7 +90,7 @@ describe EventController do
 
       post :create, params, user_session(:edit)
       assigns[:event].should eql(event)
-      response.should render_template("event/new")
+      response.should render_template("events/new")
     end
 
     it "should redirect create when not logged in" do

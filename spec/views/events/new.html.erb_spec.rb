@@ -3,10 +3,10 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "/event/new.html.erb" do
 
   it "should view a form for a new event" do
-    render 'event/new'
+    render 'events/new'
 
     assert_select "h1", "New Event"
-    assert_select "form[action=/event/create]" do
+    assert_select "form[action=/events][method=post]" do
       assert_select "select#event_type" do
         assert_select "option", 2
         assert_select "option", /colloquium/i
