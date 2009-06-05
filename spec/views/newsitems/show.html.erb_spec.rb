@@ -6,6 +6,8 @@ describe "/newsitems/show.html.erb" do
     item = mock_model(Newsitem, :headline => "Some Headline", :content => "Something happened today.")
     assigns[:newsitem] = item
 
+    template.should_receive(:current_user).and_return(false)
+
     render "newsitems/show"
 
     assert_select "h1", item.headline
