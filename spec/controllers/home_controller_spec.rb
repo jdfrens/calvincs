@@ -6,14 +6,14 @@ describe HomeController do
     it "should have the last modified depend on dates of news items" do
       content = mock_model(Page)
       splash = mock_model(Page)
-      news_items = [mock_model(NewsItem), mock_model(NewsItem), mock_model(NewsItem)]
+      news_items = [mock_model(Newsitem), mock_model(Newsitem), mock_model(Newsitem)]
       todays_events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       this_weeks_events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       last_updated = mock("last updated")
 
       Page.should_receive(:find_by_identifier!).with('_home_page').and_return(content)
       Page.should_receive(:find_by_identifier!).with('_home_splash').and_return(splash)
-      NewsItem.should_receive(:find_current).and_return(news_items)
+      Newsitem.should_receive(:find_current).and_return(news_items)
       Event.should_receive(:find_by_today).and_return(todays_events)
       Event.should_receive(:find_by_week_of).with(an_instance_of(Time)).and_return(this_weeks_events)
       controller.should_receive(:last_updated).

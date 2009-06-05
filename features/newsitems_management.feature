@@ -8,9 +8,9 @@ Feature: managing news items
     When I go to the administration page
     And I follow "Create news item"
     Then I should be on the new news item page
-    When I fill in "news_item[headline]" with "The Freakin' Headline"
-    And I fill in "news_item[teaser]" with "The Frakin' Teaser"
-    And I fill in "news_item[content]" with "The Frellin' Content"
+    When I fill in "newsitem[headline]" with "The Freakin' Headline"
+    And I fill in "newsitem[teaser]" with "The Frakin' Teaser"
+    And I fill in "newsitem[content]" with "The Frellin' Content"
     And I press "Save changes"
     Then I should be on the current news page
 
@@ -24,7 +24,7 @@ Feature: managing news items
     Then I should be on the current news page
     When I follow "edit..."
     Then I should see "No news is good news."
-    When I fill in "news_item[content]" with "Some new content."
+    When I fill in "newsitem[content]" with "Some new content."
     And I press "Save changes"
     Then I should be on the current news page
     And I should see "Some new content."

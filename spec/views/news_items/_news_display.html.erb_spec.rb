@@ -4,10 +4,10 @@ describe "/news/_news_display.html.erb" do
 
   it "should display a news item" do
     live_at = mock("live at date")
-    news_item = mock_model(NewsItem, :headline => "The Headline of Love",
+    news_item = mock_model(Newsitem, :headline => "The Headline of Love",
             :goes_live_at => live_at,
             :content => "The beautiful content is awesome!")
-    assigns[:news_items] = [news_item]
+    assigns[:newsitems] = [news_item]
     live_at.should_receive(:to_s).with(:news_posted).and_return("the date when it was posted")
     expect_textilize("The beautiful content is awesome!")
 
@@ -19,10 +19,10 @@ describe "/news/_news_display.html.erb" do
   end
 
   it "should display many news items" do
-    news_items = [stub_model(NewsItem, :headline => "Headline #1", :goes_live_at => Time.now),
-            stub_model(NewsItem, :headline => "Headline B", :goes_live_at => Time.now),
-            stub_model(NewsItem, :headline => "Headline gamma", :goes_live_at => Time.now)]
-    assigns[:news_items] = news_items
+    news_items = [stub_model(Newsitem, :headline => "Headline #1", :goes_live_at => Time.now),
+            stub_model(Newsitem, :headline => "Headline B", :goes_live_at => Time.now),
+            stub_model(Newsitem, :headline => "Headline gamma", :goes_live_at => Time.now)]
+    assigns[:newsitems] = news_items
 
     render "news_items/_news_display"
 
@@ -33,10 +33,10 @@ describe "/news/_news_display.html.erb" do
   end
 
   it "should have links to edit news items when logged in" do
-    news_item = mock_model(NewsItem, :headline => "h",
+    news_item = mock_model(Newsitem, :headline => "h",
             :goes_live_at => Time.now,
             :content => "c")
-    assigns[:news_items] = [news_item]
+    assigns[:newsitems] = [news_item]
 
     template.should_receive(:current_user).and_return(true)
 

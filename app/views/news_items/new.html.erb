@@ -2,11 +2,11 @@
 
 <% if flash[:error] -%>
   <div id="error">
-    <%= error_messages_for(:news_item) %>
+    <%= error_messages_for(:newsitem) %>
   </div>
 <% end -%>
 
-<% form_for :news_item, :url => { :action => :create } do |form| %>
+<% form_for :newsitem, :url => { :action => :create } do |form| %>
   <table summary="news item form">
     <tr>
       <td> <%= form.label :headline, "Headline:" %> </td>

@@ -5,16 +5,16 @@ describe NewsItemsController, "without views" do
 
   context "index action" do
     it "should show listing and news items" do
-      news_items = mock("news items")
+      newsitems = mock("news items")
       updated_at = mock("updated at time")
 
-      NewsItem.should_receive(:find_current).and_return(news_items)
-      news_items.should_receive(:maximum).with(:updated_at).and_return(updated_at)
+      Newsitem.should_receive(:find_current).and_return(newsitems)
+      newsitems.should_receive(:maximum).with(:updated_at).and_return(updated_at)
 
       get :index
 
       assert_response :success
-      assigns[:news_items].should == news_items
+      assigns[:newsitems].should == newsitems
       assigns[:title].should == "Current News"
       assigns[:last_updated].should == updated_at
     end
@@ -24,7 +24,7 @@ describe NewsItemsController, "without views" do
     it "should list years with actual news" do
       news_years = mock("news years")
 
-      NewsItem.should_receive(:find_news_years).and_return(news_years)
+      Newsitem.should_receive(:find_news_years).and_return(news_years)
 
       get :index, { :year => "all" }
 
@@ -35,32 +35,32 @@ describe NewsItemsController, "without views" do
     end
 
     it "should list by year" do
-      news_items = mock("news items")
+      newsitems = mock("news items")
       updated_at = mock("updated at time")
 
-      NewsItem.should_receive(:find_by_year).with(1666, :today).and_return(news_items)
-      news_items.should_receive(:maximum).with(:updated_at).and_return(updated_at)
+      Newsitem.should_receive(:find_by_year).with(1666, :today).and_return(newsitems)
+      newsitems.should_receive(:maximum).with(:updated_at).and_return(updated_at)
 
       get :index, { :year => "1666" }
 
       assert_response :success
-      assigns[:news_items].should == news_items
+      assigns[:newsitems].should == newsitems
       assigns[:title].should == "News of 1666"
       assigns[:last_updated].should == updated_at
     end
 
     context "when logged in" do
       it "should all news items in the year" do
-        news_items = mock("news items")
+        newsitems = mock("news items")
         updated_at = mock("updated at time")
 
-        NewsItem.should_receive(:find_by_year).with(1492, :all).and_return(news_items)
-        news_items.should_receive(:maximum).with(:updated_at).and_return(updated_at)
+        Newsitem.should_receive(:find_by_year).with(1492, :all).and_return(newsitems)
+        newsitems.should_receive(:maximum).with(:updated_at).and_return(updated_at)
 
         get :index, { :year => "1492" }, user_session(:edit)
 
         assert_response :success
-        assigns[:news_items].should == news_items
+        assigns[:newsitems].should == newsitems
         assigns[:title].should == "News of 1492"
       end
     end
@@ -68,13 +68,13 @@ describe NewsItemsController, "without views" do
 
   context "editing a news item" do
     it "should find the news item to be edited" do
-      news_item = mock_model(NewsItem)
-      NewsItem.should_receive(:find).with("456").and_return(news_item)
+      newsitem = mock_model(Newsitem)
+      Newsitem.should_receive(:find).with("456").and_return(newsitem)
 
       get :edit, { :id => "456" }, user_session(:edit)
 
       response.should render_template("news_items/new")
-      assigns[:news_item].should == news_item
+      assigns[:newsitem].should == newsitem
     end
 
     it "should redirect to login when not logged in" do
@@ -87,28 +87,28 @@ describe NewsItemsController, "without views" do
   context "show action" do
     it "should show basic news item" do
       updated_at = mock("updated at")
-      item = mock_model(NewsItem, :headline => "The Headline", :updated_at => updated_at)
+      item = mock_model(Newsitem, :headline => "The Headline", :updated_at => updated_at)
 
-      NewsItem.should_receive(:find).with(item.id.to_s).and_return(item)
+      Newsitem.should_receive(:find).with(item.id.to_s).and_return(item)
 
       get :show, { :id => item.id }
 
       assert_response :success
-      assigns[:news_item].should == item
+      assigns[:newsitem].should == item
       assigns[:title].should == "The Headline"
       assigns[:last_updated].should == updated_at
     end
 
     it "should show more detail when logged in" do
       updated_at = mock("updated at")
-      item = mock_model(NewsItem, :headline => "The Headline", :updated_at => updated_at)
+      item = mock_model(Newsitem, :headline => "The Headline", :updated_at => updated_at)
 
-      NewsItem.should_receive(:find).with(item.id.to_s).and_return(item)
+      Newsitem.should_receive(:find).with(item.id.to_s).and_return(item)
 
       get :show, { :id => item.id }, user_session(:edit)
 
       assert_response :success
-      assigns[:news_item].should == item
+      assigns[:newsitem].should == item
       assigns[:title].should == "The Headline"
       assigns[:last_updated].should == updated_at
     end
@@ -122,27 +122,27 @@ describe NewsItemsController, "without views" do
     end
 
     it "should create a new news item" do
-      news_item = mock_model(NewsItem)
+      newsitem = mock_model(Newsitem)
 
-      NewsItem.should_receive(:new).
+      Newsitem.should_receive(:new).
               with("user_id" => users(:jeremy).id, "params" => "values").
-              and_return(news_item)
-      news_item.should_receive(:save).and_return(true)
+              and_return(newsitem)
+      newsitem.should_receive(:save).and_return(true)
 
-      post :create, { :news_item => { :params => "values" } }, user_session(:edit)
+      post :create, { :newsitem => { :params => "values" } }, user_session(:edit)
 
       response.should redirect_to(:controller => 'news_items', :action => 'index')
     end
 
     it "should redirect when not saved" do
-      news_item = mock_model(NewsItem)
+      newsitem = mock_model(Newsitem)
 
-      NewsItem.should_receive(:new).
+      Newsitem.should_receive(:new).
               with("user_id" => users(:jeremy).id, "params" => "values").
-              and_return(news_item)
-      news_item.should_receive(:save).and_return(false)
+              and_return(newsitem)
+      newsitem.should_receive(:save).and_return(false)
 
-      post :create, { :news_item => { :params => "values" } }, user_session(:edit)
+      post :create, { :newsitem => { :params => "values" } }, user_session(:edit)
 
       response.should render_template("news/new")
     end
@@ -153,7 +153,7 @@ end
 describe NewsItemsController do
   integrate_views
 
-  fixtures :news_items
+  fixtures :newsitems
   user_fixtures
 
   describe "response to GET new" do
@@ -194,22 +194,22 @@ describe NewsItemsController do
   context "setting headline of news item" do
     context "when logged in" do
       it "should set the headline" do
-        xhr :post, :set_news_item_headline,
-                { :id => news_items(:todays_news).id, :value => 'New Headline' },
+        xhr :post, :set_newsitem_headline,
+                { :id => newsitems(:todays_news).id, :value => 'New Headline' },
                 user_session(:edit)
         assert_response :success
         assert_equal "New Headline", response.body
 
-        assert_equal 'New Headline', NewsItem.find(news_items(:todays_news).id).headline
+        assert_equal 'New Headline', Newsitem.find(newsitems(:todays_news).id).headline
       end
     end
 
     context "when NOT logged in" do
       it "should redirect" do
-        xhr :get, :set_news_item_headline, :id => news_items(:todays_news).id, :value => 'New HeadLine'
+        xhr :get, :set_newsitem_headline, :id => newsitems(:todays_news).id, :value => 'New HeadLine'
 
         response.should redirect_to(:controller => "users", :action => "login")
-        assert_equal "News of Today", news_items(:todays_news).headline,
+        assert_equal "News of Today", newsitems(:todays_news).headline,
                 'headline remains unchanged'
       end
     end
@@ -218,23 +218,23 @@ describe NewsItemsController do
   context "setting teaser of news item" do
     context "when logged in" do
       it "should set the teaser" do
-        xhr :get, :set_news_item_teaser,
-                { :id => news_items(:todays_news).id, :value => 'Teaser of Newness' },
+        xhr :get, :set_newsitem_teaser,
+                { :id => newsitems(:todays_news).id, :value => 'Teaser of Newness' },
                 user_session(:edit)
 
         assert_response :success
         assert_equal "Teaser of Newness", response.body
 
-        assert_equal 'Teaser of Newness', NewsItem.find(news_items(:todays_news).id).teaser
+        assert_equal 'Teaser of Newness', Newsitem.find(newsitems(:todays_news).id).teaser
       end
     end
 
     context "when NOT logged in" do
       it "should redirect" do
-        xhr :get, :set_news_item_teaser, :id => news_items(:todays_news).id, :value => 'Teaser Teaser'
+        xhr :get, :set_newsitem_teaser, :id => newsitems(:todays_news).id, :value => 'Teaser Teaser'
 
         response.should redirect_to(:controller => "users", :action => "login")
-        assert_equal "Some *teaser*.", news_items(:todays_news).teaser,
+        assert_equal "Some *teaser*.", newsitems(:todays_news).teaser,
                 'teaser remains unchanged'
       end
     end
@@ -243,9 +243,9 @@ describe NewsItemsController do
   context "updating content of news item" do
     context "when logged in" do
       it "should update content" do
-        item = news_items(:todays_news)
-        xhr :get, :update_news_item_content,
-                { :id => item.id, :news_item => { :content => 'News that is fit to print.' } },
+        item = newsitems(:todays_news)
+        xhr :get, :update_newsitem_content,
+                { :id => item.id, :newsitem => { :content => 'News that is fit to print.' } },
                 user_session(:edit)
 
         assert_response :success
@@ -260,10 +260,10 @@ describe NewsItemsController do
 
     context "when NOT logged in" do
       it "should redirect" do
-        item = news_items(:todays_news)
+        item = newsitems(:todays_news)
         original_content = item.content
-        xhr :get, :update_news_item_content,
-                { :id => item.id, :news_item => { :content => 'foobar!' } }
+        xhr :get, :update_newsitem_content,
+                { :id => item.id, :newsitem => { :content => 'foobar!' } }
 
         response.should redirect_to(:controller => "users", :action => "login")
         item.reload
@@ -275,8 +275,8 @@ describe NewsItemsController do
   context "set goes live date of news item" do
     context "when logged in" do
       it "should set goes live date" do
-        item = news_items(:todays_news)
-        xhr :get, :set_news_item_goes_live_at_formatted,
+        item = newsitems(:todays_news)
+        xhr :get, :set_newsitem_goes_live_at_formatted,
                 { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
 
         assert_response :success
@@ -288,10 +288,10 @@ describe NewsItemsController do
 
     context "when NOT logged in" do
       it "should redirect" do
-        item = news_items(:todays_news)
+        item = newsitems(:todays_news)
         original_date = item.goes_live_at
-        xhr :get, :set_news_item_goes_live_at_formatted,
-                { :id => news_items(:todays_news).id, :value => '01/05/2007' }
+        xhr :get, :set_newsitem_goes_live_at_formatted,
+                { :id => newsitems(:todays_news).id, :value => '01/05/2007' }
 
         response.should redirect_to(:controller => "users", :action => "login")
         item.reload
@@ -303,8 +303,8 @@ describe NewsItemsController do
   context "set expired at date of news item" do
     context "when logged in" do
       it "should set expired at date" do
-        item = news_items(:todays_news)
-        xhr :get, :set_news_item_expires_at_formatted,
+        item = newsitems(:todays_news)
+        xhr :get, :set_newsitem_expires_at_formatted,
                 { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
         assert_response :success
         assert_equal '01/05/2007', response.body
@@ -315,9 +315,9 @@ describe NewsItemsController do
 
     context "when NOT logged in" do
       it "should redirect" do
-        item = news_items(:todays_news)
+        item = newsitems(:todays_news)
         original_date = item.expires_at
-        xhr :get, :set_news_item_expires_at_formatted,
+        xhr :get, :set_newsitem_expires_at_formatted,
                 { :id => item.id, :value => '01/05/2007' }
 
         response.should redirect_to(:controller => "users", :action => "login")
@@ -330,24 +330,24 @@ describe NewsItemsController do
   context "destroy action" do
     context "when NOT logged in" do
       it "should redirect" do
-        post :destroy, { :id => news_items(:todays_news).id }
+        post :destroy, { :id => newsitems(:todays_news).id }
 
         response.should redirect_to(:controller => "users", :action => "login")
-        assert_equal 4, NewsItem.count, "should still have four news items"
+        assert_equal 4, Newsitem.count, "should still have four news items"
       end
     end
 
     context "when logged in" do
       it "should destroy" do
-        assert_not_nil NewsItem.find_by_headline("News of Today"), "sanity check"
-        assert_equal 4, NewsItem.count
+        assert_not_nil Newsitem.find_by_headline("News of Today"), "sanity check"
+        assert_equal 4, Newsitem.count
 
-        post :destroy, { :id => news_items(:todays_news).id, :listing => 'foobar' },
+        post :destroy, { :id => newsitems(:todays_news).id, :listing => 'foobar' },
                 user_session(:edit)
 
-        assert_redirected_to :controller => 'news_items', :action => 'index'
-        assert_equal 3, NewsItem.count, "lost just one news item"
-        assert_nil NewsItem.find_by_headline("News of Today")
+        assert_redirected_to :controller => 'newsitems', :action => 'index'
+        assert_equal 3, Newsitem.count, "lost just one news item"
+        assert_nil Newsitem.find_by_headline("News of Today")
       end
     end
   end
@@ -358,39 +358,39 @@ describe NewsItemsController do
   private
 
   def current_year
-    news_items(:todays_news).goes_live_at.year
+    newsitems(:todays_news).goes_live_at.year
   end
 
   def assert_date_entry(nth, label, date, field)
     assert_select "tr:nth-child(#{nth})" do
       assert_select "td", label
-      assert_select "td select#news_item_#{field}_1i" do
+      assert_select "td select#newsitem_#{field}_1i" do
         assert_select "option[value=#{date.year}][selected=selected]"
       end
-      assert_select "td select#news_item_#{field}_2i" do
+      assert_select "td select#newsitem_#{field}_2i" do
         assert_select "option[value=#{date.month}][selected=selected]"
       end
-      assert_select "td select#news_item_#{field}_3i" do
+      assert_select "td select#newsitem_#{field}_3i" do
         assert_select "option[value=#{date.day}][selected=selected]"
       end
     end
   end
 
-  def assert_news_item_entry(n, news_item, listing)
-    time_class = news_item.is_current? ? "current-news" : "past-news"
+  def assert_newsitem_entry(n, newsitem, listing)
+    time_class = newsitem.is_current? ? "current-news" : "past-news"
     assert_select "tr[class=#{time_class}]:nth-child(#{n*2-1})" do
-      assert_select "td a[href=/news/view/#{news_item.id}]", news_item.headline
+      assert_select "td a[href=/news/view/#{newsitem.id}]", newsitem.headline
     end
     assert_select "tr[class=#{time_class}]:nth-child(#{n*2})" do
-      assert_select "td.goes-live-date", "posted on #{news_item.goes_live_at.to_s(:news_posted)}"
+      assert_select "td.goes-live-date", "posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
     end
   end
 
-  def assert_full_news_item(news_item)
-    assert_select "div#news-item-#{news_item.id}[class=news-item]" do
-      assert_select "h2", news_item.headline
-      assert_select "p.goes-live-date", "Posted on #{news_item.goes_live_at.to_s(:news_posted)}"
-      assert_select "div.content", news_item.content
+  def assert_full_newsitem(newsitem)
+    assert_select "div#news-item-#{newsitem.id}[class=news-item]" do
+      assert_select "h2", newsitem.headline
+      assert_select "p.goes-live-date", "Posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
+      assert_select "div.content", newsitem.content
       assert_select "p.more a[href=#top]", "back to top..."
     end
   end

@@ -1,4 +1,4 @@
-class NewsItem < ActiveRecord::Base
+class Newsitem < ActiveRecord::Base
 
   belongs_to :user
 

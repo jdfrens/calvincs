@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "/news_items/_news_listing.html.erb" do
 
   it "should link to every news item" do
-    news_items = [mock_model(NewsItem), mock_model(NewsItem), mock_model(NewsItem)]
-    assigns[:news_items] = news_items
+    news_items = [mock_model(Newsitem), mock_model(Newsitem), mock_model(Newsitem)]
+    assigns[:newsitems] = news_items
 
     template.should_receive(:link_to_current_news_item).with(news_items[0]).and_return("newsy 0")
     template.should_receive(:link_to_current_news_item).with(news_items[1]).and_return("newsy 1")
