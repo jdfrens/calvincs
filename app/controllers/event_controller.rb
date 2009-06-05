@@ -3,17 +3,13 @@ class EventController < ApplicationController
   restrict_to :edit, :except => [ :index, :list, :view, ]
 
   def index
-    redirect_to :action => :list
-  end
-
-  def list
     @events = Event.find_by_semester_of
   end
 
   def view
     @event = Event.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to :action => :list
+    redirect_to :action => :index
   end
 
   def new
@@ -23,7 +19,7 @@ class EventController < ApplicationController
   def create
     @event = Event.new_event(params[:event])
     if @event.save
-      redirect_to :action => :list
+      redirect_to :action => :index
     else
       render :new
     end

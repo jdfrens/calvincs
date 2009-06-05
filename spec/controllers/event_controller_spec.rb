@@ -2,25 +2,16 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe EventController do
   
-  describe "the index action" do
-    it "should redirect index to list" do
-      get :index
-      
-      assert_response :redirect
-      assert_redirected_to :action => :list
-    end
-  end
-  
   describe "listing events" do    
     it "should set the right data and use the right template" do
       events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       Event.should_receive(:find_by_semester_of).with().and_return(events)
 
-      get :list
+      get :index
       
       assert_response :success
       assigns[:events].should equal(events)
-      assert_template 'event/list'
+      assert_template 'event/index'
     end
 
     describe "and the list view" do
@@ -28,7 +19,7 @@ describe EventController do
         events = mock("array of events")
         Event.should_receive(:find_by_semester_of).and_return(events)
         
-        get :list
+        get :index
  
         assert_response :success
         assigns[:events].should equal(events)
@@ -57,7 +48,7 @@ describe EventController do
       get :view, :id => "666"
       
       assert_response :redirect
-      assert_redirected_to :action => :list
+      assert_redirected_to :action => :index
     end
   end
   
@@ -87,7 +78,7 @@ describe EventController do
 
       post :create, params, user_session(:edit)
       assigns[:event].should eql(event)
-      response.should redirect_to(:action => "list") 
+      response.should redirect_to(:action => "index") 
     end
 
     it "should fail to create a new event" do

@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/event/list.html.erb" do
+describe "/event/index.html.erb" do
 
   describe "rendering an event" do
 
@@ -10,7 +10,7 @@ describe "/event/list.html.erb" do
       assigns[:events] = [@event]
       template.should_receive(:format_titles).with(@event).and_return("the titles!")
 
-      render "event/list"
+      render "event/index"
     end
 
     it "should have a header" do

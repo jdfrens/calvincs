@@ -23,7 +23,7 @@ module NavigationHelpers
       when /the new event page/
         '/event/new'
       when /the list of events/
-        '/event/list'
+        '/event'
 
       # news items
       when /the list of news items/
