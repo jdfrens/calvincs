@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe NewsItemsController, "without views" do
+describe NewsitemsController, "without views" do
   user_fixtures
 
   context "index action" do
@@ -73,7 +73,7 @@ describe NewsItemsController, "without views" do
 
       get :edit, { :id => "456" }, user_session(:edit)
 
-      response.should render_template("news_items/new")
+      response.should render_template("newsitems/new")
       assigns[:newsitem].should == newsitem
     end
 
@@ -131,7 +131,7 @@ describe NewsItemsController, "without views" do
 
       post :create, { :newsitem => { :params => "values" } }, user_session(:edit)
 
-      response.should redirect_to(:controller => 'news_items', :action => 'index')
+      response.should redirect_to(:controller => 'newsitems', :action => 'index')
     end
 
     it "should redirect when not saved" do
@@ -150,7 +150,7 @@ describe NewsItemsController, "without views" do
 
 end
 
-describe NewsItemsController do
+describe NewsitemsController do
   integrate_views
 
   fixtures :newsitems
@@ -170,7 +170,7 @@ describe NewsItemsController do
 
         assert_response :success
         assert_select "h1", "Create News Item"
-        assert_select "form[action=/news_items]" do
+        assert_select "form[action=/newsitems]" do
           assert_select "tr:nth-child(1)" do
             assert_select "td", /headline/i
             assert_select "td input[type=text]"

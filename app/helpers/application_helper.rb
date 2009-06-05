@@ -1,10 +1,10 @@
 # Methods added to this helper will be available to all templates in the application.
 
 module ApplicationHelper  
-  def link_to_current_news_item(news_item, options = {})
-    options = { :text => h(news_item.headline) }.merge(options)
+  def link_to_current_newsitem(newsitem, options = {})
+    options = { :text => h(newsitem.headline) }.merge(options)
     link_to options[:text],
-          { :controller => "news_items", :anchor => "news-item-#{news_item.id}" },
+          { :controller => "newsitems", :anchor => "news-item-#{newsitem.id}" },
           { :class => options[:class] }
   end
   

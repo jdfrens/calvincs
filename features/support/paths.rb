@@ -27,13 +27,13 @@ module NavigationHelpers
 
       # news items
       when /the list of news items/
-        '/news_items'
+        '/newsitems'
       when /the current news/
-        '/news_items'
+        '/newsitems'
       when /the archive of news items/
-        '/news_items?year=all'
+        '/newsitems?year=all'
       when /the new news item page/
-        '/news_items/new'
+        '/newsitems/new'
 
       # pages
       when /the page listing/

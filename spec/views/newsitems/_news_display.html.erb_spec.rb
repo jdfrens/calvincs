@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/news/_news_display.html.erb" do
+describe "/newsitems/_news_display.html.erb" do
 
   it "should display a news item" do
     live_at = mock("live at date")
@@ -11,7 +11,7 @@ describe "/news/_news_display.html.erb" do
     live_at.should_receive(:to_s).with(:news_posted).and_return("the date when it was posted")
     expect_textilize("The beautiful content is awesome!")
 
-    render "news_items/_news_display"
+    render "newsitems/_news_display"
 
     response.should have_selector("h2", :content => "The Headline of Love")
     response.should have_selector(".goes-live-date", :content => "Posted on the date when it was posted")
@@ -24,7 +24,7 @@ describe "/news/_news_display.html.erb" do
             stub_model(Newsitem, :headline => "Headline gamma", :goes_live_at => Time.now)]
     assigns[:newsitems] = news_items
 
-    render "news_items/_news_display"
+    render "newsitems/_news_display"
 
     response.should have_selector("h2", :content => "Headline #1")
     response.should have_selector("h2", :content => "Headline B")
@@ -40,8 +40,8 @@ describe "/news/_news_display.html.erb" do
 
     template.should_receive(:current_user).and_return(true)
 
-    render "news_items/_news_display"
+    render "newsitems/_news_display"
 
-    response.should have_selector("a", :href => "/news_items/#{news_item.id}/edit", :content => "edit...")
+    response.should have_selector("a", :href => "/newsitems/#{news_item.id}/edit", :content => "edit...")
   end
 end

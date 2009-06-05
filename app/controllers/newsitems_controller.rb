@@ -1,4 +1,4 @@
-class NewsItemsController < ApplicationController
+class NewsitemsController < ApplicationController
 
   restrict_to :edit, :except => [ :index, :show ]
 
