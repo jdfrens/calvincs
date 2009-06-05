@@ -1,13 +1,14 @@
 class EventController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :list, :view, ]
+  restrict_to :edit, :except => [ :index, :show ]
 
   def index
     @events = Event.find_by_semester_of
   end
 
-  def view
+  def show
     @event = Event.find(params[:id])
+    @last_updated = @event.updated_at
   rescue ActiveRecord::RecordNotFound
     redirect_to :action => :index
   end

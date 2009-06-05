@@ -1,14 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe EventController do
-  
-  describe "listing events" do    
+
+  describe "listing events" do
     it "should set the right data and use the right template" do
       events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       Event.should_receive(:find_by_semester_of).with().and_return(events)
 
       get :index
-      
+
       assert_response :success
       assigns[:events].should equal(events)
       assert_template 'event/index'
@@ -18,47 +18,47 @@ describe EventController do
       it "should display data for a complete event" do
         events = mock("array of events")
         Event.should_receive(:find_by_semester_of).and_return(events)
-        
+
         get :index
- 
+
         assert_response :success
         assigns[:events].should equal(events)
       end
 
     end
   end
-  
-  describe "viewing an event" do
-    it "should find event and view it" do
-      event = mock_model(Event)
+
+  describe "showing an event" do
+    it "should find event and show it" do
+      last_updated = mock("last updated date")
+      event = mock_model(Event, :updated_at => last_updated)
       Event.should_receive(:find).with(event.id.to_s).and_return(event)
- 
-      get :view, :id => event.id
-      
+
+      get :show, :id => event.id
+
       assert_response :success
-      assert_template "event/view"
+      assert_template "event/show"
       assigns[:event].should equal(event)
-      # TODO: add timestamp columns, then add this next assertion
-      #   assigns[:last_updated].should equal(last_updated)
+      assigns[:last_updated].should equal(last_updated)
     end
 
     it "should redirect to list when viewing event that does not exist" do
       Event.should_receive(:find).with("666").and_raise(ActiveRecord::RecordNotFound)
 
-      get :view, :id => "666"
-      
+      get :show, :id => "666"
+
       assert_response :redirect
       assert_redirected_to :action => :index
     end
   end
-  
+
   describe "building a new event" do
 
     user_fixtures
 
     it "should have a new action with a form" do
       get :new, {}, user_session(:edit)
-      
+
       assert_response :success
       response.should render_template("event/new")
     end
@@ -78,7 +78,7 @@ describe EventController do
 
       post :create, params, user_session(:edit)
       assigns[:event].should eql(event)
-      response.should redirect_to(:action => "index") 
+      response.should redirect_to(:action => "index")
     end
 
     it "should fail to create a new event" do

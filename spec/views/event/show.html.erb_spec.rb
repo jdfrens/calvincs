@@ -15,7 +15,7 @@ describe "/event/view.html.erb" do
       expect_textilize_wop("Dr. Presenter")
       expect_textilize("The Description")
 
-      render "event/view"
+      render "event/show"
     end
 
     it "should have a complete title" do
@@ -43,7 +43,7 @@ describe "/event/view.html.erb" do
       expect_textilize_wop("The Title")
       expect_textilize("The Description")
 
-      render "event/view"
+      render "event/show"
     end
 
     it "should have minimal title" do
