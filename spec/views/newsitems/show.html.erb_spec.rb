@@ -4,7 +4,7 @@ describe "/newsitems/show.html.erb" do
 
   it "should show news item" do
     item = mock_model(Newsitem, :headline => "Some Headline", :content => "Something happened today.")
-    assigns[:news_item] = item
+    assigns[:newsitem] = item
 
     render "newsitems/show"
 
@@ -14,7 +14,7 @@ describe "/newsitems/show.html.erb" do
 
   it "should have edit link when logged in" do
     item = mock_model(Newsitem, :headline => "Some Headline", :content => "Something happened today.")
-    assigns[:news_item] = item
+    assigns[:newsitem] = item
     
     template.should_receive(:current_user).and_return(true)
 

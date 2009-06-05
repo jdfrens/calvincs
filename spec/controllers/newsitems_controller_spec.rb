@@ -73,7 +73,7 @@ describe NewsitemsController, "without views" do
 
       get :edit, { :id => "456" }, user_session(:edit)
 
-      response.should render_template("newsitems/new")
+      response.should render_template("newsitems/edit")
       assigns[:newsitem].should == newsitem
     end
 
@@ -148,6 +148,42 @@ describe NewsitemsController, "without views" do
     end
   end
 
+  context "updating a newsitem" do
+    it "should redirect when not logged in" do
+      post :update
+
+      response.should redirect_to("/users/login")
+    end
+
+    it "should do an update successfully" do
+      newsitem = mock_model(Newsitem)
+
+      Newsitem.should_receive(:find).with(newsitem.id.to_s).and_return(newsitem)
+      newsitem.should_receive(:update_attributes).with("params" => "values").and_return(true)
+
+      post :update,
+           { :id => newsitem.id, :newsitem => { :params => "values" } },
+           user_session(:edit)
+
+      assigns[:newsitem] = newsitem
+      response.should redirect_to("/newsitems/#{newsitem.id}")
+    end
+
+    it "should do fail an update" do
+      newsitem = mock_model(Newsitem)
+
+      Newsitem.should_receive(:find).with(newsitem.id.to_s).and_return(newsitem)
+      newsitem.should_receive(:update_attributes).with("params" => "values").and_return(false)
+
+      post :update,
+           { :id => newsitem.id, :newsitem => { :params => "values" } },
+           user_session(:edit)
+
+      assigns[:newsitem] = newsitem
+      response.should render_template("newsitems/edit")
+    end
+  end
+
 end
 
 describe NewsitemsController do
@@ -187,142 +223,6 @@ describe NewsitemsController do
           assert_date_entry(5, /expires/i, 1.month.from_now, "expires_at")
           assert_select "input[type=submit]"
         end
-      end
-    end
-  end
-
-  context "setting headline of news item" do
-    context "when logged in" do
-      it "should set the headline" do
-        xhr :post, :set_newsitem_headline,
-                { :id => newsitems(:todays_news).id, :value => 'New Headline' },
-                user_session(:edit)
-        assert_response :success
-        assert_equal "New Headline", response.body
-
-        assert_equal 'New Headline', Newsitem.find(newsitems(:todays_news).id).headline
-      end
-    end
-
-    context "when NOT logged in" do
-      it "should redirect" do
-        xhr :get, :set_newsitem_headline, :id => newsitems(:todays_news).id, :value => 'New HeadLine'
-
-        response.should redirect_to(:controller => "users", :action => "login")
-        assert_equal "News of Today", newsitems(:todays_news).headline,
-                'headline remains unchanged'
-      end
-    end
-  end
-
-  context "setting teaser of news item" do
-    context "when logged in" do
-      it "should set the teaser" do
-        xhr :get, :set_newsitem_teaser,
-                { :id => newsitems(:todays_news).id, :value => 'Teaser of Newness' },
-                user_session(:edit)
-
-        assert_response :success
-        assert_equal "Teaser of Newness", response.body
-
-        assert_equal 'Teaser of Newness', Newsitem.find(newsitems(:todays_news).id).teaser
-      end
-    end
-
-    context "when NOT logged in" do
-      it "should redirect" do
-        xhr :get, :set_newsitem_teaser, :id => newsitems(:todays_news).id, :value => 'Teaser Teaser'
-
-        response.should redirect_to(:controller => "users", :action => "login")
-        assert_equal "Some *teaser*.", newsitems(:todays_news).teaser,
-                'teaser remains unchanged'
-      end
-    end
-  end
-
-  context "updating content of news item" do
-    context "when logged in" do
-      it "should update content" do
-        item = newsitems(:todays_news)
-        xhr :get, :update_newsitem_content,
-                { :id => item.id, :newsitem => { :content => 'News that is fit to print.' } },
-                user_session(:edit)
-
-        assert_response :success
-        assert_select_rjs :replace_html, "news-item-content" do
-          response.body.should match(/News that is fit to print./)
-        end
-
-        item.reload
-        assert_equal 'News that is fit to print.', item.content
-      end
-    end
-
-    context "when NOT logged in" do
-      it "should redirect" do
-        item = newsitems(:todays_news)
-        original_content = item.content
-        xhr :get, :update_newsitem_content,
-                { :id => item.id, :newsitem => { :content => 'foobar!' } }
-
-        response.should redirect_to(:controller => "users", :action => "login")
-        item.reload
-        assert_equal original_content, item.content
-      end
-    end
-  end
-
-  context "set goes live date of news item" do
-    context "when logged in" do
-      it "should set goes live date" do
-        item = newsitems(:todays_news)
-        xhr :get, :set_newsitem_goes_live_at_formatted,
-                { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
-
-        assert_response :success
-        assert_equal '01/05/2007', response.body
-        item.reload
-        assert_equal '01/05/2007', item.goes_live_at_formatted
-      end
-    end
-
-    context "when NOT logged in" do
-      it "should redirect" do
-        item = newsitems(:todays_news)
-        original_date = item.goes_live_at
-        xhr :get, :set_newsitem_goes_live_at_formatted,
-                { :id => newsitems(:todays_news).id, :value => '01/05/2007' }
-
-        response.should redirect_to(:controller => "users", :action => "login")
-        item.reload
-        assert_equal original_date, item.goes_live_at, 'goes-live remains unchanged'
-      end
-    end
-  end
-
-  context "set expired at date of news item" do
-    context "when logged in" do
-      it "should set expired at date" do
-        item = newsitems(:todays_news)
-        xhr :get, :set_newsitem_expires_at_formatted,
-                { :id => item.id, :value => '01/05/2007' }, user_session(:edit)
-        assert_response :success
-        assert_equal '01/05/2007', response.body
-        item.reload
-        assert_equal '01/05/2007', item.expires_at_formatted
-      end
-    end
-
-    context "when NOT logged in" do
-      it "should redirect" do
-        item = newsitems(:todays_news)
-        original_date = item.expires_at
-        xhr :get, :set_newsitem_expires_at_formatted,
-                { :id => item.id, :value => '01/05/2007' }
-
-        response.should redirect_to(:controller => "users", :action => "login")
-        item.reload
-        assert_equal original_date, item.expires_at, 'expires-at remains unchanged'
       end
     end
   end

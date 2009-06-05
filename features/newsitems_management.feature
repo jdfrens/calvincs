@@ -26,6 +26,5 @@ Feature: managing news items
     Then I should see "No news is good news."
     When I fill in "newsitem[content]" with "Some new content."
     And I press "Save changes"
-    Then I should be on the current news page
-    And I should see "Some new content."
-#    And I should not see "No news is good news."
+    Then I should see "Some new content."
+    And I should not see "No news is good news."

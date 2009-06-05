@@ -42,24 +42,16 @@ class NewsitemsController < ApplicationController
 
   def edit
     @newsitem = Newsitem.find(params[:id])
-    render :action => "new"
-  end  
-
-  in_place_edit_for :newsitem, :headline
-
-  in_place_edit_for :newsitem, :teaser
-
-  def update_newsitem_content
-    item = Newsitem.find(params[:id])
-    item.update_attribute(:content, params[:newsitem][:content])
-    render :update do |p|
-      p.replace_html "news-item-content", :inline => textilize(item.content)
-    end
   end
 
-  in_place_edit_for :newsitem, :goes_live_at_formatted
-
-  in_place_edit_for :newsitem, :expires_at_formatted
+  def update
+    @newsitem = Newsitem.find(params[:id])
+    if @newsitem.update_attributes(params[:newsitem])
+      redirect_to(@newsitem)
+    else
+      render :action => "edit"
+    end
+  end
 
   def destroy
     Newsitem.destroy(params[:id])

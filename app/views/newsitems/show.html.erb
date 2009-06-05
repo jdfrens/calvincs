@@ -1,10 +1,10 @@
 <h1>
-  <%= h(@news_item.headline) %>
+  <%= h(@newsitem.headline) %>
   <% if current_user -%>
-      <%= link_to "edit...", edit_newsitem_path(@news_item), { :class => "more" } %>
+      <%= link_to "edit...", edit_newsitem_path(@newsitem), { :class => "more" } %>
   <% end -%>
 </h1>
 
 <div id="news-item-content">
-  <%= textilize @news_item.content %>
+  <%= textilize @newsitem.content %>
 </div>
