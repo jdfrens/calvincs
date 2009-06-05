@@ -41,6 +41,9 @@ Feature: the home page
         | research     | Research this!  | Study up! |
         | alumni       | Alumnuses?      | Those who have gone before us. |
         | contact_us   | Contact info    | Get in touch with us. |
+    And the following news items
+      | headline | teaser | content               |
+      | News!    | na na! | No news is good news. |
     When I go to the homepage
     And I follow "About Us"
     Then I should see "About all us all."
@@ -54,6 +57,7 @@ Feature: the home page
     When I follow "Home"
     And I follow "Faculty & Staff"
     Then I should see "Faculty"
+    And I should see "Joel"
     And I should see "Staff"
     And I should see "Adjunct"
     And I should see "Emeriti"

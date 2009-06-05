@@ -8,3 +8,9 @@
 <div id="news-item-content">
   <%= textilize @newsitem.content %>
 </div>
+
+<p class="more">
+  <%= link_to "Current News", newsitems_path %>
+  |
+  <%= link_to "News Archive", newsitems_path(:year => "all") %>
+</p>
