@@ -6,18 +6,18 @@ describe HomeController do
     it "should have the last modified depend on dates of news items" do
       content = mock_model(Page)
       splash = mock_model(Page)
-      news_items = [mock_model(Newsitem), mock_model(Newsitem), mock_model(Newsitem)]
+      newsitems = [mock_model(Newsitem), mock_model(Newsitem), mock_model(Newsitem)]
       todays_events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       this_weeks_events = [mock_model(Event), mock_model(Event), mock_model(Event)]
       last_updated = mock("last updated")
 
       Page.should_receive(:find_by_identifier!).with('_home_page').and_return(content)
       Page.should_receive(:find_by_identifier!).with('_home_splash').and_return(splash)
-      Newsitem.should_receive(:find_current).and_return(news_items)
+      Newsitem.should_receive(:find_current).and_return(newsitems)
       Event.should_receive(:find_by_today).and_return(todays_events)
       Event.should_receive(:find_by_week_of).with(an_instance_of(Time)).and_return(this_weeks_events)
       controller.should_receive(:last_updated).
-        with(news_items + [content, splash]).
+        with(newsitems + [content, splash]).
         and_return(last_updated)
         
       get :index
@@ -25,7 +25,7 @@ describe HomeController do
       assert_response :success
       assigns[:content].should equal(content)
       assigns[:splash].should equal(splash)
-      assigns[:news_items].should equal(news_items)
+      assigns[:newsitems].should equal(newsitems)
       assigns[:todays_events].should equal(todays_events)
       assigns[:this_weeks_events].should equal(this_weeks_events)
       assigns[:last_updated].should equal(last_updated)

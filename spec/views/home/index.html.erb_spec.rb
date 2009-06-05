@@ -7,7 +7,7 @@ describe "/home/index.html.erb" do
     assigns[:content] = mock_model(Page)
     assigns[:todays_events] = mock("today_events")
     assigns[:this_weeks_events] = mock("week_events")
-    assigns[:news_items] = mock("news items")
+    assigns[:newsitems] = mock("news items")
 
     template.should_receive(:render).
             with(:partial => "shared/subpage", :locals => { :page => assigns[:splash] }).
@@ -22,7 +22,7 @@ describe "/home/index.html.erb" do
             with(:partial => "event", :collection => assigns[:this_weeks_events], :locals => { :timing => "this week" }).
             and_return("content!!")
     template.should_receive(:render).
-            with(:partial => "news_item" , :collection => assigns[:news_items]).
+            with(:partial => "newsitem" , :collection => assigns[:newsitems]).
             and_return("content!!")
 
     render "home/index"
