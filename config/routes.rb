@@ -6,6 +6,8 @@ ActionController::Routing::Routes.draw do |map|
   map.view_page 'p/:id', :controller => 'pages', :action => 'show', :id => /\w+/
 
   map.resources :events
+  map.resources :colloquia, :controller => 'events'
+  map.resources :conferences, :controller => 'events'
   map.resources :images
   map.resources :newsitems
   map.resources :pages

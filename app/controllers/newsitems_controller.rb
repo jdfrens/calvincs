@@ -36,7 +36,7 @@ class NewsitemsController < ApplicationController
       redirect_to :action => 'index'
     else
       flash[:error] = 'Invalid values for the news item'
-      render :template => 'news/new'
+      render :template => 'news/new'  # FIXME: the folder is wrong
     end
   end
 

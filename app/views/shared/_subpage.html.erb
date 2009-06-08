@@ -1,6 +1,6 @@
 <%= textilize page.content %>
 
-<% restrict_to :edit do -%>
+<% if current_user -%>
   <p class="view-edit">
     <%= link_to "edit #{page.identifier}", edit_page_path(page) %>
   </p>

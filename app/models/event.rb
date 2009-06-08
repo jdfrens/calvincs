@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  
+
   validates_presence_of :title, :descriptor, :start, :stop
 
   before_validation :use_length_for_stop_time
@@ -7,16 +7,16 @@ class Event < ActiveRecord::Base
 
   def self.find_within(range_start, range_stop)
     self.find(:all,
-      :conditions => ["(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",
-                      range_start, range_stop,
-                      range_start, range_stop,
-                      range_start, range_start])
+              :conditions => ["(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",
+                              range_start, range_stop,
+                              range_start, range_stop,
+                              range_start, range_start])
   end
-  
+
   def self.find_by_today(today=Time.now)
     find_within(Time.local(today.year, today.month, today.day, 0, 0), Time.local(today.year, today.month, today.day, 23, 59))
   end
-  
+
   def self.find_by_week_of(date=Time.now, options = {})
     options[:sunday] = true if options[:sunday].nil?
     if options[:sunday]
@@ -27,7 +27,7 @@ class Event < ActiveRecord::Base
     stop = date + 6.days - date.wday.days
     find_within(start, stop)
   end
-  
+
   def self.find_by_semester_of(date=Time.now)
     if date.month < 8
       start = Time.local(date.year, 1,  1)
@@ -40,14 +40,22 @@ class Event < ActiveRecord::Base
   end
 
   def self.new_event(params)
-    case params[:type]
-      when "colloquium":
+    case params[:kind].downcase
+      when "colloquium"
         Colloquium.new(params)
       when "conference":
         Conference.new(params)
       else
-        raise "Invalid event type #{params[:type]}"
+        raise "Invalid event type #{params[:kind]}"
     end
+  end
+
+  def kind
+    self[:type]
+  end
+
+  def kind=(type)
+    self[:type] = type
   end
 
   def elapsed

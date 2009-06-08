@@ -10,7 +10,7 @@ class EventTest < ActiveRecord::TestCase
 
   describe "creating instances of the subclasses" do
     it "should create a colloquium" do
-      params = { :type => "colloquium", :foo => mock("foo param") }
+      params = { :kind => "colloquium", :foo => mock("foo param") }
       colloquium = mock("colloquium")
 
       Colloquium.should_receive(:new).with(params).and_return(colloquium)
@@ -19,7 +19,7 @@ class EventTest < ActiveRecord::TestCase
     end
 
     it "should create a conference" do
-      params = { :type => "conference", :foo => mock("foo param") }
+      params = { :kind => "conference", :foo => mock("foo param") }
       conference = mock("conference")
 
       Conference.should_receive(:new).with(params).and_return(conference)

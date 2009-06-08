@@ -1,0 +1,37 @@
+<ul>
+  <li>A <strong>colloquium</strong> is measured in hours (possibly fractional) and the full date and time must be specified.</li>
+  <li>A <strong>conference</strong> is measured in whole days and only the full date (not the time) is used.</li>
+</ul>
+
+<% form_for @event do |form| -%>
+  <table border="0" summary="event form">
+    <tr>
+      <td>Type of event:</td>
+      <td><%= form.select :kind, ["Colloquium", "Conference"] %></td>
+    </tr>
+    <tr>
+      <td><%= form.label :title, "Title:" %></td>
+      <td><%= form.text_field :title %></td>
+    </tr>
+    <tr>
+      <td>Subtitle (optional):</td>
+      <td><%= form.text_field :subtitle %></td>
+    </tr>
+    <tr>
+      <td>Description/abstract:</td>
+      <td><%= form.text_area :description, :cols => 60, :rows => 10 %></td>
+    </tr>
+    <tr>
+      <td>Starting date and time:</td>
+      <td><%= form.datetime_select :start %></td>
+    </tr>
+    <tr>
+      <td><%= form.label :length, "Length:" %></td>
+      <td><%= form.text_field :length, :size => 3 %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Create" %></td>
+    </tr>
+  </table>
+<% end %>

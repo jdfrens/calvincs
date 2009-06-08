@@ -5,19 +5,33 @@ Feature: the home page
 
   Scenario: see the home page
     Given the following pages
-        | identifier   | title           | content      |
-        | _home_page   | does not matter | some content |
-        | _home_splash | does not matter | sploosh!     |
+      | identifier   | title           | content      |
+      | _home_page   | does not matter | some content |
+      | _home_splash | does not matter | sploosh!     |
     When I go to the homepage
     Then I should be on the homepage
     And I should see "some content"
     And I should see "sploosh!"
 
+  Scenario: see the home page with an event
+    Given the following pages
+      | identifier   | title           | content      |
+      | _home_page   | does not matter | some content |
+      | _home_splash | does not matter | sploosh!     |
+    And the following colloquia for tomorrow
+      | title    |
+      | Get Real |
+    When I go to the homepage
+    Then I should be on the homepage
+    And I should see "Get Real"
+    When I follow "more..."
+    Then I should see "Get Real"
+
   Scenario: see the home page with some news
     Given the following pages
-        | identifier   | title           | content      |
-        | _home_page   | does not matter | some content |
-        | _home_splash | does not matter | sploosh!     |
+      | identifier   | title           | content      |
+      | _home_page   | does not matter | some content |
+      | _home_splash | does not matter | sploosh!     |
     And the following news items
       | headline | teaser | content               |
       | News!    | na na! | No news is good news. |
@@ -25,22 +39,23 @@ Feature: the home page
     Then I should be on the homepage
     And I should see "some content"
     And I should see "na na!"
+    And I should not see "No news is good news."
     When I follow "more..."
     Then I should see "News!"
     And I should see "No news is good news."
 
   Scenario: try every page on the main menu
     Given the following pages
-        | identifier   | title           | content      |
-        | _home_page   | does not matter | some content |
-        | _home_splash | does not matter | sploosh!     |
-        | about_us     | All About Us    | About all us all. |
-        | academics    | Academics       | Academe me! |
-        | students     | Students!       | Students rule like nothing else. |
-        | facilities   | Cool Digs!      | Our facilities are better than yours! |
-        | research     | Research this!  | Study up! |
-        | alumni       | Alumnuses?      | Those who have gone before us. |
-        | contact_us   | Contact info    | Get in touch with us. |
+      | identifier   | title           | content      |
+      | _home_page   | does not matter | some content |
+      | _home_splash | does not matter | sploosh!     |
+      | about_us     | All About Us    | About all us all. |
+      | academics    | Academics       | Academe me! |
+      | students     | Students!       | Students rule like nothing else. |
+      | facilities   | Cool Digs!      | Our facilities are better than yours! |
+      | research     | Research this!  | Study up! |
+      | alumni       | Alumnuses?      | Those who have gone before us. |
+      | contact_us   | Contact info    | Get in touch with us. |
     And the following news items
       | headline | teaser | content               |
       | News!    | na na! | No news is good news. |

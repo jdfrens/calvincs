@@ -4,6 +4,11 @@
     <div id="event-<%= event.id %>">
       <h2><%= format_titles event %></h2>
 
-      <p class="when"><%= event.timing %></p>
+      <p>
+        <span class="when"><%= event.timing %></span>
+        <% if current_user -%>
+            <span class="more"><%= link_to "edit...", edit_event_path(event) %></span>
+        <% end -%>
+      </p>
     </div>
 <% end -%>

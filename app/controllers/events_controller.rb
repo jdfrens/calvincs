@@ -26,4 +26,18 @@ class EventsController < ApplicationController
     end
   end
 
+  def edit
+    @event = Event.find(params[:id])
+  end
+
+  def update
+    event = Event.find(params[:id])
+    event.update_attributes(params[:event] || params[:colloquium] || params[:conference])
+    if event.save
+      redirect_to :action => :index
+    else
+      render :action => :edit
+    end
+  end
+
 end

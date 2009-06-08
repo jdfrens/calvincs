@@ -2,6 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe EventsController do
 
+  user_fixtures
+
   describe "listing events" do
     it "should set the right data and use the right template" do
       events = [mock_model(Event), mock_model(Event), mock_model(Event)]
@@ -99,5 +101,81 @@ describe EventsController do
       response.should redirect_to(:controller => 'users', :action => 'login')
     end
 
+  end
+
+  context "editing an event" do
+    it "should redirect to login when NOT logged in" do
+      get :edit
+
+      response.should redirect_to("/users/login")
+    end
+
+    it "should find the event and generate the form" do
+      event = mock_model(Event)
+
+      Event.should_receive(:find).with("123").and_return(event)
+
+      get :edit, { :id => 123 }, user_session(:edit)
+
+      response.should be_success
+      assigns[:event].should == event
+    end
+  end
+
+  context "updating an event" do
+    it "should redirect to login when NOT logged in" do
+      put :update
+
+      response.should redirect_to("/users/login")
+    end
+    
+    it "should save the modified event" do
+      event = mock_model(Event)
+      Event.should_receive(:find).with(event.id.to_s).and_return(event)
+
+      event.should_receive(:update_attributes).with({ "foo" => "params" })
+      event.should_receive(:save).and_return(true)
+
+      put :update, { :id => event.id, :event => { "foo" => "params" } }, user_session(:edit)
+
+      response.should redirect_to(events_path)
+    end
+
+    it "should save the modified colloquium" do
+      event = mock_model(Colloquium)
+      Event.should_receive(:find).with(event.id.to_s).and_return(event)
+
+      event.should_receive(:update_attributes).with({ "foo" => "params" })
+      event.should_receive(:save).and_return(true)
+
+      put :update, { :id => event.id, :colloquium => { "foo" => "params" } }, user_session(:edit)
+
+      response.should redirect_to(events_path)
+    end
+
+    it "should save the modified conference" do
+      event = mock_model(Conference)
+      Event.should_receive(:find).with(event.id.to_s).and_return(event)
+
+      event.should_receive(:update_attributes).with({ "foo" => "params" })
+      event.should_receive(:save).and_return(true)
+
+      put :update, { :id => event.id, :conference => { "foo" => "params" } }, user_session(:edit)
+
+      response.should redirect_to(events_path)
+    end
+
+    it "should re-edit the modified, invalid event" do
+      event = mock_model(Event)
+      Event.should_receive(:find).with(event.id.to_s).and_return(event)
+
+      event.should_receive(:update_attributes).with({ "foo" => "params" })
+      event.should_receive(:save).and_return(false)
+
+      put :update, { :id => event.id, :event => { "foo" => "params" } }, user_session(:edit)
+
+      response.should be_success
+      response.should render_template("edit")
+    end
   end
 end
