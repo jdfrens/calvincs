@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   restrict_to :edit, :except => [ :index, :show ]
 
   def index
-    @events = Event.find_by_semester_of
+    @events = Event.upcoming
   end
 
   def show

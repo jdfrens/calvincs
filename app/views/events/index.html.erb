@@ -2,13 +2,15 @@
 
 <% @events.each do |event| -%>
     <div id="event-<%= event.id %>">
-      <h2><%= format_titles event %></h2>
-
-      <p>
-        <span class="when"><%= event.timing %></span>
+      <h2>
+        <%= format_titles event %>
         <% if current_user -%>
             <span class="more"><%= link_to "edit...", edit_event_path(event) %></span>
         <% end -%>
+      </h2>
+
+      <p>
+        <span class="when"><%= event.timing %></span>
       </p>
     </div>
 <% end -%>

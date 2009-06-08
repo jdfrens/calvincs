@@ -41,7 +41,7 @@ Feature: managing events
     Then I should see "Get Real"
     When I follow "edit..."
     And I fill in "colloquium[title]" with "Fake!"
-    And I press "Create"
+    And I press "Update"
     Then I should be on the list of events
     And I should see "Fake!"
     And I should not see "Get Real"
@@ -55,7 +55,7 @@ Feature: managing events
     Then I should see "GLCamp"
     When I follow "edit..."
     And I fill in "conference[title]" with "BarSEC"
-    And I press "Create"
+    And I press "Update"
     Then I should be on the list of events
     And I should see "BarSEC"
     And I should not see "GLCamp"

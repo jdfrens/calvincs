@@ -5,13 +5,14 @@ class Event < ActiveRecord::Base
   before_validation :use_length_for_stop_time
   before_validation :use_type_for_descriptor
 
-  def self.find_within(range_start, range_stop)
-    self.find(:all,
-              :conditions => ["(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",
-                              range_start, range_stop,
-                              range_start, range_stop,
-                              range_start, range_start])
-  end
+  named_scope :upcoming, :conditions => ['stop > ?', Time.now]
+
+  named_scope :find_within,
+              lambda { |range_start, range_stop|
+                { :conditions => ["(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",
+                                  range_start, range_stop,
+                                  range_start, range_stop,
+                                  range_start, range_start] } }
 
   def self.find_by_today(today=Time.now)
     find_within(Time.local(today.year, today.month, today.day, 0, 0), Time.local(today.year, today.month, today.day, 23, 59))
@@ -25,17 +26,6 @@ class Event < ActiveRecord::Base
       start = date
     end
     stop = date + 6.days - date.wday.days
-    find_within(start, stop)
-  end
-
-  def self.find_by_semester_of(date=Time.now)
-    if date.month < 8
-      start = Time.local(date.year, 1,  1)
-      stop = Time.local(date.year,  7, 31)
-    else
-      start = Time.local(date.year, 8,  1)
-      stop = Time.local(date.year, 12, 31)
-    end
     find_within(start, stop)
   end
 

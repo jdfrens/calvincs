@@ -31,7 +31,7 @@
     </tr>
     <tr>
       <td></td>
-      <td><%= submit_tag "Create" %></td>
+      <td><%= form.submit(@event.new_record? ? "Create" : "Update") %></td>
     </tr>
   </table>
 <% end %>

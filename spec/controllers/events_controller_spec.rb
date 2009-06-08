@@ -7,7 +7,7 @@ describe EventsController do
   describe "listing events" do
     it "should set the right data and use the right template" do
       events = [mock_model(Event), mock_model(Event), mock_model(Event)]
-      Event.should_receive(:find_by_semester_of).with().and_return(events)
+      Event.should_receive(:upcoming).with().and_return(events)
 
       get :index
 
@@ -19,7 +19,7 @@ describe EventsController do
     describe "and the list view" do
       it "should display data for a complete event" do
         events = mock("array of events")
-        Event.should_receive(:find_by_semester_of).and_return(events)
+        Event.should_receive(:upcoming).and_return(events)
 
         get :index
 
