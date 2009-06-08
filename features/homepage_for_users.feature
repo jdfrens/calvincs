@@ -59,6 +59,9 @@ Feature: the home page
     And the following news items
       | headline | teaser | content               |
       | News!    | na na! | No news is good news. |
+    And the following colloquia
+      | title        |
+      | Colloquiate! |
     When I go to the homepage
     And I follow "About Us"
     Then I should see "About all us all."
@@ -88,6 +91,11 @@ Feature: the home page
     When I follow "Home"
     And I follow "News"
     Then I should see "Current News"
+    And I should see "News!"
+    When I follow "Home"
+    And I follow "Events"
+    Then I should see "Upcoming Events"
+    And I should see "Colloquiate!"
     When I follow "Home"
     And I follow "Contact Us"
     Then I should see "Get in touch with us."
