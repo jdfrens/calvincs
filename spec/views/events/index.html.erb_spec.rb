@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/event/index.html.erb" do
+describe "/events/index.html.erb" do
 
   describe "rendering an event" do
     before(:each) do

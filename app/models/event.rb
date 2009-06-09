@@ -14,6 +14,18 @@ class Event < ActiveRecord::Base
                                   range_start, range_stop,
                                   range_start, range_start] } }
 
+  def self.years_of_events
+    first_year..last_year
+  end
+
+  def self.first_year
+    Event.minimum(:start).year
+  end
+
+  def self.last_year
+    Event.maximum(:stop).year
+  end
+
   def self.find_by_today(today=Time.now)
     find_within(Time.local(today.year, today.month, today.day, 0, 0), Time.local(today.year, today.month, today.day, 23, 59))
   end

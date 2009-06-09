@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class EventTest < ActiveRecord::TestCase
+describe Event do
+  
   fixtures :events
   
   should_require_attributes :title
@@ -8,7 +9,7 @@ class EventTest < ActiveRecord::TestCase
   should_require_attributes :start
   should_require_attributes :stop
 
-  describe "creating instances of the subclasses" do
+  context "creating instances of the subclasses" do
     it "should create a colloquium" do
       params = { :kind => "colloquium", :foo => mock("foo param") }
       colloquium = mock("colloquium")
@@ -27,7 +28,30 @@ class EventTest < ActiveRecord::TestCase
       Event.new_event(params).should eql(conference)
     end
   end
-   
+
+  it "should compute range of years of events" do
+    Event.should_receive(:first_year).and_return(1492)
+    Event.should_receive(:last_year).and_return(1518)
+    
+    Event.years_of_events.should == (1492..1518)
+  end
+
+  it "should find the first year" do
+    event = Event.first
+    event.start = Time.parse("February 15, 1970")
+    event.save!
+
+    Event.first_year.should == 1970
+  end
+
+  it "should find the last year" do
+    event = Event.first
+    event.stop = Time.parse("February 15, 2032")
+    event.save!
+
+    Event.last_year.should == 2032
+  end
+
   context "testing the system" do
     should "have single-table inheritance" do
       assert_equal Colloquium, events(:old_colloquium).class

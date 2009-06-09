@@ -3,14 +3,19 @@ class EventsController < ApplicationController
   restrict_to :edit, :except => [ :index, :show ]
 
   def index
-    @events = Event.upcoming
+    if params[:year]
+      @years = Event.years_of_events
+      render :archive
+    else
+      @events = Event.upcoming
+    end
   end
 
   def show
     @event = Event.find(params[:id])
     @last_updated = @event.updated_at
   rescue ActiveRecord::RecordNotFound
-    redirect_to :action => :index
+    redirect_to events_path
   end
 
   def new
@@ -20,7 +25,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new_event(params[:event])
     if @event.save
-      redirect_to :action => :index
+      redirect_to events_path
     else
       render :new
     end
@@ -34,9 +39,9 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
     event.update_attributes(params[:event] || params[:colloquium] || params[:conference])
     if event.save
-      redirect_to :action => :index
+      redirect_to events_path
     else
-      render :action => :edit
+      render :edit
     end
   end
 

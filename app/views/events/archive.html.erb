@@ -1,0 +1,5 @@
+<h1>Years of Events</h1>
+
+<% @years.each do |year| -%>
+    <p><%= link_to "Events of #{year}", events_path(:year => year) %></p>
+<% end -%>

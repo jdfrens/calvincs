@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/event/new.html.erb" do
+describe "/events/new.html.erb" do
 
   it "should render a form for a new event" do
     event = mock_model(Event)

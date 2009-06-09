@@ -17,16 +17,27 @@ describe EventsController do
     end
 
     describe "and the list view" do
-      it "should display data for a complete event" do
+      it "should list upcoming events" do
         events = mock("array of events")
         Event.should_receive(:upcoming).and_return(events)
 
         get :index
 
-        assert_response :success
+        response.should be_success
+        response.should render_template("index")
         assigns[:events].should equal(events)
       end
 
+      it "should list event years" do
+        years = mock("array of years")
+        Event.should_receive(:years_of_events).and_return(years)
+
+        get :index, { :year => "all" }
+
+        response.should be_success
+        response.should render_template("archive")
+        assigns[:years].should equal(years)
+      end
     end
   end
 

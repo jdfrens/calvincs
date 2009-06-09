@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "/event/view.html.erb" do
+describe "/events/view.html.erb" do
 
   describe "viewing a complete event" do
 
