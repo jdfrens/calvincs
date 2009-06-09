@@ -7,6 +7,7 @@ describe "/events/index.html.erb" do
       timing = mock("timing", :to_s => "the timing")
       @event = mock_model(Event, :timing => timing)
       assigns[:events] = [@event]
+      assigns[:title] = "The Title"
       template.should_receive(:format_titles).with(@event).and_return("the titles!")
       template.stub!(:current_user).and_return(false)
 
@@ -14,7 +15,7 @@ describe "/events/index.html.erb" do
     end
 
     it "should have a header" do
-      assert_select "h1", "Upcoming Events"
+      assert_select "h1", "The Title"
     end
 
     it "should have a title" do

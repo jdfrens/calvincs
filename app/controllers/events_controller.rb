@@ -3,10 +3,15 @@ class EventsController < ApplicationController
   restrict_to :edit, :except => [ :index, :show ]
 
   def index
-    if params[:year]
+    if params[:year] == "all"
+      @title = "Events Archive"
       @years = Event.years_of_events
       render :archive
+    elsif params[:year] =~ /^\d{4}$/
+      @title = "Events of #{params[:year]}"
+      @events = Event.by_year(params[:year])
     else
+      @title = "Upcoming Events"
       @events = Event.upcoming
     end
   end

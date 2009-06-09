@@ -5,39 +5,40 @@ describe EventsController do
   user_fixtures
 
   describe "listing events" do
-    it "should set the right data and use the right template" do
-      events = [mock_model(Event), mock_model(Event), mock_model(Event)]
-      Event.should_receive(:upcoming).with().and_return(events)
+    it "should list upcoming events" do
+      events = mock("array of events")
+      Event.should_receive(:upcoming).and_return(events)
 
       get :index
 
-      assert_response :success
       assigns[:events].should equal(events)
-      assert_template 'events/index'
+      assigns[:title].should == "Upcoming Events"
+      response.should be_success
+      response.should render_template("index")
     end
 
-    describe "and the list view" do
-      it "should list upcoming events" do
-        events = mock("array of events")
-        Event.should_receive(:upcoming).and_return(events)
+    it "should list event years" do
+      years = mock("array of years")
+      Event.should_receive(:years_of_events).and_return(years)
 
-        get :index
+      get :index, { :year => "all" }
 
-        response.should be_success
-        response.should render_template("index")
-        assigns[:events].should equal(events)
-      end
+      assigns[:years].should equal(years)
+      assigns[:title].should == "Events Archive"
+      response.should be_success
+      response.should render_template("archive")
+    end
 
-      it "should list event years" do
-        years = mock("array of years")
-        Event.should_receive(:years_of_events).and_return(years)
+    it "should list events by year" do
+      events = mock("array of year's events")
+      Event.should_receive(:by_year).with("1666").and_return(events)
 
-        get :index, { :year => "all" }
+      get :index, { :year => "1666" }
 
-        response.should be_success
-        response.should render_template("archive")
-        assigns[:years].should equal(years)
-      end
+      assigns[:events] = events
+      assigns[:title].should == "Events of 1666"
+      response.should be_success
+      response.should render_template("index")
     end
   end
 
@@ -139,7 +140,7 @@ describe EventsController do
 
       response.should redirect_to("/users/login")
     end
-    
+
     it "should save the modified event" do
       event = mock_model(Event)
       Event.should_receive(:find).with(event.id.to_s).and_return(event)

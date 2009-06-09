@@ -14,6 +14,10 @@ class Event < ActiveRecord::Base
                                   range_start, range_stop,
                                   range_start, range_start] } }
 
+  def self.by_year(year)
+    find_within(Time.local(year, 1, 1, 0, 0), Time.local(year, 12, 31, 23, 59))
+  end
+
   def self.years_of_events
     first_year..last_year
   end

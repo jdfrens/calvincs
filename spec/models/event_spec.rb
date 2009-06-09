@@ -1,9 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Event do
-  
+
   fixtures :events
-  
+
   should_require_attributes :title
   should_require_attributes :descriptor
   should_require_attributes :start
@@ -32,7 +32,7 @@ describe Event do
   it "should compute range of years of events" do
     Event.should_receive(:first_year).and_return(1492)
     Event.should_receive(:last_year).and_return(1518)
-    
+
     Event.years_of_events.should == (1492..1518)
   end
 
@@ -52,19 +52,27 @@ describe Event do
     Event.last_year.should == 2032
   end
 
+  it "should find by year" do
+    events = mock("array of events")
+    Event.should_receive(:find_within).with(Time.local(1971, 1, 1, 0, 0), Time.local(1971, 12, 31, 23, 59)).
+            and_return(events)
+
+    Event.by_year(1971).should == events
+  end
+
   context "testing the system" do
     should "have single-table inheritance" do
       assert_equal Colloquium, events(:old_colloquium).class
       assert_equal(Conference, events(:old_conference).class)
     end
   end
-  
+
   context "the length of an event" do
     should "be in hours for a colloquium" do
       assert_equal 1, events(:old_colloquium).length
       assert_equal 2, events(:todays_colloquium).length
     end
-    
+
     should "be in days for a conference" do
       assert_equal 3, events(:old_conference).length
       assert_equal 1, events(:next_weeks_conference).length
@@ -93,7 +101,7 @@ describe Event do
       event = Colloquium.new(:title => "foobar", :start => start)
 
       start.should_receive(:to_s).with(:colloquium).and_return("the full time")
-      
+
       event.timing.should == "the full time"
     end
 
@@ -123,10 +131,10 @@ describe Event do
       assert_equal [event], Event.find_within(event.start + 1.minute, event.stop - 1.minute)
       assert_equal [event], Event.find_within(event.start - 1.minute, event.stop - 1.minute)
     end
-    
+
     should "find more than one event with a given range" do
       assert_equal [events(:todays_colloquium), events(:within_a_week_colloquium), events(:within_a_month_colloquium), events(:next_weeks_conference)],
-        Event.find_within(Time.now, 2.months.from_now)
+                   Event.find_within(Time.now, 2.months.from_now)
     end
   end
 
@@ -216,5 +224,5 @@ describe Event do
     end
 
   end
-  
+
 end

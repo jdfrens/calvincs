@@ -33,7 +33,7 @@ Feature: managing events
     And I should not see "Foobar 2009"
     And I should see "Barfoo 1692"
 
-  Scenario: list only upcoming events
+  Scenario: list archive of events
     Given the following conferences
       | title       | start            | length |
       | Foobar 2009 | October 28, 2009 | 1      |
@@ -45,3 +45,16 @@ Feature: managing events
     And I should see "Events of 2009"
     And I should see "Events of 2008"
     And I should see "Events of 2007"
+
+  Scenario: list events for a specific year
+    Given the following conferences
+      | title       | start            | length |
+      | Foobar 2009 | October 28, 2009 | 1      |
+      | Barfoo 2007 | August 15, 2007  | 2      |
+    When I go to the list of events
+    And I follow "Event archive"
+    And I follow "Events of 2007"
+    Then I should see "Events of 2007"
+    And I should not see "Events of 2009"
+    And I should see "Barfoo 2007"
+    And I should not see "Foobar 2009"
