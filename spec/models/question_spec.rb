@@ -1,10 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class QuestionTest < ActiveRecord::TestCase
+describe Question do
+
   fixtures :faqs, :questions
 
-  def test_validations
-    assert_invalid Question.new, [:query, :answer, :faq_id]
+  it "should validate" do
+    question = Question.new
+    question.should be_invalid
+    question.errors.on(:query).should == "can't be blank"
+    question.errors.on(:answer).should == "can't be blank"
+    question.errors.on(:faq_id).should == "can't be blank"  
   end
   
   def test_belongs_to_faq

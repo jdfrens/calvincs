@@ -5,14 +5,18 @@ class DegreeTest < ActiveRecord::TestCase
   fixtures :degrees, :users
   
   def test_validations_of_presence
-    assert_invalid Degree.new, [:user_id, :degree_type, :institution, :year]
+    degree = Degree.new
+    degree.should be_invalid
+    degree.attributes = {:user_id => users(:jeremy), :degree_type => "BCS",
+                         :institution => "Hard Knocks", :year => 1666 }
+    degree.should be_valid
   end
   
   def test_bad_initialization_errors
     degree = Degree.new :year => 'foobar'
  
-    assert !degree.valid? 
-    assert degree.errors.invalid?(:year)
+    degree.should be_invalid
+    degree.errors.should be_invalid(:year)
   end
 
 end

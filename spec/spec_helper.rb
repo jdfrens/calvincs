@@ -14,18 +14,6 @@ Spec::Runner.configure do |config|
   config.include Webrat::Matchers, :type => :views
 end
 
-# TODO: can this be phased out?
-
-def assert_invalid(object, invalids, valids=[])
-  assert !object.valid?, "#{object} should not be valid"
-  invalids.each do |invalid|
-    assert object.errors.invalid?(invalid), "#{invalid} should not be valid, but it is"
-  end
-  valids.each do |valid|
-    assert !object.errors.invalid?(valid), "#{valid} should be valid, but it's not"
-  end
-end
-
 def user_session(privilege)
   case privilege
     when :edit
@@ -60,18 +48,8 @@ def expect_textilize(text)
   template.should_receive(:textilize).with(text).and_return(text)
 end
 
-# TODO: better RSpec way to do this?
-
-def assert_datetime_selector(model, attribute)
-  assert_select "select##{model}_#{attribute}_1i", 1, "should have a year selector"
-  assert_select "select##{model}_#{attribute}_2i", 1, "should have a month selector"
-  assert_select "select##{model}_#{attribute}_3i", 1, "should have a day selector"
-  assert_select "select##{model}_#{attribute}_4i", 1, "should have a hour selector"
-  assert_select "select##{model}_#{attribute}_5i", 1, "should have a minute selector"
-end
 
 # TODO: replace with RSpec matcher
-
 def assert_spinner(options = {})
   id_suffix = options[:number] || options[:suffix]
   id = id_suffix ? "spinner_#{id_suffix}" : "spinner"
@@ -79,7 +57,6 @@ def assert_spinner(options = {})
 end
 
 # TODO: replace with RSpec matcher
-
 def assert_remote_form_for_and_spinner(id, route)
   form = find_tag :tag => "form", :attributes => { :id => id }
   assert_not_nil form, "should have form"
