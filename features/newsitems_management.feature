@@ -14,6 +14,15 @@ Feature: managing news items
     And I press "Save changes"
     Then I should be on the current news page
 
+  Scenario: Entering an invalid new news item
+    Given I am logged in as an editor
+    When I go to the administration page
+    And I follow "Create news item"
+    Then I should be on the new news item page
+    When I press "Save changes"
+    Then I should see "Create News Item"
+    And I should see some error
+    
   Scenario: Editing an old news item
     Given I am logged in as an editor
     And the following news items

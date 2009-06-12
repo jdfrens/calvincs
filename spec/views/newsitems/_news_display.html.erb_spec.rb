@@ -11,6 +11,8 @@ describe "/newsitems/_news_display.html.erb" do
     live_at.should_receive(:to_s).with(:news_posted).and_return("the date when it was posted")
     expect_textilize("The beautiful content is awesome!")
 
+    template.stub!(:current_user).and_return(false)
+
     render "newsitems/_news_display"
 
     response.should have_selector("h2", :content => "The Headline of Love")
@@ -23,6 +25,8 @@ describe "/newsitems/_news_display.html.erb" do
             stub_model(Newsitem, :headline => "Headline B", :goes_live_at => Time.now),
             stub_model(Newsitem, :headline => "Headline gamma", :goes_live_at => Time.now)]
     assigns[:newsitems] = news_items
+
+    template.stub!(:current_user).and_return(false)
 
     render "newsitems/_news_display"
 

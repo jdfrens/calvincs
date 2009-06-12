@@ -144,7 +144,7 @@ describe NewsitemsController, "without views" do
 
       post :create, { :newsitem => { :params => "values" } }, user_session(:edit)
 
-      response.should render_template("news/new")
+      response.should render_template("newsitems/new")
     end
   end
 
