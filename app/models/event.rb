@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
   before_validation :use_length_for_stop_time
   before_validation :use_type_for_descriptor
 
-  named_scope :upcoming, :conditions => ['stop > ?', Time.now]
+  named_scope :upcoming, lambda { || { :conditions => ['stop > ?', Time.now] } }
 
   named_scope :find_within,
               lambda { |range_start, range_stop|
@@ -34,15 +34,8 @@ class Event < ActiveRecord::Base
     find_within(Time.local(today.year, today.month, today.day, 0, 0), Time.local(today.year, today.month, today.day, 23, 59))
   end
 
-  def self.find_by_week_of(date=Time.now, options = {})
-    options[:sunday] = true if options[:sunday].nil?
-    if options[:sunday]
-      start = date - date.wday.days
-    else
-      start = date
-    end
-    stop = date + 6.days - date.wday.days
-    find_within(start, stop)
+  def self.within_week
+    find_within(1.day.from_now, 6.days.from_now)
   end
 
   def self.new_event(params)

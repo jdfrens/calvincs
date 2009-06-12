@@ -13,19 +13,52 @@ Feature: the home page
     And I should see "some content"
     And I should see "sploosh!"
 
-  Scenario: see the home page with an event
+  Scenario: see the home page with an event today
     Given the following pages
       | identifier   | title           | content      |
       | _home_page   | does not matter | some content |
       | _home_splash | does not matter | sploosh!     |
-    And the following colloquia for tomorrow
-      | title    |
-      | Get Real |
+    And the following colloquia
+      | title    | when     |
+      | Get Real | tomorrow |
     When I go to the homepage
     Then I should be on the homepage
+    And I should see "Colloquium this week!"
+    And I should not see "Colloquium today!"
     And I should see "Get Real"
     When I follow "more..."
     Then I should see "Get Real"
+
+  Scenario: see the home page with an event tomorrow
+    Given the following pages
+      | identifier   | title           | content      |
+      | _home_page   | does not matter | some content |
+      | _home_splash | does not matter | sploosh!     |
+    And the following colloquia
+      | title    | when     |
+      | Get Real | today |
+    When I go to the homepage
+    Then I should be on the homepage
+    And I should see "Colloquium today!"
+    And I should not see "Colloquium this week!"
+    And I should see "Get Real"
+
+  Scenario: see the home page with certain events
+    Given the following pages
+      | identifier   | title           | content      |
+      | _home_page   | does not matter | some content |
+      | _home_splash | does not matter | sploosh!     |
+    And the following colloquia
+      | title       | when      |
+      | Old West    | yesterday |
+      | The Present | today     |
+      | The Future  | tomorrow  |
+    When I go to the homepage
+    Then I should not see "Old West"
+    And I should see "Colloquium today!"
+    And I should see "The Present"
+    And I should see "Colloquium this week!"
+    And I should see "The Future"
 
   Scenario: see the home page with some news
     Given the following pages

@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     @splash = Page.find_by_identifier!('_home_splash')
     @newsitems = Newsitem.find_current
     @todays_events = Event.find_by_today
-    @this_weeks_events = Event.find_by_week_of(Time.now)
+    @this_weeks_events = Event.within_week
     @last_updated = last_updated(@newsitems + [@content, @splash])
     render
   rescue ActiveRecord::RecordNotFound => e
