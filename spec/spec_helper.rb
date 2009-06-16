@@ -6,7 +6,36 @@ require 'spec/autorun'
 require 'spec/rails'
 require 'webrat'
 
-module ViewMacros
+module UserMacros
+  def user_fixtures
+    fixtures :users, :roles, :privileges, :privileges_roles
+  end
+end
+
+module UserHelpers
+  def user_session(privilege)
+    case privilege
+      when :edit
+        { :current_user_id => users(:jeremy).id }
+      else
+        raise "#{privilege.to_s} is an unrecognized privilege"
+    end
+  end
+
+  def mock_user_session(privilege)
+    case privilege
+      when :edit
+        editor = mock_model(User)
+        User.stub!(:find).with(editor.id, anything()).and_return(editor)
+        editor.stub!(:has_privilege?).with(:edit).and_return(true)
+        { :current_user_id => editor.id }
+      else
+        raise "#{privilege.to_s} is an unrecognized privilege"
+    end
+  end
+end
+
+module ViewHelpers
   def should_have_spinner(options = {})
     id_suffix = options[:number] || options[:suffix]
     id = id_suffix ? "spinner_#{id_suffix}" : "spinner"
@@ -24,6 +53,15 @@ module ViewMacros
       route.should == $1
     end
   end
+  
+  def expect_textilize_wop(text)
+    template.should_receive(:textilize_without_paragraph).with(text).
+            and_return(text)
+  end
+
+  def expect_textilize(text)
+    template.should_receive(:textilize).with(text).and_return(text)
+  end
 end
 
 Spec::Runner.configure do |config|
@@ -32,42 +70,10 @@ Spec::Runner.configure do |config|
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
   config.include Webrat::Matchers, :type => :views
-  config.include ViewMacros, :type => :controller
-  config.include ViewMacros, :type => :views
-end
-
-def user_session(privilege)
-  case privilege
-    when :edit
-      { :current_user_id => users(:jeremy).id }
-    else
-      raise "#{privilege.to_s} is an unrecognized privilege"
-  end
-end
-
-def mock_user_session(privilege)
-  case privilege
-    when :edit
-      editor = mock_model(User)
-      User.stub!(:find).with(editor.id, anything()).and_return(editor)
-      editor.stub!(:has_privilege?).with(:edit).and_return(true)
-      { :current_user_id => editor.id }
-    else
-      raise "#{privilege.to_s} is an unrecognized privilege"
-  end
-end
-
-def user_fixtures
-  fixtures :users, :roles, :privileges, :privileges_roles
-end
-
-def expect_textilize_wop(text)
-  template.should_receive(:textilize_without_paragraph).with(text).
-          and_return(text)
-end
-
-def expect_textilize(text)
-  template.should_receive(:textilize).with(text).and_return(text)
+  config.include ViewHelpers, :type => :controller
+  config.include ViewHelpers, :type => :views
+  config.extend UserMacros
+  config.include UserHelpers
 end
 
 class ImageInfo
