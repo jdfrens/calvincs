@@ -219,7 +219,7 @@ describe PersonnelController do
         assigns[:last_updated].should == users(:jeremy).last_updated_dates.max
     
         assert_select "div#full_name_header h1", "Jeremy D. Frens"
-        assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
+        should_have_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
         assert_select "form" do
           assert_select "input[value=Jeremy D.]"
           assert_select "input[value=Frens]"
@@ -253,7 +253,7 @@ describe PersonnelController do
             assert_select "div#degree_3 li", "Ph.D. in CS, Indiana University, 2002"
           end
           assert_select "div#education_edits" do
-            assert_remote_form_for_and_spinner("degree_edit_1", "/personnel/update_degree/1")
+            should_have_remote_form_for_and_spinner("degree_edit_1", "/personnel/update_degree/1")
             assert_select "form#degree_edit_1" do
               assert_select "input[type=text][value=B.A. in CS and MATH]"
               assert_select "input[type=text][value=Calvin College]"
@@ -262,7 +262,7 @@ describe PersonnelController do
               assert_select "input[type=submit]"
               should_have_spinner :number => 1
             end
-            assert_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
+            should_have_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
             assert_select "form#degree_edit_3" do
               assert_select "input[type=text][value=Ph.D. in CS]"
               assert_select "input[type=text][value=Indiana University]"
@@ -300,7 +300,7 @@ describe PersonnelController do
 
         should_have_spinner(:suffix => "name")
         assert_select "div#full_name_header h1", "Joel C. Adams"
-        assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
+        should_have_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
         assert_select "form" do
           assert_select "input[value=Joel C.]"
           assert_select "input[value=Adams]"
