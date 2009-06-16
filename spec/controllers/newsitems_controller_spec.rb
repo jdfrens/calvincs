@@ -19,8 +19,6 @@ describe NewsitemsController, "without views" do
       assigns[:last_updated].should == updated_at
     end
 
-    # TODO: it "should redirect to list if no current news items?"
-
     it "should list years with actual news" do
       news_years = mock("news years")
 

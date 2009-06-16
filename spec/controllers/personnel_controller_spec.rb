@@ -388,7 +388,6 @@ describe PersonnelController do
       xhr :post, :updated_name
       response.should redirect_to("/users/login")
     end
-#    TODO: should_redirect_to_login_when_NOT_logged_in :update_name
   end
   
   context "update degree action" do
