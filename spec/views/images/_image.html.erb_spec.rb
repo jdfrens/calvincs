@@ -43,7 +43,7 @@ describe "/images/_image.html.erb" do
   end
 
   it "should have a spinner" do
-    assert_spinner :number => @image.id
+    should_have_spinner :number => @image.id
   end
 
   it "should have a destroy button" do

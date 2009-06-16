@@ -5,7 +5,7 @@ describe PersonnelController do
   
   fixtures :images, :image_tags, :degrees, :pages
   user_fixtures
-  
+
   context "index action" do
     it "should redirect to viewing all" do
       get :index
@@ -224,13 +224,13 @@ describe PersonnelController do
           assert_select "input[value=Jeremy D.]"
           assert_select "input[value=Frens]"
           assert_select "input[type=submit]"
-          assert_spinner :suffix => "name"
+          should_have_spinner :suffix => "name"
         end
         assert_select "p#job_title", "Assistant Professor"
         assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
           assert_select "input[type=text][value=Assistant Professor]", true
           assert_select "input[type=submit]", true
-          assert_spinner :suffix => "job_title"
+          should_have_spinner :suffix => "job_title"
         end
         assert_select "#contact-information" do
           assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
@@ -260,7 +260,7 @@ describe PersonnelController do
               assert_select "input[type=text][value=http://cs.calvin.edu/]"
               assert_select "input[type=text][value=1992]"
               assert_select "input[type=submit]"
-              assert_spinner :number => 1
+              should_have_spinner :number => 1
             end
             assert_remote_form_for_and_spinner("degree_edit_3", "/personnel/update_degree/3")
             assert_select "form#degree_edit_3" do
@@ -269,7 +269,7 @@ describe PersonnelController do
               assert_select "input[type=text][value=http://cs.indiana.edu/]"
               assert_select "input[type=text][value=2002]"
               assert_select "input[type=submit]"
-              assert_spinner :number => 3
+              should_have_spinner :number => 3
             end
           end
           assert_select "a[onclick*=/personnel/add_degree/3]", "Add degree"
@@ -290,27 +290,28 @@ describe PersonnelController do
           assert_select "a[href=/pages/_jeremy_profile/edit]", "edit profile"
         end
       end
-  
+
       it "should edit a dataless user" do
         get :view, { :id => 'joel' }, user_session(:edit)
     
         assert_response :success
         assigns[:title].should == "Joel C. Adams"
         assigns[:last_updated].should == users(:joel).last_updated_dates.max
-    
+
+        should_have_spinner(:suffix => "name")
         assert_select "div#full_name_header h1", "Joel C. Adams"
         assert_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
         assert_select "form" do
           assert_select "input[value=Joel C.]"
           assert_select "input[value=Adams]"
           assert_select "input[type=submit]"
-          assert_spinner :suffix => "name"
+          should_have_spinner :suffix => "name"
         end 
         assert_select "p#job_title", true
         assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
           assert_select "input[type=text]", true
           assert_select "input[type=submit]", true
-          assert_spinner :suffix => "job_title"
+          should_have_spinner :suffix => "job_title"
         end
         assert_select "#contact-information" do
           assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i

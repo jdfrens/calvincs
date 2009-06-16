@@ -6,12 +6,24 @@ require 'spec/autorun'
 require 'spec/rails'
 require 'webrat'
 
+module ViewMacros
+  def should_have_spinner(options = {})
+    id_suffix = options[:number] || options[:suffix]
+    id = id_suffix ? "spinner_#{id_suffix}" : "spinner"
+    response.should have_selector("img", :id => id) do |img|
+      img.first['src'].should match(%r{^/images/spinner_moz.gif})
+    end
+  end
+end
+
 Spec::Runner.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
   config.include Webrat::Matchers, :type => :views
+  config.include ViewMacros, :type => :controller
+  config.include ViewMacros, :type => :views
 end
 
 def user_session(privilege)
@@ -48,30 +60,22 @@ def expect_textilize(text)
   template.should_receive(:textilize).with(text).and_return(text)
 end
 
-
-# TODO: replace with RSpec matcher
-def assert_spinner(options = {})
-  id_suffix = options[:number] || options[:suffix]
-  id = id_suffix ? "spinner_#{id_suffix}" : "spinner"
-  assert_select "img##{id}[src^=/images/spinner_moz.gif]"
-end
-
 # TODO: replace with RSpec matcher
 def assert_remote_form_for_and_spinner(id, route)
   form = find_tag :tag => "form", :attributes => { :id => id }
   assert_not_nil form, "should have form"
   assert_match(
           /Element\.show\('spinner/,
-                  form.attributes["onsubmit"],
-                  "should have JavaScript to show spinner")
+          form.attributes["onsubmit"],
+          "should have JavaScript to show spinner")
   assert_match(
           /Element\.hide\('spinner/,
-                  form.attributes["onsubmit"],
-                  "should have JavaScript to hide spinner")
+          form.attributes["onsubmit"],
+          "should have JavaScript to hide spinner")
   assert_match(
           /Ajax\.Request\('(.+?)'/,
-                  form.attributes["onsubmit"],
-                  "should have JavaScript for Ajax request")
+          form.attributes["onsubmit"],
+          "should have JavaScript for Ajax request")
   form.attributes["onsubmit"] =~ /Ajax\.Request\('(.+?)'/
   assert_equal route, "#$1", "should have correct route in Ajax request"
 end
