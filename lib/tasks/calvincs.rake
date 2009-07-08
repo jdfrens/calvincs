@@ -1,4 +1,11 @@
+require 'spec/rake/spectask'
+
 namespace :calvincs do
+  desc "Runs the redirection and rewrite expectations for cs.calvin.edu"
+  Spec::Rake::SpecTask.new(:redirects) do |t|
+    t.spec_files = FileList['deployment/*_spec.rb']
+  end
+
   desc "creates user in editor group with edit privilege"
   task :editor => :environment
   task :editor, [:username] do |t, args|
