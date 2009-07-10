@@ -1,7 +1,7 @@
 Spec::Matchers.define :redirect_to do |redirection|
-  match do |original|
-    original.redirected?.should == true
-    original.redirected_path.should == redirection
+  match do |redirect_check|
+    redirect_check.redirected?.should == true
+    redirect_check.redirected_path.should == redirection
   end
 end
 
