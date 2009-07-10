@@ -67,4 +67,22 @@ describe HomeController do
     end
   end
 
+  describe "the atom feed" do
+
+    it "should render atom" do
+      get :feed, :format => "atom"
+
+      response.should be_success
+      response.should render_template("home/feed.atom")
+    end
+
+    it "should find news items" do
+      newsitems = mock("news items")
+      Newsitem.should_receive(:find_current).and_return(newsitems)
+
+      get :feed, :format => "atom"
+
+      assigns[:newsitems] = newsitems
+    end
+  end
 end

@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
 
   restrict_to :edit, :only => 'administrate'
-    
+
   def index
     @content = Page.find_by_identifier!('_home_page')
     @splash = Page.find_by_identifier!('_home_splash')
@@ -14,12 +14,16 @@ class HomeController < ApplicationController
     id = @content ? "_home_splash" : "_home_page"
     redirect_to :controller => "pages", :action => "new", :id => id
   end
-  
+
   def administrate
   end
 
   def feed
-    
+    @newsitems = Newsitem.find_current
+
+    respond_to do |format|
+      format.atom
+    end
   end
 
 end
