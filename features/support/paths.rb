@@ -10,6 +10,8 @@ module NavigationHelpers
 
       when /the home(\s*)page/
         '/'
+      when /the atom feed/
+        '/feed'
 
       # users
       when /the login page/

@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.home '', :controller => "home"
+  map.connect '/feed', :controller => 'home', :action => 'feed', :format => 'atom'
 
   # Special Calvin CS routes
   map.view_page 'p/:id', :controller => 'pages', :action => 'show', :id => /\w+/

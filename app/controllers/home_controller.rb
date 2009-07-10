@@ -18,4 +18,8 @@ class HomeController < ApplicationController
   def administrate
   end
 
+  def feed
+    
+  end
+
 end
