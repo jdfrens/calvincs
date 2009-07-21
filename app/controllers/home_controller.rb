@@ -20,6 +20,8 @@ class HomeController < ApplicationController
 
   def feed
     @newsitems = Newsitem.find_current
+    @todays_events = Event.find_by_today
+    @updated_at = @newsitems.maximum(:updated_at)
 
     respond_to do |format|
       format.atom

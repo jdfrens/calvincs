@@ -29,6 +29,16 @@ describe Event do
     end
   end
 
+  describe "full title" do
+    it "should use both titles" do
+      Colloquium.new(:title => "foo", :subtitle => "bar", :start => Time.now, :length => 1).full_title.should == "foo: bar"
+    end
+
+    it "should use both titles" do
+      Colloquium.new(:title => "foo", :start => Time.now, :length => 1).full_title.should == "foo"
+    end
+  end
+
   it "should compute range of years of events" do
     Event.should_receive(:first_year).and_return(1492)
     Event.should_receive(:last_year).and_return(1518)

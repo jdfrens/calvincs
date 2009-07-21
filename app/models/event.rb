@@ -49,6 +49,14 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def full_title
+    if subtitle.blank?
+      title
+    else
+      title + ": " + subtitle
+    end
+  end
+
   def kind
     self[:type]
   end

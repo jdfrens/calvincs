@@ -34,3 +34,11 @@ Feature: the news and event atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should not see "Not me!"
     And I should not see "Or me!"
+
+  Scenario: a event for today in the feed
+    Given the following colloquia
+      | title    | subtitle  | when  |
+      | Get Real | No Really | today |
+    When I go to the atom feed
+    Then I should see "Calvin College Computer Science - News and Events" as title
+    And I should see "Get Real: No Really" as entry title

@@ -78,11 +78,18 @@ describe HomeController do
 
     it "should find news items" do
       newsitems = mock("news items")
+      todays_events = mock("today's events")
+      updated_at = mock("updated at")
+
       Newsitem.should_receive(:find_current).and_return(newsitems)
+      newsitems.should_receive(:maximum).with(:updated_at).and_return(updated_at)
+      Event.should_receive(:find_by_today).and_return(todays_events)
 
       get :feed, :format => "atom"
 
       assigns[:newsitems] = newsitems
+      assigns[:todays_events] = todays_events
+      assigns[:updated_at] = updated_at
     end
   end
 end
