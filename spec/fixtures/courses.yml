@@ -1,21 +1,21 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 cs108:
   id: 3
-  label: CS
+  department: CS
   number: 108
   title: Introduction to Computing
   credits: 4
   description: "The standard CS 1 class."
 cs214:
   id: 1
-  label: CS
+  department: CS
   number: 214
   title: Programming Languages
   credits: 3
   description: "The best class in the universe."
 is337:
   id: 2
-  label: IS
+  department: IS
   number: 337
   title: Website Administration
   credits: 3

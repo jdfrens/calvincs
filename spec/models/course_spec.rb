@@ -1,69 +1,80 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class CourseTest < ActiveRecord::TestCase
-  fixtures :courses
+describe Course do
 
-  def test_initialize_validations
-    course = Course.new
-    assert !course.valid?
-    assert course.errors.invalid?(:label)
-    assert course.errors.invalid?(:number)
-    assert course.errors.invalid?(:title)
-    assert course.errors.invalid?(:credits)
-  end
-  
-  def test_initialize_bad_data_validations
-    course = Course.new(
-      :label => 'C', :number => 'bad', :title => 'okay', :credits => 'iv'
+  context "validations" do
+    it "should complain about no values" do
+      course = Course.new
+      course.should_not be_valid
+      assert !course.valid?
+      assert course.errors.invalid?(:department)
+      assert course.errors.invalid?(:number)
+      assert course.errors.invalid?(:title)
+      assert course.errors.invalid?(:credits)
+    end
+
+    it "should complain about bad values" do
+      course = Course.new(
+              :department => 'C', :number => 'bad', :title => 'okay', :credits => 'iv'
       )
-    assert !course.valid?
-    assert course.errors.invalid?(:label)
-    assert course.errors.invalid?(:number)
-    assert !course.errors.invalid?(:title)
-    assert course.errors.invalid?(:credits)
+      assert !course.valid?
+      assert course.errors.invalid?(:department)
+      assert course.errors.invalid?(:number)
+      assert !course.errors.invalid?(:title)
+      assert course.errors.invalid?(:credits)
+    end
   end
-  
-  def test_extensive_label_validations
-    course = Course.find(3)
-    assert course.valid?
-    course.label = 'C'
-    assert !course.valid?, 'label should be longer than one character'
-    assert_equal 'should be two to five capital letters', course.errors[:label]
-    course.label = 'CS'
-    assert course.valid?
-    course.label = ' CS '
-    assert !course.valid?, 'label should not have whitespace'
-    course.label = 'CS'
-    assert course.valid?
-    course.label = 'CS1'
-    assert !course.valid?, 'label should not have non-alphabetic characters'
-    course.label = 'CS'
-    assert course.valid?
-    course.label = 'CS!'
-    assert !course.valid?, 'label should not have non-alphabetic characters'
+
+  context "department validations" do
+    before(:each) do
+      @course = Course.create!(:department => "CS", :number => 666, :title => "okay", :credits => 4)
+    end
+
+    it "should reject single character" do
+      @course.department = 'C'
+      @course.should_not be_valid
+      @course.errors[:department].should == 'should be two to five capital letters'
+    end
+
+    it "should reject whitespace" do
+      @course.department = ' CS '
+      @course.should_not be_valid
+    end
+
+    it "should reject numbers" do
+      @course.department = 'CS1'
+      @course.should_not be_valid
+    end
+
+    it "should reject punctuation" do
+      @course.department = 'CS!'
+      @course.should_not be_valid
+    end
   end
-  
-  def test_fail_on_duplicate_course
-    course = Course.new(
-      :label => 'CS', :number => '108', :title => 'Duplicate!', :credits => 3
-    )
-    assert !course.valid?
-    assert !course.errors.invalid?(:label)
-    assert course.errors.invalid?(:number)
-    assert !course.errors.invalid?(:title)
-    assert !course.errors.invalid?(:credits)
-  
-    course = Course.new(
-      :label => 'IS', :number => '108',
-      :title => 'IS in the Middle Ages', :credits => 3
-    )
-    assert course.valid?, "reusing a number should be okay"
+
+  context "duplicate courses" do
+    before do
+      Course.create!(:department => "CS", :number => 123, :title => "okay", :credits => 4)      
+    end
+
+    it "should be invalid to add duplicate course in department and number" do
+      Course.new(
+              :department => 'CS', :number => 123, :title => 'Duplicate!', :credits => 3
+      ).should_not be_valid
+    end
+
+    it "should be okay if number is reused in another department" do
+      Course.new(
+              :department => 'IS', :number => '108',
+              :title => 'IS in the Middle Ages', :credits => 3
+      ).should be_valid
+    end
   end
-  
-  def test_identifier
-    assert_equal 'CS 108', Course.find(3).identifier
-    assert_equal 'CS 214', Course.find(1).identifier
-    assert_equal 'IS 337', Course.find(2).identifier
+
+  it "should have an identifier" do
+    Course.new(
+              :department => 'XY', :number => 887, :title => 'Duplicate!', :credits => 3
+      ).identifier.should == "XY 887"
   end
 
 end

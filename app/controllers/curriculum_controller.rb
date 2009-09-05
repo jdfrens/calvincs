@@ -9,7 +9,7 @@ class CurriculumController < ApplicationController
   end
   
   def list_courses
-    @courses = Course.find(:all, :order => "label, number")
+    @courses = Course.find(:all, :order => "department, number")
   end
   
   def view_course

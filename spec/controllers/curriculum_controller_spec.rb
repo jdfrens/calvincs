@@ -65,7 +65,7 @@ describe CurriculumController do
   
   def test_save_course
     post :save_course, { :course => {
-        :label => 'IS', :number => '665',
+        :department => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
       }}, user_session(:edit)
     assert_redirected_to :action => 'list_courses'
@@ -77,7 +77,7 @@ describe CurriculumController do
   
   it "should redirect save/course to login" do
     post :save_course, { :course => {
-        :label => 'IS', :number => '665',
+        :department => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
       }}
     
@@ -86,7 +86,7 @@ describe CurriculumController do
   
   def test_save_course_fails_with_bad_data
     post :save_course, { :course => {
-        :label => 'Q', :number => ''
+        :department => 'Q', :number => ''
       }}, user_session(:edit)
     assert_template "curriculum/course_form"
     assert_select "div#error", /errors prohibited this course from being saved/i
@@ -104,9 +104,9 @@ describe CurriculumController do
       assert_select "table" do
         assert_select "tr" do
           if (options[:label])
-            assert_select "td input#course_label[type=text][value=#{options[:label]}]"
+            assert_select "td input#course_department[type=text][value=#{options[:department]}]"
           else
-            assert_select "td input#course_label[type=text]"
+            assert_select "td input#course_department[type=text]"
           end
         end
         assert_select "tr" do
