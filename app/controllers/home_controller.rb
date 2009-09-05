@@ -21,6 +21,7 @@ class HomeController < ApplicationController
   def feed
     @newsitems = Newsitem.find_current
     @todays_events = Event.find_by_today
+    @weeks_events = Event.within_week
     @updated_at = @newsitems.maximum(:updated_at)
 
     respond_to do |format|

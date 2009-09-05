@@ -5,8 +5,10 @@ describe "/home/feed.atom.builder" do
   before do
     @newsitems = []
     @todays_events = []
+    @weeks_events = []
     assigns[:newsitems] = @newsitems
     assigns[:todays_events] = @todays_events
+    assigns[:weeks_events] = @weeks_events
   end
 
   it "should have a title" do
@@ -102,6 +104,15 @@ describe "/home/feed.atom.builder" do
       entry.should have_selector("title", :content => "Today #2")
       entry.should have_selector("title", :content => "Today #3")
     end
+  end
+
+  it "should render an event for this week with a special id" do
+    @weeks_events = [mock_model(Event, :full_title => "Next Week Is Now", :description => "Time travel!")]
+    assigns[:weeks_events] = @weeks_events
+
+    render "/home/feed.atom"
+
+    response.should have_selector("entry id", :content => "tag:test.host,2005:WeeksEvent/#{@weeks_events[0].id}")
   end
 
 end

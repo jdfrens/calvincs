@@ -33,6 +33,8 @@ module EventHelpers
         hash = hash.merge("start" => 24.hours.ago.to_s(:db), "stop" => 23.hours.ago.to_s(:db))
       when "today"
         hash = hash.merge("start" => 1.minute.from_now.to_s(:db), "stop" => 2.minutes.from_now.to_s(:db))
+      when /(\d+) days from now/
+        hash = hash.merge("start" => $1.to_i.days.from_now.to_s(:db), "stop" => ($1.to_i.days.from_now + 1.hour).to_s(:db))
     end
     Colloquium.create!(:title => hash["title"], :subtitle => hash["subtitle"],
                        :start => hash["start"], :stop => hash["stop"],

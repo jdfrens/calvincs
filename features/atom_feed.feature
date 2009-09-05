@@ -35,10 +35,52 @@ Feature: the news and event atom feed
     And I should not see "Not me!"
     And I should not see "Or me!"
 
-  Scenario: a event for today in the feed
+  Scenario: an event for today in the feed
     Given the following colloquia
       | title    | subtitle  | when  |
       | Get Real | No Really | today |
     When I go to the atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should see "Get Real: No Really" as entry title
+
+  Scenario: multiple events for today in the feed
+    Given the following colloquia
+      | title     | subtitle  | when  |
+      | Get Real  | No Really | today |
+      | Fantastic | Cool      | today |
+      | Michigan  | OSU       | today |
+    When I go to the atom feed
+    Then I should see "Calvin College Computer Science - News and Events" as title
+    And I should see "Get Real: No Really" as entry title
+    And I should see "Fantastic: Cool" as entry title
+    And I should see "Michigan: OSU" as entry title
+
+  Scenario: an upcoming event in the feed
+    Given the following colloquia
+      | title    | subtitle  | when     |
+      | Get Real | No Really | tomorrow |
+    When I go to the atom feed
+    Then I should see "Calvin College Computer Science - News and Events" as title
+    And I should see "Get Real: No Really" as entry title
+
+  Scenario: multiple upcoming events in the feed
+    Given the following colloquia
+      | title    | subtitle  | when            |
+      | Tomorrow | Is Now    | tomorrow        |
+      | Get Real | No Really | 4 days from now |
+    When I go to the atom feed
+    Then I should see "Calvin College Computer Science - News and Events" as title
+    And I should see "Tomorrow: Is Now" as entry title
+    And I should see "Get Real: No Really" as entry title
+
+  Scenario: old and too future events are not in the feed
+    Given the following colloquia
+      | title     | subtitle  | when            |
+      | Yesterday | Is Gone   | yesterday       |
+      | Future    | Is Scary  | 9 days from now |
+    When I go to the atom feed
+    Then I should see "Calvin College Computer Science - News and Events" as title
+    And I should not see "Yesterday: Is Gone"
+    And I should not see "Future: Is Scary"
+
+
