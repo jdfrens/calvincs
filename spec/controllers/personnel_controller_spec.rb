@@ -19,8 +19,7 @@ describe PersonnelController do
     it "should redirect for an explicit 'all' id" do
       get :list, { :id => 'all' }
     
-      assert_response :redirect
-      assert_redirected_to :action => 'list'
+      response.should redirect_to("/personnel/list")
     end
 
     context "done normally" do
