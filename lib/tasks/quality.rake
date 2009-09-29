@@ -1,8 +1,11 @@
-require 'flog'
-require 'flay'
-require 'roodi'
-require 'roodi_task'
-require 'metric_fu'
+begin
+  require 'flog'
+  require 'flay'
+  require 'roodi'
+  require 'roodi_task'
+  require 'metric_fu'
+rescue LoadError
+end
 
 desc "Analyze for code complexity"
 task :flog do
@@ -13,7 +16,7 @@ task :flog do
   bad_methods = flog.totals.select do |name, score|
     score > threshold
   end
-  bad_methods.sort { |a,b| a[1] <=> b[1] }.each do |name, score|
+  bad_methods.sort { |a, b| a[1] <=> b[1] }.each do |name, score|
     puts "%8.1f: %s" % [score, name]
   end
 
