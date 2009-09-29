@@ -36,3 +36,9 @@ set :gateway, "jdfrens@cs-ssh.calvin.edu"
 role :web, "yags.calvin.edu"
 role :app, "yags.calvin.edu"
 role :db, "yags.calvin.edu", :primary => true
+
+task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
+  run <<-CMD
+    cd #{release_path} && ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml
+  CMD
+end

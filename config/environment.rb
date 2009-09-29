@@ -22,7 +22,6 @@ ab42f1f26f41a724f67ac07538d'
   # gems
   config.gem "RedCloth", :lib => 'redcloth' #, :version => ">= 4.0"
   config.gem "imagesize", :lib => 'image_size'
-  config.gem 'jscruggs-metric_fu', :lib => 'metric_fu', :source => 'http://gems.github.com'
   config.gem 'rcov'
 end
 
