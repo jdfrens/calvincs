@@ -7,6 +7,7 @@ set :repository,  "git://github.com/jdfrens/calvincs.git"
 set :branch, "master"
 # set :scm_passphrase, "p@ssw0rd" #This is your custom users password
 set :user, "calvincs"
+set :runner, "calvincs"
 
 # If you have previously been relying upon the code to start, stop 
 # and restart your mongrel application, or if you rely on the database
@@ -39,6 +40,6 @@ role :db, "yags.calvin.edu", :primary => true
 
 task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
   run <<-CMD
-    cd #{release_path} && ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml
+    cd #{release_path} && ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml && ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml
   CMD
 end
