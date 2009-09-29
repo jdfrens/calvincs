@@ -34,6 +34,9 @@ task :flay do
   raise "#{flay.masses.size} chunks of code have a duplicate mass > #{threshold}" unless flay.masses.empty?
 end
 
-RoodiTask.new 'roodi', ['app/**/*.rb'], 'config/roodi.yml'
+begin
+  RoodiTask.new 'roodi', ['app/**/*.rb'], 'config/roodi.yml'
+rescue NameError
+end
 
 task :quality => [:flog, :flay, :roodi, 'metrics:all']
