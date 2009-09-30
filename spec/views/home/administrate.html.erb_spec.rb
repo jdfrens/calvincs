@@ -13,8 +13,8 @@ describe "/home/administrate.html.erb" do
 
     response.should have_tag('h2', "News and Events")
     response.should have_tag("ul#news_administration") do
-      with_tag("a[href=/newsitems]", /list news items/i)
       with_tag("a[href=/newsitems/new]", /create news item/i)
+      with_tag("a[href=/events/new]", /create event/i)
     end
   end
 

@@ -28,8 +28,8 @@ Feature: managing news items
     And the following news items
       | headline | teaser | content               |
       | News!    | na na! | No news is good news. |
-    When I go to the administration page
-    And I follow "List news items"
+    When I go to the home page
+    And I follow "News"
     Then I should be on the current news page
     When I follow "edit..."
     Then I should see "No news is good news."

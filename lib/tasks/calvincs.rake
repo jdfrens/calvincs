@@ -8,22 +8,33 @@ namespace :calvincs do
 
   desc "creates user in editor group with edit privilege"
   task :editor => :environment
-  task :editor, [:username] do |t, args|
+  task :editor, [:group, :username] do |t, args|
     fail "user with username #{args.username} exists!" if User.find_by_username(args.username)
-    editor = Group.find_or_create_by_name("editor")
-    edit = Privilege.find_by_name("edit")
-    editor.privileges << edit
-    user = User.create!(:username => args.username, :email_address => "#{args.name}@example.com",
-            :password_hash => User.hash_password('calvin'), :group => editor)
+    group = Group.find_by_name(args.group)
+    salt = generate_salt
+    user = User.create!(
+            :username => args.username, :email_address => "#{args.username}@calvin.edu",
+            :password_hash => User.hash_password('calvin', salt), :salt => salt,
+            :group => editor, :activate => true)
     user.save!
     editor.save!
-    edit.save!
   end
 
   desc "change the password of a user"
-  task :password, [:username, :password] do |t, args|
+  task :password, [:username] do |t, args|
     user = User.find_by_username(args.username)
-    user.password_hash = User.hash_password(args.password)
+    password = get_password
+    salt = generate_salt
+    user.password_hash = User.hash_password(args.password, salt)
+    user.salt = salt
     user.save!
+  end
+
+  def get_password(prompt="Enter Password")
+     ask(prompt) {|q| q.echo = false}
+  end
+
+  def generate_salt()
+    (0...4).map{65.+(rand(25)).chr}.join
   end
 end
