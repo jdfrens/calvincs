@@ -80,6 +80,16 @@ div#navbar li a {
 }
 
 /***********************/
+/* Arrowed lists       */
+/***********************/
+
+.arrows li {
+	list-style-image: url(/images/arrow.gif);
+	font-size: 130%;
+	line-height: 1.5em;
+}
+
+/***********************/
 /* Images on page      */
 /***********************/
 
