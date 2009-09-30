@@ -15,8 +15,7 @@ Rails::Initializer.run do |config|
 
   config.action_controller.session = {
     :session_key => '_calvincs_session',
-    :secret      => '8592658a59e6ea19cd9b20cf63373e3f63959d719cb7ec219116cda15f79d46fffd13bce4d9e53d25e4ce5f6070b382283b1e
-ab42f1f26f41a724f67ac07538d'
+    :secret      => File.read(File.join(RAILS_ROOT, "config", "secret.txt"))
   }
   
   # gems
