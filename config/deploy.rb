@@ -5,7 +5,7 @@ set :application, "calvincs"
 set :scm, "git"
 set :repository,  "git://github.com/jdfrens/calvincs.git"
 set :branch, "master"
-# set :scm_passphrase, "p@ssw0rd" #This is your custom users password
+
 set :user, "calvincs"
 set :runner, "calvincs"
 
@@ -42,4 +42,14 @@ task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
   run <<-CMD
     cd #{release_path} && ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml && ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml
   CMD
+end
+
+set :mongrel_config, "/srv/www/calvincs/shared/config/mongrel_cluster.yml"
+
+namespace :deploy do
+
+  task :restart do
+    sudo "mongrel_rails cluster::restart -C #{mongrel_config}"
+  end
+
 end
