@@ -1,3 +1,0 @@
-test:
-  adapter: sqlite3
-  database: vendor/plugins/migration_test_helper/test/db/test.sqlite3.db

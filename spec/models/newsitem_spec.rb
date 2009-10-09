@@ -4,9 +4,6 @@ describe Newsitem do
 
   fixtures :newsitems, :users
 
-  should_require_attributes :headline, :teaser, :content, :expires_at, :goes_live_at
-  should_belong_to :user
-
   def test_user_required
     newsitem = Newsitem.new(
             :headline => 'Valid headline',

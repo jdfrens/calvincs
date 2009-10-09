@@ -21,7 +21,7 @@ Rails::Initializer.run do |config|
   # gems
   config.gem "RedCloth", :lib => 'redcloth' #, :version => ">= 4.0"
   config.gem "imagesize", :lib => 'image_size'
-  config.gem 'rcov'
+  config.gem 'rcov'   
 end
 
 # time formats

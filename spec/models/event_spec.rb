@@ -4,11 +4,6 @@ describe Event do
 
   fixtures :events
 
-  should_require_attributes :title
-  should_require_attributes :descriptor
-  should_require_attributes :start
-  should_require_attributes :stop
-
   context "creating instances of the subclasses" do
     it "should create a colloquium" do
       params = { :kind => "colloquium", :foo => mock("foo param") }
