@@ -27,7 +27,8 @@ module EventHelpers
   def create_colloquium(hash)
     hash = { "start" => 24.hours.from_now.to_s(:db),
              "stop" =>  25.hours.from_now.to_s(:db),
-             "descriptor" => "colloquium" }.merge(hash)
+             "descriptor" => "colloquium",
+             "description" => "very boring description" }.merge(hash)
     case hash["when"]
       when "yesterday"
         hash = hash.merge("start" => 24.hours.ago.to_s(:db), "stop" => 23.hours.ago.to_s(:db))
@@ -38,7 +39,7 @@ module EventHelpers
     end
     Colloquium.create!(:title => hash["title"], :subtitle => hash["subtitle"],
                        :start => hash["start"], :stop => hash["stop"],
-                       :descriptor => hash["descriptor"])
+                       :descriptor => hash["descriptor"], :description =>hash["description"])
   end
 
   def create_conference(hash)

@@ -21,7 +21,7 @@ describe "/events/view.html.erb" do
     it "should have a complete title" do
       response.should have_selector("div#title") do |div|
         div.should have_selector("h1", :content => "The Title")
-        div.should have_selector("h2#subtitle", :content => "The Subtitle")
+        div.should have_selector(".subtitle", :content => "The Subtitle")
       end
     end
 

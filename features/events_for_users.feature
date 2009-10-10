@@ -58,3 +58,13 @@ Feature: managing events
     And I should not see "Events of 2009"
     And I should see "Barfoo 2007"
     And I should not see "Foobar 2009"
+
+  Scenario: see one event
+    Given the following colloquia
+      | title    | when     | description                        |
+      | Get Real | tomorrow | It is better to be real than fake. |
+    When I go to the list of events
+    And I follow "more..."
+    Then I should see "Get Real"
+    And I should see "It is better to be real than fake."
+    And I should not see "edit..."

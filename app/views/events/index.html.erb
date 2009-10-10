@@ -1,14 +1,12 @@
 <h1><%= @title %></h1>
 
-<p><%= link_to "Event archive", events_path(:year => "all") %></p> 
+<p><%= link_to "Event archive", events_path(:year => "all") %></p>
 
 <% @events.each do |event| -%>
     <div id="event-<%= event.id %>">
       <h2>
         <%= format_titles event %>
-        <% if current_user -%>
-            <span class="more"><%= link_to "edit...", edit_event_path(event) %></span>
-        <% end -%>
+        <span class="more"><%= link_to "more...", event_path(event) %></span>
       </h2>
 
       <p>

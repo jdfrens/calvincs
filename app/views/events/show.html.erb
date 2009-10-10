@@ -1,14 +1,16 @@
 <div id="title">
-  <h1><%= textilize_without_paragraph @event.title %></h1>
-  <% if @event.subtitle -%>
-    <h2 id="subtitle"><%= textilize_without_paragraph @event.subtitle %></h2>
-  <% end -%>
+  <h1>
+    <%= format_titles @event %>
+    <% if current_user -%>
+        <span class="more"><%= link_to "edit...", edit_event_path(@event) %></span>
+    <% end -%>
+  </h1>
 </div>
 
 <% if @event.presenter -%>
-  <div id="event-presenter">
-    <p><%= textilize_without_paragraph @event.presenter %></p>
-  </div>
+    <div id="event-presenter">
+      <p><%= textilize_without_paragraph @event.presenter %></p>
+    </div>
 <% end -%>
 
 <div id="event-description">
