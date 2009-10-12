@@ -39,7 +39,8 @@ module EventHelpers
     end
     Colloquium.create!(:title => hash["title"], :subtitle => hash["subtitle"],
                        :start => hash["start"], :stop => hash["stop"],
-                       :descriptor => hash["descriptor"], :description =>hash["description"])
+                       :presenter => hash["presenter"], :location => hash["location"],
+                       :descriptor => hash["descriptor"], :description => hash["description"])
   end
 
   def create_conference(hash)

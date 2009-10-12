@@ -61,10 +61,12 @@ Feature: managing events
 
   Scenario: see one event
     Given the following colloquia
-      | title    | when     | description                        |
-      | Get Real | tomorrow | It is better to be real than fake. |
+      | title    | when     | description                        | presenter | location |
+      | Get Real | tomorrow | It is better to be real than fake. | Bob       | Room 101 |
     When I go to the list of events
     And I follow "more..."
     Then I should see "Get Real"
     And I should see "It is better to be real than fake."
+    And I should see "Bob"
+    And I should see "Room 101"
     And I should not see "edit..."

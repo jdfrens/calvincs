@@ -7,7 +7,8 @@ describe "/events/view.html.erb" do
     before(:each) do
       event = mock(
               :title => "The Title", :subtitle => "The Subtitle",
-                      :presenter => "Dr. Presenter", :description => "The Description")
+                      :presenter => "Dr. Presenter", :location => "Room 101",
+                      :description => "The Description")
 
       assigns[:event] = event
       expect_textilize_wop("The Title")
@@ -26,7 +27,11 @@ describe "/events/view.html.erb" do
     end
 
     it "should have a presenter" do
-      assert_select "div#event-presenter", "Dr. Presenter"
+      assert_select ".presenter", "Dr. Presenter"
+    end
+
+    it "should have a location" do
+      response.should have_selector(".location", :content => "Room 101")
     end
 
     it "should have a description" do
@@ -38,7 +43,8 @@ describe "/events/view.html.erb" do
     before(:each) do
       event = mock_model(Event,
               :title => "The Title", :subtitle => nil,
-              :presenter => nil, :description => "The Description")
+              :presenter => nil, :location => nil,
+              :description => "The Description")
       assigns[:event] = event
       expect_textilize_wop("The Title")
       expect_textilize("The Description")
@@ -54,7 +60,11 @@ describe "/events/view.html.erb" do
     end
 
     it "should not have presenter" do
-      response.should_not have_selector("div#event-presenter")
+      response.should_not have_selector(".presenter")
+    end
+
+    it "should not have location" do
+      response.should_not have_selector(".location")
     end
 
     it "should still have a description" do

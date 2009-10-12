@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090905181738
+# Schema version: 20091012011757
 #
 # Table name: events
 #
@@ -14,6 +14,7 @@
 #  presenter   :string(255)
 #  updated_at  :datetime
 #  created_at  :datetime
+#  location    :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

@@ -7,11 +7,14 @@
   </h1>
 </div>
 
-<% if @event.presenter -%>
-    <div id="event-presenter">
-      <p><%= textilize_without_paragraph @event.presenter %></p>
-    </div>
-<% end -%>
+<p>
+  <% if @event.presenter -%>
+      <span class="presenter"><%= textilize_without_paragraph @event.presenter %></span>
+  <% end -%>
+  <% if @event.location -%>
+      <span class="location"><%=h @event.location %></span>
+  <% end -%>
+</p>
 
 <div id="event-description">
   <%= textilize @event.description %>
