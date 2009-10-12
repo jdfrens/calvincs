@@ -9,10 +9,10 @@
 
 <p>
   <% if @event.presenter -%>
-      <span class="presenter"><%= textilize_without_paragraph @event.presenter %></span>
+      <span class="presenter"><%= textilize_without_paragraph @event.presenter %></span><br />
   <% end -%>
   <% if @event.location -%>
-      <span class="location"><%=h @event.location %></span>
+      <span class="location"><%=h @event.location %></span><br />
   <% end -%>
 </p>
 

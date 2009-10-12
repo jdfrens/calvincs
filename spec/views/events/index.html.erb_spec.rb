@@ -43,5 +43,26 @@ describe "/events/index.html.erb" do
     end
   end
 
-end 
+  describe "rendering an event" do
+    before(:each) do
+      timing = mock("timing", :to_s => "the timing")
+      @event = mock_model(Event, :timing => timing, :presenter => nil, :location => nil)
+      assigns[:events] = [@event]
+      assigns[:title] = "The Title"
+      template.should_receive(:format_titles).with(@event).and_return("the titles!")
+      template.stub!(:current_user).and_return(false)
+
+      render "events/index"
+    end
+
+    it "should not have a presenter" do
+      response.should_not have_selector(".presenter")
+    end
+
+    it "should not have a location" do
+      response.should_not have_selector(".location")
+    end
+
+  end
+end
 

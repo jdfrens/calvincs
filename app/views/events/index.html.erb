@@ -10,9 +10,13 @@
       </h2>
 
       <p>
-        <span class="presenter"><%=h event.presenter %></span>
-        <span class="location"><%=h event.location %></span>
-        <span class="when"><%= event.timing %></span>
+        <% if event.presenter -%>
+            <span class="presenter"><%= h event.presenter %></span><br/>
+        <% end -%>
+        <% if event.location -%>
+        <span class="location"><%= h event.location %></span><br/>
+        <% end -%>
+        <span class="when"><%= event.timing %></span><br/>
       </p>
     </div>
 <% end -%>
