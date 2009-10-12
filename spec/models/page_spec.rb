@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: pages
+#
+#  id         :integer         not null, primary key
+#  identifier :string(255)
+#  content    :text
+#  title      :string(255)
+#  updated_at :datetime
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Page do

@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: courses
+#
+#  id          :integer         not null, primary key
+#  department  :string(255)
+#  number      :integer
+#  credits     :integer
+#  title       :string(255)
+#  description :text
+#  created_at  :datetime
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 cs108:
   id: 3

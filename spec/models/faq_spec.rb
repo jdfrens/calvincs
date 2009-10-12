@@ -1,3 +1,14 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: faqs
+#
+#  id         :integer         not null, primary key
+#  title      :string(255)
+#  identifier :string(255)
+#  updated_at :datetime
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Faq do

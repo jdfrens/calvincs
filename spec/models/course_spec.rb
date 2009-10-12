@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: courses
+#
+#  id          :integer         not null, primary key
+#  department  :string(255)
+#  number      :integer
+#  credits     :integer
+#  title       :string(255)
+#  description :text
+#  created_at  :datetime
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Course do

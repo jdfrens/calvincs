@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: images
+#
+#  id      :integer         not null, primary key
+#  url     :string(255)
+#  caption :text(255)
+#  width   :integer
+#  height  :integer
+#
+
 class Image < ActiveRecord::Base
 
   has_many :image_tags, :dependent => :delete_all

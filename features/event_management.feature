@@ -8,16 +8,20 @@ Feature: managing events
     When I go to the new event page
     Then I should be on the login page
 
+  @wip
   Scenario: add a colloquium
     Given I am logged in as an editor
     When I am on the new event page
     And I select "Colloquium" from "event[kind]"
     And I fill in "event[title]" with "Amazing Ruby Code"
+    And I fill in "event[subtitle]" with "Check It Out!"
+    And I fill in "event[presenter]" with "Charles M. Ruby"
     And I select tomorrow at "16:00" as the date and time
     And I fill in "event[length]" with "1.5"
     And I press "Create"
     Then I should be on the list of events
-    And I should see "Amazing Ruby Code"
+    And I should see "Amazing Ruby Code: Check It Out!"
+    And I should see "Charles M. Ruby"
     And I should see "4:00 PM"
 
   Scenario: add a conference

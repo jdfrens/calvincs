@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: questions
+#
+#  id         :integer         not null, primary key
+#  query      :text
+#  answer     :text
+#  faq_id     :integer
+#  position   :integer
+#  updated_at :datetime
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 student2:
   id: 1

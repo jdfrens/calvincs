@@ -1,3 +1,13 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: image_tags
+#
+#  id       :integer         not null, primary key
+#  image_id :integer
+#  tag      :string(255)
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 for_mission:
   id: 1

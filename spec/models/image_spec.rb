@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: images
+#
+#  id      :integer         not null, primary key
+#  url     :string(255)
+#  caption :text(255)
+#  width   :integer
+#  height  :integer
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 class ImageTest < ActiveRecord::TestCase

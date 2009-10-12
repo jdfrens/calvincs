@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: newsitems
+#
+#  id           :integer         not null, primary key
+#  headline     :string(255)
+#  content      :text
+#  user_id      :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  expires_at   :datetime
+#  teaser       :string(255)
+#  goes_live_at :datetime
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Newsitem do

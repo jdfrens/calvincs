@@ -5,7 +5,7 @@ describe "/events/index.html.erb" do
   describe "rendering an event" do
     before(:each) do
       timing = mock("timing", :to_s => "the timing")
-      @event = mock_model(Event, :timing => timing)
+      @event = mock_model(Event, :timing => timing, :presenter => "Charles M. Ruby")
       assigns[:events] = [@event]
       assigns[:title] = "The Title"
       template.should_receive(:format_titles).with(@event).and_return("the titles!")
@@ -22,6 +22,10 @@ describe "/events/index.html.erb" do
       assert_select "div#event-#{@event.id}" do
         assert_select "h2", /the titles!/
       end
+    end
+
+    it "should have a presenter" do
+      response.should have_selector(".presenter", :content => "Charles M. Ruby")
     end
 
     it "should have a time" do

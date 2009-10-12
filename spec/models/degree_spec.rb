@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: degrees
+#
+#  id          :integer         not null, primary key
+#  user_id     :integer
+#  degree_type :string(255)
+#  institution :string(255)
+#  url         :string(255)
+#  year        :integer
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 class DegreeTest < ActiveRecord::TestCase

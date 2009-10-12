@@ -1,3 +1,26 @@
+# == Schema Information
+# Schema version: 20090905181738
+#
+# Table name: users
+#
+#  id                           :integer         not null, primary key
+#  username                     :string(255)
+#  password_hash                :string(255)
+#  role_id                      :integer
+#  email_address                :string(255)
+#  last_name                    :string(255)
+#  first_name                   :string(255)
+#  office_phone                 :string(255)
+#  office_location              :string(255)
+#  job_title                    :string(255)
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  salt                         :string(255)
+#  active                       :boolean
+#  remember_me_token            :string(255)
+#  remember_me_token_expires_at :datetime
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 calvin:
   id: 1

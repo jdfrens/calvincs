@@ -4,7 +4,9 @@ describe "/events/_form.html.erb" do
 
   it "should view a form for a new event" do
     event = mock_model(Event, :new_record? => true, :kind => "Conference", :title => "the title",
-                       :subtitle => "the subtitle", :description => "description!",
+                       :subtitle => "the subtitle",
+                       :presenter => 'the presenter',
+                       :description => "description!",
                        :start => Time.now, :length => 1)
     assigns[:event] = event
 
@@ -18,6 +20,7 @@ describe "/events/_form.html.erb" do
       end
       form.inner_html.should have_selector "input#event_title"
       form.inner_html.should have_selector "input#event_subtitle"
+      form.inner_html.should have_selector "input#event_presenter"
       form.inner_html.should have_selector "textarea#event_description"
       form.inner_html.should have_selector "input#event_length"
       form.inner_html.should have_selector "input[type=submit]"
@@ -26,7 +29,8 @@ describe "/events/_form.html.erb" do
 
   it "should view a form to edit an event" do
     event = mock_model(Event, :new_record? => false, :kind => "Conference", :title => "the title",
-                       :subtitle => "the subtitle", :description => "description!",
+                       :subtitle => "the subtitle", :presenter => "presenter",
+                       :description => "description!",
                        :start => Time.now, :length => 1)
     assigns[:event] = event
 
