@@ -24,7 +24,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new
+    @event = Event.new_event(:kind => "colloquium", :start => Time.now, :length => 1)
   end
 
   def create

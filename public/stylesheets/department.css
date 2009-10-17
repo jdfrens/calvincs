@@ -209,6 +209,17 @@ div#news li {
     list-style-type: none;
 }
 
+/******************/
+/* Events listing */
+/******************/
+
+.event h2 {
+    margin-bottom: 0;
+}
+.event p {
+    margin-top: 0;
+}
+
 /*******************************/
 /* Displaying whole news items */
 /*******************************/

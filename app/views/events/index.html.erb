@@ -1,22 +1,26 @@
-<h1><%= @title %></h1>
-
-<p><%= link_to "Event archive", events_path(:year => "all") %></p>
+<h1>
+  <%= @title %>
+  <span style="float: right;">
+    <%= link_to "current", events_path, :class => "more" %>
+    <%= link_to "archive", events_path(:year => "all"), :class => "more" %>
+  </span>
+</h1>
 
 <% @events.each do |event| -%>
-    <div id="event-<%= event.id %>">
+    <div class="event" id="event-<%= event.id %>">
       <h2>
         <%= format_titles event %>
         <span class="more"><%= link_to "more...", event_path(event) %></span>
       </h2>
 
-      <p>
-        <% if event.presenter -%>
+      <p class="more">
+        <% unless event.presenter.blank? -%>
             <span class="presenter"><%= h event.presenter %></span><br/>
         <% end -%>
-        <% if event.location -%>
-        <span class="location"><%= h event.location %></span><br/>
+        <% unless event.location.blank? -%>
+            <span class="location"><%= h event.location %></span><br/>
         <% end -%>
-        <span class="when"><%= event.timing %></span><br/>
+        <span class="when"><%= event.timing %></span>
       </p>
     </div>
 <% end -%>

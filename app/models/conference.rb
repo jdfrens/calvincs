@@ -31,4 +31,8 @@ class Conference < Event
     "#{start.to_s(:conference)} thru #{stop.to_s(:conference)}"
   end
 
+  def scale
+    "days"
+  end
+
 end

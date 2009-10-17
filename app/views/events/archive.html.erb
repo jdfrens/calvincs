@@ -1,4 +1,10 @@
-<h1>Years of Events</h1>
+<h1>
+  Years of Events
+  <span style="float: right;">
+    <%= link_to "current", events_path, :class => "more" %>
+    <%= link_to "archive", events_path(:year => "all"), :class => "more" %>
+  </span>
+</h1>
 
 <% @years.each do |year| -%>
     <p><%= link_to "Events of #{year}", events_path(:year => year) %></p>

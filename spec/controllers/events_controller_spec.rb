@@ -66,11 +66,15 @@ describe EventsController do
     end
   end
 
-  describe "building a new event" do
+  describe "creating a new event" do
 
     user_fixtures
 
     it "should have a new action with a form" do
+      Timecop.freeze(Time.now)
+      event = mock("event")
+      Event.should_receive(:new_event).with(:kind => "colloquium", :start => Time.now, :length => 1).and_return(event)
+      
       get :new, {}, user_session(:edit)
 
       assert_response :success

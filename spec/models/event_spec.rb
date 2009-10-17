@@ -119,6 +119,16 @@ describe Event do
     end
   end
 
+  describe "gettings the scale of an event" do
+    it "should be hours for a colloquium" do   
+      events(:todays_colloquium).scale.should == "hours"
+    end
+
+    it "should be days for a conference" do
+      events(:next_weeks_conference).scale.should == "days"
+    end
+  end
+
   describe "the timing of an event" do
     it "should use just the start datetime of a colloquium" do
       start = mock("start time")

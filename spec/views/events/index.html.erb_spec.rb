@@ -15,7 +15,7 @@ describe "/events/index.html.erb" do
     end
 
     it "should have a header" do
-      assert_select "h1", "The Title"
+      response.should have_selector("h1", :content => "The Title")
     end
 
     it "should have a title" do

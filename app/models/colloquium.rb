@@ -27,6 +27,10 @@ class Colloquium < Event
     @length = t.to_i.hours
   end
 
+  def scale
+    "hours"
+  end
+
   def timing
     start.to_s(:colloquium)
   end

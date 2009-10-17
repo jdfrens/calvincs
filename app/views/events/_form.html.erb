@@ -6,15 +6,15 @@
 <% form_for @event do |form| -%>
   <table border="0" summary="event form">
     <tr>
-      <td>Type of event:</td>
+      <td><%= form.label :kind, "Type of event" %></td>
       <td><%= form.select :kind, ["Colloquium", "Conference"] %></td>
     </tr>
     <tr>
-      <td><%= form.label :title, "Title:" %></td>
+      <td><%= form.label :title %></td>
       <td><%= form.text_field :title %></td>
     </tr>
     <tr>
-      <td>Subtitle (optional):</td>
+      <td><%= form.label :subtitle, "Subtitle (optional)" %></td>
       <td><%= form.text_field :subtitle %></td>
     </tr>
     <tr>
@@ -26,16 +26,16 @@
       <td><%= form.text_field :location %></td>
     </tr>
     <tr>
-      <td>Description/abstract:</td>
+      <td><%= form.label :description, "Description/abstract" %></td>
       <td><%= form.text_area :description, :cols => 60, :rows => 10 %></td>
     </tr>
     <tr>
-      <td>Starting date and time:</td>
+      <td><%= form.label :start, "Starting date and time" %></td>
       <td><%= form.datetime_select :start %></td>
     </tr>
     <tr>
-      <td><%= form.label :length, "Length:" %></td>
-      <td><%= form.text_field :length, :size => 3 %></td>
+      <td><%= form.label :length %></td>
+      <td><%= form.text_field :length, :size => 3 %> <span id="scale"><%= @event.scale %></span></td>
     </tr>
     <tr>
       <td></td>

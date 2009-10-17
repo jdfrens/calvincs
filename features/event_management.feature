@@ -8,6 +8,7 @@ Feature: managing events
     When I go to the new event page
     Then I should be on the login page
 
+  @wip
   Scenario: add a colloquium
     Given I am logged in as an editor
     When I am on the new event page
@@ -25,6 +26,7 @@ Feature: managing events
     And I should see "Room of Presentations"
     And I should see "4:00 PM"
 
+  @wip
   Scenario: add a conference
     Given I am logged in as an editor
     When I am on the new event page
