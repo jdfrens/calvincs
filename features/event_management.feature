@@ -8,17 +8,16 @@ Feature: managing events
     When I go to the new event page
     Then I should be on the login page
 
-  @wip
   Scenario: add a colloquium
     Given I am logged in as an editor
-    When I am on the new event page
-    And I select "Colloquium" from "event[kind]"
-    And I fill in "event[title]" with "Amazing Ruby Code"
-    And I fill in "event[subtitle]" with "Check It Out!"
-    And I fill in "event[presenter]" with "Charles M. Ruby"
+    When I am on the administration page
+    And I follow "Create new colloquium"
+    And I fill in "Title" with "Amazing Ruby Code"
+    And I fill in "Subtitle" with "Check It Out!"
+    And I fill in "Presenter" with "Charles M. Ruby"
     And I fill in "Location" with "Room of Presentations"
     And I select tomorrow at "16:00" as the date and time
-    And I fill in "event[length]" with "1.5"
+    And I fill in "Length" with "1.5"
     And I press "Create"
     Then I should be on the list of events
     And I should see "Amazing Ruby Code: Check It Out!"
@@ -29,11 +28,11 @@ Feature: managing events
   @wip
   Scenario: add a conference
     Given I am logged in as an editor
-    When I am on the new event page
-    And I select "Conference" from "event[kind]"
-    And I fill in "event[title]" with "Meeting of the Railers"
+    When I am on the administration page
+    And I follow "Create new conference"
+    And I fill in "Title" with "Meeting of the Railers"
     And I select tomorrow as the date
-    And I fill in "event[length]" with "2"
+    And I fill in "Length" with "2"
     And I press "Create"
     Then I should be on the list of events
     And I should see "Meeting of the Railers"

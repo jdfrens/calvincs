@@ -24,11 +24,13 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new_event(:kind => "colloquium", :start => Time.now, :length => 1)
+    start = Chronic.parse("tomorrow at 3:30pm")
+    stop = start + 1.hour
+    @event = Event.new_event(:kind => "Colloquium", :start => start, :stop => stop)
   end
 
   def create
-    @event = Event.new_event(params[:event])
+    @event = Event.new_event(params[:colloquium] || params[:conference])
     if @event.save
       redirect_to events_path
     else

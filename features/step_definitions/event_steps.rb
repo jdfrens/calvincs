@@ -44,16 +44,10 @@ module EventHelpers
   end
 
   def create_conference(hash)
-    hash = { "start" => 2.days.from_now.to_s(:db),
-             "stop" => 5.days.from_now.to_s(:db),
-             "descriptor" => "conference" }.merge(hash)
-    case hash["when"]
-      when "yesterday"
-        hash = hash.merge("start" => 5.days.ago.to_s(:db), "stop" => 1.day.ago.to_s(:db))
-    end
-    Conference.create!(:title => hash["title"],
-                       :start => hash["start"], :stop => hash["stop"],
-                       :descriptor => hash["descriptor"])
+    hash = { "descriptor" => "conference" }.merge(hash)
+    hash["start"] = (Chronic.parse(hash["start"]) || 2.days.from_now).to_s(:db)
+    hash["stop"] = (Chronic.parse(hash["stop"]) || 2.days.from_now).to_s(:db)
+    Conference.create!(hash)
   end
 end
 World(EventHelpers)

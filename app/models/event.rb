@@ -61,7 +61,7 @@ class Event < ActiveRecord::Base
     case params[:kind].downcase
       when "colloquium"
         Colloquium.new(params)
-      when "conference":
+      when "conference"
         Conference.new(params)
       else
         raise "Invalid event type #{params[:kind]}"

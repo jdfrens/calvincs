@@ -19,9 +19,10 @@ Rails::Initializer.run do |config|
   }
   
   # gems
-  config.gem "RedCloth", :lib => 'redcloth' #, :version => ">= 4.0"
+  config.gem "RedCloth", :lib => 'redcloth'
   config.gem "imagesize", :lib => 'image_size'
-  config.gem 'rcov'   
+  config.gem 'rcov'
+  config.gem "chronic", :version => ">= 0.2.3"
 end
 
 # time formats

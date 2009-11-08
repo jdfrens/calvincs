@@ -14,10 +14,7 @@ Feature: the home page
     And I should see "sploosh!"
 
   Scenario: see the home page with an event today
-    Given the following pages
-      | identifier   | title           | content      |
-      | _home_page   | does not matter | some content |
-      | _home_splash | does not matter | sploosh!     |
+    Given the subpages for the home page
     And the following colloquia
       | title    | when     |
       | Get Real | tomorrow |
@@ -30,24 +27,27 @@ Feature: the home page
     Then I should see "Get Real"
 
   Scenario: see the home page with an event tomorrow
-    Given the following pages
-      | identifier   | title           | content      |
-      | _home_page   | does not matter | some content |
-      | _home_splash | does not matter | sploosh!     |
+    Given the subpages for the home page
     And the following colloquia
-      | title    | when     |
+      | title    | when  |
       | Get Real | today |
     When I go to the homepage
-    Then I should be on the homepage
+    Then I should see "Get Real"
     And I should see "Colloquium today!"
     And I should not see "Colloquium this week!"
-    And I should see "Get Real"
+
+  Scenario:see the home page with a conference today and tomorrow
+    Given the subpages for the home page
+    And the following conferences
+      | title    | start     | stop            |
+      | GLSEC    | yesterday | tomorrow |
+    When I go to the homepage
+    Then I should see "GLSEC"
+    And I should see "Conference today!"
+    And I should not see "Conference this week!"
 
   Scenario: see the home page with certain events
-    Given the following pages
-      | identifier   | title           | content      |
-      | _home_page   | does not matter | some content |
-      | _home_splash | does not matter | sploosh!     |
+    Given the subpages for the home page
     And the following colloquia
       | title       | when      |
       | Old West    | yesterday |
@@ -61,10 +61,7 @@ Feature: the home page
     And I should see "The Future"
 
   Scenario: see the home page with some news
-    Given the following pages
-      | identifier   | title           | content      |
-      | _home_page   | does not matter | some content |
-      | _home_splash | does not matter | sploosh!     |
+    Given the subpages for the home page
     And the following news items
       | headline | teaser | content               |
       | News!    | na na! | No news is good news. |
@@ -78,10 +75,9 @@ Feature: the home page
     And I should see "No news is good news."
 
   Scenario: try every page on the main menu
+    Given the subpages for the home page
     Given the following pages
       | identifier   | title           | content      |
-      | _home_page   | does not matter | some content |
-      | _home_splash | does not matter | sploosh!     |
       | about_us     | All About Us    | About all us all. |
       | academics    | Academics       | Academe me! |
       | students     | Students!       | Students rule like nothing else. |

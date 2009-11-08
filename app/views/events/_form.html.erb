@@ -4,11 +4,8 @@
 </ul>
 
 <% form_for @event do |form| -%>
+  <%= form.hidden_field :kind %>
   <table border="0" summary="event form">
-    <tr>
-      <td><%= form.label :kind, "Type of event" %></td>
-      <td><%= form.select :kind, ["Colloquium", "Conference"] %></td>
-    </tr>
     <tr>
       <td><%= form.label :title %></td>
       <td><%= form.text_field :title %></td>
@@ -35,7 +32,8 @@
     </tr>
     <tr>
       <td><%= form.label :length %></td>
-      <td><%= form.text_field :length, :size => 3 %> <span id="scale"><%= @event.scale %></span></td>
+      <td><%= form.text_field :length, :size => 3 %>
+        <span id="scale"><%= @event.scale %></span></td>
     </tr>
     <tr>
       <td></td>

@@ -71,9 +71,14 @@ describe EventsController do
     user_fixtures
 
     it "should have a new action with a form" do
-      Timecop.freeze(Time.now)
       event = mock("event")
-      Event.should_receive(:new_event).with(:kind => "colloquium", :start => Time.now, :length => 1).and_return(event)
+      start = mock("start")
+      stop = mock("stop")
+
+      Chronic.should_receive(:parse).with("tomorrow at 3:30pm").and_return(start)
+      start.should_receive(:+).with(1.hour).and_return(stop)
+      Event.should_receive(:new_event).
+              with(:kind => "Colloquium", :start => start, :stop => stop).and_return(event)
       
       get :new, {}, user_session(:edit)
 
@@ -87,11 +92,23 @@ describe EventsController do
       response.should redirect_to(:controller => 'users', :action => 'login')
     end
 
-    it "should create a new event" do
-      params = { :event => mock("event params") }
+    it "should create a new colloquium" do
+      params = { :colloquium => mock("event params") }
       event = mock("event")
 
-      Event.should_receive(:new_event).with(params[:event]).and_return(event)
+      Event.should_receive(:new_event).with(params[:colloquium]).and_return(event)
+      event.should_receive(:save).and_return(true)
+
+      post :create, params, user_session(:edit)
+      assigns[:event].should eql(event)
+      response.should redirect_to(:action => "index")
+    end
+
+    it "should create a new conference" do
+      params = { :conference => mock("event params") }
+      event = mock("event")
+
+      Event.should_receive(:new_event).with(params[:conference]).and_return(event)
       event.should_receive(:save).and_return(true)
 
       post :create, params, user_session(:edit)
@@ -100,10 +117,10 @@ describe EventsController do
     end
 
     it "should fail to create a new event" do
-      params = { :event => mock("event params") }
+      params = { :colloquium => mock("event params") }
       event = mock("event")
 
-      Event.should_receive(:new_event).with(params[:event]).and_return(event)
+      Event.should_receive(:new_event).with(params[:colloquium]).and_return(event)
       event.should_receive(:save).and_return(false)
 
       post :create, params, user_session(:edit)

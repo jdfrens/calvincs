@@ -4,8 +4,13 @@ end
 
 Given /^the following pages$/ do |table|
   table.hashes.each do |hash|
-    Page.create!(hash)
+    Page.create!({ :title => "NO TITLE GIVEN" }.merge(hash))
   end
+end
+
+Given /^the subpages for the home page$/ do
+  Page.create!(:identifier => "_home_page", :title => "not needed", :content => "whatever")
+  Page.create!(:identifier => "_home_splash", :title => "not needed", :content => "whatever")
 end
 
 Then /^I should create (\w+) page$/ do |identifier|
