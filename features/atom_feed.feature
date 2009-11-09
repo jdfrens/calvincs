@@ -37,37 +37,38 @@ Feature: the news and event atom feed
 
   Scenario: an event for today in the feed
     Given the following colloquia
-      | title    | subtitle  | when  |
-      | Get Real | No Really | today |
+      | title    | subtitle  | start              |
+      | Get Real | No Really | 5 minutes from now |
     When I go to the atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should see "Get Real: No Really" as entry title
 
   Scenario: multiple events for today in the feed
     Given the following colloquia
-      | title     | subtitle  | when  |
-      | Get Real  | No Really | today |
-      | Fantastic | Cool      | today |
-      | Michigan  | OSU       | today |
+      | title     | subtitle  | start           |
+      | Get Real  | No Really | today at 3:30pm |
+      | Fantastic | Cool      | today at 4:30pm |
+      | Michigan  | OSU       | today at 9:00am |
     When I go to the atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should see "Get Real: No Really" as entry title
     And I should see "Fantastic: Cool" as entry title
     And I should see "Michigan: OSU" as entry title
 
+  @wip
   Scenario: an upcoming event in the feed
     Given the following colloquia
-      | title    | subtitle  | when     |
-      | Get Real | No Really | tomorrow |
+      | title    | subtitle  | start              |
+      | Get Real | No Really | tomorrow at 3:30pm |
     When I go to the atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should see "Get Real: No Really" as entry title
 
   Scenario: multiple upcoming events in the feed
     Given the following colloquia
-      | title    | subtitle  | when            |
-      | Tomorrow | Is Now    | tomorrow        |
-      | Get Real | No Really | 4 days from now |
+      | title    | subtitle  | start                       |
+      | Tomorrow | Is Now    | tomorrow at 3:30pm          |
+      | Get Real | No Really | 4 days from today at 3:30pm |
     When I go to the atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should see "Tomorrow: Is Now" as entry title
@@ -75,9 +76,9 @@ Feature: the news and event atom feed
 
   Scenario: old and too future events are not in the feed
     Given the following colloquia
-      | title     | subtitle  | when            |
-      | Yesterday | Is Gone   | yesterday       |
-      | Future    | Is Scary  | 9 days from now |
+      | title     | subtitle  | start                       |
+      | Yesterday | Is Gone   | yesterday at 3:30pm         |
+      | Future    | Is Scary  | 9 days from today at 3:30pm |
     When I go to the atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should not see "Yesterday: Is Gone"

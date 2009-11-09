@@ -25,29 +25,25 @@ end
 
 module EventHelpers
   def create_colloquium(hash)
-    hash = { "start" => 24.hours.from_now.to_s(:db),
-             "stop" =>  25.hours.from_now.to_s(:db),
+    raise "don't specify when, use Chronic!" if hash["when"]
+    hash = { "start" => "tomorrow at 3:30pm",
              "descriptor" => "colloquium",
              "description" => "very boring description" }.merge(hash)
-    case hash["when"]
-      when "yesterday"
-        hash = hash.merge("start" => 24.hours.ago.to_s(:db), "stop" => 23.hours.ago.to_s(:db))
-      when "today"
-        hash = hash.merge("start" => 1.minute.from_now.to_s(:db), "stop" => 2.minutes.from_now.to_s(:db))
-      when /(\d+) days from now/
-        hash = hash.merge("start" => $1.to_i.days.from_now.to_s(:db), "stop" => ($1.to_i.days.from_now + 1.hour).to_s(:db))
+    hash["start"] = Chronic.parse(hash["start"])
+    unless hash["length"]
+      hash["stop"] = Chronic.parse(hash["stop"]) || (hash["start"] + 1.hour)
     end
-    Colloquium.create!(:title => hash["title"], :subtitle => hash["subtitle"],
-                       :start => hash["start"], :stop => hash["stop"],
-                       :presenter => hash["presenter"], :location => hash["location"],
-                       :descriptor => hash["descriptor"], :description => hash["description"])
+    Colloquium.create!(hash)
   end
 
   def create_conference(hash)
     hash = { "descriptor" => "conference" }.merge(hash)
-    hash["start"] = (Chronic.parse(hash["start"]) || 2.days.from_now).to_s(:db)
-    hash["stop"] = (Chronic.parse(hash["stop"]) || 2.days.from_now).to_s(:db)
+    hash["start"] = Chronic.parse(hash["start"]) || 2.days.from_now
+    unless hash["length"]
+      hash["stop"] = Chronic.parse(hash["stop"]) || hash["start"]
+    end
     Conference.create!(hash)
   end
 end
+
 World(EventHelpers)

@@ -18,15 +18,16 @@ Feature: managing events
     And I should see "Foobar 2009"
     And I should see "Barfoo 1692"
 
+  @wip
   Scenario: list only upcoming events
     Given the following colloquia
-      | title    | when      |
-      | Get Real | yesterday |
-      | Get Fake | tomorrow  |
+      | title    | start               |
+      | Get Real | yesterday at 3:30pm |
+      | Get Fake | tomorrow at 2:30pm  |
     And the following conferences
-      | title       | when      |
-      | Foobar 2009 | yesterday |
-      | Barfoo 1692 | tomorrow  |
+      | title       | start     | stop      |
+      | Foobar 2009 | yesterday | yesterday |
+      | Barfoo 1692 | tomorrow  | tomorrow  |
     When I go to the list of events
     Then I should not see "Get Real"
     And I should see "Get Fake"
@@ -35,9 +36,9 @@ Feature: managing events
 
   Scenario: list archive of events
     Given the following conferences
-      | title       | start            | length |
-      | Foobar 2009 | October 28, 2009 | 1      |
-      | Barfoo 2007 | August 15, 2007  | 2      |
+      | title       | start                     | length |
+      | Foobar 2009 | 28 October 2009 at 3:30pm | 1      |
+      | Barfoo 2007 | 15 August 2007 at 4:50pm  | 2      |
     When I go to the list of events
     And I follow "archive"
     Then I should see "Events"
@@ -48,9 +49,9 @@ Feature: managing events
 
   Scenario: list events for a specific year
     Given the following conferences
-      | title       | start            | length |
-      | Foobar 2009 | October 28, 2009 | 1      |
-      | Barfoo 2007 | August 15, 2007  | 2      |
+      | title       | start           | length |
+      | Foobar 2009 | 28 October 2009 | 1      |
+      | Barfoo 2007 | 15 August 2007  | 2      |
     When I go to the list of events
     And I follow "archive"
     And I follow "Events of 2007"
@@ -61,8 +62,8 @@ Feature: managing events
 
   Scenario: see one event
     Given the following colloquia
-      | title    | when     | description                        | presenter | location |
-      | Get Real | tomorrow | It is better to be real than fake. | Bob       | Room 101 |
+      | title    | start              | description                        | presenter | location |
+      | Get Real | tomorrow at 2:00pm | It is better to be real than fake. | Bob       | Room 101 |
     When I go to the list of events
     And I follow "more..."
     Then I should see "Get Real"

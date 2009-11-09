@@ -54,7 +54,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.within_week
-    find_within(1.day.from_now, 6.days.from_now)
+    find_within(Chronic.parse("midnight"), Chronic.parse("6 days from now at midnight"))
   end
 
   def self.new_event(params)

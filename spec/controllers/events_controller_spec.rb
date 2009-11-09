@@ -70,7 +70,7 @@ describe EventsController do
 
     user_fixtures
 
-    it "should have a new action with a form" do
+    it "should present a form for a new colloquium" do
       event = mock("event")
       start = mock("start")
       stop = mock("stop")
@@ -80,7 +80,23 @@ describe EventsController do
       Event.should_receive(:new_event).
               with(:kind => "Colloquium", :start => start, :stop => stop).and_return(event)
       
-      get :new, {}, user_session(:edit)
+      get :new, { :kind => "Colloquium" }, user_session(:edit)
+
+      assert_response :success
+      response.should render_template("events/new")
+    end
+
+    it "should present a form for a new conference" do
+      event = mock("event")
+      start = mock("start")
+      stop = mock("stop")
+
+      Chronic.should_receive(:parse).with("tomorrow at 3:30pm").and_return(start)
+      start.should_receive(:+).with(1.hour).and_return(stop)
+      Event.should_receive(:new_event).
+              with(:kind => "Conference", :start => start, :stop => stop).and_return(event)
+
+      get :new, { :kind => "Conference" }, user_session(:edit)
 
       assert_response :success
       response.should render_template("events/new")

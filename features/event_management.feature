@@ -25,7 +25,6 @@ Feature: managing events
     And I should see "Room of Presentations"
     And I should see "4:00 PM"
 
-  @wip
   Scenario: add a conference
     Given I am logged in as an editor
     When I am on the administration page
@@ -41,8 +40,8 @@ Feature: managing events
   Scenario: edit a colloquium
     Given I am logged in as an editor
     And the following colloquia
-      | title    | when     |
-      | Get Real | tomorrow |
+      | title    | start              |
+      | Get Real | tomorrow at 3:30pm |
     When I go to the list of events
     Then I should see "Get Real"
     When I follow "more..."

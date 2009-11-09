@@ -16,8 +16,8 @@ Feature: the home page
   Scenario: see the home page with an event today
     Given the subpages for the home page
     And the following colloquia
-      | title    | when     |
-      | Get Real | tomorrow |
+      | title    | start              |
+      | Get Real | tomorrow at 3:30pm |
     When I go to the homepage
     Then I should be on the homepage
     And I should see "Colloquium this week!"
@@ -29,8 +29,8 @@ Feature: the home page
   Scenario: see the home page with an event tomorrow
     Given the subpages for the home page
     And the following colloquia
-      | title    | when  |
-      | Get Real | today |
+      | title    | start           |
+      | Get Real | today at 3:30pm |
     When I go to the homepage
     Then I should see "Get Real"
     And I should see "Colloquium today!"
@@ -39,20 +39,20 @@ Feature: the home page
   Scenario:see the home page with a conference today and tomorrow
     Given the subpages for the home page
     And the following conferences
-      | title    | start     | stop            |
+      | title    | start     | stop     |
       | GLSEC    | yesterday | tomorrow |
     When I go to the homepage
     Then I should see "GLSEC"
     And I should see "Conference today!"
-    And I should not see "Conference this week!"
+    And I should see "Conference this week!"
 
   Scenario: see the home page with certain events
     Given the subpages for the home page
     And the following colloquia
-      | title       | when      |
-      | Old West    | yesterday |
-      | The Present | today     |
-      | The Future  | tomorrow  |
+      | title       | start               |
+      | Old West    | yesterday at 3:30pm |
+      | The Present | today at 2:30pm     |
+      | The Future  | tomorrow at 1:00pm  |
     When I go to the homepage
     Then I should not see "Old West"
     And I should see "Colloquium today!"
@@ -67,7 +67,7 @@ Feature: the home page
       | News!    | na na! | No news is good news. |
     When I go to the homepage
     Then I should be on the homepage
-    And I should see "some content"
+    And I should see content for the home subpages
     And I should see "na na!"
     And I should not see "No news is good news."
     When I follow "more..."
@@ -95,7 +95,6 @@ Feature: the home page
     And I follow "About Us"
     Then I should see "About all us all."
     When I follow "Home"
-    Then I should see "sploosh!"
     And I follow "Academics"
     Then I should see "Academe me!"
     When I follow "Home"

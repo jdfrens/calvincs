@@ -26,7 +26,7 @@ class EventsController < ApplicationController
   def new
     start = Chronic.parse("tomorrow at 3:30pm")
     stop = start + 1.hour
-    @event = Event.new_event(:kind => "Colloquium", :start => start, :stop => stop)
+    @event = Event.new_event(:kind => params[:kind], :start => start, :stop => stop)
   end
 
   def create
