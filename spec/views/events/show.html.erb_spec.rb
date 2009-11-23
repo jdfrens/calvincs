@@ -5,15 +5,17 @@ describe "/events/view.html.erb" do
   describe "viewing a complete event" do
 
     before(:each) do
+      start = mock("start time")
       event = mock(
-              :title => "The Title", :subtitle => "The Subtitle",
+              :title => "The Title", :subtitle => "The Subtitle", :start => start,
                       :presenter => "Dr. Presenter", :location => "Room 101",
-                      :description => "The Description")
+                      :description => "The Description", :kind => "KindOfEvent")
 
       assigns[:event] = event
       expect_textilize_wop("The Title")
       expect_textilize_wop("The Subtitle")
       expect_textilize_wop("Dr. Presenter")
+      start.should_receive(:to_s).with(:kindofevent).and_return("tomorrow at 8am")
       expect_textilize("The Description")
 
       render "events/show"
@@ -28,6 +30,10 @@ describe "/events/view.html.erb" do
 
     it "should have a presenter" do
       assert_select ".presenter", "Dr. Presenter"
+    end
+
+    it "should have a time" do
+      response.should have_selector(".time", :content => "tomorrow at 8am")
     end
 
     it "should have a location" do

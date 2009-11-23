@@ -18,6 +18,10 @@ When /^I select tomorrow as the date$/ do
   select_date((Date.today + 1).to_s)
 end
 
+And /^I should see tomorrow as event date$/ do
+  response.should contain(Chronic.parse("tomorrow").to_s(:conference))
+end
+
 Then /^I should see tomorrow and two days later$/ do
   response.should contain(1.day.from_now.to_s(:conference))
   response.should contain(3.days.from_now.to_s(:conference))

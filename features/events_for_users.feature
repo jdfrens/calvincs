@@ -70,4 +70,5 @@ Feature: managing events
     And I should see "It is better to be real than fake."
     And I should see "Bob"
     And I should see "Room 101"
+    And I should see tomorrow as event date
     And I should not see "edit..."

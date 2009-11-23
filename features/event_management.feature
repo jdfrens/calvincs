@@ -66,3 +66,4 @@ Feature: managing events
     Then I should be on the list of events
     And I should see "BarSEC"
     And I should not see "GLCamp"
+  Scenario: 
