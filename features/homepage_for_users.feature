@@ -95,7 +95,7 @@ Feature: the home page
     And I follow "About Us"
     Then I should see "About all us all."
     When I follow "Home"
-    And I follow "Academics"
+    And I follow "Academics" within ".navigation"
     Then I should see "Academe me!"
     When I follow "Home"
     And I follow "Students"
@@ -125,7 +125,7 @@ Feature: the home page
     Then I should see "Upcoming Events"
     And I should see "Colloquiate!"
     When I follow "Home"
-    And I follow "Contact Us"
+    And I follow "Contact Us" within ".navigation"
     Then I should see "Get in touch with us."
     When I follow "Home"
     Then I should be on the home page

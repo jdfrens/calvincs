@@ -13,19 +13,17 @@ describe "/layouts/application.html.erb" do
   it "should render the application layout with partials" do
     template.should_receive(:current_user).and_return(false)
     template.should_receive(:render).with(:partial => 'layouts/mainmenu').
-      and_return("<div id='menu'></div>")
-    template.should_receive(:render).with(:partial => 'layouts/googlesearch').
-      and_return("<div id='googlesearch'></div>")
+            and_return("<div id='menu'></div>")
     template.should_receive(:render).with(:partial => 'layouts/footer').
-      and_return("<div id='footer'></div>")
+            and_return("<div id='footer'></div>")
     template.should_not_receive(:render).with(:partial => 'layouts/adminmenu')
 
     render "layouts/application"
 
     response.should have_tag("#navbar") do
       with_tag("#menu")
-      with_tag("#googlesearch")
     end
+    response.should have_tag("#GoogleSearch")
     response.should have_tag("#footer")
   end
 
@@ -41,7 +39,7 @@ describe "/layouts/application.html.erb" do
   describe "the title" do
     it "should have a default" do
       assigns[:title] = nil
-      
+
       render "layouts/application"
 
       response.should have_tag("head title", "Calvin College Computer Science")
@@ -53,7 +51,7 @@ describe "/layouts/application.html.erb" do
       render "layouts/application"
 
       response.should have_tag("head title",
-        "Calvin College Computer Science - Fancy Title for This Page")
+                               "Calvin College Computer Science - Fancy Title for This Page")
     end
   end
 
@@ -70,25 +68,7 @@ describe "/layouts/application.html.erb" do
     it "should have a footer" do
       render "layouts/application"
 
-      response.should have_tag("div#footer-css") do
-        with_tag "a[href=mailto:computing@calvin.edu]", "Computer Science Department"
-      end
-    end
-
-    it "should not have an updated time if @last_updated unset" do
-      render "layouts/application"
-
-      response.should_not have_tag("#last_updated")
-    end
-
-    it "should not have an updated time if @last_updated unset" do
-      last_updated = mock("last updated")
-      assigns[:last_updated] = last_updated
-      last_updated.should_receive(:to_s).with(:last_updated).and_return("March 7, 1970")
-
-      render "layouts/application"
-
-      response.should have_tag("#last_updated", "Last updated March 7, 1970.")
+      response.should have_tag("div#footer")
     end
   end
 end

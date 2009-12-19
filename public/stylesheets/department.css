@@ -221,6 +221,10 @@ div#news li {
     margin-top: 0;
 }
 
+.time, .location {
+    font-size: smaller;
+}
+
 /*******************************/
 /* Displaying whole news items */
 /*******************************/

@@ -1,41 +1,51 @@
-<br style="clear: both;"><!-- IE fix -->
+<br style="clear: both;"/><!-- IE fix -->
 
-<div id="footer-css">
-<div class="gutter">
+<div id="footer">
+  <div class="gutter">
 
-<dl>
-<dt><a href="http://www.calvin.edu/admin/admissions/?source=footer">Admissions</a></dt>
-<dd><a href="http://www.calvin.edu/admin/admissions/apply/?source=footer" title="Apply">Apply</a><a href="http://www.calvin.edu/"></a></dd>
-<dd><a href="http://www.calvin.edu/admin/admissions/paying/?source=footer" title="Financial Aid">Financial Aid</a><a href="http://www.calvin.edu/search"></a></dd>
-<dd><a href="http://www.calvin.edu/visit/?source=footer" title="Visit Campus">Visit Campus</a></dd>
-<dd><a href="http://www.calvin.edu/start/?source=footer" title="Request Information">Request Info.</a><a href="http://www.calvin.edu/bugreport" class="menu-link"></a></dd>
-</dl>
+    <div class="column-1">
+      <div class="vcard"><a class="url fn" href="http://www.calvin.edu"><strong>Calvin College</strong></a>
+        <span class="org">Calvin College</span>
+        <span class="adr"> <span class="street-address">3201 Burton SE</span> <span class="locality">Grand Rapids</span>, <span class="region">MI</span>, <span class="postal-code">49546</span> </span>
+        <span class="tel">(616) 526-6000</span> | 1-800-688-0122 | <a href="mailto:info@calvin.edu">info@calvin.edu</a>
+      </div>
 
-<dl>
-<dt>Information</dt>
-<dd><a href="http://www.calvin.edu/about/?source=footer" title="About Calvin College">About Calvin</a></dd>
-<dd><a href="http://www.calvin.edu/admin/development/?source=footer" title="Giving to Calvin">Giving to Calvin</a></dd>
-<dd><a href="http://library.calvin.edu/?source=footer" title="Hekman Library">Hekman Library</a><a href="http://www.calvin.edu/visit" title="Visit Campus"></a></dd>
-<dd><a href="http://www.calvin.edu/about/contact.htm?source=footer" title="Contact Calvin">Contact Calvin</a></dd>
-</dl>
+      <ul id="inquiries">
+        <li><a href="http://www.calvin.edu/hr/">Jobs</a> |</li>
+        <li class="last"><a href="http://www.calvin.edu/about/copyright.htm">&copy; 2009 Calvin College</a></li>
+      </ul>
+    </div>
 
-<dl>
-<dt><a href="http://www.calvin.edu/search/?source=footer">Search</a></dt>
-<dd><a href="http://www.calvin.edu/academics/?source=footer" title="Majors and Minors">Majors &amp; Minors</a></dd>
-<dd><a href="http://www.calvin.edu/dept/?source=footer" title="A-Z Index of Websites and Departments at Calvin">A-Z Index</a></dd>
-<dd><a href="http://www.calvin.edu/people/?source=footer" title="People at Calvin">People at Calvin</a><a href="http://www.calvin.edu/visit" title="Visit Campus"></a></dd>
-<dd><a href="http://www.calvin.edu/search/?source=footer" title="Calvin's website">Calvin's website</a></dd>
-</dl>
+    <div class="column-2">
+      <dl id="resources">
 
-<dl>
-<dt>Contact</dt>
-  <dd class="bodycopy-small">
-    <%= mail_to "computing@calvin.edu", "Computer Science Department", :id => "footer-contact-name" %>
-  </dd>
-<% if @last_updated -%>
-  <dd id="last_updated" class="bodycopy-small">Last updated <%= @last_updated.to_s(:last_updated) %>.</dd>
-<% end -%>
-</dl>
+        <dt>Inside Calvin</dt>
+        <dd><a href="http://www.calvin.edu/resource/student.htm">Students</a> |</dd>
+        <dd><a href="http://www.calvin.edu/resource/faculty.htm">Faculty &amp; Staff</a> |</dd>
+        <dd><a href="http://www.calvin.edu/alumni/">Alumni</a> |</dd>
 
-</div>
+        <dd class="last"><a href="http://www.calvin.edu/parents/">Parents</a></dd>
+      </dl>
+
+      <dl id="social">
+        <dt>Let's Connect</dt>
+        <dd class="youtube">
+          <a href="http://www.youtube.com/CalvinCollege" title="Watch us on YouTube"><img src="http://www.calvin.edu/images/icons/social/youtube.png" width="19" height="19" alt="Calvin College on YouTube"/></a>
+        </dd>
+        <dd class="vimeo">
+          <a href="http://www.vimeo.com/calvincollege" title="Watch us on Vimeo"><img src="http://www.calvin.edu/images/icons/social/vimeo.png" width="19" height="19" alt="Calvin College on Vimeo"/></a>
+        </dd>
+        <dd class="twitter">
+          <a href="http://twitter.com/calvincollege" title="Follow @CalvinCollege on Twitter"><img src="http://www.calvin.edu/images/icons/social/twitter.png" width="19" height="19" alt="Follow @CalvinCollege on Twitter"/></a>
+        </dd>
+        <dd class="facebook">
+          <a href="http://www.facebook.com/calvincollege" title="Join us on Facebook"><img src="http://www.calvin.edu/images/icons/social/facebook.png" width="19" height="19" alt="Calvin College on Facebook"/></a>
+        </dd>
+
+        <dd class="linked">
+          <a href="http://www.linkedin.com/groups?gid=1449847" title="Join us on LinkedIn"><img src="http://www.calvin.edu/images/icons/social/linkedin.png" width="19" height="19" alt="Calvin College on LinkedIn"/></a>
+        </dd>
+      </dl>
+    </div>
+  </div>
 </div>

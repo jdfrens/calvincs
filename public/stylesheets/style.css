@@ -1,0 +1,813 @@
+/* LAST UPDATE NOVEMBER 13, 2009 BY LROBINSO */
+
+/* COLOR PALETTE
+------------------------------------------------------------------------------------------------
+#B3AC68 - Olive green
+#A59E60 - Dark olive green
+#98002E - Calvin maroon
+#003366 - Midnight sky Blue
+#F7EDD4 - Cream
+#D7DAC3 - Sand
+*/
+
+
+/* HYPERLINK COLORS */
+a {background-color: transparent; outline: none; cursor:pointer;}
+a:link {color: #333366;}
+a:visited {}
+a:hover {color: #9999cc;}
+a:active {color: #666699;}
+
+#accessibility {
+	position: absolute;
+	top: -9000px; /* Move links off-screen */
+}
+
+#accessibility a:focus {
+	display: block;
+	position: absolute;
+	top: 9001px;
+	color: #666699;
+	background: #ffffcc;
+	padding: 1em;
+	width: 100%;
+	border: none;
+	z-index: 300;
+	white-space: nowrap;
+}
+
+
+/* NAVIGATION LINKS 
+------------------------------------------------------------------------------------------------ */
+#navbar a { text-decoration: none; display: block; width: auto;}
+#navbar a:link { color: #333366;}
+#navbar a:visited { }
+#navbar a:hover  { color: #ffffff;}
+#navbar a:active, a:focus { color: #666699;}
+
+/* NAVIGATION LISTS
+------------------------------------------------------------------------------------------------ */
+/* First List */
+#navbar ul { margin: 0; padding: 0; list-style-type: none; line-height: normal;}
+#navbar ul li { margin: 0; padding: 10px 0 10px 40px; background: url('https://www.calvin.edu/includes/templates/9/images/bg-border-navbar.gif') left bottom repeat-x; line-height: normal;}
+#navbar ul li:hover  { background: url('https://www.calvin.edu/includes/templates/9/images/bg-border-navbar.gif') left bottom repeat-x; background-color: #A59E60; /* Dark Olive */}
+
+/* Second List */
+#navbar ul li ul { margin: 0; padding: 0; list-style-type: none; line-height: normal;}
+#navbar ul li ul li { margin: 0; padding: 5px 5px 0 20px; font-weight: normal; background: none; line-height: normal;}
+#navbar ul li ul li:hover  { background: none; background-color: #A59E60;}
+
+/* Third List */
+#navbar ul li ul li ul { margin: 0; padding: 0; list-style-type: circle; line-height: normal; font-size: 85%;}
+#navbar ul li ul li ul li { margin: 0; margin-left: 20px; padding: 5px 5px 0 0; font-weight: normal; background: none; line-height: normal;}
+#navbar ul li ul li ul li:hover  { background: none; background-color: #A59E60;}
+
+/* AUTO-SELECTING NAVIGATION http://24ways.org/advent/auto-selecting-navigation */
+body.home #navbar li.home,
+body.contact #navbar li.contact { font-weight: bold; background: url('https://www.calvin.edu/includes/templates/9/images/bg-border-navbar.gif') left bottom repeat-x; background-color: #A59E60;}
+
+/* Back to Top */
+a.top  {
+	color: #333366 !important;
+	position: relative;
+	width: 30px;
+	padding: 5px;
+	float: right;
+	background: #eee;
+	font-size: 10px;
+	text-align: center;
+	text-decoration: none !important;
+	border: solid 1px #ccc !important;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	}
+a:hover.top { color: #9999cc !important; text-decoration: underline !important;}
+
+
+/* REDEFINED HTML TAGS */
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 90%;
+	margin: 0 auto 0 auto;
+	text-align: center;
+	padding: 0;
+	background: url('https://www.calvin.edu/includes/templates/9/images/bg-center.jpg') repeat-y 50% 0 #ddd; /* plus #wrapper and #footer */
+}
+
+td { font-family: Arial, Helvetica, sans-serif;}
+p { font-family: Arial, Helvetica, sans-serif; line-height: 150%;}
+ol,ul,li { font-family: Arial, Helvetica, sans-serif; line-height: 150%;}
+b { font-weight: bold;}
+strong { font-weight: bold;}
+i { font-style: italic;}
+em { font-style: italic;}
+img {
+	border: none;
+	margin: 0;
+}
+
+.img-right {
+	float: right;
+	padding: 0;
+	margin: 0 0 10px 10px;
+	border: none;
+}
+
+.img-right-caption {
+	float: right;
+	clear: right;
+	width: 240px;
+	padding: 0;
+	margin-top: 0;
+	margin-right: 0;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	color: #333;
+	text-align: left;
+	vertical-align: top;
+	font-size: 80%;
+}
+
+.img-left {
+	float: left;
+	padding: 0;
+	margin: 0 10px 10px 0;
+	border: none;
+}
+
+.img-shadow {
+	margin: 0;
+	padding: 0 0 13px 0;
+	height: auto;
+	background: url('https://www.calvin.edu/includes/templates/9/images/bg-shadow.png') no-repeat center bottom;
+	_background: url('https://www.calvin.edu/includes/templates/9/images/bg-shadow.gif') no-repeat center bottom; /* IE Hack */
+}
+
+.skip { font-size: 65%; color: #FFFFFF; text-decoration: none; background-color: transparent;}
+.bodycopy-small { font-family: Arial, Helvetica, sans-serif; font-size: 75%;}
+
+#content .alert {
+	background: #ffffcc url('/images/icons/exclamation.gif') 15px center no-repeat;
+	text-align: left;
+	padding: 5px 20px 5px 45px;
+	border-top: 2px solid #ffd400;
+	border-bottom: 2px solid #ffd400;
+	font-size: 85%;
+}
+
+#content .info {
+	background: #ffffcc url('https://www.calvin.edu/images/icons/go.gif') 15px center no-repeat;
+	text-align: left;
+	padding: 5px 20px 5px 45px;
+	border-top: 2px solid #ffd400;
+	border-bottom: 2px solid #ffd400;
+	font-size: 85%;
+}
+	
+#content .help {
+	background: #ffffcc url('https://www.calvin.edu/images/icons/help.gif') 15px center no-repeat;
+	text-align: left;
+	padding: 5px 20px 5px 45px;
+	border-top: 2px solid #ffd400;
+	border-bottom: 2px solid #ffd400;
+	font-size: 85%;
+}
+
+#content .pdf {
+	background: #ffffcc url('https://www.calvin.edu/images/icons/pdf.gif') 15px center no-repeat;
+	text-align: left;
+	padding: 5px 20px 5px 45px;
+	border-top: 2px solid #ffd400;
+	border-bottom: 2px solid #ffd400;
+	font-size: 85%;
+}
+
+/* Forms */
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset {
+	margin: 1em 10px 20px 0;
+	padding: 1em;
+	border: 1px solid #cccccc;
+}
+
+legend {
+	font-weight: bold;
+	color: #003366;
+	font-size: 120%;
+	margin: 0;
+	padding: 0.5em;
+}
+
+label {
+	display: inline;
+}
+
+form table {
+	width:100%;
+}
+td.formlabel {
+	text-align:right;
+	vertical-align:top;
+	padding:4px 2px;
+	width:33%;
+}
+td.forminput {
+	text-align:left;
+	vertical-align:middle;
+	padding:4px 2px;
+	width:67%;
+}
+
+
+
+/* HEADINGS */
+h1, h2, h3, h4, h5, h6 {background-color: transparent; font-weight: normal;}
+
+h1 {
+	font-size: 160%;
+	color: #000000;
+	border-bottom: 1px solid #999999;
+}
+
+h2 { font-size: 150%; font-weight: bold; color: #98002E; }
+
+h3 {
+	font-size: 130%;
+	color: #98002E;
+	text-align: left;
+	padding-left: 0;
+	margin-left: 0;
+}
+h4 { font-size: 130%;}
+h5 { font-size: 110%; font-weight: bold; color: #98002E;}
+h6 { font-size: 100%; font-weight: bold; color: #98002E;}
+
+#content h2 a, #content h3 a {text-decoration: none;}
+#content h2 a:link, h2 a:visited, #content h3 a:link, h3 a:visited {color:#98002E; border-bottom: 1px dotted #E0B3C0;} /* 30% Calvin Maroon */
+	#sideContent h2 a:link, h2 a:visited, #sideContent h3 a:link, h3 a:visited {color:#98002E; border-bottom: 1px dotted #98002e;} /* Calvin Maroon */
+#content h2 a:hover, #content h3 a:hover {color:#9999cc; border-bottom: 1px dotted #9999cc;}
+#content h2 a:active, #content h3 a:active {color: #ffcc00; border-bottom: 1px dotted #ffcc00;}
+
+/* PAGE STRUCTURE
+----------------------------------------------------------------------------------------- */
+#wrapper {
+	width: 960px;
+	text-align: left;
+	background: transparent;
+	margin: 0 auto 0 auto;
+	padding: 0;
+	background: url('https://www.calvin.edu/includes/templates/9/images/bg-center.jpg') repeat-y 50% 0 #ddd;
+}
+
+
+
+#header {
+	text-align: left;
+	width: 100%;
+	height: 120px;
+	padding: 0;
+	margin: 0 auto 0 auto;
+	clear: both;
+	position: relative;
+	background: url('https://www.calvin.edu/includes/templates/9/images/bg-header-center.jpg') no-repeat 50% 0 #003366;
+	z-index: 400;
+}
+
+
+
+#sidebar {
+	padding: 0;
+	margin: 0;
+	float: left;
+	width: 240px;
+}
+
+#content {
+	width: 720px;
+	float: right;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	z-index: 200;
+}
+
+#content dt {
+	font-weight: normal;
+	margin-right: 0;
+	margin-left: 0;
+	margin-top: 1em;
+	padding: 0;
+}
+
+#content dd {
+	margin: .5em 0 0 1em;
+	padding: 0px 0px .5em 0;
+	color: #666666;
+}
+
+/* GUTTERS
+----------------------------------------------------------------------------------------- */
+
+#header .gutter {
+	padding: 0;
+	margin: 0 auto 0 auto;
+	height: 88px;
+	width: 960px;
+}
+
+#header #department .gutter {height: 0; text-indent: 40px;} /* Department's Name */
+
+#sidebar #navbar { /* Similar function to .gutter */
+	padding-top: 0; /* Align the first link with the page heading <h2> */
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+}
+
+
+/* SEARCH */
+
+#search-box form { padding: 0; margin: 0;}
+
+#search-box {
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	width: 275px;
+	top:0;
+	right:0;
+	height: 30px;
+	display: block;
+	text-align: right;
+	background: url('https://www.calvin.edu/images/bg-search-box.gif') no-repeat bottom left;
+	-moz-opacity:.8; filter:alpha(opacity=80);
+	opacity: 0.8; /* Fix Safari */
+	z-index: 500; /* same values for #header, #search-box, #search-alt */
+}
+
+#search-box div.gutter {
+	background: url('https://www.calvin.edu/images/bg-search.gif') no-repeat 0 0;
+	height: 20px;
+	width: 196px;
+	float: right;
+	margin: 3px 10px 0 0;
+	padding: 1px 0 0 5px;
+}
+
+#GoogleSearch input, #GoogleSearch select, #GoogleSearch textarea {
+	border: none;
+	background-color: transparent;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 80%;
+	color: #000000;
+	width: 150px;
+	float: left;
+	padding-top: 2px;
+}
+
+#GoogleSearch input.search-button {
+	background: transparent;
+	height: 20px;
+	width: 20px;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+
+/* TEMPLATE 9 FOOTER.HTML */
+
+#footer {
+	font-size: 75%;
+	clear: both;
+	float: left;
+	margin: 40px 0 20px 0;
+	padding: 0;
+	width: 100%;
+	z-index: 201;
+	line-height: 200%;
+	background: url('https://www.calvin.edu/includes/templates/9/images/bg-center.jpg') repeat-y 50% 0 #ddd;
+}
+
+#footer .gutter {
+	color: #666666;
+	padding: 20px 0 0 0;
+	margin: 0 20px 0 260px;
+	border-top: 1px solid #999;
+}
+
+#footer .column-1 {
+	margin: 0;
+	padding: 0;
+	float: left;
+	width: 49%;
+}
+
+#footer .column-2 {
+	margin: 0;
+	padding: 0;
+	float: right;
+	text-align: right;
+	width: 49%;
+}
+
+#footer a {text-decoration: none; color: #666;}
+#footer a:hover {text-decoration: underline;}
+
+#footer dl, #footer ul, #footer ol {
+        margin: 0; padding: 0;
+}
+
+#footer dt {
+	font-weight: bold;
+}
+
+#footer dd, #footer li {
+	margin: 0;
+	display: inline;
+}
+
+/* vCARD */
+#footer .org { display: none;}
+#footer .url { display: block;}
+#footer .adr {display: block;}
+
+
+
+/* NAMEPLATES
+   CSS: Mastery by Andy Budd
+   Logo Image Replacement technique pages 235-236
+   Pixy-Style Rollover technique pages 78-79
+----------------------------------------------------------------------------------------- */
+
+/* Department Nameplate */
+
+#nameplate-dept {
+	float: left;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+#nameplate-dept a {
+	float: left;
+	display: block;
+	color: #fff;
+	font-size: 20px;
+	text-decoration: none;
+	letter-spacing: .1em;
+}
+
+#nameplate-dept a:hover {
+	color:#9999cc;
+}
+
+
+/* Calvin Nameplate */
+
+#nameplate-calvin { 
+	float: left;
+	display: block;
+	padding: 0;
+	margin: 24px 0 0 0;	/* UPDATE */
+	width: 200px;
+	height: 34px;
+	background: transparent url('https://www.calvin.edu/includes/templates/9/images/nameplate-calvin-rollover.gif') no-repeat right top; /* Calvin logo */
+	border: none;
+	text-indent: -9000px; /* Move text link off-screen */
+	text-decoration: none;
+}
+
+#nameplate-calvin a {
+	display: block;
+	width: 200px;
+	height: 34px;
+	background: transparent url('https://www.calvin.edu/includes/templates/9/images/nameplate-calvin-rollover.gif') no-repeat left top; /* Calvin logo */
+	border: none;
+}
+
+#nameplate-calvin a:hover {
+	display: block;
+	width: 200px;
+	height: 34px;
+	background: transparent url('https://www.calvin.edu/includes/templates/9/images/nameplate-calvin-rollover.gif') no-repeat right top; /* Calvin logo */
+	border: none;
+}
+
+
+/* TWO COLUMNS
+---------------------------------------------------------------------------------------- */
+
+.columns {
+	float: left;
+	clear: both;
+	width: 99%;
+	background-color: transparent;
+	margin-bottom: 1em; /* IE fix at end of document */
+}
+
+.columns-1 {	
+	float: left;
+	clear: left;
+	width: 48%;
+	padding: 0;
+	margin: 0;
+}
+.columns-2 {
+	float: right;
+	clear: right;
+	width: 48%;
+	padding: 0;
+	margin: 0;
+}
+
+.columns h4 {
+	border-bottom: 1px dotted #999999;
+}
+
+
+/* COLUMNS, BOXES & DROPSHADOWS ----------------------------------------------------------------------------------------------- */
+
+div.columns {margin-bottom: 1em;}
+
+div.box {
+	background: none;
+	border: #993333 solid 1px;
+	width: 320px;
+	margin: 0;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+
+.box h3 {
+	background: none; 
+	padding: .5em 1em;
+	margin: 0;
+	border-bottom: 1px solid #993333;
+	color: #BC6D50;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.box ul {
+	margin: 0;
+	padding: 1em;
+	list-style: none;
+}
+
+.box ul li {
+	margin-bottom: 1em;
+	list-style: none;
+}
+
+.box img {
+	padding: 1em 1em 0 1em;
+}
+
+
+div.intro { background-color: #F7EDD4; width: 100%;	margin: 0 0 2em 0; padding: 0;}
+.intro .columns-1 h2, .intro .columns-1 h3, .intro .columns-1 h4  { margin: 1em 0 0 1em;}
+.intro .columns-2 h2, .intro .columns-2 h3, .intro .columns-2 h4  { margin: 1em 1em 0 0;}
+.intro form { font-size: 150%;}
+
+
+/* Data Tables
+-------------------------------------------------------------------------------------------- */
+.data-table {
+	border: 1px solid #999999;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.data-table td {
+	border: 1px solid #999999;
+	padding: 0.5em;
+	color: #000000;
+	font-size: 0.8em;
+}
+
+.data-table th {
+	border: 1px solid #999999;
+	padding: 0.5em;
+	color: #333333;
+	background-color: #EEEEEE;
+}
+
+.data-table tr.altrow {
+	background-color: #F7EDD4;
+
+}
+
+.data-table td.altcolumn {
+	background-color: #F7EDD4;
+}
+
+
+
+/* PAGE LAYOUTS
+-------------------------------------------------------------------------------------------- */
+
+#headingContent img { 
+	padding-bottom: 0; /* Padding under images */
+}
+
+#headingContent h1 { /* Padding for H1 (no padding for images or flash) */
+	margin-top: 20px; /* Use margins to be nice to IE */
+	margin-left: 20px; 
+	margin-right: 20px;
+}
+
+#headingContent p, #headingContent h2, #headingContent h3, #headingContent h4, #headingContent h5, #headingContent h6 { /* Padding for Headings (no padding for images or flash) */	
+	margin-left: 20px; /* Use margins to be nice to IE */
+	margin-right: 20px;
+}
+
+#primaryContent #secondaryContent #sideContent {
+	text-align: left;
+	vertical-align: top;
+	background: transparent;
+	display: inline;
+}
+
+#primaryContent .gutter {
+	padding: 0 10px 0 20px;
+	margin: 0;
+	line-height: 125%;
+	background: transparent;
+	overflow: hidden;
+}
+
+#secondaryContent .gutter {
+	padding: 0 10px 0 10px;
+	margin: 0;
+	line-height: 125%;
+	background: transparent;
+	overflow: hidden;
+}
+
+#sideContent .gutter {
+	padding: 0 20px 0 10px;
+	margin: 0;
+	line-height: 125%;
+	background: transparent;
+	overflow: hidden;
+}
+
+#sideContent dt {
+	font-weight: bold;
+	font-size: 200%;
+	color: #98002E; /* Maroon */
+	margin-right: 0;
+	margin-left: 0;
+	margin-bottom: 0.5em;
+	margin-top: 20px;
+	padding: 0;
+}
+
+#sideContent dd {
+	margin: 0 0 1em;
+	padding: 0 0 .5em;
+}
+
+#primaryContent #secondaryContent #sideContent h1, h2, h3, h4, h5, h6 {
+	margin-top: 0;
+	line-height: normal;
+}
+
+#facts { 
+	min-height:150px;
+	height:auto !important;
+	height:150px;
+}
+
+#factsPause { display:none; }
+
+
+
+/* THREE COLUMN LAYOUT (#threeColLayout) */
+
+#threeColLayout #primaryContent {
+	float: left;
+	width: 240px;
+	margin: 0;
+	padding: 0;
+}
+
+#secondaryContent { /* This column is used only in the Three Column Layout */
+	float: left;
+	width: 240px;
+	margin: 0;
+	padding: 0;
+}
+
+#sideContent {
+	float: right;
+	width: 240px;
+	padding: 0;	
+	margin: 0;
+	_margin-right: -3px; /* Fix "IE 6 Duplicate Character Bug" with margin-right: -3px */
+}
+
+
+/* TWO COLUMN LAYOUT (#twoColLayout) */
+
+#twoColLayout #primaryContent {
+	float: left;
+	width: 360px;
+	margin: 0;
+	padding: 0;
+}
+
+#twoColLayout #sideContent {
+	float: left;
+	width: 360px;
+	padding: 0;
+	margin: 0;
+	_margin-right: -3px; /* Fix "IE 6 Duplicate Character Bug" with margin-right: -3px */
+}
+
+#twoColLayout #secondaryContent {
+	display: none;
+	margin: 0;
+	padding: 0;
+}
+
+
+/* DEFAULT LAYOUT (#defaultLayout) */
+
+#defaultLayout #primaryContent {
+	float: left;
+	width: 480px;
+	margin: 0;
+	padding: 0;
+}
+
+#defaultLayout #sideContent {
+	float: left;
+	width: 240px;
+	padding: 0;
+	margin: 0; 
+	_margin-right: -3px; /* Fix "IE 6 Duplicate Character Bug" with margin-right: -3px */
+	background: url('https://www.calvin.edu/includes/templates/9/images/bg-sidecontent.gif') repeat-y top left; /* Faux-column color equals 220 pixels */
+}
+
+#defaultLayout #sideContent .gutter {
+	padding: 0 30px 5px 10px; /* Increase .gutter for faux-column effect with background graphic */
+}
+
+#defaultLayout #sideContent .img-shadow {
+	margin: 0;
+	padding: 0 0 13px 0;
+	height: auto;
+	background: url('https://www.calvin.edu/includes/templates/9/images/bg-shadow-cream.gif') no-repeat center bottom #E9E0C8; /* Cream */
+}
+
+#defaultLayout #sideContent h2, #defaultLayout #sideContent h3 {
+	margin-top: 10px;
+}
+
+#defaultLayout #secondaryContent {
+	display: none;
+	margin: 0;
+	padding: 0;
+}
+
+
+/* ONE COLUMN LAYOUT (#oneColLayout) */
+
+#oneColLayout #primaryContent {
+	float: left;
+	width: 710px; /* Subtract 10 pixels to align the right margin with the footer's dividing line */
+	margin: 0;
+	padding: 0;
+}
+
+#oneColLayout #secondaryContent, #oneColLayout #sideContent {
+	display: none;
+	margin: 0;
+	padding: 0;
+}
+
+
+/* FIX IE */
+html .columns { margin-bottom: 0;} /* This fix is typically a star hack */
+
+/* CLEAR FIX */
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */

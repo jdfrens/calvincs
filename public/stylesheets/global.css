@@ -1,0 +1,37 @@
+/* Hyperlinks */
+
+a { color:#333366; text-decoration: underline; cursor:pointer; background-color: transparent; outline: none; /* Turn off a link's dotted outline in Firefox */}
+a:hover  { color: #9999cc;}
+a:active, a:focus { color: #666699;}
+
+/* Redefined HTML tags */
+
+body { font-family: Arial, Helvetica, sans-serif; font-size: 90%;}
+td { font-family: Arial, Helvetica, sans-serif;}
+p { font-family: Arial, Helvetica, sans-serif;}
+ol,ul,li { font-family: Arial, Helvetica, sans-serif;}
+b { font-weight: bold;}
+strong { font-weight: bold;}
+i { font-style: italic;}
+em { font-style: italic;}
+
+/* Global Footer */
+
+#footer { color: black; font-size: 13px; z-index: 201;}
+#footer .footer-title { color: #003366; font-size: 14px; font-weight: bold;}
+#footer .footer-title a { color: #003366; text-decoration: none;}
+#footer #footer-last-updated { display:block; margin-top:4px; font-size:10px;}
+#footer a {color: black; text-decoration: none;}
+#footer a:hover { color: #9999cc;}
+#footer a:active, #footer a:focus { color: black; background-color: #ffffcc;}
+a#footer-contact-name {color:#333366; text-decoration: underline;}
+a#footer-contact-name:hover  { color: #9999cc;}
+
+/* Template Classes */
+input.filter { float: left; margin: 0; padding-top: 1px;}
+label.filter { float: right; margin: 0 0 0 2px; text-align: left; width: 105px;}
+.bodycopy-small { font-family: Arial, Helvetica, sans-serif; font-size: 75%;}
+
+
+/* SEARCH */
+.search { font-family: Arial, Helvetica, sans-serif; font-size: 11px;}
