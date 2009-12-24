@@ -1,38 +1,34 @@
-class CurriculumController < ApplicationController
+class CoursesController < ApplicationController
   
   restrict_to :edit, :except => [
-      :index, :list_courses, :view_course
+      :index, :view_course
   ]
   
   def index
-    redirect_to :action => 'list_courses'
-  end
-  
-  def list_courses
     @courses = Course.find(:all, :order => "department, number")
   end
   
   def view_course
     begin
       @course = Course.find(params[:id])
-      render :template => 'curriculum/course_detail'
+      render :template => 'courses/course_detail'
     rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'list_courses'
+      redirect_to :action => 'index'
     end
   end
   
   def new_course
     @course = nil
-    render :template => 'curriculum/course_form'
+    render :template => 'courses/course_form'
   end
 
   def save_course
     @course = Course.new(params[:course])
     if @course.save
-      redirect_to :action => 'list_courses'
+      redirect_to :action => 'index'
     else
       flash[:error] = 'Invalid values for the course'
-      render :template => 'curriculum/course_form'
+      render :template => 'courses/course_form'
     end
   end
   

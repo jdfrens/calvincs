@@ -1,4 +1,4 @@
-Feature: managing events
+Feature: checking out the events
   As a guest to the website
   I want to see events and lists of events
   So that I can plan my life around the department

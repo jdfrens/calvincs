@@ -37,6 +37,10 @@ module NavigationHelpers
       when /the new news item page/
         '/newsitems/new'
 
+      # courses
+      when /the list of courses/
+        courses_path
+
       # pages
       when /the page listing/
         pages_path

@@ -1,21 +1,16 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CurriculumController do
+describe CoursesController do
   integrate_views
 
   user_fixtures
   fixtures :courses
-  
-  def test_index_redirects_to_course_listing
+
+  it "should show a list of courses" do
     get :index
-    assert_redirected_to :action => 'list_courses'
-  end
-  
-  def test_list_courses
-    get :list_courses
 
     assert_response :success
-    assert_template 'curriculum/list_courses'
+    assert_template 'courses/index'
     assert_select "h1", "Course Listing"
     assert_select "ul#courses" do
       assert_select "li:nth-child(1)", "CS 108: Introduction to Computing"
@@ -28,7 +23,7 @@ describe CurriculumController do
     get :new_course, {}, user_session(:edit)
 
     assert_response :success
-    assert_template "curriculum/course_form"
+    assert_template "courses/course_form"
     assert_select "h1", "Create Course"
     assert_course_form
   end
@@ -39,27 +34,27 @@ describe CurriculumController do
     response.should redirect_to(:controller => "users", :action => "login")
   end
   
-  it "should redirect course/view" do
+  it "should show a course" do
     get :view_course, :id => 3
 
     assert_response :success
-    assert_template "curriculum/course_detail"
+    assert_template "courses/course_detail"
     assert_select "h1", "Course Details"
     assert_select "h2", "CS 108: Introduction to Computing"
     assert_select "p", "4 credits"
     assert_select "p", "The standard CS 1 class."
-    assert_select "a[href=/curriculum/list_courses]"
+    assert_select "a[href=/courses]"
   end
   
   def test_view_course_redirectes_when_id_is_nil
     get :view_course, :id => nil
-    assert_redirected_to :action => 'list_courses'
+    assert_redirected_to :action => 'index'
     assert flash.empty?
   end
   
   def test_view_course_redirectes_when_id_is_invalid
     get :view_course, :id => 99
-    assert_redirected_to :action => 'list_courses'
+    assert_redirected_to :action => 'index'
     assert flash.empty?
   end
   
@@ -68,7 +63,7 @@ describe CurriculumController do
         :department => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
       }}, user_session(:edit)
-    assert_redirected_to :action => 'list_courses'
+    assert_redirected_to :action => 'index'
     assert flash.empty?
     course = Course.find_by_number(665)
     assert_not_nil course
@@ -88,7 +83,7 @@ describe CurriculumController do
     post :save_course, { :course => {
         :department => 'Q', :number => ''
       }}, user_session(:edit)
-    assert_template "curriculum/course_form"
+    assert_template "courses/course_form"
     assert_select "div#error", /errors prohibited this course from being saved/i
     assert !flash.empty?
     assert_equal 'Invalid values for the course', flash[:error]
@@ -100,7 +95,7 @@ describe CurriculumController do
   private
   
   def assert_course_form(options={})
-    assert_select "form[action=/curriculum/save_course][method=post]" do
+    assert_select "form[action=/courses/save_course][method=post]" do
       assert_select "table" do
         assert_select "tr" do
           if (options[:label])

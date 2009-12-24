@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :events
   map.resources :colloquia, :controller => 'events'
   map.resources :conferences, :controller => 'events'
+  map.resources :courses
   map.resources :images
   map.resources :newsitems
   map.resources :pages
