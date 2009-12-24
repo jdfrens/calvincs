@@ -16,26 +16,49 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Course do
 
-  context "validations" do
-    it "should complain about no values" do
-      course = Course.new
-      course.should_not be_valid
-      assert !course.valid?
-      assert course.errors.invalid?(:department)
-      assert course.errors.invalid?(:number)
-      assert course.errors.invalid?(:title)
-      assert course.errors.invalid?(:credits)
+  context "presence of validations" do
+    before(:each) do
+      @course = Course.new
     end
 
+    it "should be invalid" do
+      @course.should be_invalid
+    end
+
+    it "should validate department" do
+      @course.should validate_presence_of(:department)
+    end
+
+    it "should validate number" do
+      @course.should validate_presence_of(:number)
+    end
+
+    it "should validate title" do
+      @course.should validate_presence_of(:title)
+    end
+
+    it "should validate credits" do
+      @course.should validate_presence_of(:credits)
+    end
+  end
+
+  context "number validations" do
     it "should complain about bad values" do
       course = Course.new(
-              :department => 'C', :number => 'bad', :title => 'okay', :credits => 'iv'
+              :department => 'CS', :number => 'bad', :title => 'okay', :credits => 4
       )
-      assert !course.valid?
-      assert course.errors.invalid?(:department)
-      assert course.errors.invalid?(:number)
-      assert !course.errors.invalid?(:title)
-      assert course.errors.invalid?(:credits)
+      course.should be_invalid
+      course.should have(1).error_on(:number)
+    end
+  end
+
+  context "credit validations" do
+    it "should complain about bad values" do
+      course = Course.new(
+              :department => 'CS', :number => 555, :title => 'okay', :credits => 'iv'
+      )
+      course.should be_invalid
+      course.should have(1).error_on(:credits)
     end
   end
 
@@ -68,7 +91,7 @@ describe Course do
 
   context "duplicate courses" do
     before do
-      Course.create!(:department => "CS", :number => 123, :title => "okay", :credits => 4)      
+      Course.create!(:department => "CS", :number => 123, :title => "okay", :credits => 4)
     end
 
     it "should be invalid to add duplicate course in department and number" do
@@ -86,9 +109,7 @@ describe Course do
   end
 
   it "should have an identifier" do
-    Course.new(
-              :department => 'XY', :number => 887, :title => 'Duplicate!', :credits => 3
-      ).identifier.should == "XY 887"
+    Factory.build(:course, :department => 'XY', :number => 887).identifier.should == "XY 887"
   end
 
 end

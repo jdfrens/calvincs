@@ -23,6 +23,7 @@ Rails::Initializer.run do |config|
   config.gem "imagesize", :lib => 'image_size'
   config.gem 'rcov'
   config.gem "chronic", :version => ">= 0.2.3"
+  config.gem "factory_girl", :source => "http://gemcutter.org"  
 end
 
 # time formats
