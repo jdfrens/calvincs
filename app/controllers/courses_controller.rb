@@ -17,9 +17,8 @@ class CoursesController < ApplicationController
     end
   end
   
-  def new_course
-    @course = nil
-    render :template => 'courses/course_form'
+  def new
+    @course = Course.new
   end
 
   def save_course
@@ -28,7 +27,7 @@ class CoursesController < ApplicationController
       redirect_to :action => 'index'
     else
       flash[:error] = 'Invalid values for the course'
-      render :template => 'courses/course_form'
+      render :template => 'courses/new'
     end
   end
   

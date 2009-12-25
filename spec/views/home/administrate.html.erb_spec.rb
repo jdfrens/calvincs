@@ -45,7 +45,7 @@ describe "/home/administrate.html.erb" do
     assert_select 'h2', "Courses"
     assert_select "ul#course_administration" do
       assert_select "a[href=/courses]", /list/i
-      assert_select "a[href=/courses/new_course]", /create/i
+      assert_select "a[href=/courses/new]", /create/i
     end
   end
 

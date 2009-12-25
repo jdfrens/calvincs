@@ -20,12 +20,11 @@ describe CoursesController do
   end
   
   def test_new_course
-    get :new_course, {}, user_session(:edit)
+    get :new, {}, user_session(:edit)
 
-    assert_response :success
-    assert_template "courses/course_form"
-    assert_select "h1", "Create Course"
-    assert_course_form
+    response.should be_success
+    assigns[:course].should be_instance_of(Course)
+    assert_template "courses/new"
   end
   
   it "should redirected when NOT logged in" do
@@ -83,60 +82,7 @@ describe CoursesController do
     post :save_course, { :course => {
         :department => 'Q', :number => ''
       }}, user_session(:edit)
-    assert_template "courses/course_form"
-    assert_select "div#error", /errors prohibited this course from being saved/i
-    assert !flash.empty?
-    assert_equal 'Invalid values for the course', flash[:error]
-  end
-  
-  #
-  # Helpers
-  #
-  private
-  
-  def assert_course_form(options={})
-    assert_select "form[action=/courses/save_course][method=post]" do
-      assert_select "table" do
-        assert_select "tr" do
-          if (options[:label])
-            assert_select "td input#course_department[type=text][value=#{options[:department]}]"
-          else
-            assert_select "td input#course_department[type=text]"
-          end
-        end
-        assert_select "tr" do
-          if (options[:number])
-            assert_select "td input#course_number[type=text][value=#{options[:number]}]"
-          else
-            assert_select "td input#course_number[type=text]"
-          end
-        end
-        assert_select "tr" do
-          if (options[:title])
-            assert_select "td input#course_title[type=text][value=#{options[:title]}]"
-          else
-            assert_select "td input#course_title[type=text]"
-          end
-        end
-        assert_select "tr" do
-          if (options[:credits])
-            assert_select "td input#course_credits[type=text][value=#{options[:credits]}]"
-          else
-            assert_select "td input#course_credits[type=text]"
-          end
-        end
-        assert_select "tr" do
-          if (options[:description])
-            assert_select "td textarea#course_description", options[:description]
-          else
-            assert_select "td textarea#course_description"
-          end
-        end
-        assert_select "tr" do
-          assert_select "td input[type=submit]"
-        end
-      end
-    end
+    assert_template "courses/new"
   end
   
 end
