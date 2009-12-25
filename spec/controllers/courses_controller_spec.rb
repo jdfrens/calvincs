@@ -58,7 +58,7 @@ describe CoursesController do
   end
   
   def test_save_course
-    post :save_course, { :course => {
+    post :save, { :course => {
         :department => 'IS', :number => '665',
         :title => 'One Off Devilry', :credits => '1'
       }}, user_session(:edit)
@@ -79,7 +79,7 @@ describe CoursesController do
   end
   
   def test_save_course_fails_with_bad_data
-    post :save_course, { :course => {
+    post :save, { :course => {
         :department => 'Q', :number => ''
       }}, user_session(:edit)
     assert_template "courses/new"

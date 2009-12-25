@@ -21,7 +21,7 @@ class CoursesController < ApplicationController
     @course = Course.new
   end
 
-  def save_course
+  def save
     @course = Course.new(params[:course])
     if @course.save
       redirect_to :action => 'index'
