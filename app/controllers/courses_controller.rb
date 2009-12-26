@@ -28,6 +28,17 @@ class CoursesController < ApplicationController
 
   def edit
     @course = Course.find(params[:id])
-  end  
+  end
+
+  def update
+    course = Course.find(params[:id])
+    course.update_attributes(params[:course])
+    if course.save
+      redirect_to courses_path
+    else
+      render :edit
+    end
+  end
+
 
 end

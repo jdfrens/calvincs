@@ -22,7 +22,7 @@
     </tr>
     <tr>
       <td> </td>
-      <td> <%= submit_tag "Create course", :class => "submit" %> </td>
+      <td> <%= form.submit(@course.new_record? ? "Create" : "Update", :class => "submit") %> </td>
     </tr>
   </table>
 <% end %>

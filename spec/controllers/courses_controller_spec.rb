@@ -101,4 +101,32 @@ describe CoursesController do
       assigns[:course].should == course
     end
   end
+
+  context "updating a course" do
+    it "should redirect when not logged in" do
+      put :update
+
+      response.should redirect_to(:controller => "users", :action => "login")
+    end
+
+    it "should do the update" do
+      course = Factory.create(:course, :title => "to be changed")
+
+      put :update, { :id => course.id, :course => { :title => "phooey" } }, user_session(:edit)
+
+      response.should redirect_to(courses_path)
+      course.reload
+      course.title.should == "phooey"
+    end
+
+    it "should redo the edit if bad data" do
+      course = Factory.create(:course, :number => "123")
+
+      put :update, { :id => course.id, :course => { :number => "bad number" } }, user_session(:edit)
+
+      response.should render_template("courses/edit")
+      course.reload
+      course.number.should == 123
+    end
+  end
 end

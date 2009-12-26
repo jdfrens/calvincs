@@ -34,3 +34,9 @@ Feature: creating and editing the courses offered by the department
     When I go to the list of courses
     And I follow "CS 108: Everything CS"
     And I follow "edit"
+    And I fill in "Label" with "IS"
+    And I fill in "Course number" with "873"
+    And I press "Update"
+    Then I should be on the list of courses page
+    And I should see "IS 873: Everything CS"
+    And I should not see "CS 108: Everything CS"
