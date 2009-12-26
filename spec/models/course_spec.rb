@@ -112,4 +112,8 @@ describe Course do
     Factory.build(:course, :department => 'XY', :number => 887).identifier.should == "XY 887"
   end
 
+  it "should build a full title" do
+    Factory.build(:course, :department => 'AB', :number => 452, :title => "THE Title").
+            full_title.should == "AB 452: THE Title"
+  end
 end

@@ -25,3 +25,12 @@ Feature: creating and editing the courses offered by the department
     And I press "Create"
     Then I should be on the list of courses page
     And I should see "CS 873: Hey, Learn Computing!"
+
+  Scenario: Edit a course
+    Given I am logged in as an editor
+    And the following courses
+      | department | number | title         | credits | description |
+      | CS         | 108    | Everything CS | 4       | This is a wonderful course. |
+    When I go to the list of courses
+    And I follow "CS 108: Everything CS"
+    And I follow "edit"

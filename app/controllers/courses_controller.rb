@@ -16,7 +16,7 @@ class CoursesController < ApplicationController
     @course = Course.new
   end
 
-  def save
+  def create
     @course = Course.new(params[:course])
     if @course.save
       redirect_to :action => 'index'
@@ -25,5 +25,9 @@ class CoursesController < ApplicationController
       render :template => 'courses/new'
     end
   end
+
+  def edit
+    @course = Course.find(params[:id])
+  end  
 
 end

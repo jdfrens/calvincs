@@ -27,9 +27,9 @@ describe CoursesController do
     end
   end
 
-  context "saving a course" do
-    it "should save a course" do
-      post :save, { :course => {
+  context "creating a course" do
+    it "should create a course" do
+      post :create, { :course => {
               :department => 'IS', :number => '665',
               :title => 'One Off Devilry', :credits => '1'
       }}, user_session(:edit)
@@ -44,7 +44,7 @@ describe CoursesController do
     end
 
     it "should redirect when not logged in" do
-      post :save_course, { :course => {
+      post :create, { :course => {
               :department => 'IS', :number => '665',
               :title => 'One Off Devilry', :credits => '1'
       }}
@@ -53,7 +53,7 @@ describe CoursesController do
     end
 
     it "should redirect when data is bad" do
-      post :save, { :course => {
+      post :create, { :course => {
               :department => 'Q', :number => ''
       }}, user_session(:edit)
 
@@ -79,6 +79,26 @@ describe CoursesController do
       get :show, :id => "99"
       response.should redirect_to(courses_path)
       flash.should be_empty
+    end
+  end
+
+  context "editing a course" do
+    it "should redirect if not logged in" do
+      get :edit, :id => 3
+
+      response.should redirect_to(:controller => "users", :action => "login")
+    end
+
+    it "should look up the course and render" do
+      course = mock_model(Course)
+
+      Course.should_receive(:find).with("3").and_return(course)
+      
+      get :edit, { :id => 3 }, user_session(:edit)
+
+      response.should be_success
+      response.should render_template("courses/edit")
+      assigns[:course].should == course
     end
   end
 end

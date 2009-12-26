@@ -26,4 +26,7 @@ class Course < ActiveRecord::Base
     department + ' ' + number.to_s
   end
 
+  def full_title
+    identifier + ": " + title
+  end
 end

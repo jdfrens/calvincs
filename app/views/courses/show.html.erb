@@ -1,4 +1,9 @@
-<h1><%= h(@course.identifier + ": " + @course.title) %></h1>
+<h1>
+  <%= h(@course.full_title) %>
+  <% if current_user -%>
+      <%= link_to "edit", edit_course_path(@course), :class => 'more' %>
+  <% end -%>
+</h1>
 
 <p><%= @course.credits %> credits</p>
 
