@@ -1,6 +1,4 @@
-<h1>Course Details</h1>
-
-<h2><%= h(@course.department) %> <%= h(@course.number) %>: <%= h(@course.title) %></h2>
+<h1><%= h(@course.identifier + ": " + @course.title) %></h1>
 
 <p><%= @course.credits %> credits</p>
 
