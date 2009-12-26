@@ -1,22 +1,17 @@
 class CoursesController < ApplicationController
-  
-  restrict_to :edit, :except => [
-      :index, :view_course
-  ]
-  
+
+  restrict_to :edit, :except => [:index, :show]
+
   def index
     @courses = Course.find(:all, :order => "department, number")
   end
-  
-  def view_course
-    begin
-      @course = Course.find(params[:id])
-      render :template => 'courses/course_detail'
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index'
-    end
+
+  def show
+    @course = Course.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :action => 'index'
   end
-  
+
   def new
     @course = Course.new
   end
@@ -30,5 +25,5 @@ class CoursesController < ApplicationController
       render :template => 'courses/new'
     end
   end
-  
+
 end

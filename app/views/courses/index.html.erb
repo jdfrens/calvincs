@@ -2,6 +2,6 @@
 
 <ul id="courses">
   <% @courses.each do |course| %>
-    <li><%= h(course.identifier) %>: <%= h(course.title) %></li>
+    <li><%= link_to h(course.identifier + ": " + course.title), course %></li>
   <% end %>
 </ul>

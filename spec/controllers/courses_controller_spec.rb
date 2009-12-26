@@ -63,20 +63,20 @@ describe CoursesController do
 
   context "showing a course" do
     it "should show a course" do
-      get :view_course, :id => 3
+      get :show, :id => 3
 
       response.should be_success
-      response.should render_template("courses/course_detail")
+      response.should render_template("courses/show")
     end
 
     it "should redirect when id is nil" do
-      get :view_course, :id => nil
+      get :show, :id => nil
       response.should redirect_to(courses_path)
       flash.should be_empty
     end
 
     it "should redirect if course doesn't exist" do
-      get :view_course, :id => "99"
+      get :show, :id => "99"
       response.should redirect_to(courses_path)
       flash.should be_empty
     end

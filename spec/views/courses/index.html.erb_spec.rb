@@ -18,4 +18,16 @@ describe "/courses/index.html.erb" do
       ul.should have_selector("li", :content => "CS 103: foobar")
     end
   end
+
+  it "should render with links" do
+    course = mock_model(Course, :identifier => "CS 101", :title => "foo")
+    assigns[:courses] = [course]
+
+    render "/courses/index"
+
+    response.should have_selector("ul") do |ul|
+      ul.should have_selector("a", :href => "/courses/#{course.id}", :content => "CS 101: foo")
+    end
+  end
 end
+
