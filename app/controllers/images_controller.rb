@@ -3,7 +3,7 @@ class ImagesController < ApplicationController
   restrict_to :edit
 
   def index
-    @images = Image.find(:all)
+    @images = Image.find(:all, :include => [:image_tags])
   end
 
   def new
