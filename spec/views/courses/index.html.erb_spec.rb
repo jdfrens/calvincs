@@ -11,7 +11,7 @@ describe "/courses/index.html.erb" do
 
     render "/courses/index"
 
-    response.should have_selector("h1", :content => "Course Listing")
+    response.should have_selector("h1", :content => "Courses")
     response.should have_selector("ul") do |ul|
       ul.should have_selector("li", :content => "CS 101: foo")
       ul.should have_selector("li", :content => "CS 102: bar")
