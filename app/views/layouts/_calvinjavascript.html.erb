@@ -1,0 +1,29 @@
+<!-- jQuery -->
+<script language="JavaScript" type="text/javascript" src="http://www.calvin.edu/includes/scripts/jquery/latest.js?ver=1.3.2"></script>
+
+<!-- jQuery Search Box Toggle -->
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function(){
+   $('#search-alt').hide(); // Hide even though it's already hidden
+   $('a.search-items').click(function() {
+      $('#search-alt').slideToggle("fast"); // First click should toggle to 'show'
+      $(this).toggleClass("active"); return false; // Apply "active" class to anchor when items are shown
+   });
+});
+</script>
+
+<!-- jQuery Smooth Page Scroll  -->
+<script type="text/javascript" src="http://www.calvin.edu/includes/scripts/jquery/smoothPageScroll/smoothPageScroll.js"></script>
+
+<!-- Get jQuery Superfish Menu Plug-in -->
+<script type="text/javascript" src="http://www.calvin.edu/includes/scripts/jquery/superfish/hoverIntent.js"></script>
+<script type="text/javascript" src="http://www.calvin.edu/includes/scripts/jquery/superfish/superfish.js"></script>
+
+<link href="http://www.calvin.edu/includes/templates/9/menu-tools.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- Superfish Menu Plug-in -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('ul.global-menu').superfish();
+    });
+</script>
