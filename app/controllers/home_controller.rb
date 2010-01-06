@@ -9,7 +9,6 @@ class HomeController < ApplicationController
     @todays_events = Event.find_by_today
     @this_weeks_events = Event.within_week
     @last_updated = last_updated(@newsitems + [@content, @splash])
-    render
   rescue ActiveRecord::RecordNotFound => e
     id = @content ? "_home_splash" : "_home_page"
     redirect_to :controller => "pages", :action => "new", :id => id

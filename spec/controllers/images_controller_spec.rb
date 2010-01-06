@@ -13,7 +13,7 @@ describe ImagesController do
 
     it "should list image forms" do
       images = mock("images")
-      Image.should_receive(:find).with(:all).and_return(images)
+      Image.should_receive(:find).with(:all, :include => [:image_tags]).and_return(images)
 
       get :index, {}, user_session(:edit)
 

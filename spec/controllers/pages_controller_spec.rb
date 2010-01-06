@@ -168,63 +168,8 @@ describe PagesController do
     end
   end
   
-  def test_set_page_title
-    xhr :post, :set_page_title,
-      { :id => 1, :value => 'New Mission Statement' },
-      user_session(:edit)
-
-    assert_response :success
-    assert_equal "New Mission Statement", response.body
-    
-    page = Page.find(1)
-    assert_equal 'New Mission Statement', page.title
-  end
-  
-  it "should redirect when setting page title" do
-    xhr :post, :set_page_title, :id => 1, :value => 'New Mission Statement'
-    
-    response.should redirect_to(:controller => 'users', :action => 'login')
-    assert_equal "Mission Statement", Page.find(1).title
-  end
-  
-  def test_update_page_content
-    xhr :post, :update_page_content,
-      { :id => 1, :page => { :content => 'Mission away!' } },
-      user_session(:edit)
-        
-    assert_response :success
-    assert_select_rjs :replace_html, "page_content" do
-      response.body.should match(/Mission away/)
-    end
-    
-    page = Page.find(1)
-    assert_equal 'Mission away!', page.content
-  end
-  
-  it "should redirect updated page content" do
-    xhr :get, :update_page_content,
-      { :id => 1, :page => { :content => 'Mission away!' } }
-    
-    response.should redirect_to(:controller => 'users', :action => 'login')
-    assert_equal "We state our mission.", Page.find(1).content
-  end
-  
-  def test_set_page_identifier
-    xhr :post, :set_page_identifier, { :id => 1, :value => 'mission_2'},
-      user_session(:edit)
-        
-    assert_response :success
-    assert_equal "mission_2", response.body
-    
-    page = Page.find(1)
-    assert_equal 'mission_2', page.identifier
-  end
-  
-  it "should redirect page identifier" do
-    xhr :get, :set_page_identifier, :id => 1, :value => 'phooey'
-    
-    response.should redirect_to(:controller => 'users', :action => 'login')
-    assert_equal "mission", Page.find(1).identifier
+  context "update action" do
+    it "should update a page"
   end
   
   def test_destroy

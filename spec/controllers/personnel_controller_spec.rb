@@ -35,7 +35,7 @@ describe PersonnelController do
         assert_equal [users(:sharon)], assigns(:staff)
       end
     
-      it "should use the standard layout" do
+      it "should set values for standard layout" do
         get :list
       
         assert_response :success
@@ -76,11 +76,6 @@ describe PersonnelController do
                 assert_select "h2 a[href=/personnel/view/joel]", "Joel C. Adams"
                 assert_select "p#joel_job_title", false, "should have no job title"
               end
-              assert_select ".contact-information" do
-                assert_select "p#joel_phone", false, "should have no phone"
-                assert_select "p#joel_location", false, "should have no office location"
-                assert_select "p#joel_email a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
-              end
               assert_select "p#joel_interests", false, "should have no interests paragraph"
               assert_select "p#joel_status", false, "should have no status paragraph"
             end
@@ -98,11 +93,6 @@ describe PersonnelController do
             assert_select "div.name" do
               assert_select "h2 a[href=/personnel/view/jeremy]", "Jeremy D. Frens"
               assert_select "p#jeremy_job_title", "Assistant Professor"
-            end
-            assert_select ".contact-information" do
-              assert_select "p#jeremy_phone", "616-526-8666"
-              assert_select "p#jeremy_location", "North Hall 296"
-              assert_select "p#jeremy_email a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
             end
             assert_select "p#jeremy_interests", /Interests:\s+interest 1, interest 2/
             assert_select "p", "status of jeremy"
@@ -161,12 +151,6 @@ describe PersonnelController do
           assert_select "img#cool-pic[src=/jeremyaction.png]"
           assert_select "p.img-caption", "jeremy in action"
         end
-        assert_select "#contact-information" do
-          assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
-          assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
-          assert_select "p", "Office phone: 616-526-8666"
-          assert_select "p", "Office location: North Hall 296"
-        end
         assert_select "#education" do
           assert_select "h2", "Education"
           assert_select "ul" do
@@ -196,12 +180,6 @@ describe PersonnelController do
         assigns[:last_updated].should == users(:joel).last_updated_dates.max
     
         assert_select "h1", "Joel C. Adams"
-        assert_select "#contact-information" do
-          assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
-          assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
-          assert_select "p", :text => /Office phone/, :count => 0
-          assert_select "p", :text => /Office location/, :count => 0
-        end
         assert_select "#education", false
         assert_select "#interests", false
         assert_select "#status", false
@@ -230,20 +208,6 @@ describe PersonnelController do
           assert_select "input[type=text][value=Assistant Professor]", true
           assert_select "input[type=submit]", true
           should_have_spinner :suffix => "job_title"
-        end
-        assert_select "#contact-information" do
-          assert_select "a[href=http://www.calvin.edu/~jeremy/]", /home page/i
-          assert_select "a[href=mailto:jeremy@calvin.foo]", "jeremy@calvin.foo"
-          assert_select "p:nth-child(2)" do
-            assert_select "strong", "Office phone:"
-            assert_select "input#edit_office_phone[type=button]", true
-            assert_select "#user_office_phone_3_in_place_editor", "616-526-8666"
-          end
-          assert_select "p:nth-child(3)" do
-            assert_select "strong", "Office location:"
-            assert_select "input#edit_office_location[type=button]", true
-            assert_select "#user_office_location_3_in_place_editor", "North Hall 296"
-          end
         end
         assert_select "#education" do
           assert_select "ul" do
@@ -312,20 +276,6 @@ describe PersonnelController do
           assert_select "input[type=submit]", true
           should_have_spinner :suffix => "job_title"
         end
-        assert_select "#contact-information" do
-          assert_select "a[href=http://www.calvin.edu/~joel/]", /home page/i
-          assert_select "a[href=mailto:joel@calvin.foo]", "joel@calvin.foo"
-          assert_select "p:nth-child(2)" do
-            assert_select "strong", "Office phone:"
-            assert_select "input#edit_office_phone[type=button]", true
-            assert_select "#user_office_phone_5_in_place_editor", ""
-          end
-          assert_select "p:nth-child(3)" do
-            assert_select "strong", "Office location:"
-            assert_select "input#edit_office_location[type=button]", true
-            assert_select "#user_office_location_5_in_place_editor", ""
-          end
-        end
         assert_select "#education" do
           assert_select "ul", true
           assert_select "div#education_edits", true
@@ -361,164 +311,7 @@ describe PersonnelController do
       assert_redirected_to :action => 'list'
     end
   end
-  
-  context "update name action" do
-    context "when logged in" do
-      it "should update name" do
-        keith = users(:keith)
-        assert_equal "Keith Vander Linden", keith.full_name
-    
-        xhr :post, :update_name,
-          { :id => keith.id,
-          :user => { :first_name => 'a', :last_name => 'b'}
-        }, user_session(:edit)
-    
-        assert_response :success
-        assert_select_rjs :replace_html, "full_name_header" do
-          assert_select "h1", "a b"
-        end
-    
-        keith.reload
-        assert_equal "a b", keith.full_name
-      end
-    end
 
-    it "should redirect to login when NOT logged in" do
-      xhr :post, :updated_name
-      response.should redirect_to("/users/login")
-    end
-  end
-  
-  context "update degree action" do
-    it "should update when logged in" do
-      degree = degrees(:keith_central)
-    
-      xhr :post, :update_degree,
-        { :id => degree.id,
-        :degree => {
-          :degree_type => 'BS',
-          :institution => 'Nowhere',
-          :url => 'foo',
-          :year => '1666'
-        }
-      }, user_session(:edit)
-    
-      assert_response :success
-      assert_select_rjs :replace_html, "degree_#{degree.id}" do
-        assert_select "li", "BS, Nowhere, 1666"
-      end
-    
-      degree.reload
-      assert_equal "BS", degree.degree_type
-      assert_equal "Nowhere", degree.institution
-      assert_equal "foo", degree.url
-      assert_equal 1666, degree.year
-    end
-  
-    it "should redirect to login when NOT logged in" do
-      xhr :post, :updated_degree
-      response.should redirect_to("/users/login")
-    end
-  end
-
-  context "add degree action" do
-    it "should add degree when logged in" do
-      keith = users(:keith)
-      assert_equal 1, keith.degrees.count, "should start with 1 degree"
-    
-      xhr :post, :add_degree, { :id => keith.id }, user_session(:edit)
-    
-      assert_response :success
-      assert_select_rjs :insert, :bottom, "education" do
-        assert_select "li", "BA in CS, Somewhere U, 1959"
-      end
-      assert_select_rjs :insert, :bottom, "education_edits" do
-        assert_select "form" do
-          assert_select "input[type=text]", 4
-          assert_select "input[value=BA in CS]"
-          assert_select "input[value=Somewhere U]"
-          assert_select "input[value=1959]"
-        end
-      end
-    
-      assert_equal 2, keith.degrees.count, "should have 2 degrees now"
-      degree = Degree.find_by_institution("Somewhere U")
-      assert_not_nil degree
-      assert keith.degrees.include?(degree)
-      assert_equal "BA in CS", degree.degree_type
-      assert_equal 1959, degree.year
-    end
-  
-    it "should redirect to login when NOT logged in" do
-      xhr :post, :add_degree
-      response.should redirect_to("/users/login")
-    end
-  end
-  
-  context "set office-phone action" do
-    it "should be set when logged in" do
-      keith = users(:keith)
-      assert_nil keith.office_phone
-    
-      xhr :post, :set_user_office_phone,
-        { :id => keith.id, :value => '616-111-9999' },
-        user_session(:edit)
-    
-      assert_response :success
-      keith.reload
-      assert_equal '616-111-9999', keith.office_phone
-    end
-  
-    it "should redirect to login when NOT logged in" do
-      xhr :post, :set_user_office_phone
-      response.should redirect_to("/users/login")
-    end
-  end
-  
-  context "set office-location action" do
-    it "should be set when logged in" do
-      keith = users(:keith)
-      assert_nil keith.office_location
-    
-      xhr :post, :set_user_office_location,
-        { :id => keith.id, :value => 'Funkytown' },
-        user_session(:edit)
-    
-      assert_response :success
-      keith.reload
-      assert_equal 'Funkytown', keith.office_location
-    end
-  
-    it "should redirect to login when NOT logged in" do
-      xhr :post, :set_user_office_location
-      response.should redirect_to("/users/login")
-    end
-  end
-  
-  context "updating job title" do
-    it "should work when logged in" do
-      keith = users(:keith)
-      assert_nil keith.job_title
-    
-      xhr :post, :update_job_title,
-        { :id => keith.id, :user => { :job_title => 'Professional Sidekick' } },
-        user_session(:edit)
-    
-      assert_response :success
-      assert_select_rjs :replace_html, "job_title" do
-        response.body.should match(/Professional Sidekick/)
-      end
-      keith.reload
-      assert_equal "Professional Sidekick", keith.job_title
-    end
-  
-    it "should redirect to login when NOT logged in" do
-      post :updated_job_title
-
-      response.should redirect_to("/users/login")
-    end
-  end
-  
   #
   # Helpers
   #

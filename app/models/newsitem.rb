@@ -33,7 +33,7 @@ class Newsitem < ActiveRecord::Base
 
   def self.find_by_year(year, max = :today)
     lower_bound = Time.local(year, 1, 1)
-    upper_bound = Time.local(year, 12, 31)
+    upper_bound = Time.local(year + 1, 1, 1)
     if max == :today
       upper_bound = [upper_bound, Time.now].min
     end

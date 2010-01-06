@@ -49,8 +49,7 @@ class PagesController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  in_place_edit_for :page, :title
-  
+  # TODO: get rid of this!
   def update_page_content
     page = Page.find(params[:id])
     page.update_attribute(:content, params[:page][:content])
@@ -59,6 +58,4 @@ class PagesController < ApplicationController
     end
   end
   
-  in_place_edit_for :page, :identifier
-
 end

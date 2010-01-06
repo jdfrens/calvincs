@@ -32,7 +32,8 @@ class PersonnelController < ApplicationController
       render
     end
   end
-  
+
+  # TODO: replace with "update" method
   def update_name
     user = User.find(params[:id])
     user.update_attributes(params[:user])
@@ -43,6 +44,7 @@ class PersonnelController < ApplicationController
     end
   end
   
+  # TODO: degree controller!
   def update_degree
     degree = Degree.find(params[:id])
     degree.update_attributes(params[:degree])
@@ -52,6 +54,7 @@ class PersonnelController < ApplicationController
     end
   end
   
+  # TODO: degree controller!
   def add_degree
     user = User.find(params[:id])
     degree = user.degrees.create!(
@@ -66,10 +69,7 @@ class PersonnelController < ApplicationController
     end
   end
   
-  in_place_edit_for :user, :office_phone
-
-  in_place_edit_for :user, :office_location
-  
+  # TODO: replace with "update" method
   def update_job_title
     user = User.find(params[:id])
     user.update_attributes(params[:user])
@@ -84,7 +84,8 @@ class PersonnelController < ApplicationController
   # Helpers
   #
   private
-  
+
+  # FIXME: why isn't this in a model?
   def find_users(name)
     Role.find_by_name(name).users.sort { |a, b| a.last_name <=> b.last_name }
   end

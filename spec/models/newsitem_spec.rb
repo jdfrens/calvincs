@@ -23,8 +23,8 @@ describe Newsitem do
   def test_user_required
     newsitem = Newsitem.new(
             :headline => 'Valid headline',
-                    :teaser => 'a teaser', :content => 'Valid content.',
-                    :goes_live_at => 1.day.ago, :expires_at => 1.hour.ago
+            :teaser => 'a teaser', :content => 'Valid content.',
+            :goes_live_at => 1.day.ago, :expires_at => 1.hour.ago
     )
     assert !newsitem.valid?
     assert_equal "is invalid", newsitem.errors[:user]
@@ -33,9 +33,9 @@ describe Newsitem do
   def test_valid_user_required
     newsitem = Newsitem.new(
             :headline => 'Valid headline',
-                    :teaser => 'a teaser', :content => 'Valid content.',
-                    :goes_live_at => 1.day.ago, :expires_at => 1.hour.ago,
-                    :user_id => 99
+            :teaser => 'a teaser', :content => 'Valid content.',
+            :goes_live_at => 1.day.ago, :expires_at => 1.hour.ago,
+            :user_id => 99
     )
     assert !newsitem.valid?
     assert_equal "is invalid", newsitem.errors[:user]
@@ -67,23 +67,23 @@ describe Newsitem do
   def test_find_by_year
     assert_equal(
             [ newsitems(:another_todays_news), newsitems(:todays_news) ],
-                    Newsitem.find_by_year(current_year)
+            Newsitem.find_by_year(current_year)
     )
     assert_equal(
             [ newsitems(:past_news) ],
-                    Newsitem.find_by_year(current_year-2)
+            Newsitem.find_by_year(current_year-2)
     )
     assert_equal(
             [ newsitems(:another_todays_news), newsitems(:todays_news) ],
-                    Newsitem.find_by_year(current_year, :today)
+            Newsitem.find_by_year(current_year, :today)
     )
     assert_equal(
             [ newsitems(:past_news) ],
-                    Newsitem.find_by_year(current_year-2, :today)
+            Newsitem.find_by_year(current_year-2, :today)
     )
     assert_equal(
             [ newsitems(:future_news), newsitems(:another_todays_news), newsitems(:todays_news) ],
-                    Newsitem.find_by_year(current_year, :all)
+            Newsitem.find_by_year(current_year, :all)
     )
   end
 
@@ -96,11 +96,11 @@ describe Newsitem do
       Newsitem.destroy_all
       Newsitem.find_news_years.should == (2000..1999)
     end
-  end 
+  end
 
   def test_is_current
-    assert  newsitems(:todays_news).is_current?
-    assert  newsitems(:another_todays_news).is_current?
+    assert newsitems(:todays_news).is_current?
+    assert newsitems(:another_todays_news).is_current?
     assert !newsitems(:past_news).is_current?
     assert !newsitems(:future_news).is_current?
 
