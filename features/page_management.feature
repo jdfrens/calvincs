@@ -47,7 +47,19 @@ Feature: managing pages
     And I should not see "SUBPAGE identified as _subpage"
     And I should not see "subpage!"
 
-  Scenario: seeing a page as an editor
+  Scenario: create a new page
+    Given I am logged in as an editor
+    When I am on the administration page
+    And I follow "Create" within "#content_administration"
+    And I fill in "Identifier" with "joe"
+    And I fill in "Title" with "Joe Is Cool"
+    And I fill in "Content" with "Stuff about Joe."
+    And I press "Create page"
+    Then I should be on the "joe" page
+    And I should see "Joe Is Cool"
+    And I should see "Stuff about Joe."
+
+  Scenario: seeing a page
     Given I am logged in as an editor
     And the following pages
       | identifier | title | content      |

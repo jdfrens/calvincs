@@ -9,8 +9,6 @@ describe "/pages/edit.html.erb" do
       assigns[:page] = @page
       template.should_not_receive(:render).with(:partial => "image")
       expect_textilize("We state our mission.")
-      template.should_receive(:in_place_editor_field).with(:page, "title").and_return("title's in-place editor")
-      template.should_receive(:in_place_editor_field).with(:page, "identifier").and_return("identifier's in-place editor")
 
       render "/pages/edit"
     end

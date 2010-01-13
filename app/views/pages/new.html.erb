@@ -6,23 +6,23 @@
 
 <h1>Create Page</h1>
 
-<% form_for :page, :url => { :action => :save } do |form| -%>
+<% form_for @page do |form| -%>
   <table summary="page data">
     <tr>
-      <td> Identifier: </td>
+      <td> <%= form.label :identifier %> </td>
       <td> <%= form.text_field :identifier, :size => 10 %> </td>
     </tr>
     <tr>
-      <td> Title: </td>
+      <td> <%= form.label :title %> </td>
       <td> <%= form.text_field :title, :size => 30 %> </td>
     </tr>
     <tr>
-      <td> Content: </td>
+      <td> <%= form.label :content %> </td>
       <td> <%= form.text_area :content, :rows => 15, :columns => 40 %> </td>
     </tr>
     <tr>
       <td> </td>
-      <td> <%= submit_tag "Create page", :class => "submit" %> </td>
+      <td> <%= form.submit "Create page", :class => "submit" %> </td>
     </tr>
   </table>
 <% end -%>
