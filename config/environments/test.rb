@@ -20,6 +20,6 @@ config.action_mailer.delivery_method = :test
 
 config.gem "test-unit", :lib => "test/unit", :version => '~> 1.2'
 config.gem "rspec", :lib => false, :version => ">= 1.3.0"
-config.gem "rspec-rails", :lib => false, :version => ">= 1.3.1"
+config.gem "rspec-rails", :lib => false, :version => ">= 1.3.2"
 config.gem "webrat"
 config.gem "timecop"

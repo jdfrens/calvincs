@@ -49,13 +49,15 @@ class PagesController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  # TODO: get rid of this!
-  def update_page_content
-    page = Page.find(params[:id])
-    page.update_attribute(:content, params[:page][:content])
-    render :update do |p|
-      p.replace_html "page_content", :inline => textilize(page.content)
+  def update
+    attribute = params[:attribute]
+    case attribute
+      when 'title', 'identifier'
+        Page.find(params[:id]).update_attributes(attribute => params[:value])
+        render :text => params[:value]
+      else
+        @page = Page.find(params[:id])
+        @page.update_attributes(params[:page])
     end
-  end
-  
+  end  
 end

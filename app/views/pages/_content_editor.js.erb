@@ -1,0 +1,14 @@
+$(document).ready(function() {
+    $("#edit_page_1").submit(function() {
+        $.ajax({
+            'beforeSend': function(xhr) {
+                xhr.setRequestHeader("Accept", "text/javascript")
+            },
+            type: 'PUT',
+            url: this.action,
+            data: $(this).serialize(),
+            dataType: "script"
+        });
+        return false;
+    });
+});

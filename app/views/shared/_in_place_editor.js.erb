@@ -1,0 +1,8 @@
+$(document).ready(function() {
+  $('#page_<%= field %>').editable(
+    '<%= url %>',
+    {
+      method : 'PUT',
+      submitdata : { attribute : '<%= field %>' }
+    });
+});

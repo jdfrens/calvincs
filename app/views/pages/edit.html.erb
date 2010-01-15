@@ -1,19 +1,22 @@
 <% if @page.subpage? -%>
     <p>This is a subpage, and subpages do not have titles.</p>
 <% else -%>
-    <h1><%= in_place_editor_field :page, "title" %> <span class="instruction">click to edit</span></h1>
+    <h1>
+      <%= in_place_editor("title") %>
+      <span class="instruction">click to edit</span>
+    </h1>
 <% end -%>
 
 
 <p class="identifier">
-  <strong>identifier:</strong> <%= in_place_editor_field :page, 'identifier' %>
+  <strong>identifier:</strong> <%= in_place_editor("identifier") %>
 </p>
 
 <p class="view-edit">
   <%= link_to "show page", view_page_path(:id => @page.identifier) %>
 </p>
 
-<div id="page_content">
+<div id="rendered_content">
   <%= textilize @page.content %>
 </div>
 
@@ -22,9 +25,13 @@
   <h2>Content Editor</h2>
 
   <p>
-    <% remote_form_for(:page, :url => { :action => 'update_page_content', :id => @page.id }) do |form| -%>
+    <% form_for @page do |form| -%>
         <%= form.text_area :content, :rows => 20, :cols => 65 %>
         <%= submit_tag "Update content", :class => "submit" %>
     <% end %>
   </p>
 </div>
+
+<% javascript_tag do -%>
+   <%= render "content_editor.js" %>
+<% end %>
