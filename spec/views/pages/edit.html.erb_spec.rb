@@ -15,7 +15,7 @@ describe "/pages/edit.html.erb" do
 
     it "should have an editor for the title" do
       response.should have_selector("h1") do |h1|
-        h1.should contain("title's in-place editor")
+        h1.should contain("editable")
       end
     end
 
@@ -30,14 +30,14 @@ describe "/pages/edit.html.erb" do
     end
 
     it "should have an editor for the page content" do
-      response.should have_selector("form", :action => "/pages/update_page_content/#{@page.id}") do |element|
-        element.should contain("We state our mission.")
+      response.should have_selector("form", :class => "edit_page") do |element|
+        element.should have_selector("textarea", :content => "We state our mission.")
       end
     end
 
     it "should have an editor for the identifier" do
       response.should have_selector("p.identifier") do |p|
-        p.should contain("identifier's in-place editor")
+        p.should contain("editable")
       end
     end
 
@@ -53,10 +53,8 @@ describe "/pages/edit.html.erb" do
       assigns[:page] = @page
       template.should_not_receive(:render).with(:partial => "image")
       template.should_not_receive(:in_place_editor_field).with(:page, "title")
-      template.should_receive(:in_place_editor_field).with(:page, "identifier").and_return("identifier's in-place editor")
 
       render "/pages/edit"
-
     end
 
     it "should have a note instead of a title" do

@@ -40,6 +40,7 @@ div#error {
 .identifier, .view-edit, .logout {
     text-align: right;
     font-size: small;
+    clear: both;
 }
 
 #content .gutter {
@@ -84,9 +85,9 @@ div#navbar li a {
 /***********************/
 
 .arrows li {
-	list-style-image: url(/images/arrow.gif);
-	font-size: 130%;
-	line-height: 1.5em;
+    list-style-image: url(/images/arrow.gif);
+    font-size: 130%;
+    line-height: 1.5em;
 }
 
 /***********************/
@@ -94,61 +95,63 @@ div#navbar li a {
 /***********************/
 
 div.img-right {
-	float: right;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	border: none;
-	width: 266px;
+    float: right;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border: none;
+    width: 266px;
 }
+
 div.img-right-wide, div.img-right-square {
-	float: right;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	border: none;
-	width: 266px;
+    float: right;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border: none;
+    width: 266px;
 }
+
 div.img-right-narrow {
-	float: right;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	border: none;
-	width: 202px;
+    float: right;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border: none;
+    width: 202px;
 }
+
 div.img-right-unusable {
-	display: none;
+    display: none;
 }
 
 .img-right {
-	float: right;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	border: none;
+    float: right;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border: none;
 }
 
 .img-left {
-	float: left;
-	margin-top: 0px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	margin-left: 0px;
-	border: none;
+    float: left;
+    margin-top: 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    border: none;
 }
 
 p.img-caption {
-	font-size: 80%;
-	background-color: #FFFFFF;
-	margin: 0px;
-	padding: 5px;
+    font-size: 80%;
+    background-color: #FFFFFF;
+    margin: 0px;
+    padding: 5px;
 }
-
 
 /***********************/
 /* Administration page */
@@ -217,6 +220,7 @@ div#news li {
     margin-top: 20px;
     margin-bottom: 0;
 }
+
 .event p {
     margin-top: 0;
 }

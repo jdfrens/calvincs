@@ -21,11 +21,11 @@ class Page < ActiveRecord::Base
   named_scope :normal_pages, :conditions => "identifier not like '!_%' escape '!'"
   named_scope :subpages, :conditions => "identifier like '!_%' escape '!'"
 
-  def self.find_by_an_id(id)
+  def self.find_by_an_id(id, options={})
     if id =~ /^\d+/
-      find(id)
+      find(id, options)
     else
-      find_by_identifier(id)
+      find_by_identifier(id, options)
     end
   end
 
