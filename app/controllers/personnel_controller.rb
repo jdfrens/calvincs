@@ -1,35 +1,25 @@
 class PersonnelController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :list, :view ]
+  restrict_to :edit, :except => [ :index, :view ]
 
   def index
-    redirect_to :action => 'view', :id => "all"
+    @faculty = Role.users_ordered_by_name("faculty")
+    @adjuncts = Role.users_ordered_by_name("adjuncts")
+    @emeriti = Role.users_ordered_by_name("emeriti")
+    @contributors = Role.users_ordered_by_name("contributors")
+    @staff = Role.users_ordered_by_name("staff")
+    @title = "Faculty & Staff"
+    @last_updated = last_updated(@faculty + @adjuncts + @emeriti + @contributors + @staff)
   end
-  
-  def list
-    if (params[:id] == 'all')
-      redirect_to :action => 'list', :id => nil
-    else
-      @faculty = find_users("faculty")
-      @adjuncts = find_users("adjuncts")
-      @emeriti = find_users("emeriti")
-      @contributors = find_users("contributors")
-      @staff = find_users("staff")
-      @title = "Faculty & Staff"
-      @last_updated = last_updated(@faculty + @adjuncts + @emeriti + @contributors + @staff)
-      render    
-    end
-  end
-  
+
   def view
     @user = User.find_by_username(params[:id])
     if @user.nil?
-      redirect_to :action => 'list'
+      redirect_to :action => "index"
     else
       @image = Image.pick_random(@user.username)
       @title = @user.full_name
       @last_updated = last_updated([@user])
-      render
     end
   end
 
@@ -39,55 +29,44 @@ class PersonnelController < ApplicationController
     user.update_attributes(params[:user])
     render :update do |page|
       page.replace_html "full_name_header",
-          :inline => "<h1><%= full_name %></h1>",
-          :locals => { :full_name => user.full_name }
+                        :inline => "<h1><%= full_name %></h1>",
+                        :locals => { :full_name => user.full_name }
     end
   end
-  
+
   # TODO: degree controller!
   def update_degree
     degree = Degree.find(params[:id])
     degree.update_attributes(params[:degree])
     render :update do |page|
       page.replace_html "degree_#{degree.id}",
-          :partial => "degree", :object => degree
+                        :partial => "degree", :object => degree
     end
   end
-  
+
   # TODO: degree controller!
   def add_degree
     user = User.find(params[:id])
     degree = user.degrees.create!(
-        :degree_type => "BA in CS",
-        :institution => "Somewhere U",
-        :year => 1959
-        )
+            :degree_type => "BA in CS",
+            :institution => "Somewhere U",
+            :year => 1959
+    )
     render :update do |page|
       page.insert_html :bottom, 'education', :partial => 'degree', :object => degree
       page.insert_html :bottom, 'education_edits', :partial => 'degree_edit',
-          :object => degree
+                       :object => degree
     end
   end
-  
+
   # TODO: replace with "update" method
   def update_job_title
     user = User.find(params[:id])
     user.update_attributes(params[:user])
     render :update do |page|
       page.replace_html "job_title",
-          :inline => "<%= textilize_without_paragraph(job_title) %>",
-          :locals => { :job_title => user.job_title }
+                        :inline => "<%= textilize_without_paragraph(job_title) %>",
+                        :locals => { :job_title => user.job_title }
     end
   end
-  
-  #
-  # Helpers
-  #
-  private
-
-  # FIXME: why isn't this in a model?
-  def find_users(name)
-    Role.find_by_name(name).users.sort { |a, b| a.last_name <=> b.last_name }
-  end
-  
 end

@@ -13,6 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :images
   map.resources :newsitems
   map.resources :pages
+  map.resources :cogs, :controller => 'personnel'
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'

@@ -9,22 +9,15 @@ describe PersonnelController do
   context "index action" do
     it "should redirect to viewing all" do
       get :index
-    
-      assert_response :redirect
-      assert_redirected_to :action => 'view', :id => 'all'      
+
+      response.should render_template("personnel/index")
     end
   end
 
   context "list action" do
-    it "should redirect for an explicit 'all' id" do
-      get :list, { :id => 'all' }
-    
-      response.should redirect_to("/personnel/list")
-    end
-
     context "done normally" do
       it "should set the proper data" do
-        get :list
+        get :index
       
         assert_response :success
         assert_equal users(:sharon).updated_at, assigns(:last_updated)
@@ -36,7 +29,7 @@ describe PersonnelController do
       end
     
       it "should set values for standard layout" do
-        get :list
+        get :index
       
         assert_response :success
         assigns[:title].should == "Faculty & Staff"
@@ -44,7 +37,7 @@ describe PersonnelController do
       end
     
       it "should see personel in a particular order" do
-        get :list
+        get :index
     
         assert_response :success
         assert_select "#faculty ~ #adjuncts", true
@@ -54,7 +47,7 @@ describe PersonnelController do
       end
 
       it "should have proper headers" do
-        get :list
+        get :index
     
         assert_response :success
         assert_select "h1#faculty", "Faculty"
@@ -65,7 +58,7 @@ describe PersonnelController do
       end
     
       it "should see dataless faculty" do
-        get :list
+        get :index
     
         assert_response :success
         assert_select "table#faculty_listing.listing" do
@@ -84,7 +77,7 @@ describe PersonnelController do
       end
   
       it "should see dataful faculty" do
-        get :list
+        get :index
     
         assert_response :success
         assert_select "tr:nth-child(2)" do
@@ -101,22 +94,22 @@ describe PersonnelController do
       end   
   
       it "should see adjuncts" do
-        get :list
+        get :index
         assert_personnel_briefly "adjuncts", "fred", "Fred Ferwerda"
       end   
   
       it "should see emeriti" do
-        get :list
+        get :index
         assert_personnel_briefly "emeriti", "larry", "Larry Nyhoff"
       end   
   
       it "should see contributing faculty" do
-        get :list
+        get :index
         assert_personnel_briefly "contributors", "randy", "Randy Pruim"
       end   
   
       it "should see staff" do
-        get :list
+        get :index
         assert_personnel_briefly "staff", "sharon", "Sharon Gould"
       end
     end
@@ -126,7 +119,7 @@ describe PersonnelController do
       user.first_name = "bob"
       user.save!
     
-      get :list
+      get :index
     
       assert_response :success
       user.reload
@@ -308,7 +301,8 @@ describe PersonnelController do
   
     it "should redirect with an invalid id" do
       get :view, { :id => 'does not exist' }
-      assert_redirected_to :action => 'list'
+
+      response.should redirect_to(cogs_path)
     end
   end
 

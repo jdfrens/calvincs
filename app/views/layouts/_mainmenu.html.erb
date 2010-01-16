@@ -3,7 +3,7 @@
   <%= menu_item "About Us", view_page_path(:id => :about_us), { :title => "About us" } %>
   <%= menu_item "Academics", view_page_path(:id => :academics), { :title => "Course and degree information" } %>
   <%= menu_item "Students", view_page_path(:id => :students), { :title => "Information for and about our students" } %>
-  <%= menu_item "Faculty &amp; Staff", { :controller => :personnel, :action => :list }, { :title => "Faculty and staff contact and personal information" }%>
+  <%= menu_item "Faculty &amp; Staff", cogs_path, { :title => "Faculty and staff contact and personal information" }%>
   <%= menu_item "Facilities", view_page_path(:id => :facilities), { :title => "Facilities, both physical and virtual" } %>
   <%= menu_item "Research", view_page_path(:id => :research), { :title => "Research activies of our faculty and students" } %>
   <%= menu_item "Alumni Profiles", view_page_path(:id => :alumni), { :title => "Profiles of our alumni" } %>

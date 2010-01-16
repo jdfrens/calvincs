@@ -17,7 +17,7 @@ describe "/personnel/_contact_information.html.erb" do
     end
   end
 
-  it "should edit the office phone with Ajax"
+  it "should have in-place editor for office phone"
 
-  it "should edit the office location with Ajax"  
+  it "should have in-place editor for office location"  
 end
