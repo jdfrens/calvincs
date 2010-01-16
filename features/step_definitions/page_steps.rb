@@ -26,7 +26,6 @@ end
 Then /^I should edit (\w+) page$/ do |identifier|
   id = Page.find_by_identifier(identifier).id
   URI.parse(current_url).path.should == "/pages/#{id}/edit"
-  response.should have_selector("#page_identifier_#{id}_in_place_editor", :content => identifier)
 end
 
 Then /^I should edit (\w+) page with id (\d+)$/ do |identifier, id|

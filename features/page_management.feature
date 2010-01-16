@@ -81,4 +81,3 @@ Feature: managing pages
     Then I should see "bar bar bar."
     When I follow "edit this page"
     Then I should be editing a page
-    And the in place editor for "page_identifier_1" should contain "foobar"
