@@ -6,63 +6,6 @@ describe PersonnelController, "with views" do
   fixtures :images, :image_tags, :degrees, :pages
   user_fixtures
 
-  context "index action" do
-    context "done normally" do
-      it "should set the proper data" do
-        get :index
-
-        assert_response :success
-        assert_equal users(:sharon).updated_at, assigns(:last_updated)
-        assert_equal [users(:joel), users(:jeremy), users(:keith)], assigns(:faculty)
-        assert_equal [users(:fred)], assigns(:adjuncts)
-        assert_equal [users(:randy)], assigns(:contributors)
-        assert_equal [users(:larry)], assigns(:emeriti)
-        assert_equal [users(:sharon)], assigns(:staff)
-      end
-
-      it "should set values for standard layout" do
-        get :index
-
-        assert_response :success
-        assigns[:title].should == "Faculty & Staff"
-        assigns[:last_updated].should == users(:sharon).updated_at
-      end
-
-      it "should see personnel in a particular order" do
-        get :index
-
-        assert_response :success
-        assert_select "#faculty ~ #adjuncts", true
-        assert_select "#adjuncts ~ #emeriti", true
-        assert_select "#emeriti ~ #contributors", true
-        assert_select "#contributors ~ #staff", true
-      end
-
-      it "should have proper headers" do
-        get :index
-
-        assert_response :success
-        assert_select "h1#faculty", "Faculty"
-        assert_select "h1#adjuncts", "Adjunct Faculty"
-        assert_select "h1#emeriti", "Emeriti"
-        assert_select "h1#contributors", "Contributing Faculty"
-        assert_select "h1#staff", "Staff"
-      end
-    end
-
-    it "should use date of last updated" do
-      user = users(:jeremy)
-      user.first_name = "bob"
-      user.save!
-
-      get :index
-
-      assert_response :success
-      user.reload
-      assert_equal user.updated_at, assigns(:last_updated)
-    end
-  end
-
   context "show action" do
     context "when logged in" do
       it "should edit a dataful user" do
@@ -182,12 +125,6 @@ describe PersonnelController, "with views" do
         assert_select "#interests", false, "should not have any interests"
       end
     end
-
-    it "should redirect with an invalid id" do
-      get :show, { :id => 'does not exist' }
-
-      response.should redirect_to(cogs_path)
-    end
   end
 end
 
@@ -196,19 +133,54 @@ describe PersonnelController, "without views" do
   fixtures :images, :image_tags, :degrees, :pages
   user_fixtures
 
+  context 'index action' do
+    it "should set the proper data" do
+      faculty = [mock_model(User)]
+      adjuncts = [mock_model(User)]
+      emeriti = [mock_model(User)]
+      contributors = [mock_model(User)]
+      staff = [mock_model(User)]
+      last_updated = mock("last updated")
+
+      Role.should_receive(:users_ordered_by_name).with("faculty").and_return(faculty)
+      Role.should_receive(:users_ordered_by_name).with("adjuncts").and_return(adjuncts)
+      Role.should_receive(:users_ordered_by_name).with("emeriti").and_return(emeriti)
+      Role.should_receive(:users_ordered_by_name).with("contributors").and_return(contributors)
+      Role.should_receive(:users_ordered_by_name).with("staff").and_return(staff)
+      controller.should_receive(:last_updated).
+              with(faculty + adjuncts + emeriti + contributors + staff).
+              and_return(last_updated)
+
+      get :index
+
+      assert_response :success
+      assigns[:title].should == "Faculty & Staff"
+      assigns[:last_updated].should == last_updated
+      assigns[:faculty].should == faculty
+      assigns[:adjuncts].should == adjuncts
+      assigns[:emeriti].should == emeriti
+      assigns[:contributors].should == contributors
+      assigns[:staff].should == staff
+    end
+  end
+  
   context "show action" do
-    context "when NOT logged in" do
-      it "should collect data and show" do
-        get :show, { :id => 'jeremy' }
+    it "should collect data and show" do
+      image = mock_model(Image)
 
-        assigns[:title].should == "Jeremy D. Frens"
-        assigns[:last_updated].should == users(:jeremy).last_updated_dates.max
+      Image.should_receive(:pick_random).with("jeremy").and_return(image)
 
-#        @image = Image.pick_random(@user.username)
-#        @title = @user.full_name
-#        @last_updated = last_updated([@user])
-        pending
-      end
+      get :show, { :id => 'jeremy' }
+
+      assigns[:image].should == image
+      assigns[:title].should == "Jeremy D. Frens"
+      assigns[:last_updated].should == users(:jeremy).last_updated_dates.max
+    end
+
+    it "should redirect with an invalid id" do
+      get :show, { :id => 'does not exist' }
+
+      response.should redirect_to(cogs_path)
     end
   end
 end
