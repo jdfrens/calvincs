@@ -11,3 +11,14 @@ Feature: viewing and listing personnel
     When I go to the list of personnel
     Then I should see "John Calvin"
     And I should see "Martin Luther"
+
+  Scenario: checking out a cog
+    Given the following users
+      | username | first_name | last_name | office_phone | office_location |
+      | jcalvin  | John       | Calvin | 616-555-5555 | NH 123 |
+      | mluther  | Martin     | Luther | 616-867-5309 | NH 665 |
+    When I go to the list of personnel
+    And I follow "Martin Luther"
+    Then I should see "Martin Luther" within "h1"
+    And I should see "Office phone: 616-867-5309"
+    And I should see "Office location: NH 665"

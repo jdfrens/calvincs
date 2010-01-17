@@ -1,6 +1,6 @@
 class PersonnelController < ApplicationController
 
-  restrict_to :edit, :except => [ :index, :view ]
+  restrict_to :edit, :except => [ :index, :show ]
 
   def index
     @faculty = Role.users_ordered_by_name("faculty")
@@ -12,7 +12,7 @@ class PersonnelController < ApplicationController
     @last_updated = last_updated(@faculty + @adjuncts + @emeriti + @contributors + @staff)
   end
 
-  def view
+  def show
     @user = User.find_by_username(params[:id])
     if @user.nil?
       redirect_to :action => "index"
