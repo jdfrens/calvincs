@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#edit_page_1").submit(function() {
+    $("#edit_page_<%= @page.id %>").submit(function() {
         $.ajax({
             'beforeSend': function(xhr) {
                 xhr.setRequestHeader("Accept", "text/javascript")
