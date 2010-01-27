@@ -39,7 +39,7 @@ module NavigationHelpers
 
       # personnel
       when /the list of personnel/
-        cogs_path
+        people_path
       
       # courses
       when /the list of courses/

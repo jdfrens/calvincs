@@ -22,7 +22,7 @@ describe "/personnel/index.html.erb" do
     render "personnel/index"
   end
 
-  it "should show cogs in a particular order" do
+  it "should show people in a particular order" do
     assert_select "#faculty ~ #adjuncts", true
     assert_select "#adjuncts ~ #emeriti", true
     assert_select "#emeriti ~ #contributors", true

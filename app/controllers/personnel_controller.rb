@@ -30,7 +30,7 @@ class PersonnelController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      redirect_to cogs_path
+      redirect_to people_path
     else
     end
   end

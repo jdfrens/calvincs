@@ -35,8 +35,8 @@ describe PersonnelController do
     end
   end
 
-  context "showing a cog" do
-    it "should show a cog" do
+  context "showing a person" do
+    it "should show a person" do
       updated = Time.now
       user = mock_model(User, :full_name => "Full J. Name", "username" => "fjname", :last_updated_dates => updated)
       image = mock_model(Image)
@@ -56,11 +56,11 @@ describe PersonnelController do
 
       get :show, { :id => "not2Bfound" }
 
-      response.should redirect_to(cogs_path)
+      response.should redirect_to(people_path)
     end
   end
 
-  context "editing a cog" do
+  context "editing a person" do
     it "should redirect if not logged in" do
       get :edit, { :id => "1243" }
 
@@ -75,13 +75,13 @@ describe PersonnelController do
     end
   end
 
-  context "updating a cog" do
+  context "updating a person" do
     it "should update and redirect" do
       user = users(:joel)
 
       put :update, { :id => user.id, :user => { :first_name => "Billy" } }, user_session(:edit)
 
-      response.should redirect_to(cogs_path)
+      response.should redirect_to(people_path)
       user.reload
       user.full_name.should == "Billy Adams"
     end
