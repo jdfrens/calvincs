@@ -3,6 +3,22 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "/personnel/show.html.erb" do
   user_fixtures
 
+  it "should render a bunch of partials" do
+    assigns[:user] = user = mock_model(User, :full_name => "Full J. Name")
+
+    template.should_receive(:render).with(:partial => 'job_title').and_return("")
+    template.should_receive(:render).with(:partial => 'pages/image').and_return("")
+    template.should_receive(:render).with(:partial => 'contact_information').and_return("")
+    template.should_receive(:render).with(:partial => 'education').and_return("")
+    template.should_receive(:render).with(:partial => 'interests').and_return("")
+    template.should_receive(:render).with(:partial => 'status').and_return("")
+    template.should_receive(:render).with(:partial => 'profile').and_return("")
+
+    render "personnel/show"
+
+    response.should have_selector("h1", :content => "Full J. Name")
+  end
+
   it "should see dataful user" do
     assigns[:user] = users(:jeremy)
     

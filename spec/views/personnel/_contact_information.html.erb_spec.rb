@@ -28,8 +28,4 @@ describe "/personnel/_contact_information.html.erb" do
     response.should_not contain("Office phone")
     response.should_not contain("Office location")
   end
-
-  it "should have in-place editor for office phone"
-
-  it "should have in-place editor for office location"  
 end

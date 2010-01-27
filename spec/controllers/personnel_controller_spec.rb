@@ -16,13 +16,6 @@ describe PersonnelController, "with views" do
         assigns[:last_updated].should == users(:jeremy).last_updated_dates.max
 
         assert_select "div#full_name_header h1", "Jeremy D. Frens"
-        should_have_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/3")
-        assert_select "form" do
-          assert_select "input[value=Jeremy D.]"
-          assert_select "input[value=Frens]"
-          assert_select "input[type=submit]"
-          should_have_spinner :suffix => "name"
-        end
         assert_select "p#job_title", "Assistant Professor"
         assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
           assert_select "input[type=text][value=Assistant Professor]", true
@@ -81,15 +74,7 @@ describe PersonnelController, "with views" do
         assigns[:title].should == "Joel C. Adams"
         assigns[:last_updated].should == users(:joel).last_updated_dates.max
 
-        should_have_spinner(:suffix => "name")
         assert_select "div#full_name_header h1", "Joel C. Adams"
-        should_have_remote_form_for_and_spinner("full_name_edit", "/personnel/update_name/5")
-        assert_select "form" do
-          assert_select "input[value=Joel C.]"
-          assert_select "input[value=Adams]"
-          assert_select "input[type=submit]"
-          should_have_spinner :suffix => "name"
-        end
         assert_select "p#job_title", true
         assert_select "p#job_title_edit form[onsubmit*=new Ajax.Request]" do
           assert_select "input[type=text]", true

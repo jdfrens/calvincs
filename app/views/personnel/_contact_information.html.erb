@@ -5,19 +5,11 @@
 	<%= mail_to @user.email_address, @user.email_address %>
   </p>
   
-  <% if current_user %>
-    <p>
-      <strong>Office phone:</strong>
-    </p>
-  <% elsif @user.office_phone -%>
+  <% if @user.office_phone -%>
     <p><strong>Office phone:</strong> <%= @user.office_phone %></p>
   <% end -%>
 
-  <% if current_user %>
-    <p>
-      <strong>Office location:</strong>
-    </p>
-  <% elsif @user.office_location -%>
+  <% if @user.office_location -%>
     <p><strong>Office location:</strong> <%= @user.office_location %></p>
   <% end -%>
 </div>
