@@ -110,6 +110,11 @@ describe User do
     assert_nil users(:joel).subpage(:status)
   end
 
+  it "should generate page identifiers" do
+    users(:jeremy).page_identifier("foobar").should == "_jeremy_foobar"
+    users(:joel).page_identifier("abc123").should == "_joel_abc123"
+  end
+
   def test_education_huh
     assert users(:jeremy).education?, "faculty should have an education"
     assert users(:joel).education?, "faculty should have an education"

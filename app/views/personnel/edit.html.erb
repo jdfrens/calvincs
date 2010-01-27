@@ -32,3 +32,20 @@
       </tr>
     </table>
 <% end -%>
+
+<h2>Special Content</h2>
+
+<ul>
+  <li>
+    <%= link_to "edit interests", edit_page_path(@user.page_identifier("interests")) %>
+    (research and professional)
+  </li>
+  <li>
+    <%= link_to "edit status", edit_page_path(@user.page_identifier("status")) %>
+    (chair of the department? dean of computer security? Use a complete sentence or two.)
+  </li>
+  <li>
+    <%= link_to "edit profile", edit_page_path(@user.page_identifier("profile")) %>
+    (two paragraphs of professional biography)
+  </li>
+</ul>

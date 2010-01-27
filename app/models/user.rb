@@ -42,9 +42,13 @@ class User < ActiveRecord::Base
   end
   
   def subpage(suffix)
-    Page.find_by_identifier("_" + username + "_" + suffix.to_s)
+    Page.find_by_identifier(page_identifier(suffix))
   end
-  
+
+  def page_identifier(suffix)
+    "_" + username + "_" + suffix.to_s
+  end
+
   def education?
     case role.name
     when "faculty", "adjuncts", "emeriti", "contributors"
