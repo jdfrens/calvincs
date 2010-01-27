@@ -1,4 +1,11 @@
-<div id="full_name_header"><h1><%= h(@user.full_name) %></h1></div>
+<div id="full_name_header">
+  <h1>
+    <%= h(@user.full_name) %>
+    <% if current_user -%>
+        <%= link_to "edit...", { :controller => "personnel", :action => "edit", :id => @user.id }, { :class => "more" } %>
+    <% end -%>
+  </h1>
+</div>
 
 <%= render :partial => 'job_title' %>
 

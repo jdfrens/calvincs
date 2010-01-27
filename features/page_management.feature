@@ -35,7 +35,7 @@ Feature: managing pages
     And I should not see "subpage!"
     And I should not see "SUBPAGE identified as _subpage"
 
-  Scenario: titles of subpages are suppressed when editting
+  Scenario: titles of subpages are suppressed when editing
     Given I am logged in as an editor
     And the following pages
       | identifier | title        | content        |

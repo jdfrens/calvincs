@@ -12,7 +12,7 @@ Feature: viewing and listing personnel
     Then I should see "John Calvin"
     And I should see "Martin Luther"
 
-  Scenario: checking out a cog
+  Scenario: checking out a faculty member
     Given the following users
       | username | first_name | last_name | office_phone | office_location |
       | jcalvin  | John       | Calvin | 616-555-5555 | NH 123 |

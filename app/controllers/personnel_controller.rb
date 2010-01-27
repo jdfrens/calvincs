@@ -23,6 +23,18 @@ class PersonnelController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(params[:user])
+      redirect_to cogs_path
+    else
+    end
+  end
+
   # TODO: replace with "update" method
   def update_name
     user = User.find(params[:id])
