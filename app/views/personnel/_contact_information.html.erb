@@ -1,15 +1,15 @@
 <div id="contact-information">
   <p>
-  	<a href="http://www.calvin.edu/~<%= @user.username %>/">home page</a>
-	|
-	<%= mail_to @user.email_address, @user.email_address %>
-  </p>
-  
-  <% if @user.office_phone -%>
-    <p><strong>Office phone:</strong> <%= @user.office_phone %></p>
-  <% end -%>
+    <a href="http://www.calvin.edu/~<%= @user.username %>/">home page</a>
 
-  <% if @user.office_location -%>
-    <p><strong>Office location:</strong> <%= @user.office_location %></p>
-  <% end -%>
+    <br/><%= mail_to @user.email_address, @user.email_address %>
+
+    <% if @user.office_phone -%>
+        <br/><%= @user.office_phone %>
+    <% end -%>
+
+    <% if @user.office_location -%>
+        <br/><%= @user.office_location %>
+    <% end -%>
+  </p>
 </div>

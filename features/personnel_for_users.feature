@@ -20,5 +20,5 @@ Feature: viewing and listing personnel
     When I go to the list of personnel
     And I follow "Martin Luther"
     Then I should see "Martin Luther" within "h1"
-    And I should see "Office phone: 616-867-5309"
-    And I should see "Office location: NH 665"
+    And I should see "616-867-5309"
+    And I should see "NH 665"

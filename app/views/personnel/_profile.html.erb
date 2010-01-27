@@ -1,16 +1,7 @@
-<% if @user.subpage(:profile) || current_user -%>
-  <div id="profile">
-    <h2>Profile</h2>
-  
-    <% if @user.subpage(:profile) -%>
+<% if @user.subpage(:profile) -%>
+    <div id="profile">
+      <h2>Profile</h2>
+
       <%= textilize @user.subpage(:profile).content %>
-    <% end -%>
-  
-    <% restrict_to :edit do -%>
-      <p>
-        <%= link_to "edit profile", :controller => "pages",
-          :action => "edit", :id => "_#{@user.username}_profile" %>
-      </p>
-    <% end -%>
-  </div>
+    </div>
 <% end -%>

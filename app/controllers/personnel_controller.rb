@@ -35,17 +35,6 @@ class PersonnelController < ApplicationController
     end
   end
 
-  # TODO: replace with "update" method
-  def update_name
-    user = User.find(params[:id])
-    user.update_attributes(params[:user])
-    render :update do |page|
-      page.replace_html "full_name_header",
-                        :inline => "<h1><%= full_name %></h1>",
-                        :locals => { :full_name => user.full_name }
-    end
-  end
-
   # TODO: degree controller!
   def update_degree
     degree = Degree.find(params[:id])
@@ -68,17 +57,6 @@ class PersonnelController < ApplicationController
       page.insert_html :bottom, 'education', :partial => 'degree', :object => degree
       page.insert_html :bottom, 'education_edits', :partial => 'degree_edit',
                        :object => degree
-    end
-  end
-
-  # TODO: replace with "update" method
-  def update_job_title
-    user = User.find(params[:id])
-    user.update_attributes(params[:user])
-    render :update do |page|
-      page.replace_html "job_title",
-                        :inline => "<%= textilize_without_paragraph(job_title) %>",
-                        :locals => { :job_title => user.job_title }
     end
   end
 end

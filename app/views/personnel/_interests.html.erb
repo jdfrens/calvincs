@@ -5,12 +5,5 @@
     <% if @user.subpage(:interests) -%>
       <%= textilize @user.subpage(:interests).content %>
     <% end -%>
-  
-    <% restrict_to :edit do -%>
-      <p>
-        <%= link_to "edit interests", :controller => "pages",
-          :action => "edit", :id => "_#{@user.username}_interests" %>
-      </p>
-    <% end -%>
   </div>
 <% end -%>

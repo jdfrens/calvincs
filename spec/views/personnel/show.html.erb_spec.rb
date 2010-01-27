@@ -25,12 +25,11 @@ describe "/personnel/show.html.erb" do
   end
 
   def expect_partial_renders
-    template.should_receive(:render).with(:partial => 'job_title').and_return("")
-    template.should_receive(:render).with(:partial => 'pages/image').and_return("")
-    template.should_receive(:render).with(:partial => 'contact_information').and_return("")
-    template.should_receive(:render).with(:partial => 'education').and_return("")
-    template.should_receive(:render).with(:partial => 'interests').and_return("")
-    template.should_receive(:render).with(:partial => 'status').and_return("")
-    template.should_receive(:render).with(:partial => 'profile').and_return("")
+    template.should_receive(:render).with('job_title').and_return("")
+    template.should_receive(:render).with('pages/image').and_return("")
+    template.should_receive(:render).with('contact_information').and_return("")
+    template.should_receive(:render).with('education').and_return("")
+    template.should_receive(:render).with('interests').and_return("")
+    template.should_receive(:render).with('profile').and_return("")
   end
 end
