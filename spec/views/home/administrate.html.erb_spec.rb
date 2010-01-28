@@ -24,8 +24,8 @@ describe "/home/administrate.html.erb" do
 
     assert_select 'h2', "Webpages and Other Documents"
     assert_select "ul#content_administration" do
-      assert_select "a[href=/pages]", /list/i
-      assert_select "a[href=/pages/new]", /create/i
+      assert_select "a[href=/p]", /list/i
+      assert_select "a[href=/p/new]", /create/i
     end
   end
 

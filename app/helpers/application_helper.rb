@@ -4,7 +4,7 @@ module ApplicationHelper
   def link_to_current_newsitem(newsitem, options = {})
     options = { :text => h(newsitem.headline) }.merge(options)
     link_to options[:text],
-          { :controller => "newsitems", :anchor => "news-item-#{newsitem.id}" },
+          hash_for_newsitems_path.merge(:anchor => "news-item-#{newsitem.id}"),
           { :class => options[:class] }
   end
   

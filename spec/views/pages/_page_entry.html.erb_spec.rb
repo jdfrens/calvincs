@@ -7,9 +7,9 @@ describe "/pages/_page_entry.html.erb" do
 
     render "/pages/_page_entry", :locals => { :page_entry => page }
 
-    response.should have_selector("td a", :href => "/pages/#{page.id}/edit", :content => "hey")
+    response.should have_selector("td a", :href => edit_page_path(page), :content => "hey")
     response.should have_selector("td", :content => "hey")
-    response.should have_selector("form", :action => "/pages/#{page.id}")
+    response.should have_selector("form", :action => page_path(page))
     response.should have_selector("input", :name => "_method", :value => "delete")
     response.should have_selector("input[value=Destroy]")
   end
@@ -21,7 +21,7 @@ describe "/pages/_page_entry.html.erb" do
 
     render "/pages/_page_entry", :locals => { :page_entry => page }
 
-    response.should have_selector("td a", :href => "/pages/#{page.id}/edit", :content => "hey")
+    response.should have_selector("td a", :href => edit_page_path(page), :content => "hey")
   end
 
 end

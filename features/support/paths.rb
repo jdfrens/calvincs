@@ -15,11 +15,11 @@ module NavigationHelpers
 
       # users
       when /the login page/
-        '/users/login'
+        login_path
 
       # administration
       when /the administration page/
-        '/home/administrate'
+        administrate_path
 
       # events
       when /the new event page/

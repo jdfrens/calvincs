@@ -23,7 +23,7 @@ describe CoursesController do
     it "should redirected when NOT logged in" do
       get :new
 
-      response.should redirect_to(:controller => "users", :action => "login")
+      response.should redirect_to(login_path)
     end
   end
 
@@ -49,7 +49,7 @@ describe CoursesController do
               :title => 'One Off Devilry', :credits => '1'
       }}
 
-      response.should redirect_to(:controller => "users", :action => "login")
+      response.should redirect_to(login_path)
     end
 
     it "should redirect when data is bad" do
@@ -86,7 +86,7 @@ describe CoursesController do
     it "should redirect if not logged in" do
       get :edit, :id => 3
 
-      response.should redirect_to(:controller => "users", :action => "login")
+      response.should redirect_to(login_path)
     end
 
     it "should look up the course and render" do
@@ -106,7 +106,7 @@ describe CoursesController do
     it "should redirect when not logged in" do
       put :update
 
-      response.should redirect_to(:controller => "users", :action => "login")
+      response.should redirect_to(login_path)
     end
 
     it "should do the update" do

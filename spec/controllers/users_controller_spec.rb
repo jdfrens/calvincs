@@ -16,7 +16,7 @@ describe UsersController do
     it "should redirect after successful login" do
       post :login, :user => { :username => 'calvin', :password => 'calvinpassword' }
 
-      assert_redirected_to :controller => 'home', :action => 'administrate'
+      response.should redirect_to(administrate_path)
       assert flash.empty?
       session[:current_user_id].should_not be_nil
     end
@@ -35,7 +35,7 @@ describe UsersController do
     it "should log out and redirect to homepage" do
       get :logout, {}, user_session(:edit)
 
-      response.should redirect_to(:controller => "home", :action => "index")
+      response.should redirect_to(home_path)
       session[:current_user_id].should be_nil
     end
   end

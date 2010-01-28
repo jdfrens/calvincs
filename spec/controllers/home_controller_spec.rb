@@ -56,7 +56,7 @@ describe HomeController do
     it "should redirect when not logged in" do
       get :administrate
         
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
     it "should administrate when logged in" do

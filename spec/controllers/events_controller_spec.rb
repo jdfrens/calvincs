@@ -61,8 +61,7 @@ describe EventsController do
 
       get :show, :id => "666"
 
-      assert_response :redirect
-      assert_redirected_to :action => :index
+      response.should redirect_to(events_path)
     end
   end
 
@@ -105,7 +104,7 @@ describe EventsController do
     it "should redirect when not logged in" do
       get :new
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
     it "should create a new colloquium" do
@@ -117,7 +116,7 @@ describe EventsController do
 
       post :create, params, user_session(:edit)
       assigns[:event].should eql(event)
-      response.should redirect_to(:action => "index")
+      response.should redirect_to(events_path)
     end
 
     it "should create a new conference" do
@@ -129,7 +128,7 @@ describe EventsController do
 
       post :create, params, user_session(:edit)
       assigns[:event].should eql(event)
-      response.should redirect_to(:action => "index")
+      response.should redirect_to(events_path)
     end
 
     it "should fail to create a new event" do
@@ -147,7 +146,7 @@ describe EventsController do
     it "should redirect create when not logged in" do
       get :create, {}
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
   end

@@ -8,8 +8,7 @@ module PagesHelper
       @page.send(field) +
     "</span>" +
     javascript_tag do
-      render "shared/in_place_editor.js", :url => url_for(:controller => 'pages', :action => 'update', :id => @page),
-             :field => field
+      render "shared/in_place_editor.js", :url => page_path(@page), :field => field
     end
   end
 end

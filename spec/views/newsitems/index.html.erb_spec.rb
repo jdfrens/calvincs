@@ -4,8 +4,8 @@ describe "/newsitems/index.html.erb" do
 
   it "should have a top-level header" do
     assigns[:title] = "Top Level Header"
-    template.should_receive(:render).with(:partial => "news_listing").and_return("listing news items")
-    template.should_receive(:render).with(:partial => "news_display").and_return("displaying news items")
+    template.should_receive(:render).with("news_listing").and_return("listing news items")
+    template.should_receive(:render).with("news_display").and_return("displaying news items")
 
     render "newsitems/index"
 

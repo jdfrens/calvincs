@@ -22,4 +22,14 @@ describe PagesController do
     params_from(:get, "/p/foobar").should == { :controller => "pages", :action => "show", :id => 'foobar' }
   end
 
+  it "should use /p abbreviation for pages path" do
+    pages_path.should == "/p"
+  end
+
+  it "should use /p abbreviation path to a page" do
+    page = mock_model(Page)
+
+    page_path(page).should == "/p/#{page.id}"
+  end
+
 end

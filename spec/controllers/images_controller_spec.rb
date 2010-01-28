@@ -8,7 +8,7 @@ describe ImagesController do
     it "should redirect when not logged in" do
       get :list
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
     it "should list image forms" do
@@ -26,7 +26,7 @@ describe ImagesController do
     it "should redirect when not logged in" do
       get :create
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
 
@@ -47,7 +47,7 @@ describe ImagesController do
                         :tags_string => "foobar barfoo" } },
                 user_session(:edit)
 
-        assert_redirected_to :action => 'index'
+        response.should redirect_to(images_path)
         image = Image.find_by_caption("Foo is bar!")
 
         assert_not_nil image
@@ -64,7 +64,7 @@ describe ImagesController do
     it "should redirect when not logged in" do
       post :update
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
 
@@ -101,7 +101,7 @@ describe ImagesController do
     it "should redirect when not logged in" do
       get :destroy
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
 
@@ -112,7 +112,7 @@ describe ImagesController do
 
         post :destroy, { :id => 2 }, user_session(:edit)
 
-        assert_redirected_to :action => 'index'
+        response.should redirect_to(images_path)
         assert_nil Image.find_by_id(2)
       end
     end

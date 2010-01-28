@@ -5,9 +5,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.login "/users/login", :controller => "users", :action => "login"
   map.logout "/users/logout", :controller => "users", :action => "logout"
-
-  # Special Calvin CS routes
-  map.view_page 'p/:id', :controller => 'pages', :action => 'show', :id => /\w+/
+  map.administrate "/administrate", :controller => "home", :action => "administrate"
 
   map.resources :events
   map.resources :colloquia, :controller => 'events'
@@ -15,7 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :courses
   map.resources :images
   map.resources :newsitems
-  map.resources :pages
+  map.resources :pages, :as => "p"
   map.resources :people, :controller => 'personnel'
 
   # Install the default route as the lowest priority.

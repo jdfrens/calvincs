@@ -11,7 +11,7 @@ class NewsitemsController < ApplicationController
     elsif params[:year] == "all"
       @title = "News Archive"
       @years = Newsitem.find_news_years
-      render :action => "archive"
+      render "archive"
     else
       @newsitems = Newsitem.find_current
       @title = "Current News"
@@ -49,13 +49,13 @@ class NewsitemsController < ApplicationController
     if @newsitem.update_attributes(params[:newsitem])
       redirect_to(@newsitem)
     else
-      render :action => "edit"
+      render "edit"
     end
   end
 
   def destroy
     Newsitem.destroy(params[:id])
-    redirect_to :controller => 'newsitems', :action => 'index'
+    redirect_to(newsitems_path)
   end
 
 end

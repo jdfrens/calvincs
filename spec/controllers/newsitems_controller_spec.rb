@@ -116,7 +116,7 @@ describe NewsitemsController, "without views" do
     it "should redirect when NOT logged in" do
       post :create
 
-      response.should redirect_to(:controller => "users", :action => "login")
+      response.should redirect_to(login_path)
     end
 
     it "should create a new news item" do
@@ -129,7 +129,7 @@ describe NewsitemsController, "without views" do
 
       post :create, { :newsitem => { :params => "values" } }, user_session(:edit)
 
-      response.should redirect_to(:controller => 'newsitems', :action => 'index')
+      response.should redirect_to(newsitems_path)
     end
 
     it "should redirect when not saved" do
@@ -194,7 +194,7 @@ describe NewsitemsController do
     it "should redirect when not logged in" do
       get :new
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
 
@@ -230,7 +230,7 @@ describe NewsitemsController do
       it "should redirect" do
         post :destroy, { :id => newsitems(:todays_news).id }
 
-        response.should redirect_to(:controller => "users", :action => "login")
+        response.should redirect_to(login_path)
         assert_equal 4, Newsitem.count, "should still have four news items"
       end
     end
@@ -243,7 +243,7 @@ describe NewsitemsController do
         post :destroy, { :id => newsitems(:todays_news).id, :listing => 'foobar' },
                 user_session(:edit)
 
-        assert_redirected_to :controller => 'newsitems', :action => 'index'
+        response.should redirect_to(newsitems_path)
         assert_equal 3, Newsitem.count, "lost just one news item"
         assert_nil Newsitem.find_by_headline("News of Today")
       end

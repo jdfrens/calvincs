@@ -17,7 +17,7 @@ describe FaqController do
     it "should redirect when not logged in" do
       get :create
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
   

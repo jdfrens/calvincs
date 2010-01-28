@@ -2,7 +2,7 @@
   <h1>
     <%= h(@user.full_name) %>
     <% if current_user -%>
-        <%= link_to "edit...", { :controller => "personnel", :action => "edit", :id => @user.id }, { :class => "more" } %>
+        <%= link_to "edit...", edit_person_path(@user), { :class => "more" } %>
     <% end -%>
   </h1>
 </div>

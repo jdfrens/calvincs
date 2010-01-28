@@ -1,6 +1,6 @@
 <h1>Edit User Information</h1>
 
-<% form_for :user, :url => { :controller => "personnel", :action => "update" }, :html => { :method => :put } do |form| -%>
+<% form_for :user, :url => person_path(@user), :html => { :method => :put } do |form| -%>
     <table>
       <tr>
         <td><%= form.label :first_name %></td>

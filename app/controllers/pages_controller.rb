@@ -37,10 +37,10 @@ class PagesController < ApplicationController
   def create
     @page = Page.new(params[:page])
     if @page.save
-      redirect_to :action => 'show', :id => @page.identifier
+      redirect_to page_path(@page.identifier)
     else
       flash[:error] = 'Invalid values for the page'
-      render :template => 'pages/new'
+      render :action => 'new'
     end
   end
   

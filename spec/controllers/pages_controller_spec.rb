@@ -36,13 +36,13 @@ describe PagesController, "without views" do
     it "should redirect when not logged in" do
       get :new
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
 
     it "should redirect when not logged in" do
       get :create
 
-      response.should redirect_to(:controller => 'users', :action => 'login')
+      response.should redirect_to(login_path)
     end
   end
 
@@ -85,7 +85,7 @@ describe PagesController, "without views" do
 
       get :show, { :id => "the identifier" }, user_session(:edit)
 
-      response.should redirect_to("/pages")
+      response.should redirect_to(pages_path)
     end
   end
 
@@ -151,7 +151,7 @@ describe PagesController, "without views" do
       
       post :destroy, :id => 1
 
-      response.should redirect_to(:controller => "users", :action => "login")
+      response.should redirect_to(login_path)
     end
   end
 end
@@ -172,7 +172,7 @@ describe PagesController do
              }
              }, user_session(:edit)
 
-        assert_redirected_to :action => 'show', :id => 'new_page'
+        response.should redirect_to(page_path('new_page'))
         assert flash.empty?
 
         page = Page.find_by_identifier('new_page')
@@ -204,7 +204,7 @@ describe PagesController do
                 :content => 'love me!'
         }
 
-        response.should redirect_to(:controller => 'users', :action => 'login')
+        response.should redirect_to(login_path)
 
         assert_equal original_count, Page.count, "should have #{original_count} pages still"
       end

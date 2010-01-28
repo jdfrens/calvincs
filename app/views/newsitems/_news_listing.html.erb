@@ -5,6 +5,6 @@
         <%= link_to_current_newsitem(newsitem) %>
       </li>
     <% end -%>
-    <li class="more"><%= link_to "News Archive...", :action=> :index, :year => "all" %></li>
+    <li class="more"><%= link_to "News Archive...", newsitems_path(:year => "all") %></li>
   </ul>
 </div>
