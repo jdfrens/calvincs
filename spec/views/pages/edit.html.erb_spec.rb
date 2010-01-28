@@ -42,7 +42,7 @@ describe "/pages/edit.html.erb" do
     end
 
     it "should link back to show the page" do
-      response.should have_selector("a", :href => "/p/mission", :content => 'show page')
+      response.should have_selector("a", :href => page_path(@page), :content => 'show page')
     end
   end
 
