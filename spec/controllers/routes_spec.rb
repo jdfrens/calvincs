@@ -12,6 +12,14 @@ describe HomeController do
 
 end
 
+describe PersonnelController do
+  user_fixtures
+  
+  it "should use a person's username" do
+    person_path(users(:jeremy)).should == "/people/jeremy"
+  end
+end
+
 describe PagesController do
 
   it "should recognize page routes" do

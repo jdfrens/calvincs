@@ -24,11 +24,11 @@ class PersonnelController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find_by_username(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.find_by_username(params[:id])
     if @user.update_attributes(params[:user])
       redirect_to people_path
     else
@@ -37,7 +37,7 @@ class PersonnelController < ApplicationController
 
   # TODO: degree controller!
   def update_degree
-    degree = Degree.find(params[:id])
+    degree = Degree.find_by_username(params[:id])
     degree.update_attributes(params[:degree])
     render :update do |page|
       page.replace_html "degree_#{degree.id}",

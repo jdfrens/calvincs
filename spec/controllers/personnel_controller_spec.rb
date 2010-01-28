@@ -68,7 +68,7 @@ describe PersonnelController do
     end
 
     it "should show editing form" do
-      get :edit, { :id => users(:joel).id }, user_session(:edit)
+      get :edit, { :id => users(:joel).username }, user_session(:edit)
 
       response.should render_template("personnel/edit")
       assigns[:user].should == users(:joel)
@@ -79,7 +79,7 @@ describe PersonnelController do
     it "should update and redirect" do
       user = users(:joel)
 
-      put :update, { :id => user.id, :user => { :first_name => "Billy" } }, user_session(:edit)
+      put :update, { :id => user.username, :user => { :first_name => "Billy" } }, user_session(:edit)
 
       response.should redirect_to(people_path)
       user.reload
