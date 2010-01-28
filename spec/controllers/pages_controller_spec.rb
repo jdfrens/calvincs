@@ -51,7 +51,7 @@ describe PagesController, "without views" do
       page = mock_model(Page, :subpage? => false, :title => "the title")
       image = mock_model(Image)
       updated_at = mock("updated at time")
-      Page.should_receive(:find_by_identifier).with("the identifier", {}).and_return(page)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
       page.should_receive(:random_image).and_return(image)
       page.should_receive(:updated_at).and_return(updated_at)
       controller.should_receive(:render).with(:template => "pages/show")
@@ -64,7 +64,7 @@ describe PagesController, "without views" do
     end
 
     it "should 404 if it doesn't exist" do
-      Page.should_receive(:find_by_identifier).with("the identifier", {}).and_return(nil)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(nil)
 
       get :show, :id => "the identifier"
 
@@ -73,7 +73,7 @@ describe PagesController, "without views" do
 
     it "should 404 if it's a subpage" do
       page = mock_model(Page, :subpage? => true)
-      Page.should_receive(:find_by_identifier).with("the identifier", {}).and_return(page)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
 
       get :show, :id => "the identifier"
 
@@ -81,7 +81,7 @@ describe PagesController, "without views" do
     end
 
     it "should redirect to list if it doesn't exist and logged in" do
-      Page.should_receive(:find_by_identifier).with("the identifier", {}).and_return(nil)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(nil)
 
       get :show, { :id => "the identifier" }, user_session(:edit)
 
@@ -92,7 +92,7 @@ describe PagesController, "without views" do
   describe "edit a page" do
     it "should load up page and render edit form" do
       page = mock_model(Page)
-      Page.should_receive(:find_by_identifier).with("the identifier", {}).and_return( page)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return( page)
 
       get :edit, { :id => "the identifier" }, user_session(:edit)
 

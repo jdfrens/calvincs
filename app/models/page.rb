@@ -21,12 +21,8 @@ class Page < ActiveRecord::Base
   named_scope :normal_pages, :conditions => "identifier not like '!_%' escape '!'"
   named_scope :subpages, :conditions => "identifier like '!_%' escape '!'"
 
-  def self.find_by_an_id(id, options={})
-    if id =~ /^\d+/
-      find(id, options)
-    else
-      find_by_identifier(id, options)
-    end
+  def to_param
+    identifier
   end
 
   def last_updated_dates
@@ -36,11 +32,7 @@ class Page < ActiveRecord::Base
   def random_image(index=-1)
     Image.pick_random(identifier, index)
   end
-  
-  def url_to
-    "/p/" + identifier
-  end
-  
+    
   def subpage?
     identifier =~ /^_/
   end

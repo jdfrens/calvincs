@@ -24,8 +24,7 @@ Then /^I should create (\w+) page$/ do |identifier|
 end
 
 Then /^I should edit (\w+) page$/ do |identifier|
-  id = Page.find_by_identifier(identifier).id
-  URI.parse(current_url).path.should == "/p/#{id}/edit"
+  URI.parse(current_url).path.should == edit_page_path(Page.find_by_identifier(identifier))
 end
 
 Then /^I should edit (\w+) page with id (\d+)$/ do |identifier, id|
@@ -34,9 +33,7 @@ Then /^I should edit (\w+) page with id (\d+)$/ do |identifier, id|
 end
 
 Then /^I should be editing a page$/ do
-  URI.parse(current_url).path.should match(%r{/p/(\d+)/edit})
-  URI.parse(current_url).path =~ %r{/pages/(\d+)/edit}
-  @page_id = $1
+  URI.parse(current_url).path.should match(%r{/p/(\w+)/edit})
 end
 
 Then /^there should be no pages$/ do

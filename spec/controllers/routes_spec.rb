@@ -27,9 +27,9 @@ describe PagesController do
   end
 
   it "should use /p abbreviation path to a page" do
-    page = mock_model(Page)
+    page = Factory.build(:page, :identifier => "foobar")
 
-    page_path(page).should == "/p/#{page.id}"
+    page_path(page).should == "/p/foobar"
   end
 
 end

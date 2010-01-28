@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   end
   
   def show
-    @page = Page.find_by_an_id(params[:id])
+    @page = Page.find_by_identifier(params[:id])
     if @page
       if @page.subpage?
         render :template => "errors/404.html", :status => 404
@@ -27,7 +27,7 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @page = Page.find_by_an_id(params[:id])
+    @page = Page.find_by_identifier(params[:id])
   end
 
   def new
@@ -37,7 +37,7 @@ class PagesController < ApplicationController
   def create
     @page = Page.new(params[:page])
     if @page.save
-      redirect_to page_path(@page.identifier)
+      redirect_to page_path(@page)
     else
       flash[:error] = 'Invalid values for the page'
       render :action => 'new'

@@ -15,20 +15,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Page do
   fixtures :pages, :images, :image_tags
 
-  describe "finding by id or identifier" do
-    it "should find by id" do
-      Page.find_by_an_id("5").should == pages(:jeremy_interests)
-    end
-
-    it "should find by id (and other text)" do
-      Page.find_by_an_id("5-whatever").should == pages(:jeremy_interests)
-    end
-
-    it "should find by identifier" do
-      Page.find_by_an_id("_jeremy_interests").should == pages(:jeremy_interests)
-    end
-  end
-
   describe "named scopes" do
     it "should find normal pages" do
       Page.normal_pages.should include(pages(:mission))
@@ -110,11 +96,6 @@ describe Page do
     5.times do |i|
       assert [images(:mission_wide), images(:mission_narrow)].include?(pages(:mission).random_image)
     end
-  end
-
-  def test_url_to
-    assert_equal "/p/mission", pages(:mission).url_to
-    assert_equal "/p/_jeremy_interests", pages(:jeremy_interests).url_to
   end
 
   def test_subpage_huh
