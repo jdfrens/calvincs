@@ -23,8 +23,8 @@ And /^I should see tomorrow as event date$/ do
 end
 
 Then /^I should see tomorrow and two days later$/ do
-  response.should contain(1.day.from_now.to_s(:conference))
-  response.should contain(3.days.from_now.to_s(:conference))
+  response.should contain(1.day.from_now.to_s(:conference).gsub(/\s+/, " "))
+  response.should contain(3.days.from_now.to_s(:conference).gsub(/\s+/, " "))
 end
 
 module EventHelpers
