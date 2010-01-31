@@ -19,7 +19,7 @@ When /^I select tomorrow as the date$/ do
 end
 
 And /^I should see tomorrow as event date$/ do
-  response.should contain(Chronic.parse("tomorrow").to_s(:conference))
+  response.should contain(Chronic.parse("tomorrow").to_s(:conference).gsub(/\s+/, " "))
 end
 
 Then /^I should see tomorrow and two days later$/ do

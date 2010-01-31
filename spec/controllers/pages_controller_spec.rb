@@ -92,7 +92,7 @@ describe PagesController, "without views" do
   describe "edit a page" do
     it "should load up page and render edit form" do
       page = mock_model(Page)
-      Page.should_receive(:find_by_identifier).with("the identifier").and_return( page)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
 
       get :edit, { :id => "the identifier" }, user_session(:edit)
 
@@ -117,10 +117,10 @@ describe PagesController, "without views" do
     it "should update a simple attribute with in-place editor" do
       page = mock_model(Page)
 
-      Page.should_receive(:find).with("33").and_return(page)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
       page.should_receive(:update_attributes).with("title" => "new value")
 
-      put :update, { :id => "33", :attribute => "title", :value => "new value" }, user_session(:edit)
+      put :update, { :id => "the identifier", :attribute => "title", :value => "new value" }, user_session(:edit)
 
       response.should contain("new value")
     end
@@ -128,10 +128,10 @@ describe PagesController, "without views" do
     it "should update the page content" do
       page = mock_model(Page)
 
-      Page.should_receive(:find).with("8").and_return(page)
+      Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
       page.should_receive(:update_attributes).with("content" => "new content")
 
-      put :update, { :id => "8", :page => { :content => "new content" } }, user_session(:edit)
+      put :update, { :id => "the identifier", :page => { :content => "new content" } }, user_session(:edit)
 
       response.should render_template("update")
     end

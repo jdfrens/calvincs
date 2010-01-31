@@ -15,5 +15,5 @@ Feature: managing pages
 
   Scenario: require a log in when editing a new page
     Given I am not logged in
-    When I go to the page to edit the page "foobar"
+    When I go to the edit "foobar" page
     Then I should be on the login page

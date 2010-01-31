@@ -30,3 +30,14 @@ Feature: managing personnel
     And I follow "edit..."
     And I follow "edit interests"
     Then I should see "Johnny's interests!" within "textarea"
+
+  Scenario: creating interests of a faculty member
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    When I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    And I follow "edit..."
+    And I follow "edit interests"
+    Then I should be editing a page

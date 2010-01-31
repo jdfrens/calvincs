@@ -81,3 +81,8 @@ Feature: managing pages
     Then I should see "bar bar bar."
     When I follow "edit this page"
     Then I should be editing a page
+
+  Scenario: create a new page when trying to edit
+    Given I am logged in as an editor
+    When I go to the edit "create_me" page
+    Then I should be editing a page

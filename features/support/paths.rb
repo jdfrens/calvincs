@@ -51,9 +51,9 @@ module NavigationHelpers
       when /the new page page/
         new_page_path
       when /the "(.*)" page/
-        "/p/#{$1}"
-      when /the page to edit the page "(.*)"/
-        "/pages/#{$1}/edit"
+        page_path($1)
+      when /the edit "(.*)" page/
+        edit_page_path($1)
       
       else
         raise "Can't find mapping from \"#{page_name}\" to a path.\n" +

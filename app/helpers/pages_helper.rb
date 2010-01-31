@@ -4,11 +4,11 @@ module PagesHelper
   end
 
   def in_place_editor(field)
-    tag("span", :class => "edit", :id => "page_#{field}") +
-      @page.send(field) +
-    "</span>" +
-    javascript_tag do
-      render "shared/in_place_editor.js", :url => page_path(@page), :field => field
-    end
+    content_tag(:span, :class => "edit", :id => "page_#{field}") do
+      @page.send(field)
+    end +
+            javascript_tag do
+              render "shared/in_place_editor.js", :url => page_path(@page), :field => field
+            end
   end
 end

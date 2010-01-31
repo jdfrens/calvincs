@@ -28,6 +28,9 @@ class PagesController < ApplicationController
 
   def edit
     @page = Page.find_by_identifier(params[:id])
+    if @page.nil?
+      @page = Page.create!(:title => 'default title', :content => 'default content', :identifier => params[:id])
+    end
   end
 
   def new
@@ -53,10 +56,10 @@ class PagesController < ApplicationController
     attribute = params[:attribute]
     case attribute
       when 'title', 'identifier'
-        Page.find(params[:id]).update_attributes(attribute => params[:value])
+        Page.find_by_identifier(params[:id]).update_attributes(attribute => params[:value])
         render :text => params[:value]
       else
-        @page = Page.find(params[:id])
+        @page = Page.find_by_identifier(params[:id])
         @page.update_attributes(params[:page])
     end
   end  
