@@ -81,7 +81,7 @@ describe PersonnelController do
 
       put :update, { :id => user.username, :user => { :first_name => "Billy" } }, user_session(:edit)
 
-      response.should redirect_to(people_path)
+      response.should redirect_to(person_path(user))
       user.reload
       user.full_name.should == "Billy Adams"
     end

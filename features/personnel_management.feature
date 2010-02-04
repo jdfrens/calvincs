@@ -41,3 +41,21 @@ Feature: managing personnel
     And I follow "edit..."
     And I follow "edit interests"
     Then I should be editing a page
+
+  Scenario: editing faculty member's degrees
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin    |
+    And the following degrees
+      | username | degree_type | institution          | year |
+      | jcalvin  | B.A.        | University of Geneva | 1612 |
+    When I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    Then I should see "B.A., University of Geneva, 1612"
+    When I follow "edit..."
+    And I fill in "Institution" with "M.I.T."
+    And I fill in "Year" with "1492"
+    And I press "Save changes"
+    Then I should not see "B.A., University of Geneva, 1612"
+    And I should see "B.A., M.I.T., 1492"

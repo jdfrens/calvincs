@@ -1,6 +1,6 @@
 <h1>Edit User Information</h1>
 
-<% form_for :user, :url => person_path(@user), :html => { :method => :put } do |form| -%>
+<% form_for @user do |form| -%>
     <table>
       <tr>
         <td><%= form.label :first_name %></td>
@@ -26,11 +26,16 @@
         <td><%= form.label :office_location %></td>
         <td><%= form.text_field :office_location %></td>
       </tr>
+      <% form.fields_for :degrees do |degree_form| %>
+          <tr>
+            <td colspan="2">&nbsp;</td>
+          </tr>
+          <%= render "degree_fields", :form => degree_form %>
+      <% end %>
       <tr>
-        <td></td>
-        <td><%= form.submit %></td>
-      </tr>
     </table>
+
+    <p><%= form.submit %></p>
 <% end -%>
 
 <h2>Special Content</h2>

@@ -22,3 +22,16 @@ Feature: viewing and listing personnel
     Then I should see "Martin Luther" within "h1"
     And I should see "616-867-5309"
     And I should see "NH 665"
+
+  Scenario: degrees of a faculty member
+    Given the following users
+      | username | first_name | last_name | office_phone | office_location |
+      | jcalvin  | Johnny     | Calvin | 616-555-5555 | NH 123 |
+    And the following degrees
+      | username | degree_type | institution          | year |
+      | jcalvin  | B.A.        | University of Geneva | 1612 |
+      | jcalvin  | M.S.        | Paris University     | 1614 |
+    When I go to the list of personnel
+    And I follow "Johnny Calvin"
+    Then I should see "B.A., University of Geneva, 1612"
+    And I should see "M.S., Paris University, 1614"
