@@ -33,6 +33,10 @@
           <%= render "degree_fields", :form => degree_form %>
       <% end %>
       <tr>
+      <tr>
+        <td></td>
+        <td><%= link_to_add_fields "Add degree", form, :degrees %></td>
+      </tr>
     </table>
 
     <p><%= form.submit %></p>
@@ -43,7 +47,7 @@
 <ul>
   <li>
     <%= link_to "edit interests", edit_page_path(@user.page_identifier("interests")) %>
-    (research and professional)
+    (comma-separated list of research and professional interests)
   </li>
   <li>
     <%= link_to "edit status", edit_page_path(@user.page_identifier("status")) %>

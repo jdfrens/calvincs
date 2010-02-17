@@ -40,6 +40,8 @@ module NavigationHelpers
       # personnel
       when /the list of personnel/
         people_path
+      when /edit person "(.*)"/
+        edit_person_path($1)
       
       # courses
       when /the list of courses/
