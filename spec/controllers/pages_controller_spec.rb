@@ -139,9 +139,11 @@ describe PagesController, "without views" do
   
   context "destroying a page" do
     it "should destroy when logged in" do
-      Page.should_receive(:destroy).with("1")
+      page = mock_model(Page)
+      Page.should_receive(:find_by_identifier).with("foobar").and_return(page)
+      page.should_receive(:destroy)
       
-      post :destroy, { :id => "1" }, user_session(:edit)
+      post :destroy, { :id => "foobar" }, user_session(:edit)
 
       response.should redirect_to(pages_path)
     end

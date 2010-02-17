@@ -42,6 +42,55 @@ Feature: managing personnel
     And I follow "edit interests"
     Then I should be editing a page
 
+  Scenario: deleting interests of a faculty member
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    And the following pages
+      |identifier         | title | content      |
+      |_jcalvin_interests | DNM   | Interests of Johnny! |
+    When I follow "Faculty & Staff"
+    Then I should see "Interests of Johnny!"
+    When I follow "Johnny Calvin"
+    And I follow "edit..."
+    And I follow "delete interests"
+    And I follow "Faculty & Staff"
+    Then I should not see "Interests of Johnny!"
+
+  Scenario: deleting status of a faculty member
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    And the following pages
+      |identifier      | title | content |
+      |_jcalvin_status | DNM   | status! |
+    When I follow "Faculty & Staff"
+    Then I should see "status!"
+    When I follow "Johnny Calvin"
+    And I follow "edit..."
+    And I follow "delete status"
+    And I follow "Faculty & Staff"
+    Then I should not see "status!"
+
+  Scenario: deleting profile of a faculty member
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    And the following pages
+      |identifier       | title | content      |
+      |_jcalvin_profile | DNM   | He was a reformer! |
+    When I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    Then I should see "He was a reformer!"
+    And I follow "edit..."
+    And I follow "delete profile"
+    And I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    Then I should not see "He was a reformer!"
+
   Scenario: editing faculty member's degrees
     Given I am logged in as an editor
     And the following users

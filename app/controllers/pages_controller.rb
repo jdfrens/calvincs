@@ -48,7 +48,7 @@ class PagesController < ApplicationController
   end
   
   def destroy
-    Page.destroy(params[:id])
+    Page.find_by_identifier(params[:id]).destroy
     redirect_to :action => 'index'
   end
 
