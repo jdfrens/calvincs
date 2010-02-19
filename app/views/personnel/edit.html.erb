@@ -11,6 +11,10 @@
         <td><%= form.text_field :last_name %></td>
       </tr>
       <tr>
+        <td><%= form.label :role %></td>
+        <td><%= form.collection_select :role_id, Role.all, :id, :name %></td>
+      </tr>
+      <tr>
         <td><%= form.label :job_title %></td>
         <td><%= form.text_field :job_title %></td>
       </tr>
@@ -45,24 +49,7 @@
 <h2>Special Content</h2>
 
 <ul>
-  <li>
-    <%= link_to "edit interests", edit_page_path(@user.page_identifier("interests")) %>
-    (comma-separated list of research and professional interests)
-  </li>
-  <li><%= link_to "delete interests", page_path(@user.page_identifier("interests")),
-                  :method => "delete", :confirm => "Are you sure?" %></li>
-
-  <li>
-    <%= link_to "edit profile", edit_page_path(@user.page_identifier("profile")) %>
-    (two paragraphs of professional biography)
-  </li>
-  <li><%= link_to "delete profile", page_path(@user.page_identifier("profile")),
-                  :method => "delete", :confirm => "Are you sure?" %></li>
-
-  <li>
-    <%= link_to "edit status", edit_page_path(@user.page_identifier("status")) %>
-    (chair of the department? dean of computer security? Use a complete sentence or two.)
-  </li>
-  <li><%= link_to "delete status", page_path(@user.page_identifier("status")),
-                  :method => "delete", :confirm => "Are you sure?" %></li>
+  <%= render :partial => 'edit_page_links', :locals => { :page_type => "interests" } %>
+  <%= render :partial => 'edit_page_links', :locals => { :page_type => "profile" } %>
+  <%= render :partial => 'edit_page_links', :locals => { :page_type => "status" } %>
 </ul>

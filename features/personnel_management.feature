@@ -17,6 +17,21 @@ Feature: managing personnel
     Then I should see "Martin Luther"
     And I should not see "Johnny Calvin"
 
+  Scenario: editing group of person
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    When I follow "Faculty & Staff"
+    Then I should see "Johnny Calvin" within "table#faculty_listing"
+    And I follow "Johnny Calvin"
+    And I follow "edit..."
+    Then I should see "faculty"
+    When I select "adjuncts" from "user_role_id"
+    And I press "Save changes"
+    And I follow "Faculty & Staff"
+    Then I should see "Johnny Calvin" within "table#adjuncts_listing"
+
   Scenario: editing interests of a faculty member
     Given I am logged in as an editor
     And the following users
