@@ -1,4 +1,4 @@
-Feature: managing pictures
+Feature: securing pictures
   As a administrator
   I want to protect the pictures
   So that only people I allow can change their properties
