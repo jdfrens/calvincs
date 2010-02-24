@@ -38,25 +38,36 @@ describe ImagesController do
       end
 
       it "should create a new image" do
-        ImageInfo.fake_size("http://example.com/foo.gif", :width => 265, :height => 200)
+        image = mock_model(Image)
+        image_params = { "url" => "some url", "tags_string" => "string of tags" }
 
-        get :create,
-                { :image => {
-                        :url => "http://example.com/foo.gif",
-                        :caption => "Foo is bar!",
-                        :tags_string => "foobar barfoo" } },
-                user_session(:edit)
+        Image.should_receive(:create!).with(image_params).and_return(image)
+        image.should_receive(:tags_string=).with("string of tags")
+        image.should_receive(:save!)
+
+        get :create, { :image => image_params }, user_session(:edit)
 
         response.should redirect_to(images_path)
-        image = Image.find_by_caption("Foo is bar!")
-
-        assert_not_nil image
-        assert_equal "http://example.com/foo.gif", image.url
-        assert_equal 265, image.width
-        assert_equal 200, image.height
-        assert_equal "Foo is bar!", image.caption
-        assert_equal ["foobar", "barfoo"], image.tags
       end
+    end
+  end
+
+  context "edit action" do
+    it "should redirect when not logged in" do
+      get :edit
+
+      response.should redirect_to(login_path)
+    end
+
+    it "should find image and render view" do
+      image = mock_model(Image)
+
+      Image.should_receive(:find).with(image.id.to_s).and_return(image)
+
+      get :edit, { :id => image.id }, user_session(:edit)
+
+      assigns[:image].should == image
+      response.should render_template("images/edit")
     end
   end
 
@@ -67,32 +78,16 @@ describe ImagesController do
       response.should redirect_to(login_path)
     end
 
-
     context "when logged in" do
       it "should update image" do
-        ImageInfo.fake_size("http://example.com/lovely.gif", :width => 199, :height => 265)
+        image = mock_model(Image)
 
-        image = Image.find(2)
-        assert_equal "http://calvin.edu/abcd.png", image.url
-        assert_equal "A B C, indeed!", image.caption
-        assert_equal "", image.tags_string
+        Image.should_receive(:find).with(image.id.to_s).and_return(image)
+        image.should_receive(:update_attributes).with("image params")
 
-        post :update,
-                { :format => "js", :id => 2,
-                        :image => {
-                                :url => "http://example.com/lovely.gif",
-                                :caption => "Lovely.",
-                                :tags_string => "very lovely" } },
-                user_session(:edit)
+        post :update, { :id => image.id, :image => "image params"}, user_session(:edit)
 
-        assert_response :success
-        
-        image.reload
-        assert_equal "http://example.com/lovely.gif", image.url
-        assert_equal "Lovely.", image.caption
-        assert_equal 199, image.width
-        assert_equal 265, image.height
-        assert_equal "very lovely", image.tags_string
+        response.should redirect_to(images_path)
       end
     end
   end

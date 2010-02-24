@@ -22,19 +22,22 @@ class ImageTest < ActiveRecord::TestCase
     assert image.errors.invalid?(:url)
   end
   
-  def test_setting_width_and_height
-    ImageInfo.fake_size("http://example.com/somewhere.gif", :width => 123, :height => 665)
-    ImageInfo.fake_size("http://example.com/somewhereelse.gif", :width => 8, :height => 32)
+  it "should get dimension info" do
+    image_info = mock("image info", :width => 8, :height => 32)
+
+    ImageInfo.should_receive(:new).with("http://example.com/somewhere.gif").and_return(image_info)
     
-    image = Image.new(:url => "http://example.com/somewhere.gif")
-    image.save!
-    assert_equal 123, image.width
-    assert_equal 665, image.height
-    
-    image = Image.new(:url => "http://example.com/somewhereelse.gif")
-    image.save!
-    assert_equal 8, image.width
-    assert_equal 32, image.height
+    image = Image.create(:url => "http://example.com/somewhere.gif")
+
+    image.width.should == 8
+    image.height.should == 32
+  end
+
+  it "should handle 404 gracefully" do
+    image = Image.new(:url => "http://www.example.com/foobar.jpg")
+    image.obtain_dimensions
+
+    image.usability.should == :unusable
   end
   
   def test_usability

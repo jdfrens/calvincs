@@ -17,15 +17,13 @@ class ImagesController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  def update
+  def edit
     @image = Image.find(params[:id])
-    @image.update_attributes(params[:image])
-    @image.tags_string = params[:image][:tags_string]
-    @image.save!
-    @image.reload
-    respond_to do |format|
-      format.js
-    end
+  end
+
+  def update
+    Image.find(params[:id]).update_attributes(params[:image])
+    redirect_to(images_path)
   end
 
   def destroy
