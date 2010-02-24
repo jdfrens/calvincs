@@ -37,6 +37,14 @@ module NavigationHelpers
       when /the new news item page/
         '/newsitems/new'
 
+      # pictures
+      when /the list of pictures/
+        images_path
+      when /the new picture page/
+        new_image_path
+      when /the edit the "(.*)" picture/
+        edit_image_path(Image.find_by_url($1))
+
       # personnel
       when /the list of personnel/
         people_path

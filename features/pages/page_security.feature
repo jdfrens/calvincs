@@ -13,7 +13,7 @@ Feature: managing pages
     When I go to the new page page
     Then I should be on the login page
 
-  Scenario: require a log in when editing a new page
+  Scenario: require a log in when editing a page
     Given I am not logged in
     When I go to the edit "foobar" page
     Then I should be on the login page

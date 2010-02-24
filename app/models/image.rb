@@ -36,6 +36,9 @@ class Image < ActiveRecord::Base
   end
   
   def tags_string=(string)
+    if string.nil?
+      string = ""
+    end
     image_tags.delete_all
     string.split(/\s+/).each do |new_tag|
       image_tags.create!(:tag => new_tag)
