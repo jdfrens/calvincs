@@ -4,51 +4,35 @@ describe "/images/_image.html.erb" do
 
   before(:each) do
     @image = mock_model(Image,
-            :url => "the url", :width => "42", :height => "666", :usability => "whatever",
+            :url => "the url", :width => "295", :height => "295", :usability => "whatever",
             :caption => "the caption", :tags_string => "one two three")
     template.should_receive(:image).at_least(:once).and_return(@image)
 
     render "/images/_image"
   end
 
-  it "should have a form" do
-    assert_select "form[action=/images/#{@image.id}]"
-  end
-
-  it "should be an update" do
-    response.should have_selector("input[name=_method][value=put]")  
-  end
-
   it "should have url stuff" do
-    assert_select "tr td input#image_url_#{@image.id}[value=#{@image.url}]"
-    assert_select "tr td a[href=#{@image.url}]", "see picture"
+    response.should have_selector("a", :href => 'the url', :content => 'the url')
   end
 
   it "should have dimensions and usability" do
-    assert_select "tr td .dimension", "#{@image.width}x#{@image.height}"
-    assert_select "tr td .usability", @image.usability.to_s
+    response.should have_selector(".dimension", :content => "#{@image.width}x#{@image.height}")
+    response.should have_selector(".usability", :content => "whatever")
   end
 
   it "should have a caption" do
-    assert_select "tr td", @image.caption
-    assert_select "textarea#image_caption_#{@image.id}", @image.caption
+    response.should have_selector(".caption", :content => @image.caption)
   end
 
   it "should have tags" do
-    assert_select "tr td input#image_tags_string_#{@image.id}[value=#{@image.tags_string}]"
+    response.should have_selector(".tags", :content => "one two three")
   end
 
-  it "should have a submit button" do
-    assert_select "input[type=submit][value=Update]"
+  it "should have an edit link" do
+    response.should have_selector("a", :href => edit_image_path(@image), :content => "edit...")
   end
 
-  it "should have a spinner" do
-    should_have_spinner :number => @image.id
+  it "should have a destroy link" do
+    response.should have_selector("a", :content => "delete")
   end
-
-  it "should have a destroy button" do
-    assert_select "form[action=/images/#{@image.id}] input[type=submit][value=Destroy]"
-    assert_select "input[name=_method][value=delete]"
-  end
-
 end
