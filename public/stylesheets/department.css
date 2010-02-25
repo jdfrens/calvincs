@@ -260,6 +260,13 @@ div.news-item div.content {
     display: inline;
 }
 
+/*********/
+/* Forms */
+/*********/
+table.form td {
+    vertical-align: top;
+}
+
 /***************************/
 /* Faculty & staff listing */
 /***************************/

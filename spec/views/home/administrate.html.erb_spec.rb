@@ -32,10 +32,10 @@ describe "/home/administrate.html.erb" do
   it "should have a album menu" do
     render "home/administrate"
 
-    assert_select "h2", "Image Album"
-    assert_select "ul#picture_administration" do
-      assert_select "a[href=/images]", /list images/i
-      assert_select "a[href=/images/new]", /add image/i
+    response.should have_selector("h2", :content => "Images")
+    response.should have_selector("#picture_administration") do |ul|
+      ul.should have_selector("a", :href => images_path, :content => "List images")
+      ul.should have_selector("a", :href => new_image_path, :content => "Add image")
     end
   end
 

@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :colloquia, :controller => 'events'
   map.resources :conferences, :controller => 'events'
   map.resources :courses
-  map.resources :images
+  map.resources :images, :as => 'pictures'
   map.resources :newsitems
   map.resources :pages, :as => "p"
   map.resources :people, :controller => 'personnel'

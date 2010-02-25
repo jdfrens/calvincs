@@ -1,5 +1,5 @@
 <% form_for(@image) do |form| -%>
-    <table summary="image data">
+    <table summary="image data" class="form">
       <tr>
         <td><%= form.label :url, "URL" %></td>
         <td><%= form.text_field :url, :size => 65 %></td>
@@ -10,7 +10,19 @@
       </tr>
       <tr>
         <td><%= form.label :tags_string, "Tags" %></td>
-        <td><%= form.text_field :tags_string, :size => 40 %></td>
+        <td>
+          <%= form.text_field :tags_string, :size => 40 %>
+          <ul>
+            <li>enter a <em>space</em> separated list of tags</li>
+            <li>a tag is any valid Perl identifier</li>
+            <li>special tags:
+              <ul>
+                <li>use a page identifier as a tag</li>
+                <li><code><em>username</em>_headshot</code> is used on the "Faculty & Staff" page</li>
+              </ul>
+            </li>
+          </ul>
+        </td>
       </tr>
       <tr>
         <td></td>

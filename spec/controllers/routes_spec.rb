@@ -41,3 +41,14 @@ describe PagesController do
   end
 
 end
+
+
+describe ImagesController do
+  it "should recognize list route" do
+    route_for(:controller => "images", :action => "index").should == "/pictures"
+  end
+
+  it "should recognize edit route" do
+    route_for(:controller => "images", :action => "edit", :id => "8").should == "/pictures/8/edit"
+  end
+end
