@@ -114,3 +114,14 @@ Feature: managing personnel
     And I follow "Faculty & Staff"
     And I follow "Johnny Calvin"
     Then I should not see "He was a reformer!"
+
+  Scenario: jumping to the images list
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    When I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    And I follow "edit..."
+    And I follow "tag images"
+    Then I should be on the list of pictures

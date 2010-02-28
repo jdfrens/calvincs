@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe "/personnel/edit.html.erb" do
   it "should render a form" do
-    assigns[:user] = user = mock_model(User, :first_name => "First", :last_name => "Last",
+    assigns[:user] = user = mock_model(User, :first_name => "First", :last_name => "Last", :username => "flast",
                                        :role_id => 5,
                                        :email_address => "flast@example.com",
                                        :office_phone => "867-5309", :office_location => "somewhere",
@@ -25,7 +25,7 @@ describe "/personnel/edit.html.erb" do
   end
 
   it "should render a editing links" do
-    assigns[:user] = user = mock_model(User, :first_name => "First", :last_name => "Last",
+    assigns[:user] = user = mock_model(User, :first_name => "First", :last_name => "Last", :username => "flast",
                                        :role_id => 5,
                                        :email_address => "flast@example.com",
                                        :office_phone => "867-5309", :office_location => "somewhere",
