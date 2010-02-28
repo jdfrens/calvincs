@@ -1,8 +1,13 @@
-<li>
-  <%= link_to "edit #{page_type}", edit_page_path(@user.page_identifier(page_type)) %>
-  (<%= page_type_description[page_type] %>)
-</li>
-<li>
-  <%= link_to "delete #{page_type}", page_path(@user.page_identifier(page_type)),
-                :method => "delete", :confirm => "Are you sure?" %>
-</li>
+<% if @user.subpage(page_type) -%>
+    <li>
+      <%= link_to "edit #{page_type}", edit_page_path(@user.page_identifier(page_type)) %>
+    </li>
+    <li>
+      <%= link_to "delete #{page_type}", page_path(@user.page_identifier(page_type)),
+                  :method => "delete", :confirm => "Are you sure?" %>
+    </li>
+<% else -%>
+    <li>
+      <%= link_to "create #{page_type}", edit_page_path(@user.page_identifier(page_type)) %>
+    </li>
+<% end -%>

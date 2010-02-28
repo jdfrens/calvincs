@@ -17,10 +17,4 @@ module PersonnelHelper
       yield value
     end
   end
-
-  def page_type_description
-    { "interests" => "comma-separated list of research and professional interests",
-      "profile" => "two paragraphs of professional biography",
-      "status" => "chair of the department? dean of computer security? Use a complete sentence or two." }
-  end
 end

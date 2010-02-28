@@ -46,10 +46,35 @@
     <p><%= form.submit %></p>
 <% end -%>
 
+
 <h2>Special Content</h2>
+
+
+<h3>Interests</h3>
+
+<p><em>a comma-separated list of research and professional interests...</em></p>
 
 <ul>
   <%= render :partial => 'edit_page_links', :locals => { :page_type => "interests" } %>
+</ul>
+
+
+<h3>Profile</h3>
+
+<p><em>two paragraphs of professional biography...</em></p>
+
+<ul>
   <%= render :partial => 'edit_page_links', :locals => { :page_type => "profile" } %>
+</ul>
+
+
+<h3>Status</h3>
+
+<p><em>chair of the department? dean of computer security? Use a complete sentence or two...</em></p>
+
+<ul>
   <%= render :partial => 'edit_page_links', :locals => { :page_type => "status" } %>
 </ul>
+
+
+<h3>Images</h3>
