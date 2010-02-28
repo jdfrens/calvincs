@@ -3,7 +3,27 @@ Feature: managing personnel
   I want to edit the pages of person
   So that others can know more about the person
 
-  Scenario: creating link for missing faculty interests
+  Scenario Outline: edit and delete links
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    And the following pages
+      |identifier      | title | content          |
+      |_jcalvin_<page> | DNM   | <page> contents! |
+    When I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    And I follow "edit..."
+    Then I should see "edit <page>"
+    And I should see "delete <page>"
+    And I should not see "create <page>"
+    Examples:
+      | page      |
+      | interests |
+      | profile   |
+      | status    |
+        
+  Scenario Outline: creating link
     Given I am logged in as an editor
     And the following users
       | username | first_name | last_name |
@@ -11,109 +31,73 @@ Feature: managing personnel
     When I follow "Faculty & Staff"
     And I follow "Johnny Calvin"
     And I follow "edit..."
-    Then I should not see "edit interests"
-    And I should not see "delete interests"
-    And I should see "create interests"
+    Then I should not see "edit <page>"
+    And I should not see "delete <page>"
+    And I should see "create <page>"
+    Examples:
+      | page      |
+      | interests |
+      | profile   |
+      | status    |
 
-  Scenario: editing and deleting links for existing faculty interests
+  Scenario Outline: creating pages for faculty member
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    When I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    And I follow "edit..."
+    And I follow "create <page>"
+    Then I should see "_jcalvin_<page>"
+    Examples:
+      | page      |
+      | interests |
+      | profile   |
+      | status    |
+
+  Scenario Outline: editing pages of a faculty member
     Given I am logged in as an editor
     And the following users
       | username | first_name | last_name |
       | jcalvin  | Johnny     | Calvin |
     And the following pages
       |identifier         | title | content      |
-      |_jcalvin_interests | DNM   | Johnny's interests! |
+      |_jcalvin_<page> | DNM   | <page> contents! |
     When I follow "Faculty & Staff"
     And I follow "Johnny Calvin"
     And I follow "edit..."
-    Then I should see "edit interests"
-    And I should see "delete interests"
-    And I should not see "create interests"
+    And I follow "edit <page>"
+    Then I should see "<page> contents!" within "textarea"
+    Examples:
+      | page      |
+      | interests |
+      | profile   |
+      | status    |
 
-  Scenario: creating interests of a faculty member
-    Given I am logged in as an editor
-    And the following users
-      | username | first_name | last_name |
-      | jcalvin  | Johnny     | Calvin |
-    When I follow "Faculty & Staff"
-    And I follow "Johnny Calvin"
-    And I follow "edit..."
-    And I follow "create interests"
-    Then I should see "_jcalvin_interests"
-
-  Scenario: editing interests of a faculty member
+  Scenario Outline: deleting pages of a faculty member
     Given I am logged in as an editor
     And the following users
       | username | first_name | last_name |
       | jcalvin  | Johnny     | Calvin |
     And the following pages
-      |identifier         | title | content      |
-      |_jcalvin_interests | DNM   | Johnny's interests! |
+      |identifier      | title | content          |
+      |_jcalvin_<page> | DNM   | <page> contents! |
     When I follow "Faculty & Staff"
-    And I follow "Johnny Calvin"
-    And I follow "edit..."
-    And I follow "edit interests"
-    Then I should see "Johnny's interests!" within "textarea"
-
-  Scenario: creating interests of a faculty member
-    Given I am logged in as an editor
-    And the following users
-      | username | first_name | last_name |
-      | jcalvin  | Johnny     | Calvin |
-    When I follow "Faculty & Staff"
-    And I follow "Johnny Calvin"
-    And I follow "edit..."
-    And I follow "create interests"
-    Then I should be editing a page
-
-  Scenario: deleting interests of a faculty member
-    Given I am logged in as an editor
-    And the following users
-      | username | first_name | last_name |
-      | jcalvin  | Johnny     | Calvin |
-    And the following pages
-      |identifier         | title | content      |
-      |_jcalvin_interests | DNM   | Interests of Johnny! |
-    When I follow "Faculty & Staff"
-    Then I should see "Interests of Johnny!"
+    Then I should see "<list contents>"
     When I follow "Johnny Calvin"
+    Then I should see "<person contents>"
     And I follow "edit..."
-    And I follow "delete interests"
+    And I follow "delete <page>"
     And I follow "Faculty & Staff"
-    Then I should not see "Interests of Johnny!"
-
-  Scenario: deleting status of a faculty member
-    Given I am logged in as an editor
-    And the following users
-      | username | first_name | last_name |
-      | jcalvin  | Johnny     | Calvin |
-    And the following pages
-      |identifier      | title | content |
-      |_jcalvin_status | DNM   | status! |
-    When I follow "Faculty & Staff"
-    Then I should see "status!"
+    Then I should not see "<page> contents!"
     When I follow "Johnny Calvin"
-    And I follow "edit..."
-    And I follow "delete status"
-    And I follow "Faculty & Staff"
-    Then I should not see "status!"
-
-  Scenario: deleting profile of a faculty member
-    Given I am logged in as an editor
-    And the following users
-      | username | first_name | last_name |
-      | jcalvin  | Johnny     | Calvin |
-    And the following pages
-      |identifier       | title | content      |
-      |_jcalvin_profile | DNM   | He was a reformer! |
-    When I follow "Faculty & Staff"
-    And I follow "Johnny Calvin"
-    Then I should see "He was a reformer!"
-    And I follow "edit..."
-    And I follow "delete profile"
-    And I follow "Faculty & Staff"
-    And I follow "Johnny Calvin"
-    Then I should not see "He was a reformer!"
+    Then I should not see "<page> contents!"
+  Examples:
+    | page      | list contents       | person contents |
+    | interests | interests contents! | interests contents! |
+    | profile   |                     | profile contents!   |
+    | status    | status contents!    |                     |
 
   Scenario: jumping to the images list
     Given I am logged in as an editor
