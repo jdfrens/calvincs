@@ -1,0 +1,26 @@
+this.popups = function() {
+    xOffset = 10;
+    yOffset = 30;
+
+    $("a.popup").hover(
+            function(e) {
+                $("body").append("<p id='popup'><img src='" + this.href + "' alt='url preview' /></p>");
+                $("#popup")
+                        .css("top", (e.pageY - xOffset) + "px")
+                        .css("left", (e.pageX + yOffset) + "px")
+                        .fadeIn("fast");
+            },
+            function() {
+                $("#popup").remove();
+            });
+    $("a.popup").mousemove(function(e) {
+        $("#popup")
+                .css("top", (e.pageY - xOffset) + "px")
+                .css("left", (e.pageX + yOffset) + "px");
+    });
+
+};
+
+$(document).ready(function() {
+    popups();
+});

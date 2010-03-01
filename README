@@ -17,3 +17,10 @@ CS Department Setup
 1. Create a config/database.yml.  You might be able to use config/database.example without too much trouble.
 2. Create the databases with rake db:create
 3. Start doing RoR.
+
+
+Giving Some Credit
+==================
+
+Image popups on the image-list page courtesy of these demos:
+http://cssglobe.com/post/1695/easiest-tooltip-and-image-preview-using-jquery

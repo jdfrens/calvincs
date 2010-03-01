@@ -184,6 +184,15 @@ p.img-caption {
     margin-bottom: 20px;
 }
 
+#popup {
+    position: absolute;
+    border: 1px solid #ccc;
+    background: #333;
+    padding: 5px;
+    display: none;
+    color: #fff;
+}
+
 /************************/
 /* Editing mode changes */
 /************************/

@@ -1,7 +1,15 @@
 <h1>List of Images</h1>
 
+<p><%= link_to "Add an image", new_image_path %></p>
+
 <div id="image-list">
   <% @images.each do |image| -%>
-    <%= render :partial => 'image', :object => image %>
+      <%= render :partial => 'image', :object => image %>
   <% end %>
 </div>
+
+<% javascript_tag do %>
+    <%= render "image_popups.js" %>
+<% end %>
+
+<p><%= link_to "Add an image", new_image_path %></p>
