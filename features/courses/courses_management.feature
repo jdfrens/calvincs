@@ -17,11 +17,12 @@ Feature: creating and editing the courses offered by the department
     Given I am logged in as an editor
     When I am on the administration page
     And I follow "Create" within "#course_administration"
-    And I fill in "Label" with "CS"
-    And I fill in "Course number" with "873"
-    And I fill in "Title" with "Hey, Learn Computing!"
-    And I fill in "Credits" with "3"
-    And I fill in "Description" with "catalog description of CS 873"
+    And I fill in the following:
+      | Label         | CS    |
+      | Course number | 873   |
+      | Title         | Hey, Learn Computing! |
+      | Credits       | 3     |
+      | Description   | catalog description of CS 873 |
     And I press "Create"
     Then I should be on the list of courses page
     And I should see "CS 873: Hey, Learn Computing!"
