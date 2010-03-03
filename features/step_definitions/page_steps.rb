@@ -8,14 +8,12 @@ Given /^the following pages$/ do |table|
   end
 end
 
-Given /^the subpages for the home page$/ do
+Given /^default homepage content$/ do
   Page.create!(:identifier => "_home_page", :title => "not needed", :content => "home page whatever")
-  Page.create!(:identifier => "_home_splash", :title => "not needed", :content => "home splash whatever")
-end
-
-Then /^I should see content for the home subpages$/ do
-  Then 'I should see "home page whatever"'
-  Then 'I should see "home splash whatever"'
+  Image.create!(:url => "/images/foobar.jpg").tap do |image|
+    image.tags_string = "homepage"
+    image.save!
+  end
 end
 
 Then /^I should create (\w+) page$/ do |identifier|

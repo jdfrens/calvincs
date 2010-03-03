@@ -7,14 +7,16 @@ Feature: the home page
     Given the following pages
       | identifier   | title           | content      |
       | _home_page   | does not matter | some content |
-      | _home_splash | does not matter | sploosh!     |
+    And the following images
+      | url            | caption      | tags_string |
+      | /images/foobar | The caption. | homepage    |
     When I go to the homepage
     Then I should be on the homepage
     And I should see "some content"
-    And I should see "sploosh!"
+    And I should see an image "/images/foobar"
 
   Scenario: see the home page with an event today
-    Given the subpages for the home page
+    Given default homepage content
     And the following colloquia
       | title    | start              |
       | Get Real | tomorrow at 3:30pm |
@@ -27,7 +29,7 @@ Feature: the home page
     Then I should see "Get Real"
 
   Scenario: see the home page with an event tomorrow
-    Given the subpages for the home page
+    Given default homepage content
     And the following colloquia
       | title    | start           |
       | Get Real | today at 3:30pm |
@@ -37,7 +39,7 @@ Feature: the home page
     And I should not see "Colloquium this week!"
 
   Scenario:see the home page with a conference today and tomorrow
-    Given the subpages for the home page
+    Given default homepage content
     And the following conferences
       | title    | start     | stop     |
       | GLSEC    | yesterday | tomorrow |
@@ -47,7 +49,7 @@ Feature: the home page
     And I should see "Conference this week!"
 
   Scenario: see the home page with certain events
-    Given the subpages for the home page
+    Given default homepage content
     And the following colloquia
       | title       | start               |
       | Old West    | yesterday at 3:30pm |
@@ -61,13 +63,12 @@ Feature: the home page
     And I should see "The Future"
 
   Scenario: see the home page with some news
-    Given the subpages for the home page
+    Given default homepage content
     And the following news items
       | headline | teaser | content               |
       | News!    | na na! | No news is good news. |
     When I go to the homepage
     Then I should be on the homepage
-    And I should see content for the home subpages
     And I should see "na na!"
     And I should not see "No news is good news."
     When I follow "more..."
@@ -75,7 +76,7 @@ Feature: the home page
     And I should see "No news is good news."
 
   Scenario: try every page on the main menu
-    Given the subpages for the home page
+    Given default homepage content
     Given the following pages
       | identifier   | title           | content      |
       | about_us     | All About Us    | About all us all. |
