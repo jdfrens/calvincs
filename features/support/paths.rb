@@ -21,6 +21,10 @@ module NavigationHelpers
       when /the administration page/
         administrate_path
 
+      # courses
+      when /the list of courses/
+        courses_path
+
       # events
       when /the new event page/
         new_event_path
@@ -51,15 +55,13 @@ module NavigationHelpers
       when /edit person "(.*)"/
         edit_person_path($1)
       
-      # courses
-      when /the list of courses/
-        courses_path
-
       # pages
       when /the page listing/
         pages_path
       when /the new page page/
         new_page_path
+      when /the new page for "(.*)" page/
+        new_page_path(:id => $1)
       when /the "(.*)" page/
         page_path($1)
       when /the edit "(.*)" page/

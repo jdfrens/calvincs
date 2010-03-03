@@ -3,7 +3,7 @@ Feature: the home page
   I want to see the home page
   So that I can access other pages and read news
 
-  Scenario: see the home page
+  Scenario: see the home page content
     Given the following pages
       | identifier   | title           | content      |
       | _home_page   | does not matter | some content |
@@ -13,7 +13,18 @@ Feature: the home page
     When I go to the homepage
     Then I should be on the homepage
     And I should see "some content"
+
+  Scenario: see the home page splash
+    Given the following pages
+      | identifier   | title           | content      |
+      | _home_page   | does not matter | some content |
+    And the following images
+      | url            | caption      | tags_string |
+      | /images/foobar | The caption. | homepage    |
+    When I go to the homepage
+    Then I should be on the homepage
     And I should see an image "/images/foobar"
+    And I should see "The caption."
 
   Scenario: see the home page with an event today
     Given default homepage content

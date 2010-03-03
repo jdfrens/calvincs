@@ -4,7 +4,9 @@ describe "/layouts/application.html.erb" do
 
   it "should render the application layout with a title" do
     template.should_receive(:title).and_return("<title>the title</title>")
+
     render "layouts/application"
+
     response.should have_tag("head") do
       with_tag("title", "the title")
     end
@@ -69,6 +71,22 @@ describe "/layouts/application.html.erb" do
       render "layouts/application"
 
       response.should have_tag("div#footer")
+    end
+  end
+
+  describe "the flash" do
+    it "should not have a flash error if not set" do
+      render "layouts/application"
+
+      response.should_not have_selector("#error")
+    end
+
+    it "should have a flash error" do
+      flash[:error] = "the error message."
+      
+      render "layouts/application"
+
+      response.should have_selector("#error", :content => "the error message.")
     end
   end
 end

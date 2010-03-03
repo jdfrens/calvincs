@@ -1,13 +1,13 @@
 Feature: the home page
-  As a visitor to the site
-  I want to see the home page
-  So that I can access other pages and read news
+  As an editor of the site
+  I want to manage the homepage content
+  So that visitors will enjoy this content
 
   Scenario: ask for _home_page
     Given I am logged in as an editor
     And there are no pages
     When I go to the homepage
-    Then I should create _home_page page
+    Then I should be on the new page for "_home_page" page
 
   Scenario: see the home page and edit the content
     Given I am logged in as an editor

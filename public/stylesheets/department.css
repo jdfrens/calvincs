@@ -153,6 +153,37 @@ p.img-caption {
     padding: 5px;
 }
 
+/*******************/
+/* homepage splash */
+/*******************/
+
+#home_splash {
+    position: relative;
+    margin: 20px 0px;
+    border: none;
+    width: 680px;
+}
+
+#splash-description {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 680px;
+}
+
+#splash-description:hover {
+    display: block;
+}
+
+#splash-description .gutter {
+    background: transparent url(/images/bg-splash-caption.png) 0 0 repeat;
+}
+
+#splash-description {
+    color: #fff;
+}
+
 /***********************/
 /* Administration page */
 /***********************/

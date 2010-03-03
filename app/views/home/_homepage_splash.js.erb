@@ -1,0 +1,8 @@
+$(document).ready(function() {
+    $('#splash-description').hide();
+    $("#home_splash").hover(function() {
+        $(this).find("#splash-description").stop(true, true).animate({opacity:"show"}, "fast");
+    }, function() {
+        $(this).find("#splash-description").stop(true, true).animate({opacity:"hide"}, "slow");
+    });
+});

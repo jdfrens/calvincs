@@ -36,6 +36,9 @@ describe HomeController do
       Image.should_receive(:pick_random).with('homepage').and_return(nil)
 
       get :index
+
+      flash[:error].should_not be_nil
+      response.should redirect_to(images_path)
     end
 
     it "should redirect when _home_page is not defined" do
@@ -43,7 +46,8 @@ describe HomeController do
 
       get :index
 
-      response.should redirect_to(:controller => "pages", :action => "new", :id => "_home_page")
+      flash[:error].should_not be_nil
+      response.should redirect_to(new_page_path(:id => "_home_page"))
     end
   end
 
