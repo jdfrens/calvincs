@@ -9,6 +9,7 @@ describe "/home/index.html.erb" do
     assigns[:this_weeks_events] = mock("week_events")
     assigns[:newsitems] = mock("news items")
 
+    template.should_receive(:textilize_without_paragraph).with("The caption!").and_return("Textilized caption!")
     template.should_receive(:render).
             with(:partial => "shared/subpage", :locals => { :page => assigns[:content] }).
             and_return("The real content!")
@@ -26,7 +27,7 @@ describe "/home/index.html.erb" do
 
     response.should have_selector("#home_splash") do |home_splash|
       home_splash.should have_selector("img", :src => "/images/foobar.jpg")
-      home_splash.should have_selector("#splash-description", :content => "The caption!")
+      home_splash.should have_selector("#splash-description", :content => "Textilized caption!")
     end
     response.should contain("The real content!")
     response.should contain("The events of today...")

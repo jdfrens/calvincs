@@ -3,7 +3,7 @@ default_run_options[:pty] = true
 set :application, "calvincs"
 
 set :scm, "git"
-set :repository,  "git://github.com/jdfrens/calvincs.git"
+set :repository, "git://github.com/jdfrens/calvincs.git"
 set :branch, "master"
 
 set :user, "calvincs"
@@ -38,10 +38,12 @@ role :web, "yags.calvin.edu"
 role :app, "yags.calvin.edu"
 role :db, "yags.calvin.edu", :primary => true
 
-task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
-  run <<-CMD
-    cd #{release_path} && ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml && ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml
-  CMD
+task :after_update_code, :roles => :app, :except => {:no_symlink => true}do
+  ["config/database.yml", "config/mongrel_cluster.yml", "config/secret.txt"].each do |file|
+    run <<-CMD
+      ln -nfs #{shared_path}/#{file} #{release_path}/#{file}
+    CMD
+  end
 end
 
 set :mongrel_config, "/srv/www/calvincs/shared/config/mongrel_cluster.yml"
