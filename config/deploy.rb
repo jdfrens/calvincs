@@ -1,3 +1,5 @@
+require 'capistrano/ext/multistage'
+
 default_run_options[:pty] = true
 
 set :application, "calvincs"
@@ -12,10 +14,6 @@ set :runner, "calvincs"
 set :deploy_to, "/srv/www/#{application}"
 
 set :gateway, "jdfrens@cs-ssh.calvin.edu"
-
-role :web, "yags.calvin.edu"
-role :app, "yags.calvin.edu"
-role :db, "yags.calvin.edu", :primary => true
 
 after "deploy:update_code", :roles => :app, :except => {:no_symlink => true} do
   ["config/database.yml", "config/mongrel_cluster.yml", "config/secret.txt"].each do |file|
