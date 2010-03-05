@@ -17,6 +17,19 @@ Feature: managing personnel
     Then I should see "Martin Luther"
     And I should not see "Johnny Calvin"
 
+  Scenario: failing to edit a faculty member
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | Johnny     | Calvin |
+    When I follow "Faculty & Staff"
+    And I follow "Johnny Calvin"
+    And I follow "edit..."
+    And I fill in "Office phone" with "this is not a valid phone number"
+    And I press "Save changes"
+    Then I should see "Problem updating person."
+    And I should see "Edit User Information"
+
   Scenario: editing group of person
     Given I am logged in as an editor
     And the following users

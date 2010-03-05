@@ -30,8 +30,11 @@ class PersonnelController < ApplicationController
   def update
     @user = User.find_by_username(params[:id])
     if @user.update_attributes(params[:user])
+      flash[:notice] = "Person updated."
       redirect_to person_path(@user)
     else
+      flash[:error] = "Problem updating person."
+      render :action => "edit"
     end
   end
 

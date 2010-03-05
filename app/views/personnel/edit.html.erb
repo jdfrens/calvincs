@@ -1,6 +1,8 @@
 <h1>Edit User Information</h1>
 
 <% form_for @user do |form| -%>
+    <%= form.error_messages %>
+
     <table>
       <tr>
         <td><%= form.label :first_name %></td>
@@ -76,7 +78,8 @@
         the <%= link_to "Faculty &amp; Staff", people_path %> page
       </li>
       <li><code><%= @user.username %></code> can be used multiple times, must be 265x200 or 200x265, and will be see
-        on <%= link_to "#{@user.username}'s page", person_path(@user) %> randomly</li>
+        on <%= link_to "#{@user.username}'s page", person_path(@user) %> randomly
+      </li>
     </ul>
   </li>
 </ul>

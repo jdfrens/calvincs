@@ -76,14 +76,30 @@ describe PersonnelController do
   end
 
   context "updating a person" do
+    it "should redirect if not logged in" do
+      put :update, { :id => "joel" }
+
+      response.should redirect_to(login_path)
+    end
+
     it "should update and redirect" do
       user = users(:joel)
 
       put :update, { :id => user.username, :user => { :first_name => "Billy" } }, user_session(:edit)
 
       response.should redirect_to(person_path(user))
+      flash[:notice].should == "Person updated."
       user.reload
       user.full_name.should == "Billy Adams"
+    end
+
+    it "should fail to update and re-edit" do
+      user = users(:joel)
+
+      put :update, { :id => user.username, :user => { :office_phone => "not valid" }}, user_session(:edit)
+
+      response.should render_template("personnel/edit")
+      flash[:error].should == "Problem updating person."
     end
   end
 end
