@@ -1,1 +1,1 @@
-$("#rendered_content").html('<%= textilize @page.content %>');
+$("#rendered_content").html('<%= textilize(@page.content).gsub("\n", '\n') %>');
