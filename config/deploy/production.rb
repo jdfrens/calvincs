@@ -1,3 +1,3 @@
-role :web, "cerf2.calvin.edu"
-role :app, "cerf2.calvin.edu"
-role :db, "cerf2.calvin.edu", :primary => true
+role :web, "cerf2"
+role :app, "cerf2"
+role :db, "cerf2", :primary => true
