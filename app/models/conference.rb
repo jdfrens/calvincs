@@ -20,7 +20,7 @@
 class Conference < Event
 
   def length
-    elapsed / 1.day
+    (elapsed / 1.day).ceil
   end
 
   def length=(t)

@@ -12,18 +12,33 @@ Feature: managing events
     Given I am logged in as an editor
     When I am on the administration page
     And I follow "Create new colloquium"
-    And I fill in "Title" with "Amazing Ruby Code"
-    And I fill in "Subtitle" with "Check It Out!"
-    And I fill in "Presenter" with "Charles M. Ruby"
-    And I fill in "Location" with "Room of Presentations"
+    And I fill in the following:
+      | Title     | Amazing Ruby Code     |
+      | Subtitle  | Check It Out!         |
+      | Presenter | Charles M. Ruby       |
+      | Location  | Room of Presentations |
+      | Length    | 1.5                   |
     And I select tomorrow at "16:00" as the date and time
-    And I fill in "Length" with "1.5"
     And I press "Create"
-    Then I should be on the list of events
-    And I should see "Amazing Ruby Code: Check It Out!"
+    Then I should see "Amazing Ruby Code: Check It Out!"
     And I should see "Charles M. Ruby"
     And I should see "Room of Presentations"
     And I should see "4:00 PM"
+
+  Scenario: add a programming contest (as a colloquium)
+    Given I am logged in as an editor
+    When I am on the administration page
+    And I follow "Create new colloquium"
+    And I fill in the following:
+      | Title      | The Programming Contest |
+      | Descriptor | programming contest     |
+      | Location   | Room of Contests        |
+      | Length     | 1.5                     |
+    And I select tomorrow at "10:00" as the date and time
+    And I press "Create"
+    Given default homepage content
+    When I go to the home page
+    Then I should see "Programming contest this week! The Programming Contest" 
 
   Scenario: add a conference
     Given I am logged in as an editor

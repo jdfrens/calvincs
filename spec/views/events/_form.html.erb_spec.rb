@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "/events/_form.html.erb" do
 
   it "should view a form for a new colloquium" do
-    event = mock_model(Event, :new_record? => true, :kind => "Colloquium", :title => "the title",
-                       :subtitle => "the subtitle",
+    event = mock_model(Event, :new_record? => true, :kind => "Colloquium", :descriptor => "colloquium",
+                       :title => "the title", :subtitle => "the subtitle",
                        :presenter => 'the presenter', :location => "somewhere",
                        :description => "description!",
                        :start => Time.now, :length => 1, :scale => "days")
@@ -13,6 +13,7 @@ describe "/events/_form.html.erb" do
     render "events/_form"
 
     response.should have_selector("form", :action => "/events", :method => "post") do |form|
+      form.should have_selector "input#event_descriptor"
       form.should have_selector "input#event_title"
       form.should have_selector "input#event_subtitle"
       form.should have_selector "input#event_presenter"
@@ -25,8 +26,8 @@ describe "/events/_form.html.erb" do
   end
 
   it "should view a form for a new conference" do
-    event = mock_model(Event, :new_record? => true, :kind => "Conference", :title => "the title",
-                       :subtitle => "the subtitle",
+    event = mock_model(Event, :new_record? => true, :kind => "Conference", :descriptor => "conference",
+                       :title => "the title", :subtitle => "the subtitle",
                        :presenter => 'the presenter', :location => "somewhere",
                        :description => "description!",
                        :start => Time.now, :length => 1, :scale => "foobar scale")
@@ -35,6 +36,7 @@ describe "/events/_form.html.erb" do
     render "events/_form"
 
     response.should have_selector("form", :action => "/events", :method => "post") do |form|
+      form.should have_selector "input#event_descriptor"
       form.should have_selector "input#event_title"
       form.should have_selector "input#event_subtitle"
       form.should have_selector "input#event_presenter"
@@ -47,8 +49,8 @@ describe "/events/_form.html.erb" do
   end
 
   it "should view a form to edit an event" do
-    event = mock_model(Event, :new_record? => false, :kind => "Conference", :title => "the title",
-                       :subtitle => "the subtitle",
+    event = mock_model(Event, :new_record? => false, :kind => "Conference", :descriptor => "conference",
+                       :title => "the title", :subtitle => "the subtitle",
                        :presenter => "presenter", :location => "somewhere",
                        :description => "description!",
                        :start => Time.now, :length => 1, :scale => "foobar scale")

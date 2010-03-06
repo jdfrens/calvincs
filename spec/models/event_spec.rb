@@ -98,8 +98,12 @@ describe Event do
     end
 
     it "should be in days for a conference" do
-      assert_equal 3, events(:old_conference).length
-      assert_equal 1, events(:next_weeks_conference).length
+      Factory.build(:conference).length.should == 2
+      Factory.build(:conference,
+                    :start => Chronic.parse("tomorrow at 8:30am"),
+                    :stop => Chronic.parse("tomorrow at 5:00pm"))
+#      assert_equal 3, events(:old_conference).length
+#      assert_equal 1, events(:next_weeks_conference).length
     end
   end
 

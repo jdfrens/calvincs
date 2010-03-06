@@ -1,38 +1,43 @@
 <% form_for @event do |form| -%>
-  <%= form.hidden_field :kind %>
-  <table border="0" summary="event form">
-    <tr>
-      <td><%= form.label :title %></td>
-      <td><%= form.text_field :title %></td>
-    </tr>
-    <tr>
-      <td><%= form.label :subtitle, "Subtitle (optional)" %></td>
-      <td><%= form.text_field :subtitle %></td>
-    </tr>
-    <tr>
-      <td><%= form.label :presenter %></td>
-      <td><%= form.text_field :presenter %></td>
-    </tr>
-    <tr>
-      <td><%= form.label :location %></td>
-      <td><%= form.text_field :location %></td>
-    </tr>
-    <tr>
-      <td><%= form.label :description, "Description/abstract" %></td>
-      <td><%= form.text_area :description, :cols => 60, :rows => 10 %></td>
-    </tr>
-    <tr>
-      <td><%= form.label :start, "Starting date and time" %></td>
-      <td><%= form.datetime_select :start %></td>
-    </tr>
-    <tr>
-      <td><%= form.label :length %></td>
-      <td><%= form.text_field :length, :size => 3 %>
-        <span id="scale"><%= @event.scale %></span></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><%= form.submit(@event.new_record? ? "Create" : "Update") %></td>
-    </tr>
-  </table>
+    <%= form.error_messages %>
+    <%= form.hidden_field :kind %>
+    <table border="0" summary="event form">
+      <tr>
+        <td><%= form.label :descriptor %></td>
+        <td><%= form.text_field :descriptor, :size => 10 %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :title %></td>
+        <td><%= form.text_field :title %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :subtitle, "Subtitle (optional)" %></td>
+        <td><%= form.text_field :subtitle %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :presenter %></td>
+        <td><%= form.text_field :presenter %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :location %></td>
+        <td><%= form.text_field :location %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :description, "Description/abstract" %></td>
+        <td><%= form.text_area :description, :cols => 60, :rows => 10 %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :start, "Starting date and time" %></td>
+        <td><%= form.datetime_select :start %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :length %></td>
+        <td><%= form.text_field :length, :size => 3 %>
+          <span id="scale"><%= @event.scale %></span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><%= form.submit(@event.new_record? ? "Create" : "Update") %></td>
+      </tr>
+    </table>
 <% end %>

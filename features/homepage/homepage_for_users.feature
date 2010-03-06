@@ -26,7 +26,7 @@ Feature: the home page
     And I should see an image "/images/foobar"
     And I should see "The caption."
 
-  Scenario: see the home page with an event today
+  Scenario: see the home page with a colloquium today
     Given default homepage content
     And the following colloquia
       | title    | start              |
@@ -38,6 +38,16 @@ Feature: the home page
     And I should see "Get Real"
     When I follow "more..."
     Then I should see "Get Real"
+
+  Scenario: see the home page with a programming contest today
+    Given default homepage content
+    And the following colloquia
+      | title    | start              | descriptor          |
+      | C4       | tomorrow at 3:30pm | programming contest |
+    When I go to the homepage
+    Then I should see "Programming contest this week!"
+    And I should not see "Colloquium"
+    And I should see "C4"
 
   Scenario: see the home page with an event tomorrow
     Given default homepage content

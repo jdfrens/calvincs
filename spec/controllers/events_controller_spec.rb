@@ -77,8 +77,10 @@ describe EventsController do
       Chronic.should_receive(:parse).with("tomorrow at 3:30pm").and_return(start)
       start.should_receive(:+).with(1.hour).and_return(stop)
       Event.should_receive(:new_event).
-              with(:kind => "Colloquium", :start => start, :stop => stop).and_return(event)
-      
+              with(:kind => "Colloquium", :descriptor => "colloquium",
+                   :start => start, :stop => stop).
+              and_return(event)
+
       get :new, { :kind => "Colloquium" }, user_session(:edit)
 
       assert_response :success
@@ -93,7 +95,9 @@ describe EventsController do
       Chronic.should_receive(:parse).with("tomorrow at 3:30pm").and_return(start)
       start.should_receive(:+).with(1.hour).and_return(stop)
       Event.should_receive(:new_event).
-              with(:kind => "Conference", :start => start, :stop => stop).and_return(event)
+              with(:kind => "Conference", :descriptor => "conference",
+                   :start => start, :stop => stop).
+              and_return(event)
 
       get :new, { :kind => "Conference" }, user_session(:edit)
 
