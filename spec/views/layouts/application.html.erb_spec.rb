@@ -75,6 +75,20 @@ describe "/layouts/application.html.erb" do
   end
 
   describe "the flash" do
+    it "should not have a flash notice if not set" do
+      render "layouts/application"
+
+      response.should_not have_selector("#notice")
+    end
+
+    it "should have a flash error" do
+      flash[:notice] = "notice me!"
+      
+      render "layouts/application"
+
+      response.should have_selector("#notice", :content => "notice me!")
+    end
+
     it "should not have a flash error if not set" do
       render "layouts/application"
 
@@ -83,7 +97,7 @@ describe "/layouts/application.html.erb" do
 
     it "should have a flash error" do
       flash[:error] = "the error message."
-      
+
       render "layouts/application"
 
       response.should have_selector("#error", :content => "the error message.")
