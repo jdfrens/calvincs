@@ -35,7 +35,7 @@ describe "/home/feed.atom.builder" do
       entry.should have_selector("title", :content => "The Headline")
       entry.should have_selector("published", :content => "1970-03-07")
       entry.should have_selector("updated")
-      entry.should have_selector("content", :content => "The Body")
+      entry.should have_selector("content", :content => "The Body", :type => "html")
       entry.should have_selector("author") do |author|
         author.should have_selector("name", :content => "Computing@Calvin")
       end
@@ -75,7 +75,7 @@ describe "/home/feed.atom.builder" do
       entry.should have_selector("title", :content => "Full Event Title")
       entry.should have_selector("published", :content => Date.today.to_s)
       entry.should have_selector("updated")
-      entry.should have_selector("content", :content => "Go to this event!")
+      entry.should have_selector("content", :content => "Go to this event!", :type => "html")
       entry.should have_selector("author") do |author|
         author.should have_selector("name", :content => "Computing@Calvin")
       end

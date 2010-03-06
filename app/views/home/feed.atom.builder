@@ -7,5 +7,4 @@ atom_feed(:schema_date => @schema_date) do |feed|
   render :partial => "event.atom", :collection => @todays_events, :locals => { :feed => feed, :kind => "TodaysEvent" }
   render :partial => "event.atom", :collection => @weeks_events, :locals => { :feed => feed, :kind => "WeeksEvent" }
   render :partial => "newsitem.atom", :collection => @newsitems, :locals => { :feed => feed }
-
 end

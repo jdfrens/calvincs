@@ -48,14 +48,13 @@ Feature: the news and event atom feed
       | title     | subtitle  | start           |
       | Get Real  | No Really | today at 3:30pm |
       | Fantastic | Cool      | today at 4:30pm |
-      | Michigan  | OSU       | today at 9:00am |
+      | Michigan  | State     | today at 9:00am |
     When I go to the atom feed
     Then I should see "Calvin College Computer Science - News and Events" as title
     And I should see "Get Real: No Really" as entry title
     And I should see "Fantastic: Cool" as entry title
-    And I should see "Michigan: OSU" as entry title
+    And I should see "Michigan: State" as entry title
 
-  @wip
   Scenario: an upcoming event in the feed
     Given the following colloquia
       | title    | subtitle  | start              |
