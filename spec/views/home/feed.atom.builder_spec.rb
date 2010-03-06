@@ -72,7 +72,7 @@ describe "/home/feed.atom.builder" do
     render "/home/feed.atom"
 
     response.should have_selector("entry") do |entry|
-      entry.should have_selector("title", :content => "Full Event Title")
+      entry.should have_selector("title", :content => "Full Event Title", :type => "html")
       entry.should have_selector("published", :content => Date.today.to_s)
       entry.should have_selector("updated")
       entry.should have_selector("content", :content => "Go to this event!", :type => "html")
@@ -100,9 +100,9 @@ describe "/home/feed.atom.builder" do
     render "/home/feed.atom"
 
     response.should have_selector("entry") do |entry|
-      entry.should have_selector("title", :content => "Today #1")
-      entry.should have_selector("title", :content => "Today #2")
-      entry.should have_selector("title", :content => "Today #3")
+      entry.should have_selector("title", :content => "Today #1", :type => "html")
+      entry.should have_selector("title", :content => "Today #2", :type => "html")
+      entry.should have_selector("title", :content => "Today #3", :type => "html")
     end
   end
 
