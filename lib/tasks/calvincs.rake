@@ -6,6 +6,11 @@ namespace :calvincs do
     t.spec_files = FileList['deployment/*_spec.rb']
   end
 
+  desc "activate all users"
+  task :activate_users => :environment do
+    User.activate_users
+  end
+
   desc "creates user in editor group with edit privilege"
   task :editor => :environment
   task :editor, [:group, :username] do |t, args|

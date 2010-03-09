@@ -28,6 +28,18 @@ describe User do
   fixtures :degrees, :images, :image_tags, :pages
   user_fixtures
 
+  it "should active all users" do
+    users(:joel, :jeremy, :keith).each do |user|
+      user.active = false
+      user.save!
+    end
+    User.activate_users
+    users(:joel, :jeremy, :keith).each do |user|
+      user.reload
+      user.should be_active
+    end
+  end
+
   def test_validations
     user = User.new
     assert !user.valid?
@@ -77,7 +89,7 @@ describe User do
     it "should also include other page's updated at" do
       users(:jeremy).last_updated_dates.should include(
               users(:jeremy).updated_at, pages(:jeremy_interests).updated_at,
-                      pages(:jeremy_status).updated_at, pages(:jeremy_profile).updated_at)
+              pages(:jeremy_status).updated_at, pages(:jeremy_profile).updated_at)
     end
   end
 
