@@ -62,7 +62,7 @@ describe PersonnelController do
 
   context "editing a person" do
     it "should redirect if not logged in" do
-      get :edit, { :id => "1243" }
+      get :edit, { :id => "bob" }
 
       response.should redirect_to(login_path)
     end
@@ -71,6 +71,21 @@ describe PersonnelController do
       get :edit, { :id => users(:joel).username }, user_session(:edit)
 
       response.should render_template("personnel/edit")
+      assigns[:user].should == users(:joel)
+    end
+  end
+
+  context "editing the password of a person" do
+    it "should redirect if not logged in" do
+      get :editpassword, { :id => "bob" }
+
+      response.should redirect_to(login_path)
+    end
+
+    it "should find user and render form" do
+      get :editpassword, { :id => users(:joel).username }, user_session(:edit)
+
+      response.should render_template("personnel/editpassword")
       assigns[:user].should == users(:joel)
     end
   end

@@ -26,7 +26,6 @@ describe UsersController do
       
       response.should be_success
       response.should render_template("users/login")
-#      flash[:error].should == "Invalid login credentials"
       session[:current_user_id].should be_nil
     end
   end
@@ -40,4 +39,9 @@ describe UsersController do
     end
   end
 
+  describe "getting list" do
+    it "should have a list of users" do
+      
+    end
+  end
 end

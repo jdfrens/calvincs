@@ -45,6 +45,27 @@ Feature: managing personnel
     And I follow "Faculty & Staff"
     Then I should see "Johnny Calvin" within "table#adjuncts_listing"
 
+  Scenario: editing a person's password
+    Given I am logged in as an editor
+    And default homepage content
+    And the following users
+      | username | first_name | last_name | active |
+      | jcalvin  | Johnny     | Calvin    | true   |
+    When I follow "Faculty & Staff"
+    Then I should see "Johnny Calvin" within "table#faculty_listing"
+    And I follow "Johnny Calvin"
+    And I follow "edit..."
+    And I follow "change password..."
+    And I fill in "password" with "grant"
+    And I fill in "password confirmation" with "grant"
+    And I press "Update"
+    And I follow "logout"
+    And I log in as "jcalvin" with password "no good"
+    Then I should see "Invalid login credentials"
+    And I should be on the login page
+    When I log in as "jcalvin" with password "grant"
+    Then I should be on the administration page
+
   Scenario: editing faculty member's degrees
     Given I am logged in as an editor
     And the following users

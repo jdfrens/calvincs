@@ -29,7 +29,7 @@ namespace :calvincs do
   task :password, [:username] do |t, args|
     user = User.find_by_username(args.username)
     password = get_password
-    salt = generate_salt
+    salt = User.generate_salt
     user.password_hash = User.hash_password(args.password, salt)
     user.salt = salt
     user.save!
@@ -37,9 +37,5 @@ namespace :calvincs do
 
   def get_password(prompt="Enter Password")
      ask(prompt) {|q| q.echo = false}
-  end
-
-  def generate_salt()
-    (0...4).map{65.+(rand(25)).chr}.join
   end
 end

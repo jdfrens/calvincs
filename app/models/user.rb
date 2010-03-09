@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.generate_salt()
+    (0...4).map{65.+(rand(25)).chr}.join
+  end
+
   def to_param
     username
   end

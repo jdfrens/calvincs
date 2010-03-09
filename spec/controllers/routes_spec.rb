@@ -20,6 +20,22 @@ describe PersonnelController do
   end
 end
 
+describe UsersController do
+  user_fixtures
+
+  it "should use a person's username" do
+    user_path(users(:jeremy)).should == "/users/jeremy"
+  end
+
+  it "should have a normal edit action" do
+    edit_user_path(users(:jeremy)).should == "/users/jeremy/edit"
+  end
+
+  it "should have an edit-password action" do
+    editpassword_user_path(users(:jeremy)).should == "/users/jeremy/editpassword"
+  end
+end
+
 describe PagesController do
 
   it "should recognize page routes" do

@@ -15,7 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :newsitems
   map.resources :pages, :as => "p"
   map.resources :people, :controller => 'personnel'
-  map.resources :users, :controller => 'personnel'
+  map.resources :users, :controller => 'personnel', :member => { :editpassword => :get }
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'

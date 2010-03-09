@@ -27,6 +27,10 @@ class PersonnelController < ApplicationController
     @user = User.find_by_username(params[:id])
   end
 
+  def editpassword
+    @user = User.find_by_username(params[:id])
+  end
+
   def update
     @user = User.find_by_username(params[:id])
     if @user.update_attributes(params[:user])
@@ -35,31 +39,6 @@ class PersonnelController < ApplicationController
     else
       flash[:error] = "Problem updating person."
       render :action => "edit"
-    end
-  end
-
-  # TODO: degree controller!
-  def update_degree
-    degree = Degree.find_by_username(params[:id])
-    degree.update_attributes(params[:degree])
-    render :update do |page|
-      page.replace_html "degree_#{degree.id}",
-                        :partial => "degree", :object => degree
-    end
-  end
-
-  # TODO: degree controller!
-  def add_degree
-    user = User.find(params[:id])
-    degree = user.degrees.create!(
-            :degree_type => "BA in CS",
-            :institution => "Somewhere U",
-            :year => 1959
-    )
-    render :update do |page|
-      page.insert_html :bottom, 'education', :partial => 'degree', :object => degree
-      page.insert_html :bottom, 'education_edits', :partial => 'degree_edit',
-                       :object => degree
     end
   end
 end

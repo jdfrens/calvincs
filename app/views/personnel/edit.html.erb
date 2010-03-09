@@ -5,6 +5,10 @@
 
     <table>
       <tr>
+        <td></td>
+        <td><%= link_to "change password...", editpassword_user_path(@user), :class => "more" %></td>
+      </tr>
+      <tr>
         <td><%= form.label :first_name %></td>
         <td><%= form.text_field :first_name %></td>
       </tr>

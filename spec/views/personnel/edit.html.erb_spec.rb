@@ -40,6 +40,7 @@ describe "/personnel/edit.html.erb" do
 
     render "personnel/edit"
 
+    response.should have_selector("a", :content => "change password...")
     response.should contain("interests links")
     response.should contain("profile links")
     response.should contain("status links")

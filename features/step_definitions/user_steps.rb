@@ -17,3 +17,10 @@ Given /^the following users$/ do |table|
                              :role => faculty ))
   end
 end
+
+When /^I log in as "([^\"]*)" with password "([^\"]*)"$/ do |username, password|
+  When "I go to the login page"
+  When "I fill in \"user[username]\" with \"#{username}\""
+  When "I fill in \"user[password]\" with \"#{password}\""
+  When "I press \"Login\""
+end
