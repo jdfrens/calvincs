@@ -12,9 +12,15 @@ end
 Given /^the following users$/ do |table|
   faculty = Role.find_by_name("faculty")
   table.hashes.each do |hash|
+    role_name = hash[:role]
+    if role_name
+      hash[:role] = Role.find_by_name(role_name)
+      raise "#{role_name} not a valid role" if role_name.nil?
+    else
+      hash[:role] = faculty
+    end
     User.create!(hash.merge( :email_address => "#{hash[:username]}@example.edu",
-                             :password => "password", :password_confirmation => "password",
-                             :role => faculty ))
+                             :password => "password", :password_confirmation => "password", :role => hash[:role]))
   end
 end
 

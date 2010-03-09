@@ -8,6 +8,8 @@ class PersonnelController < ApplicationController
     @emeriti = Role.users_ordered_by_name("emeriti")
     @contributors = Role.users_ordered_by_name("contributors")
     @staff = Role.users_ordered_by_name("staff")
+    @admin = Role.users_ordered_by_name("admin")
+
     @title = "Faculty & Staff"
     @last_updated = last_updated(@faculty + @adjuncts + @emeriti + @contributors + @staff)
   end

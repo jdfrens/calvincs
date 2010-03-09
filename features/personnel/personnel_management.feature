@@ -3,6 +3,22 @@ Feature: managing personnel
   I want to edit the personnel on the website
   So that others can contact them and know more about them
 
+  Scenario Outline: seeing all personnel in list when logged in
+    Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name | role    |
+      | mluther  | Martin     | Luther    | <role>  |
+    When I go to the list of personnel
+    Then I should see "Martin Luther" within "#<role>_listing"
+    Examples:
+      | role     |
+      | faculty  |
+      | contributors |
+      | adjuncts |
+      | emeriti  |
+      | staff    |
+      | admin    |
+
   Scenario: editing a faculty member
     Given I am logged in as an editor
     And the following users

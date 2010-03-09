@@ -12,6 +12,27 @@ Feature: viewing and listing personnel
     Then I should see "John Calvin"
     And I should see "Martin Luther"
 
+  Scenario Outline: seeing some personnel in list
+    Given the following users
+      | username | first_name | last_name | role    |
+      | mluther  | Martin     | Luther    | <role>  |
+    When I go to the list of personnel
+    Then I should see "Martin Luther" within "#<role>_listing"
+    Examples:
+      | role     |
+      | faculty  |
+      | contributors |
+      | adjuncts |
+      | emeriti  |
+      | staff    |
+
+  Scenario: don't see admins
+    Given the following users
+      | username | first_name | last_name | role  |
+      | mluther  | Martin     | Luther    | admin |
+    When I go to the list of personnel
+    Then I should not see "Martin Luther"
+
   Scenario: checking out a faculty member
     Given the following users
       | username | first_name | last_name | office_phone | office_location |

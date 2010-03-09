@@ -10,6 +10,7 @@ describe PersonnelController do
       adjuncts = [mock_model(User)]
       emeriti = [mock_model(User)]
       contributors = [mock_model(User)]
+      admin = [mock_model(User)]
       staff = [mock_model(User)]
       last_updated = mock("last updated")
 
@@ -18,6 +19,7 @@ describe PersonnelController do
       Role.should_receive(:users_ordered_by_name).with("emeriti").and_return(emeriti)
       Role.should_receive(:users_ordered_by_name).with("contributors").and_return(contributors)
       Role.should_receive(:users_ordered_by_name).with("staff").and_return(staff)
+      Role.should_receive(:users_ordered_by_name).with("admin").and_return(admin)
       controller.should_receive(:last_updated).
               with(faculty + adjuncts + emeriti + contributors + staff).
               and_return(last_updated)
@@ -32,6 +34,7 @@ describe PersonnelController do
       assigns[:emeriti].should == emeriti
       assigns[:contributors].should == contributors
       assigns[:staff].should == staff
+      assigns[:admin].should == admin
     end
   end
 
