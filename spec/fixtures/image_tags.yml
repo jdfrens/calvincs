@@ -7,37 +7,35 @@
 #  image_id :integer
 #  tag      :string(255)
 #
-
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 for_mission:
   id: 1
-  image_id: 1
+  image: mission_wide
   tag: mission
 for_mission2:
   id: 2
-  image_id: 3
+  image: mission_narrow
   tag: mission
 for_mission_wide:
   id: 4
-  image_id: 1
+  image: mission_wide
   tag: mission_wide
 for_mission_narrow:
   id: 9
-  image_id: 3
+  image: mission_narrow
   tag: mission_narrow
 for_joel_headshot:
   id: 5
-  image_id: 5
+  image: joel_headshot
   tag: joel_headshot
 for_jeremy_headshot:
   id: 6
-  image_id: 4
+  image: jeremy_headshot
   tag: jeremy_headshot
 for_jeremy:
   id: 7
-  image_id: 6
+  image: jeremy_in_action
   tag: jeremy
 for_sharon_headshot:
   id: 8
-  image_id: 7
+  image: sharon_headshot
   tag: sharon_headshot

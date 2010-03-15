@@ -52,25 +52,31 @@ class Image < ActiveRecord::Base
       :square
     elsif headshot?
       :headshot
+    elsif homepage?
+      :homepage
     else
       :unusable
     end
   end
 
   def wide?
-    (260..270).include?(width) && (195..205).include?(height)
+    check_fudged_dimensions(265, 200)
   end
 
   def narrow?
-    (195..205).include?(width) && (260..270).include?(height)
+    check_fudged_dimensions(200, 265)
   end
 
   def square?
-    (260..270).include?(width) && (260..270).include?(height)
+    check_fudged_dimensions(265, 265)
   end
 
   def headshot?
-    (145..155).include?(width) && (195..205).include?(height)
+    check_fudged_dimensions(150, 200)
+  end
+
+  def homepage?
+    check_fudged_dimensions(680, 240)
   end
 
   def obtain_dimensions
@@ -83,4 +89,12 @@ class Image < ActiveRecord::Base
     # we won't worry about it
   end
 
+  private
+  def check_fudged_dimensions(ideal_width, ideal_height)
+    check_fudged_dimension(ideal_width, width) && check_fudged_dimension(ideal_height, height)
+  end
+
+  def check_fudged_dimension(ideal, actual)
+    ((ideal-5)..(ideal+5)).include?(actual)
+  end
 end

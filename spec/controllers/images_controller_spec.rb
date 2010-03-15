@@ -102,13 +102,14 @@ describe ImagesController do
 
     context "when logged in" do
       it "should destroy image" do
+        image = mock_model(Image)
 
-        assert_not_nil Image.find_by_id(2)
+        Image.should_receive(:find).with("123").and_return(image)
+        image.should_receive(:destroy)
 
-        post :destroy, { :id => 2 }, user_session(:edit)
+        post :destroy, { :id => 123 }, user_session(:edit)
 
         response.should redirect_to(images_path)
-        assert_nil Image.find_by_id(2)
       end
     end
   end
