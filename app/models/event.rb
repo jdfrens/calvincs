@@ -19,7 +19,7 @@
 
 class Event < ActiveRecord::Base
 
-  validates_presence_of :title, :descriptor, :start, :stop
+  validates_presence_of :title, :descriptor, :description, :start, :stop
 
   before_validation :use_length_for_stop_time
   before_validation :use_type_for_descriptor

@@ -18,11 +18,11 @@ module ViewHelpers
   end
 
   def expect_textilize_wop(text)
-    template.should_receive(:textilize_without_paragraph).with(text).
+    template.should_receive(:johnny_textilize).with(text, :no_paragraphs).
             and_return(text)
   end
 
   def expect_textilize(text)
-    template.should_receive(:textilize).with(text).and_return(text)
+    template.should_receive(:johnny_textilize).with(text).and_return(text)
   end
 end

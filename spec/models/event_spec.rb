@@ -101,9 +101,7 @@ describe Event do
       Factory.build(:conference).length.should == 2
       Factory.build(:conference,
                     :start => Chronic.parse("tomorrow at 8:30am"),
-                    :stop => Chronic.parse("tomorrow at 5:00pm"))
-#      assert_equal 3, events(:old_conference).length
-#      assert_equal 1, events(:next_weeks_conference).length
+                    :stop => Chronic.parse("tomorrow at 5:00pm")).length.should == 1
     end
   end
 
@@ -198,7 +196,8 @@ describe Event do
 
   describe "setting the length" do
     before(:each) do
-      @event = Colloquium.create!(:title => "Something", :start => 1.hour.from_now, :stop => 2.hours.from_now, :descriptor => "colloquium")
+      @event = Factory.create(:colloquium,
+                              :start => 1.hour.from_now, :stop => 2.hours.from_now)
     end
 
     it "should establish original length" do

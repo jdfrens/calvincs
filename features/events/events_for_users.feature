@@ -5,13 +5,13 @@ Feature: checking out the events
 
   Scenario: list events
     Given the following colloquia
-      | title    |
-      | Get Real |
-      | Get Fake |
+      | title    | description   |
+      | Get Real | Getting real. |
+      | Get Fake | Staying fake. |
     And the following conferences
-      | title       |
-      | Foobar 2009 |
-      | Barfoo 1692 |
+      | title       | description       |
+      | Foobar 2009 | Fooing the bars.  |
+      | Barfoo 1692 | Barring the foos. |
     When I go to the list of events
     Then I should see "Get Real"
     And I should see "Get Fake"
@@ -36,9 +36,9 @@ Feature: checking out the events
 
   Scenario: list archive of events
     Given the following conferences
-      | title       | start                     | length |
-      | Foobar 2009 | 28 October 2009 at 3:30pm | 1      |
-      | Barfoo 2007 | 15 August 2007 at 4:50pm  | 2      |
+      | title       | start                     | length | description   |
+      | Foobar 2009 | 28 October 2009 at 3:30pm | 1      | Fooing bars.  |
+      | Barfoo 2007 | 15 August 2007 at 4:50pm  | 2      | Barring foos. |
     When I go to the list of events
     And I follow "archive"
     Then I should see "Events"
@@ -49,9 +49,9 @@ Feature: checking out the events
 
   Scenario: list events for a specific year
     Given the following conferences
-      | title       | start           | length |
-      | Foobar 2009 | 28 October 2009 | 1      |
-      | Barfoo 2007 | 15 August 2007  | 2      |
+      | title       | start           | length | description   |
+      | Foobar 2009 | 28 October 2009 | 1      | Fooing bars.  |
+      | Barfoo 2007 | 15 August 2007  | 2      | Barring foos. |
     When I go to the list of events
     And I follow "archive"
     And I follow "Events of 2007"

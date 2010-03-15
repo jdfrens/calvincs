@@ -7,12 +7,14 @@ describe "/courses/show.html.erb" do
                                   :full_title => "CS 108: Introduction to Computing",
                                   :description => "The standard CS 1 class.")
     
+    expect_textilize("The standard CS 1 class.")
+
     render "/courses/show"
 
     response.should have_selector("h1", :content => "CS 108: Introduction to Computing")
     response.should_not have_selector("a", :content => "edit")
     response.should have_selector("p", :content => "4 credits")
-    response.should have_selector("p", :content => "The standard CS 1 class.")
+    response.should contain("The standard CS 1 class.")
   end
 
   it "should have an edit link when logged in" do

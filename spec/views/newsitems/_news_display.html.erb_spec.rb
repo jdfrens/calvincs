@@ -21,9 +21,9 @@ describe "/newsitems/_news_display.html.erb" do
   end
 
   it "should display many news items" do
-    news_items = [stub_model(Newsitem, :headline => "Headline #1", :goes_live_at => Time.now),
-            stub_model(Newsitem, :headline => "Headline B", :goes_live_at => Time.now),
-            stub_model(Newsitem, :headline => "Headline gamma", :goes_live_at => Time.now)]
+    news_items = [stub_model(Newsitem, :headline => "Headline #1", :content => "Content #1", :goes_live_at => Time.now),
+            stub_model(Newsitem, :headline => "Headline B", :content => "Content B", :goes_live_at => Time.now),
+            stub_model(Newsitem, :headline => "Headline gamma", :content => "Content gamma", :goes_live_at => Time.now)]
     assigns[:newsitems] = news_items
 
     template.stub!(:current_user).and_return(false)

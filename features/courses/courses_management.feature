@@ -6,9 +6,9 @@ Feature: creating and editing the courses offered by the department
   Scenario: list events
     Given I am logged in as an editor
     And the following courses
-      | department | number | title    | credits |
-      | CS | 108 | Everything CS | 4 |
-      | IS | 204 | Everything IS | 3 |
+      | department | number | title         | credits | description |
+      | CS         | 108    | Everything CS | 4       | generic     |
+      | IS         | 204    | Everything IS | 3       | something   |
     When I go to the list of courses
     Then I should see "CS 108: Everything CS"
     Then I should see "IS 204: Everything IS"

@@ -64,7 +64,7 @@ describe Course do
 
   context "department validations" do
     before(:each) do
-      @course = Course.create!(:department => "CS", :number => 666, :title => "okay", :credits => 4)
+      @course = Factory.create(:course)
     end
 
     it "should reject single character" do
@@ -90,26 +90,35 @@ describe Course do
   end
 
   context "duplicate courses" do
-    before do
-      Course.create!(:department => "CS", :number => 123, :title => "okay", :credits => 4)
-    end
-
     it "should be invalid to add duplicate course in department and number" do
-      Course.new(
-              :department => 'CS', :number => 123, :title => 'Duplicate!', :credits => 3
-      ).should_not be_valid
+      Factory.create(:course).should be_valid
+      lambda { Factory.create(:course) }.should raise_exception(ActiveRecord::RecordInvalid)
     end
 
     it "should be okay if number is reused in another department" do
-      Course.new(
-              :department => 'IS', :number => '108',
-              :title => 'IS in the Middle Ages', :credits => 3
-      ).should be_valid
+      Factory.create(:course, :department => "CS", :number => 666).should be_valid
+      Factory.create(:course, :department => "IS", :number => 666).should be_valid
     end
   end
 
   it "should have an identifier" do
+    Factory.build(:course, :department => "IS", :number => 337).identifier.should == "IS 337"
+    Factory.build(:course, :department => "CS", :number => 108).identifier.should == "CS 108"
     Factory.build(:course, :department => 'XY', :number => 887).identifier.should == "XY 887"
+  end
+
+  it "should have a short identifier" do
+    Factory.build(:course, :department => "IS", :number => 337).short_identifier.should == "is337"
+    Factory.build(:course, :department => "CS", :number => 108).short_identifier.should == "cs108"
+    Factory.build(:course, :department => "XY", :number => 123).short_identifier.should == "xy123"
+  end
+
+  it "should find by short identifier" do
+    course = mock_model(Course)
+
+    Course.should_receive(:find_by_department_and_number).with("XY", "123").and_return(course)
+
+    Course.find_by_short_identifier("xy123").should == course
   end
 
   it "should build a full title" do

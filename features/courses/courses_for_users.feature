@@ -3,11 +3,11 @@ Feature: checking out the courses offered by the department
   I want to see the courses offered by the department
   So that I can pick out the courses that interest me the most
 
-  Scenario: list events
+  Scenario: list courses
     Given the following courses
-      | department | number | title         | credits |
-      | CS         | 108    | Everything CS | 4 |
-      | IS         | 204    | Everything IS | 3 |
+      | department | number | title         | credits | description     |
+      | CS         | 108    | Everything CS | 4       | 108iest!        |
+      | IS         | 204    | Everything IS | 3       | Only 3 credits! |
     When I go to the list of courses
     Then I should see "CS 108: Everything CS"
     Then I should see "IS 204: Everything IS"

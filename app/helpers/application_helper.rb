@@ -1,6 +1,22 @@
 # Methods added to this helper will be available to all templates in the application.
 
 module ApplicationHelper
+  def course_links(string)
+    Course.all.each do |course|
+      string = string.gsub(/\b#{course.short_identifier}\b/, "\"#{course.identifier} (#{course.full_title})\":#{course_path(course)}")
+    end
+    string
+  end
+
+  def johnny_textilize(string, paragraphs = :yes)
+    string = course_links(string)
+    if paragraphs == :no_paragraphs
+      RedCloth.new(string, [:lite_mode]).to_html
+    else
+      RedCloth.new(string).to_html
+    end
+  end
+
   def link_to_current_newsitem(newsitem, options = {})
     options = { :text => h(newsitem.headline) }.merge(options)
     link_to options[:text],

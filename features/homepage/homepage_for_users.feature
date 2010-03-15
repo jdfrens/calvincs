@@ -62,8 +62,8 @@ Feature: the home page
   Scenario:see the home page with a conference today and tomorrow
     Given default homepage content
     And the following conferences
-      | title    | start     | stop     |
-      | GLSEC    | yesterday | tomorrow |
+      | title    | start     | stop     | description    |
+      | GLSEC    | yesterday | tomorrow | doesn't matter |
     When I go to the homepage
     Then I should see "GLSEC"
     And I should see "Conference today!"

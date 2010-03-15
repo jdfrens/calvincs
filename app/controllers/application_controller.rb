@@ -1,6 +1,3 @@
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
-
 class ApplicationController < ActionController::Base
   filter_parameter_logging "password"
 
@@ -9,7 +6,6 @@ class ApplicationController < ActionController::Base
   #
   protected
 
-  # find most recent updated_at
   def last_updated(items)
     items.compact.map(&:last_updated_dates).flatten.max
   end

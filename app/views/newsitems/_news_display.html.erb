@@ -10,7 +10,7 @@
       <p class="goes-live-date">Posted on <%= news_item.goes_live_at.to_s(:news_posted) %></p>
 
       <div class="content">
-        <%= textilize news_item.content %>
+        <%= johnny_textilize news_item.content %>
       </div>
 
       <p class="more"><a href="#top">back to top...</a></p>

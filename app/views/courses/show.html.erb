@@ -7,6 +7,6 @@
 
 <p><%= @course.credits %> credits</p>
 
-<p><%= h(@course.description) %></p>
+<%= johnny_textilize(@course.description) %>
 
 <p><%= link_to 'Back to list of courses', courses_path, :class => "more" %></p>

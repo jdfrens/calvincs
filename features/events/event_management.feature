@@ -13,11 +13,12 @@ Feature: managing events
     When I am on the administration page
     And I follow "Create new colloquium"
     And I fill in the following:
-      | Title     | Amazing Ruby Code     |
-      | Subtitle  | Check It Out!         |
-      | Presenter | Charles M. Ruby       |
-      | Location  | Room of Presentations |
-      | Length    | 1.5                   |
+      | Title       | Amazing Ruby Code     |
+      | Subtitle    | Check It Out!         |
+      | Presenter   | Charles M. Ruby       |
+      | Location    | Room of Presentations |
+      | Length      | 1.5                   |
+      | Description | Ruby code is amazing. |
     And I select tomorrow at "16:00" as the date and time
     And I press "Create"
     Then I should see "Amazing Ruby Code: Check It Out!"
@@ -30,10 +31,11 @@ Feature: managing events
     When I am on the administration page
     And I follow "Create new colloquium"
     And I fill in the following:
-      | Title      | The Programming Contest |
-      | Descriptor | programming contest     |
-      | Location   | Room of Contests        |
-      | Length     | 1.5                     |
+      | Title       | The Programming Contest         |
+      | Descriptor  | programming contest             |
+      | Location    | Room of Contests                |
+      | Length      | 1.5                             |
+      | Description | Write code for cash and prizes. |
     And I select tomorrow at "10:00" as the date and time
     And I press "Create"
     Given default homepage content
@@ -47,6 +49,7 @@ Feature: managing events
     And I fill in "Title" with "Meeting of the Railers"
     And I select tomorrow as the date
     And I fill in "Length" with "2"
+    And I fill in "Description" with "Railing against all other frameworks."
     And I press "Create"
     Then I should be on the list of events
     And I should see "Meeting of the Railers"
@@ -55,8 +58,8 @@ Feature: managing events
   Scenario: edit a colloquium
     Given I am logged in as an editor
     And the following colloquia
-      | title    | start              |
-      | Get Real | tomorrow at 3:30pm |
+      | title    | start              | description   |
+      | Get Real | tomorrow at 3:30pm | Getting real. |
     When I go to the list of events
     Then I should see "Get Real"
     When I follow "more..."
@@ -70,8 +73,8 @@ Feature: managing events
   Scenario: edit a conference
     Given I am logged in as an editor
     And the following conferences
-      | title  |
-      | GLCamp |
+      | title  | description |
+      | GLCamp | Camping in the Great Lakes |
     When I go to the list of events
     Then I should see "GLCamp"
     When I follow "more..."

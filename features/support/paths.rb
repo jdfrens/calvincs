@@ -24,6 +24,8 @@ module NavigationHelpers
       # courses
       when /the list of courses/
         courses_path
+      when /the \"(.+)\" course page/
+        course_path(Course.find_by_short_identifier($1))
 
       # events
       when /the new event page/

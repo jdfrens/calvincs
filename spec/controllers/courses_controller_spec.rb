@@ -31,7 +31,7 @@ describe CoursesController do
     it "should create a course" do
       post :create, { :course => {
               :department => 'IS', :number => '665',
-              :title => 'One Off Devilry', :credits => '1'
+              :title => 'One Off Devilry', :credits => '1', :description => "Just one away!"
       }}, user_session(:edit)
 
       response.should redirect_to(courses_path)
