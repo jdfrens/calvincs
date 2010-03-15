@@ -39,3 +39,14 @@ Feature: creating and editing the courses offered by the department
     Then I should be on the list of courses page
     And I should see "IS 873: Everything CS"
     And I should not see "CS 108: Everything CS"
+
+  Scenario: Edit a course
+    Given I am logged in as an editor
+    And the following courses
+      | department | number | title         |
+      | CS         | 108    | Everything CS |
+    When I go to the list of courses
+    Then I should see "CS 108"
+    When I follow "delete..."
+    And I go to the list of courses
+    Then I should not see "CS 108"

@@ -143,4 +143,22 @@ describe CoursesController do
       course.number.should == 123
     end
   end
+
+  context "destroying a course" do
+    it "should redirect if not logged in" do
+      delete :destroy, { :id => 55 }
+
+      response.should redirect_to(login_path)
+    end
+
+    it "should delete a course" do
+      course = mock_model(Course)
+
+      Course.should_receive(:destroy).with(course.id.to_s)
+
+      delete :destroy, { :id => course.id }, user_session(:edit)
+
+      response.should redirect_to(courses_path)
+    end
+  end
 end

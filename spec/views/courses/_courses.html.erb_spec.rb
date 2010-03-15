@@ -20,7 +20,7 @@ describe "/courses/_courses.html.erb" do
     end
   end
 
-  context "edit link" do
+  context "management links" do
     it "should not render when not logged in"do
       courses = [mock_model(Course, :full_title => "CS 101: foo", :url => nil)]
 
@@ -30,6 +30,7 @@ describe "/courses/_courses.html.erb" do
       render "/courses/_courses"
 
       response.should_not contain("edit...")
+      response.should_not contain("delete...")
     end
 
     it "should render with edit link when logged in" do
@@ -41,6 +42,7 @@ describe "/courses/_courses.html.erb" do
       render "/courses/_courses"
 
       response.should have_selector("a", :content => "edit...")
+      response.should have_selector("a", :content => "delete...")
     end
   end
 end

@@ -4,6 +4,8 @@
         <%= link_to_online_materials course %>
         <% if current_user -%>
             <%= link_to "edit...", edit_course_path(course), :class => "more" %>
+            <%= link_to "delete...", course_path(course), :class => "more", :method => :delete,
+                        :confirm => "Are you sure you want to delete this course?" %>
         <% end -%>
       </li>
   <% end %>
