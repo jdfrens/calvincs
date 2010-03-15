@@ -1,0 +1,10 @@
+<ul class="arrows">
+  <% courses.each do |course| %>
+      <li>
+        <%= link_to_online_materials course %>
+        <% if current_user -%>
+            <%= link_to "edit...", edit_course_path(course), :class => "more" %>
+        <% end -%>
+      </li>
+  <% end %>
+</ul>

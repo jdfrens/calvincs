@@ -19,6 +19,10 @@ class Course < ActiveRecord::Base
   validates_numericality_of :number, :only_integer => true
   validates_uniqueness_of :number, :scope => 'department'
 
+  named_scope :cs_courses, :conditions => ["department = ?", "CS"], :order => "department, number"
+  named_scope :is_courses, :conditions => ["department = ?", "IS"], :order => "department, number"
+  named_scope :interim_courses, :conditions => ["department = ?", "W"], :order => "department, number"
+
   def self.find_by_short_identifier(short_identifier)
     short_identifier =~ /^(\w+?)(\d+)$/
     find_by_department_and_number($1.upcase, $2)

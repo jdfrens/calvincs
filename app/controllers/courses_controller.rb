@@ -3,7 +3,9 @@ class CoursesController < ApplicationController
   restrict_to :edit, :except => [:index, :show]
 
   def index
-    @courses = Course.find(:all, :order => "department, number")
+    @cs_courses = Course.cs_courses
+    @is_courses = Course.is_courses
+    @interim_courses = Course.interim_courses
   end
 
   def show

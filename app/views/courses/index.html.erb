@@ -1,12 +1,20 @@
 <h1>Courses</h1>
 
-<ul id="courses">
-  <% @courses.each do |course| %>
-      <li>
-        <%= link_to_online_materials course %>
-        <% if current_user -%>
-            <%= link_to "edit...", edit_course_path(course), :class => "more" %>
-        <% end -%>
-      </li>
-  <% end %>
-</ul>
+<table summary="course listings" class="courses">
+  <tr>
+    <td rowspan="2" id="cs">
+      <h2>Computer Science</h2>
+      <%= render :partial => "courses", :locals => {:courses => @cs_courses} %>
+    </td>
+    <td id="is">
+      <h2>Information Systems</h2>
+      <%= render :partial => "courses", :locals => {:courses => @is_courses} %>
+    </td>
+  </tr>
+  <tr>
+    <td id="interim">
+      <h2>Interim</h2>
+      <%= render :partial => "courses", :locals => {:courses => @interim_courses} %>
+    </td>
+  </tr>
+</table>

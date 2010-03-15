@@ -2,13 +2,23 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CoursesController do
   user_fixtures
-  fixtures :courses
 
   it "should show a list of courses" do
+    cs_courses = mock("cs courses")
+    is_courses = mock("is courses")
+    interim_courses = mock("interim courses")
+
+    Course.should_receive(:cs_courses).and_return(cs_courses)
+    Course.should_receive(:is_courses).and_return(is_courses)
+    Course.should_receive(:interim_courses).and_return(interim_courses)
+
     get :index
 
     response.should be_success
     response.should render_template('courses/index')
+    assigns[:cs_courses].should == cs_courses
+    assigns[:is_courses].should == is_courses
+    assigns[:interim_courses].should == interim_courses
   end
 
   context "building a new course" do

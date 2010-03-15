@@ -81,11 +81,14 @@ div#navbar li a {
 }
 
 /***********************/
-/* Arrowed lists       */
+/* Fancy lists       */
 /***********************/
 
 .arrows li {
     list-style-image: url(/images/arrow.gif);
+}
+
+.biglist li {
     font-size: 130%;
     line-height: 1.5em;
 }
@@ -359,3 +362,10 @@ b {
     color: red;
 }
 
+/******************/
+/* Course listing */
+/******************/
+
+table.courses td {
+    vertical-align: top;
+}

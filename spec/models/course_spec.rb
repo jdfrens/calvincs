@@ -124,4 +124,24 @@ describe Course do
     Factory.build(:course, :department => 'AB', :number => 452, :title => "THE Title").
             full_title.should == "AB 452: THE Title"
   end
+
+  context "finding different kinds of courses" do
+    before(:each) do
+      @cs = Factory.create(:course, :department => "CS", :number => 111)
+      @is = Factory.create(:course, :department => "IS", :number => 222)
+      @w = Factory.create(:course, :department => "W", :number => 60)
+    end
+
+    it "should find CS courses" do
+      Course.cs_courses.should == [@cs]
+    end
+
+    it "should find IS courses" do
+      Course.is_courses.should == [@is]
+    end
+
+    it "should find interim courses" do
+      Course.interim_courses.should == [@w]
+    end
+  end
 end
