@@ -8,6 +8,7 @@ describe "/pages/view.html.erb" do
 
     template.should_receive(:render).with(:partial => "image").and_return("IMAGE!")
     template.should_receive(:current_user).and_return(nil)
+    expect_textilize("We state our mission.")
 
     render "/pages/show"
 
@@ -23,6 +24,7 @@ describe "/pages/view.html.erb" do
 
     template.should_receive(:render).with(:partial => "image").and_return("IMAGE!")
     template.should_receive(:current_user).and_return(nil)
+    expect_textilize("the content")
 
     render "/pages/show"
 

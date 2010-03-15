@@ -98,10 +98,14 @@ describe Event do
     end
 
     it "should be in days for a conference" do
-      Factory.build(:conference).length.should == 2
       Factory.build(:conference,
                     :start => Chronic.parse("tomorrow at 8:30am"),
-                    :stop => Chronic.parse("tomorrow at 5:00pm")).length.should == 1
+                    :stop => Chronic.parse("2 days from now at 5:00pm")
+                    ).length.should == 2
+      Factory.build(:conference,
+                    :start => Chronic.parse("tomorrow at 8:30am"),
+                    :stop => Chronic.parse("tomorrow at 5:00pm")
+                    ).length.should == 1
     end
   end
 
