@@ -369,3 +369,7 @@ b {
 table.courses td {
     vertical-align: top;
 }
+
+.courses ul {
+    padding-left: 20px;
+}
