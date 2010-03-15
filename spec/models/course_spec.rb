@@ -61,10 +61,15 @@ describe Course do
       @course = Factory.create(:course)
     end
 
-    it "should reject single character" do
-      @course.department = 'C'
+    it "should allow single character" do
+      @course.department = 'W'
+      @course.should be_valid
+    end
+
+    it "should reject too many characters" do
+      @course.department = 'ABCD'
       @course.should_not be_valid
-      @course.errors[:department].should == 'should be two to five capital letters'
+      @course.errors[:department].should == 'should be one to three capital letters'
     end
 
     it "should reject whitespace" do

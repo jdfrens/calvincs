@@ -14,8 +14,8 @@ class Course < ActiveRecord::Base
 
   validates_presence_of :department, :number, :title
 
-  validates_format_of :department, :with => /^[A-Z]{2,5}$/,
-      :message => 'should be two to five capital letters'
+  validates_format_of :department, :with => /^[A-Z]{1,3}$/,
+      :message => 'should be one to three capital letters'
   validates_numericality_of :number, :only_integer => true
   validates_uniqueness_of :number, :scope => 'department'
 
