@@ -13,14 +13,6 @@
       <td> <%= form.text_field :title, :size => 40 %> </td>
     </tr>
     <tr>
-      <td> <%= form.label :credits, "Credits:" %> </td>
-      <td> <%= form.text_field :credits, :size => 5 %> </td>
-    </tr>
-    <tr>
-      <td> <%= form.label :description, "Description:" %> </td>
-      <td> <%= form.text_area :description, :rows => 5, :columns => 40 %> </td>
-    </tr>
-    <tr>
       <td> </td>
       <td> <%= form.submit(@course.new_record? ? "Create" : "Update", :class => "submit") %> </td>
     </tr>

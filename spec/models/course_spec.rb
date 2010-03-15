@@ -34,29 +34,15 @@ describe Course do
     it "should validate title" do
       @course.should validate_presence_of(:title)
     end
-
-    it "should validate credits" do
-      @course.should validate_presence_of(:credits)
-    end
   end
 
   context "number validations" do
     it "should complain about bad values" do
       course = Course.new(
-              :department => 'CS', :number => 'bad', :title => 'okay', :credits => 4
+              :department => 'CS', :number => 'bad', :title => 'okay'
       )
       course.should be_invalid
       course.should have(1).error_on(:number)
-    end
-  end
-
-  context "credit validations" do
-    it "should complain about bad values" do
-      course = Course.new(
-              :department => 'CS', :number => 555, :title => 'okay', :credits => 'iv'
-      )
-      course.should be_invalid
-      course.should have(1).error_on(:credits)
     end
   end
 

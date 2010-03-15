@@ -30,8 +30,7 @@ describe CoursesController do
   context "creating a course" do
     it "should create a course" do
       post :create, { :course => {
-              :department => 'IS', :number => '665',
-              :title => 'One Off Devilry', :credits => '1', :description => "Just one away!"
+              :department => 'IS', :number => '665', :title => 'One Off Devilry'
       }}, user_session(:edit)
 
       response.should redirect_to(courses_path)
@@ -63,10 +62,15 @@ describe CoursesController do
 
   context "showing a course" do
     it "should show a course" do
-      get :show, :id => 3
+      course = mock_model(Course)
+
+      Course.should_receive(:find).with(course.id.to_s).and_return(course)
+
+      get :show, :id => course.id
 
       response.should be_success
       response.should render_template("courses/show")
+      assigns[:course].should == course
     end
 
     it "should redirect when id is nil" do
