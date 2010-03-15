@@ -16,8 +16,8 @@ Feature: creating and editing the courses offered by the department
     Given I am logged in as an editor
     When I am on the administration page
     And I follow "Create" within "#course_administration"
+    And I select "CS" from "Label"
     And I fill in the following:
-      | Label         | CS    |
       | Course number | 873   |
       | Title         | Hey, Learn Computing! |
       | URL           | http://www.example.com/course |
@@ -32,7 +32,7 @@ Feature: creating and editing the courses offered by the department
       | CS         | 108    | Everything CS |
     When I go to the list of courses
     And I follow "edit..."
-    And I fill in "Label" with "IS"
+    And I select "IS" from "Label"
     And I fill in "Course number" with "873"
     And I fill in "URL" with "http://www.example.com/is873"
     And I press "Update"

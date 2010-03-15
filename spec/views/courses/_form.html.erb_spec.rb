@@ -8,7 +8,7 @@ describe "/courses/_form.html.erb" do
     render "/courses/_form"
 
     response.should have_selector("form") do |form|
-      form.should have_selector("input#course_department")
+      form.should have_selector("select#course_department")
       form.should have_selector("input#course_number")
       form.should have_selector("input#course_title")
       form.should have_selector("input#course_url")
