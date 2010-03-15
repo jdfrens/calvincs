@@ -7,6 +7,7 @@ describe "/courses/show.html.erb" do
                                   :full_title => "CS 108: Introduction to Computing",
                                   :description => "The standard CS 1 class.")
     
+    template.should_receive(:current_user).and_return(nil)
     expect_textilize("The standard CS 1 class.")
 
     render "/courses/show"
