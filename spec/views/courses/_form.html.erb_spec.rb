@@ -11,6 +11,7 @@ describe "/courses/_form.html.erb" do
       form.should have_selector("input#course_department")
       form.should have_selector("input#course_number")
       form.should have_selector("input#course_title")
+      form.should have_selector("input#course_url")
     end
   end
 
