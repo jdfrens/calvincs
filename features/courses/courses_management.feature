@@ -6,12 +6,12 @@ Feature: creating and editing the courses offered by the department
   Scenario: list courses
     Given I am logged in as an editor
     And the following courses
-      | department | number | title         |
-      | CS         | 108    | Everything CS |
-      | IS         | 204    | Everything IS |
+      | department | number | title         | url                          |
+      | CS         | 108    | Everything CS | http://www.example.com/cs108 |
+      | IS         | 204    | Everything IS | http://www.example.com/is204 |
     When I go to the list of courses
     Then I should see "CS 108: Everything CS"
-    Then I should see "IS 204: Everything IS"
+    And I should see "IS 204: Everything IS"
 
   Scenario: create a course
     Given I am logged in as an editor

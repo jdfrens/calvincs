@@ -36,6 +36,16 @@ describe Course do
     end
   end
 
+  context "the url" do
+    it "should have a default url" do
+      Factory.create(:course).url.should be_nil
+    end
+
+    it "should have a url" do
+      Factory.create(:course, :url => "http://www.example.com/").url.should == "http://www.example.com/"
+    end
+  end
+
   context "number validations" do
     it "should complain about bad values" do
       course = Course.new(
