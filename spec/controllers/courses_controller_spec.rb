@@ -71,28 +71,12 @@ describe CoursesController do
   end
 
   context "showing a course" do
-    it "should show a course" do
+    it "should NOT show a course" do
       course = mock_model(Course)
-
-      Course.should_receive(:find).with(course.id.to_s).and_return(course)
 
       get :show, :id => course.id
 
-      response.should be_success
-      response.should render_template("courses/show")
-      assigns[:course].should == course
-    end
-
-    it "should redirect when id is nil" do
-      get :show, :id => nil
-      response.should redirect_to(courses_path)
-      flash.should be_empty
-    end
-
-    it "should redirect if course doesn't exist" do
-      get :show, :id => "99"
-      response.should redirect_to(courses_path)
-      flash.should be_empty
+      response.should_not be_success
     end
   end
 

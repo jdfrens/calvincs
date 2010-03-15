@@ -5,9 +5,9 @@ Feature: using short identifier to identify and link to a course
 
   Scenario: link in a page
     Given the following courses
-      | department | number | title |
-      | CS         | 108    | CS 1  |
-      | IS         | 271    | IS 3  |
+      | department | number | title | url |
+      | CS         | 108    | CS 1  | http://www.example.com/cs1 |
+      | IS         | 271    | IS 3  |     |
     And the following pages
       | identifier | title | content |
       | hey        | Hey!  | Check out cs108 and is271 for some great courses. |

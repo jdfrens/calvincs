@@ -1,17 +1,11 @@
 class CoursesController < ApplicationController
 
-  restrict_to :edit, :except => [:index, :show]
+  restrict_to :edit, :except => [:index]
 
   def index
     @cs_courses = Course.cs_courses
     @is_courses = Course.is_courses
     @interim_courses = Course.interim_courses
-  end
-
-  def show
-    @course = Course.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to :action => 'index'
   end
 
   def new
@@ -36,8 +30,10 @@ class CoursesController < ApplicationController
     course = Course.find(params[:id])
     course.update_attributes(params[:course])
     if course.save
+      flash[:notice] = "Course updated."
       redirect_to courses_path
     else
+      flash[:error] = "Errors updating the course."
       render :edit
     end
   end
