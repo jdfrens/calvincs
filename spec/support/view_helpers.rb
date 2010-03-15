@@ -25,4 +25,16 @@ module ViewHelpers
   def expect_textilize(text)
     template.should_receive(:johnny_textilize).with(text).and_return(text)
   end
+
+  def expect_no_current_user()
+    expect_current_user(nil)
+  end
+
+  def expect_some_current_user()
+    expect_current_user(mock_model(User))
+  end
+
+  def expect_current_user(user)
+    template.should_receive(:current_user).any_number_of_times.and_return(user)
+  end  
 end

@@ -2,6 +2,11 @@
 
 <ul id="courses">
   <% @courses.each do |course| %>
-    <li><%= link_to h(course.identifier + ": " + course.title), course %></li>
+      <li>
+        <%= link_to h(course.full_title), course %>
+        <% if current_user -%>
+            <%= link_to "edit...", edit_course_path(course), :class => "more" %>
+        <% end -%>
+      </li>
   <% end %>
 </ul>

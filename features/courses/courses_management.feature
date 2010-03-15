@@ -3,15 +3,14 @@ Feature: creating and editing the courses offered by the department
   I want to create and edit the courses we keep track of
   So that our courses can be linked to easily
 
-  Scenario: list courses
+  Scenario: list courses includes a link to edit
     Given I am logged in as an editor
     And the following courses
       | department | number | title         | url                          |
       | CS         | 108    | Everything CS | http://www.example.com/cs108 |
-      | IS         | 204    | Everything IS | http://www.example.com/is204 |
     When I go to the list of courses
-    Then I should see "CS 108: Everything CS"
-    And I should see "IS 204: Everything IS"
+    And I follow "edit..."
+    Then I am on the edit "cs108" course page
 
   Scenario: create a course
     Given I am logged in as an editor
@@ -32,8 +31,7 @@ Feature: creating and editing the courses offered by the department
       | department | number | title         |
       | CS         | 108    | Everything CS |
     When I go to the list of courses
-    And I follow "CS 108: Everything CS"
-    And I follow "edit"
+    And I follow "edit..."
     And I fill in "Label" with "IS"
     And I fill in "Course number" with "873"
     And I fill in "URL" with "http://www.example.com/is873"
