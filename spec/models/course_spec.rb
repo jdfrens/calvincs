@@ -1,15 +1,13 @@
 # == Schema Information
-# Schema version: 20091012011757
+# Schema version: 20100315182611
 #
 # Table name: courses
 #
-#  id          :integer         not null, primary key
-#  department  :string(255)
-#  number      :integer
-#  credits     :integer
-#  title       :string(255)
-#  description :text
-#  created_at  :datetime
+#  id         :integer         not null, primary key
+#  department :string(255)
+#  number     :integer
+#  title      :string(255)
+#  created_at :datetime
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')

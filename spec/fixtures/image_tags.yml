@@ -1,4 +1,14 @@
 # == Schema Information
+# Schema version: 20100315182611
+#
+# Table name: image_tags
+#
+#  id       :integer         not null, primary key
+#  image_id :integer
+#  tag      :string(255)
+#
+
+# == Schema Information
 # Schema version: 20091012011757
 #
 # Table name: image_tags
