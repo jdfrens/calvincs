@@ -9,7 +9,7 @@ describe "/home/index.html.erb" do
     assigns[:this_weeks_events] = mock("week_events")
     assigns[:newsitems] = mock("news items")
 
-    template.should_receive(:textilize_without_paragraph).with("The caption!").and_return("Textilized caption!")
+    template.should_receive(:johnny_textilize_lite).with("The caption!").and_return("Textilized caption!")
     template.should_receive(:render).
             with(:partial => "shared/subpage", :locals => { :page => assigns[:content] }).
             and_return("The real content!")
@@ -17,7 +17,7 @@ describe "/home/index.html.erb" do
             with(:partial => "event", :collection => assigns[:todays_events], :locals => { :timing => "today" }).
             and_return("The events of today...")
     template.should_receive(:render).
-            with(:partial => "event", :collection => assigns[:this_weeks_events], :locals => { :timing => "this week" }).
+            with(:partial => "event", :collection => assigns[:this_weeks_events], :locals => { :timing => "coming up" }).
             and_return("The events of this week...")
     template.should_receive(:render).
             with(:partial => "newsitem", :collection => assigns[:newsitems]).

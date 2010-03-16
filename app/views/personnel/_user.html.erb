@@ -10,7 +10,7 @@
     <div class="name">
       <h2><%= link_to h(user.full_name), person_path(user) %></h2>
       <% output_if user.job_title do |title| -%>
-        <p <%= id_for(user, "job_title") %>><%= textilize_without_paragraph(title) %></p>
+        <p <%= id_for(user, "job_title") %>><%= johnny_textilize_lite(title) %></p>
       <% end -%>
     </div>
     
@@ -27,13 +27,13 @@
     <% output_if user.subpage(:interests) do |page| -%>
       <p id="<%= user.username %>_interests">
         <strong>Interests:</strong>
-        <%= textilize_without_paragraph page.content %>
+        <%= johnny_textilize_lite page.content %>
       </p>
     <% end -%>
     
     <% output_if user.subpage(:status) do |page| -%>
       <p id="<%= user.username %>_status">
-        <%= textilize_without_paragraph page.content %>
+        <%= johnny_textilize_lite page.content %>
       </p>
     <% end -%>
   </td>

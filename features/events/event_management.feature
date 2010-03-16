@@ -40,7 +40,7 @@ Feature: managing events
     And I press "Create"
     Given default homepage content
     When I go to the home page
-    Then I should see "Programming contest this week! The Programming Contest" 
+    Then I should see "Programming contest coming up! The Programming Contest" 
 
   Scenario: add a conference
     Given I am logged in as an editor

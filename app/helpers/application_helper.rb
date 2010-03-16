@@ -14,13 +14,12 @@ module ApplicationHelper
     string
   end
 
-  def johnny_textilize(string, paragraphs = :yes)
-    string = course_links(string)
-    if paragraphs == :no_paragraphs
-      RedCloth.new(string, [:lite_mode]).to_html
-    else
-      RedCloth.new(string).to_html
-    end
+  def johnny_textilize(string)
+    RedCloth.new(course_links(string || "")).to_html
+  end
+
+  def johnny_textilize_lite(string)
+    RedCloth.new(course_links(string || ""), [:lite_mode]).to_html
   end
 
   def link_to_current_newsitem(newsitem, options = {})

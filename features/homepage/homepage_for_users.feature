@@ -33,7 +33,7 @@ Feature: the home page
       | Get Real | tomorrow at 3:30pm |
     When I go to the homepage
     Then I should be on the homepage
-    And I should see "Colloquium this week!"
+    And I should see "Colloquium coming up!"
     And I should not see "Colloquium today!"
     And I should see "Get Real"
     When I follow "more..."
@@ -45,7 +45,7 @@ Feature: the home page
       | title    | start              | descriptor          |
       | C4       | tomorrow at 3:30pm | programming contest |
     When I go to the homepage
-    Then I should see "Programming contest this week!"
+    Then I should see "Programming contest coming up!"
     And I should not see "Colloquium"
     And I should see "C4"
 
@@ -67,7 +67,7 @@ Feature: the home page
     When I go to the homepage
     Then I should see "GLSEC"
     And I should see "Conference today!"
-    And I should see "Conference this week!"
+    And I should see "Conference coming up!"
 
   Scenario: see the home page with certain events
     Given default homepage content
@@ -80,7 +80,7 @@ Feature: the home page
     Then I should not see "Old West"
     And I should see "Colloquium today!"
     And I should see "The Present"
-    And I should see "Colloquium this week!"
+    And I should see "Colloquium coming up!"
     And I should see "The Future"
 
   Scenario: see the home page with some news

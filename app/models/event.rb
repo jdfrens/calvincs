@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
   before_validation :use_length_for_stop_time
   before_validation :use_type_for_descriptor
 
-  named_scope :upcoming, lambda { || { :conditions => ['stop > ?', Time.now] } }
+  named_scope :upcoming, lambda { || { :conditions => ['stop > ?', Time.now], :order => "start" } }
 
   named_scope :find_within,
               lambda { |range_start, range_stop|

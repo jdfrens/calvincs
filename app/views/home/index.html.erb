@@ -3,7 +3,7 @@
 
   <div id="splash-description">
     <div class="gutter">
-      <p><%= textilize_without_paragraph(@splash_image.caption) %></p>
+      <p><%= johnny_textilize_lite(@splash_image.caption || "") %></p>
     </div>
   </div>
 </div>
@@ -17,7 +17,7 @@
     <h1>News</h1>
     <ul>
       <%= render(:partial => "event", :collection => @todays_events, :locals => { :timing => "today" }) %>
-      <%= render(:partial => "event", :collection => @this_weeks_events, :locals => { :timing => "this week" }) %>
+      <%= render(:partial => "event", :collection => @this_weeks_events, :locals => { :timing => "coming up" }) %>
       <%= render(:partial => "newsitem", :collection => @newsitems) %>
       <li>
         <%= link_to "other news...", newsitems_path, { :class => "more" } %>

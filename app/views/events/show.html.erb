@@ -10,7 +10,7 @@
 <% unless @event.presenter.blank? && @event.location.blank? -%>
     <p>
       <% unless @event.presenter.blank? -%>
-          <span class="presenter"><%= johnny_textilize(@event.presenter, :no_paragraphs) %></span><br/>
+          <span class="presenter"><%= johnny_textilize_lite(@event.presenter) %></span><br/>
       <% end -%>
       <span class="time"><%= @event.start.to_s(@event.kind.downcase.to_sym) %></span><br />
       <% unless @event.location.blank? -%>

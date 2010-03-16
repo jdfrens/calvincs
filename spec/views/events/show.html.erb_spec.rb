@@ -12,9 +12,9 @@ describe "/events/view.html.erb" do
                       :description => "The Description", :kind => "KindOfEvent")
 
       assigns[:event] = event
-      expect_textilize_wop("The Title")
-      expect_textilize_wop("The Subtitle")
-      expect_textilize_wop("Dr. Presenter")
+      expect_textilize_lite("The Title")
+      expect_textilize_lite("The Subtitle")
+      expect_textilize_lite("Dr. Presenter")
       start.should_receive(:to_s).with(:kindofevent).and_return("tomorrow at 8am")
       expect_textilize("The Description")
 
@@ -52,7 +52,7 @@ describe "/events/view.html.erb" do
               :presenter => nil, :location => nil,
               :description => "The Description")
       assigns[:event] = event
-      expect_textilize_wop("The Title")
+      expect_textilize_lite("The Title")
       expect_textilize("The Description")
 
       render "events/show"

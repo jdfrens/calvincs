@@ -3,7 +3,7 @@
     <h2>Interests</h2>
   
     <% if @user.subpage(:interests) -%>
-      <%= textilize @user.subpage(:interests).content %>
+      <%= johnny_textilize @user.subpage(:interests).content %>
     <% end -%>
   </div>
 <% end -%>

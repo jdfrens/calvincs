@@ -11,4 +11,4 @@
 
 <p><strong>tags:</strong> <span class="tags"><%= image.tags_string %></span></p>
 
-<p><strong>caption:</strong> <span class="caption"><%= textilize_without_paragraph image.caption %></span></p>
+<p><strong>caption:</strong> <span class="caption"><%= johnny_textilize_lite(image.caption) %></span></p>
