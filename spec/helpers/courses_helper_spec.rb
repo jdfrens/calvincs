@@ -1,7 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CoursesHelper do
-
   context "linking to online course material" do
     it "should return the full title by default" do
       course = mock_model(Course, :full_title => "The Full Course", :url => "")

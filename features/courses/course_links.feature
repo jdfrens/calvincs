@@ -13,6 +13,8 @@ Feature: using short identifier to identify and link to a course
       | hey        | Hey!  | Check out cs108 and is271 for some great courses. |
     When I go to the "hey" page
     Then I should see "CS 108"
-    And I should not see "cs108"
     And I should see "IS 271"
+    And I should not see "cs108"
     And I should not see "is271"
+    And I should see a link to "http://www.example.com/cs1"
+    And I should not see "IS 271" within "a"

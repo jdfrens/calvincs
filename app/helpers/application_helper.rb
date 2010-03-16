@@ -1,9 +1,15 @@
-# Methods added to this helper will be available to all templates in the application.
-
 module ApplicationHelper
+  def textilized_link(course)
+    if course.url.blank?
+      course.identifier
+    else
+      "\"#{course.identifier}(#{course.full_title})\":#{course.url}"
+    end
+  end
+
   def course_links(string)
     Course.all.each do |course|
-      string = string.gsub(/\b#{course.short_identifier}\b/, "\"#{course.identifier} (#{course.full_title})\":#{course_path(course)}")
+      string = string.gsub(/\b#{course.short_identifier}\b/, textilized_link(course))
     end
     string
   end
@@ -56,6 +62,7 @@ module ApplicationHelper
   def link_to_remove_fields(name, f)
     f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")
   end
+
   def link_to_add_fields(name, f, association)
     new_object = f.object.class.reflect_on_association(association).klass.new
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
