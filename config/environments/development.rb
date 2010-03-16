@@ -16,14 +16,3 @@ config.action_view.debug_rjs                         = true
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 config.gem 'jscruggs-metric_fu', :lib => 'metric_fu', :source => 'http://gems.github.com'
-config.gem 'bullet', :source => 'http://gemcutter.org'
-
-config.after_initialize do
-  Bullet.enable = true
-  Bullet.alert = true
-  Bullet.bullet_logger = true
-  Bullet.console = true
-  Bullet.growl = true
-  Bullet.rails_logger = true
-  Bullet.disable_browser_cache = true
-end
