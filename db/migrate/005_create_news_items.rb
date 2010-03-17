@@ -1,12 +1,14 @@
 class CreateNewsItems < ActiveRecord::Migration
   def self.up
-    create_table :news_items do |t|
-      t.column :title, :string
-      t.column :content, :text
-      t.column :user_id, :integer
-      t.column :created_at, :timestamp
-      t.column :updated_at, :timestamp
-      t.column :expires_at, :timestamp
+    create_table "newsitems", :force => true do |t|
+      t.string   "headline"
+      t.string   "teaser"
+      t.text     "content"
+      t.integer  "user_id"
+      t.datetime "goes_live_at"
+      t.datetime "expires_at"
+      t.datetime "created_at"
+      t.datetime "updated_at"
     end
   end
 
