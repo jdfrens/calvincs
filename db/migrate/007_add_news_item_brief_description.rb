@@ -1,10 +1,6 @@
 class AddNewsItemBriefDescription < ActiveRecord::Migration
   def self.up
-    add_column :news_items, :brief_description, :string
-    Newsitem.find(:all).each do |news_item|
-      news_item.brief_description = 'Default Teaser'
-      news_item.save!
-    end
+    add_column :news_items, :brief_description, :string, :default => ""
   end
 
   def self.down
