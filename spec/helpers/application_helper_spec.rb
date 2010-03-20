@@ -1,6 +1,34 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe ApplicationHelper do
+  context "textilizing text" do
+    it "should be an identity function" do
+      helper.johnny_textilize("foo").should == "<p>foo</p>"
+    end
+
+    it "should do simple formatting" do
+      helper.johnny_textilize("foo *bar*").should == "<p>foo <strong>bar</strong></p>"
+    end
+
+    it "should ignore hard breaks" do
+      helper.johnny_textilize("foo\n bar").should == "<p>foo\n bar</p>"
+    end
+
+    it "should separate paragraphs" do
+      helper.johnny_textilize("foo\n \n bar\n").should == "<p>foo</p>\nbar"
+    end
+  end
+  
+  context "lite textilizing text" do
+    it "should be an identity function" do
+      helper.johnny_textilize_lite("foo").should == "foo"
+    end
+
+    it "should do simple formatting" do
+      helper.johnny_textilize_lite("foo *bar*").should == "foo <strong>bar</strong>"
+    end
+  end
+
   context "creating a textilized link for a course" do
     it "should generate a link" do
       course = Factory.create(:course, :department => "CS", :number => "123",

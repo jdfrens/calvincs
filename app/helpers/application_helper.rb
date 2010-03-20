@@ -15,7 +15,9 @@ module ApplicationHelper
   end
 
   def johnny_textilize(string)
-    RedCloth.new(course_links(string || ""), [:hard_breaks]).to_html
+    textilized = RedCloth.new(course_links(string || ""))
+    textilized.hard_breaks = false
+    textilized.to_html
   end
 
   def johnny_textilize_lite(string)
