@@ -10,6 +10,13 @@ describe HomeController do
     params_from(:get, "/").should == {:controller => "home", :action => "index"}
   end
 
+  it "should map the Atom feed" do
+    params_from(:get, "/feed").should == { :controller => "home", :action => "feed", :format => "atom" }
+  end
+
+  it "should map the Atom feed with an explicit type" do
+    params_from(:get, "/feed.atom").should == { :controller => "home", :action => "feed", :format => "atom" }
+  end
 end
 
 describe PersonnelController do
@@ -57,7 +64,6 @@ describe PagesController do
   end
 
 end
-
 
 describe ImagesController do
   it "should recognize list route" do

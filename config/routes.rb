@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.home '', :controller => "home"
   map.connect '/feed', :controller => 'home', :action => 'feed', :format => 'atom'
+  map.connect '/feed.:format', :controller => 'home', :action => 'feed'
 
   map.login "/users/login", :controller => "users", :action => "login"
   map.logout "/users/logout", :controller => "users", :action => "logout"
