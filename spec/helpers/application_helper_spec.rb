@@ -27,6 +27,10 @@ describe ApplicationHelper do
     it "should do simple formatting" do
       helper.johnny_textilize_lite("foo *bar*").should == "foo <strong>bar</strong>"
     end
+
+    it "should ignore hard breaks" do
+      helper.johnny_textilize_lite("foo\n bar").should == "foo\n bar"
+    end
   end
 
   context "creating a textilized link for a course" do

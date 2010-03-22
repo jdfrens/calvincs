@@ -21,7 +21,9 @@ module ApplicationHelper
   end
 
   def johnny_textilize_lite(string)
-    RedCloth.new(course_links(string || ""), [:lite_mode]).to_html
+    textilized = RedCloth.new(course_links(string || ""), [:lite_mode])
+    textilized.hard_breaks = false
+    textilized.to_html
   end
 
   def link_to_current_newsitem(newsitem, options = {})
