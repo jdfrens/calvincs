@@ -186,6 +186,12 @@ p.img-caption {
 #splash-description {
     color: #fff;
 }
+#splash-description a, #splash-description a:visited {
+    color: #fc0;
+}
+#splash-description a:hover {
+    color: #99c;
+}
 
 /***********************/
 /* Administration page */
