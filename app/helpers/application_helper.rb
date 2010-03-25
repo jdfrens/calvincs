@@ -35,7 +35,7 @@ module ApplicationHelper
 
   def title
     "<title>" +
-            ["Calvin College Computer Science", @title].compact.join(" - ") +
+            ["Calvin College", "Computer Science", @title].compact.join(" - ") +
             "</title>"
   end
 
