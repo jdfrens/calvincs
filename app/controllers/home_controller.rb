@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   restrict_to :edit, :only => 'administrate'
 
   def index
+    @title = "computing from a Christian perspective"
     @content = Page.find_by_identifier('_home_page')
     @splash_image = Image.pick_random('homepage')
     @newsitems = Newsitem.find_current
