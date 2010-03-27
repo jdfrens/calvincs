@@ -81,11 +81,14 @@ describe ImagesController do
     context "when logged in" do
       it "should update image" do
         image = mock_model(Image)
+        image_params = { "stuff" => "generic", "tags_string" => "one two three" }
 
         Image.should_receive(:find).with(image.id.to_s).and_return(image)
-        image.should_receive(:update_attributes).with("image params")
+        image.should_receive(:update_attributes).with(image_params)
+        image.should_receive(:tags_string=).with("one two three")
+        image.should_receive(:save!).and_return(true)
 
-        post :update, { :id => image.id, :image => "image params"}, user_session(:edit)
+        post :update, { :id => image.id, :image => image_params }, user_session(:edit)
 
         response.should redirect_to(images_path)
       end

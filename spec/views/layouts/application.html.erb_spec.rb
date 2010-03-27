@@ -44,7 +44,7 @@ describe "/layouts/application.html.erb" do
 
       render "layouts/application"
 
-      response.should have_tag("head title", "Calvin College Computer Science")
+      response.should have_tag("head title", "Calvin College - Computer Science")
     end
 
     it "should use @title when set" do
@@ -53,7 +53,7 @@ describe "/layouts/application.html.erb" do
       render "layouts/application"
 
       response.should have_tag("head title",
-                               "Calvin College Computer Science - Fancy Title for This Page")
+                               "Calvin College - Computer Science - Fancy Title for This Page")
     end
   end
 

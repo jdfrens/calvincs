@@ -30,30 +30,34 @@ Feature: managing pictures
   Scenario: listing pictures
     Given I am logged in as an editor
     And the following images
-      | url          | width | height | caption |
-      | /foobar1.jpg |   265 |    200 | wide foobar   |
-      | /foobar2.jpg |   200 |    265 | narrow foobar |
-      | /foobar3.jpg |   265 |    265 | square foobar |
+      | url          | width | height | caption       | tags_string |
+      | /foobar1.jpg |   265 |    200 | wide foobar   | a b c       |
+      | /foobar2.jpg |   200 |    265 | narrow foobar | 1 2 3       |
+      | /foobar3.jpg |   265 |    265 | square foobar | x y z       |
     When I go to the list of pictures
     Then I should see "/foobar1.jpg"
     And I should see "/foobar2.jpg"
     And I should see "/foobar3.jpg"
+    And I should see "a b c"
 
   Scenario: editing a picture
     Given I am logged in as an editor
     And the following images
-      | url          | width | height | caption |
-      | /foobar1.jpg |   265 |    200 | wide foobar   |
+      | url          | width | height | caption       | tags_string |
+      | /foobar1.jpg |   265 |    200 | wide foobar   | a b c       |
     When I go to the list of pictures
     And I follow "edit..."
     And I fill in "URL" with "/hello.jpg"
     And I fill in "Caption" with "hello!"
+    And I fill in "Tags" with "one two three"
     And I press "Update"
     Then I should see "List of Images"
     And I should see "/hello.jpg"
     And I should not see "/foobar1.jpg"
     And I should see "hello!"
     And I should not see "wide foobar"
+    And I should see "one two three"
+    And I should not see "a b c"
 
   Scenario: editing a picture with a full URL
     Given I am logged in as an editor

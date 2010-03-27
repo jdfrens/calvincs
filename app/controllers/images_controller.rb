@@ -22,7 +22,10 @@ class ImagesController < ApplicationController
   end
 
   def update
-    Image.find(params[:id]).update_attributes(params[:image])
+    image = Image.find(params[:id])
+    image.update_attributes(params[:image])
+    image.tags_string = params[:image][:tags_string]
+    image.save!
     redirect_to(images_path)
   end
 
