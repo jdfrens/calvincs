@@ -27,6 +27,18 @@ class PersonnelController < ApplicationController
 
   def new
     @user = User.new
+  end
+
+  def create
+    user = User.new(params[:user])
+    user.active = true
+    user.email_address = user.username + "@calvin.edu"
+    if user.save
+      redirect_to(people_path)
+    else
+      flash[:error] = "Problems creating the new user."
+      render :action => "new"
+    end
   end  
 
   def edit

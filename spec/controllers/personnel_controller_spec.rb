@@ -78,6 +78,40 @@ describe PersonnelController do
       assigns[:user].should be_instance_of(User)
     end
   end
+
+  context "creating a new person" do
+    it "should redirect if not logged in" do
+      get :create, { :user => "params" }
+
+      response.should redirect_to(login_path)
+    end
+
+    it "should create a new person" do
+      user = mock_model(User, :username => "the username")
+
+      User.should_receive(:new).with("params").and_return(user)
+      user.should_receive(:active=).with(true)
+      user.should_receive(:email_address=).with("the username@calvin.edu")
+      user.should_receive(:save).and_return(true)
+      
+      get :create, { :user => "params" }, user_session(:edit)
+
+      response.should redirect_to(people_path)
+    end
+
+    it "should fail to create a new person" do
+      user = mock_model(User, :username => "the username")
+
+      User.should_receive(:new).with("params").and_return(user)
+      user.should_receive(:active=).with(true)
+      user.should_receive(:email_address=).with("the username@calvin.edu")
+      user.should_receive(:save).and_return(false)
+
+      get :create, { :user => "params" }, user_session(:edit)
+
+      response.should render_template("personnel/new")
+    end
+  end
   
   context "editing a person" do
     it "should redirect if not logged in" do

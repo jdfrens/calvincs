@@ -124,4 +124,7 @@ Feature: managing personnel
       | Username   | akuyper |
       | Password   | secret  |
       | Password confirmation | secret |
-    And I select "admin" from "user_role_id"
+    And I select "staff" from "user_role_id"
+    And I press "Save changes"
+    Then I should be on the list of personnel
+    And I should see "Abraham Kuyper" within "#staff_listing"
