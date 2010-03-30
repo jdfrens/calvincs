@@ -25,6 +25,10 @@ class PersonnelController < ApplicationController
     end
   end
 
+  def new
+    @user = User.new
+  end  
+
   def edit
     @user = User.find_by_username(params[:id])
   end

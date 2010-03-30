@@ -1,0 +1,36 @@
+<h1>New User</h1>
+
+<% form_for @user do |form| -%>
+    <%= form.error_messages %>
+
+    <table>
+      <tr>
+        <td><%= form.label :first_name %></td>
+        <td><%= form.text_field :first_name %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :last_name %></td>
+        <td><%= form.text_field :last_name %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :username %></td>
+        <td><%= form.text_field :username, :size => 10 %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :role %></td>
+        <td><%= form.collection_select :role_id, Role.all, :id, :name %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :password %></td>
+        <td><%= form.password_field :password, :size => 14 %></td>
+      </tr>
+      <tr>
+        <td><%= form.label :password_confirmation %></td>
+        <td><%= form.password_field :password_confirmation, :size => 14 %></td>
+      </tr>
+    </table>
+
+    <p><%= form.submit %></p>
+<% end -%>
+
+<p>After you create a new user with this form, you can edit office information and interests and much more.</p>

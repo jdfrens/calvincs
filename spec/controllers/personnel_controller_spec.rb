@@ -63,6 +63,22 @@ describe PersonnelController do
     end
   end
 
+  context "form for a new person" do
+    it "should redirect if not logged in" do
+      get :new
+
+      response.should redirect_to(login_path)
+    end
+
+    it "should show the new-user form when logged in" do
+      get :new, {}, user_session(:edit)
+
+      response.should render_template("personnel/new")
+      assigns[:user].should be_new_record
+      assigns[:user].should be_instance_of(User)
+    end
+  end
+  
   context "editing a person" do
     it "should redirect if not logged in" do
       get :edit, { :id => "bob" }

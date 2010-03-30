@@ -113,3 +113,15 @@ Feature: managing personnel
     And I press "Save changes"
     Then I should not see "B.A., University of Geneva, 1612"
     And I should not see "Education"
+
+  Scenario: creating a new user
+    Given I am logged in as an editor
+    When I go to the administration page
+    And I follow "Create user"
+    And I fill in the following:
+      | First name | Abraham |
+      | Last name  | Kuyper  |
+      | Username   | akuyper |
+      | Password   | secret  |
+      | Password confirmation | secret |
+    And I select "admin" from "user_role_id"
