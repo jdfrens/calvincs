@@ -29,6 +29,11 @@ class ImagesController < ApplicationController
     redirect_to(images_path)
   end
 
+  def refresh
+    Image.refresh_dimensions!
+    redirect_to(images_path)
+  end
+
   def destroy
     image = Image.find(params[:id])
     image.destroy

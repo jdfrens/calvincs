@@ -117,4 +117,20 @@ describe ImagesController do
     end
   end
 
+  context "refresh dimensions" do
+    it "should redirect when not logged in" do
+      get :refresh
+
+      response.should redirect_to(login_path)
+    end
+
+    it "should refresh dimensions" do
+      Image.should_receive(:refresh_dimensions!)
+      
+      get :refresh, {}, user_session(:edit)
+
+      response.should redirect_to(images_path)
+    end
+  end
+
 end

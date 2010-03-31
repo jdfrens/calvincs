@@ -25,6 +25,13 @@ class Image < ActiveRecord::Base
     images[index]
   end
 
+  def self.refresh_dimensions!
+    all.each do |image|
+      image.obtain_dimensions
+      image.save!
+    end
+  end  
+
   def tags
     image_tags.map { |object| object.tag }
   end

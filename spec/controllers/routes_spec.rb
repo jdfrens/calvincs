@@ -73,4 +73,8 @@ describe ImagesController do
   it "should recognize edit route" do
     route_for(:controller => "images", :action => "edit", :id => "8").should == "/pictures/8/edit"
   end
+
+  it "should recognize a refresh action" do
+    route_for(:controller => "images", :action => "refresh").should == "/pictures/refresh"
+  end
 end

@@ -1,6 +1,9 @@
 <h1>List of Images</h1>
 
-<p><%= link_to "Add an image", new_image_path %></p>
+<p>
+  <%= link_to "Add an image", new_image_path %> |
+  <%= link_to "Refresh dimensions", refresh_images_path %>
+</p>
 
 <div id="image-list">
   <% @images.each do |image| -%>
@@ -12,4 +15,7 @@
     <%= render "image_popups.js" %>
 <% end %>
 
-<p><%= link_to "Add an image", new_image_path %></p>
+<p>
+  <%= link_to "Add an image", new_image_path %> |
+  <%= link_to "Refresh dimensions", refresh_images_path %>
+</p>

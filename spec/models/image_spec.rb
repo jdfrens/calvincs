@@ -33,6 +33,20 @@ class ImageTest < ActiveRecord::TestCase
     image.height.should == 32
   end
 
+  it "should refresh dimensions" do
+    images = [mock_model(Image), mock_model(Image), mock_model(Image)]
+
+    Image.should_receive(:all).and_return(images)
+    images[0].should_receive(:obtain_dimensions)
+    images[0].should_receive(:save!)
+    images[1].should_receive(:obtain_dimensions)
+    images[1].should_receive(:save!)
+    images[2].should_receive(:obtain_dimensions)
+    images[2].should_receive(:save!)
+
+    Image.refresh_dimensions!
+  end
+
   it "should handle 404 gracefully" do
     image = Image.new(:url => "http://www.example.com/foobar.jpg")
     image.obtain_dimensions
