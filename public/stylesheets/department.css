@@ -21,21 +21,25 @@ div#navbar li.current {
 }
 
 /***********************/
-/* Errors              */
+/* Flash               */
 /***********************/
 
-div#error {
-    font-size: larger;
-    color: red;
-    padding-top: 10px;
-    padding-bottom: 10px;
+.flash {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 15px 10px;
 }
-
-div#notice {
-    font-size: larger;
-    background-color: green;
-    padding-top: 10px;
-    padding-bottom: 10px;
+.notice {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
 }
 
 .fieldWithErrors {
