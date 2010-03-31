@@ -40,6 +40,10 @@ jeremy_headshot:
   url: /jeremy.png
   width: 150
   height: 200
+tall_headshot:
+  url: /tall.png
+  width: 150
+  height: 225
 jeremy_in_action:
   url: /jeremyaction.png
   width: 400

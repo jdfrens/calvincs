@@ -57,6 +57,10 @@ class ImageTest < ActiveRecord::TestCase
       images(:jeremy_headshot).usability.should == :headshot
     end
 
+    it "should be a headshot even if tall" do
+      images(:tall_headshot).usability.should == :headshot
+    end
+    
     it "should be a homepage splash" do
       images(:homepage).usability.should == :homepage
     end

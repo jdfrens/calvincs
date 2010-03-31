@@ -72,7 +72,7 @@ class Image < ActiveRecord::Base
   end
 
   def headshot?
-    check_fudged_dimensions(150, 200)
+    check_fudged_dimensions(150, 200) || check_fudged_dimensions(150, 225)
   end
 
   def homepage?
