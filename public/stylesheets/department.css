@@ -31,6 +31,13 @@ div#error {
     padding-bottom: 10px;
 }
 
+div#notice {
+    font-size: larger;
+    background-color: green;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .fieldWithErrors {
     padding: 2px;
     background-color: red;
