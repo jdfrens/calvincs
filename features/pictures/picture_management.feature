@@ -44,20 +44,19 @@ Feature: managing pictures
     Given I am logged in as an editor
     And the following images
       | url          | width | height | caption       | tags_string |
-      | /foobar1.jpg |   265 |    200 | wide foobar   | a b c       |
+      | /foobar1.jpg |   265 |    200 | the caption   | a b c       |
     When I go to the list of pictures
     And I follow "edit..."
-    And I fill in "URL" with "/hello.jpg"
+    And I fill in "URL" with "http://example.com/hello.jpg"
     And I fill in "Caption" with "hello!"
     And I fill in "Tags" with "one two three"
+    And I expect "http://example.com/hello.jpg" to have dimension "200x265"
     And I press "Update"
     Then I should see "List of Images"
-    And I should see "/hello.jpg"
-    And I should not see "/foobar1.jpg"
-    And I should see "hello!"
-    And I should not see "wide foobar"
-    And I should see "one two three"
-    And I should not see "a b c"
+    And I should see "/hello.jpg" and not "/foobar1.jpg"
+    And I should see "hello!" and not "the caption"
+    And I should see "one two three" and not "a b c"
+    And I should see "200x265" and not "265x200"
 
   Scenario: editing a picture with a full URL
     Given I am logged in as an editor
