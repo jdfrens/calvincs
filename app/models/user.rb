@@ -41,6 +41,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  DEFAULT_GROUPS = ["adjuncts", "admin", "contributors",
+                    "emeriti", "faculty", "staff"]
+  def self.defaults
+    edit = Privilege.find_or_create_by_name('edit') 
+    DEFAULT_GROUPS.each do |name|
+      role = Role.find_or_create_by_name(name)
+      role.privileges << edit
+      role.save!
+    end
+  end
+
   def self.generate_salt()
     (0...4).map{65.+(rand(25)).chr}.join
   end

@@ -1,6 +1,6 @@
 class CreateNewsItems < ActiveRecord::Migration
   def self.up
-    create_table "newsitems", :force => true do |t|
+    create_table "news_items", :force => true do |t|
       t.string   "headline"
       t.string   "teaser"
       t.text     "content"
