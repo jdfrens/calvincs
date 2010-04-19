@@ -22,6 +22,7 @@ after "deploy:update_code", :roles => :app, :except => {:no_symlink => true} do
     CMD
   end
 end
+after "deploy:update_code", "deploy:migrate"
 
 set :mongrel_config, "/srv/www/calvincs/shared/config/mongrel_cluster.yml"
 
