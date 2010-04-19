@@ -1,1 +1,1 @@
-$("#rendered_content").html('<%= johnny_textilize(@page.content).gsub("\n", '\n').gsub(/[']/, '\\\\\'') %>');
+$("#rendered_content").html('<%= escape_javascript(johnny_textilize(@page.content)) %>');
