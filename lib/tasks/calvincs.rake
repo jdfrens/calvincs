@@ -1,5 +1,7 @@
 require 'spec/rake/spectask'
 
+task :spec => "spec:javascripts"
+
 namespace :calvincs do
   desc "sets up system after checked out"
   task :setup do
