@@ -16,7 +16,7 @@ class HomeController < ApplicationController
       flash[:error] = 'Please tag an image with "homepage".'
       redirect_to(images_path)
     else
-      @last_updated = last_updated(@newsitems + [@content])      
+      @last_updated = last_updated(@newsitems + [@content])
     end
   end
 
@@ -34,4 +34,13 @@ class HomeController < ApplicationController
     end
   end
 
+  def sitemap
+    @pages = Page.normal_pages
+    @courses = Course.all
+    @people = User.non_admins
+    
+    respond_to do |format|
+      format.xml { render :layout => false }
+    end
+  end
 end

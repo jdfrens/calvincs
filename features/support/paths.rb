@@ -12,6 +12,8 @@ module NavigationHelpers
         '/'
       when /the atom feed/
         '/feed'
+      when /the sitemap/
+        '/sitemap.xml'
 
       # users
       when /the login page/

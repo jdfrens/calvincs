@@ -34,6 +34,8 @@ class User < ActiveRecord::Base
   has_many :degrees, :order => 'year', :dependent => :delete_all
   accepts_nested_attributes_for :degrees, :reject_if => lambda { |a| a[:degree_type].blank? }, :allow_destroy => true
 
+  named_scope :non_admins, :include => [:role], :conditions => ["roles.name <> ?", "admin"]
+
   def self.activate_users
     all.each do |user|
       user.active = true

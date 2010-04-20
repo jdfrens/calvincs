@@ -17,6 +17,10 @@ describe HomeController do
   it "should map the Atom feed with an explicit type" do
     params_from(:get, "/feed.atom").should == { :controller => "home", :action => "feed", :format => "atom" }
   end
+
+  it "should map the sitemap" do
+    params_from(:get, "/sitemap.xml").should == { :controller => "home", :action => "sitemap", :format => "xml" }
+  end
 end
 
 describe PersonnelController do

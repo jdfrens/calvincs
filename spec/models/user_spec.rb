@@ -28,7 +28,33 @@ describe User do
   fixtures :degrees, :images, :image_tags, :pages
   user_fixtures
 
-  it "should active all users" do
+  describe "non admins" do
+    it "should include faculty" do
+      User.non_admins.should include(users(:jeremy))
+    end
+
+    it "should include staff" do
+      User.non_admins.should include(users(:sharon))
+    end
+
+    it "should include emeriti" do
+      User.non_admins.should include(users(:larry))
+    end
+
+    it "should include adjunct" do
+      User.non_admins.should include(users(:fred))
+    end
+
+    it "should include contributors" do
+      User.non_admins.should include(users(:randy))
+    end
+
+    it "should not include admins" do
+      User.non_admins.should_not include(users(:calvin))
+    end
+  end
+
+  it "should activate all users" do
     users(:joel, :jeremy, :keith).each do |user|
       user.active = false
       user.save!
@@ -43,9 +69,9 @@ describe User do
   def test_validations
     user = User.new
     assert !user.valid?
-    assert  user.errors.invalid?(:username)
-    assert  user.errors.invalid?(:role_id)
-    assert  user.errors.invalid?(:email_address)
+    assert user.errors.invalid?(:username)
+    assert user.errors.invalid?(:role_id)
+    assert user.errors.invalid?(:email_address)
 
     user = users(:jeremy)
     assert_equal '616-526-8666', user.office_phone
@@ -55,7 +81,7 @@ describe User do
     assert_equal '', user.office_phone
     user.office_phone = '526-8666'
     assert !user.save, 'should fail to save because phone is bad'
-    assert  user.errors.invalid?(:office_phone)
+    assert user.errors.invalid?(:office_phone)
   end
 
   def test_has_many_degrees

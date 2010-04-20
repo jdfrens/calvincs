@@ -97,4 +97,46 @@ describe HomeController do
       assigns[:updated_at].should == updated_at   
     end
   end
+  
+  describe "GET sitemap.xml"do
+    it "should render XML" do
+      get :sitemap, :format => "xml"
+      
+      response.should be_success
+      response.should render_template("home/sitemap.xml")
+    end
+
+    it "should collect normal pages" do
+      pages = mock("array of pages")
+      
+      Page.should_receive(:normal_pages).and_return(pages)
+      
+      get :sitemap, :format => "xml"
+      
+      response.should be_success
+      assigns[:pages].should == pages
+    end
+
+    it "should collect courses" do
+      courses = mock("array of courses")
+      
+      Course.should_receive(:all).and_return(courses)
+      
+      get :sitemap, :format => "xml"
+      
+      response.should be_success
+      assigns[:courses].should == courses
+    end
+
+    it "should collect people" do
+      people = mock("people")
+
+      User.should_receive(:non_admins).and_return(people)
+
+      get :sitemap, :format => "xml"
+
+      response.should be_success
+      assigns[:people].should == people
+    end
+  end
 end
