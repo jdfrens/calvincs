@@ -25,11 +25,3 @@ end
 after "deploy:update_code", "deploy:migrate"
 
 set :mongrel_config, "/srv/www/calvincs/shared/config/mongrel_cluster.yml"
-
-namespace :deploy do
-
-  task :restart do
-    sudo "mongrel_rails cluster::restart -C #{mongrel_config}"
-  end
-
-end
