@@ -167,9 +167,9 @@ p.img-caption {
     padding: 5px;
 }
 
-/*******************/
-/* homepage splash */
-/*******************/
+/************/
+/* homepage */
+/************/
 
 #home_splash {
     position: relative;
@@ -202,6 +202,11 @@ p.img-caption {
 }
 #splash-description a:hover {
     color: #99c;
+}
+
+.tagline {
+    font-size: 75%;
+    font-style: italic;
 }
 
 /***********************/

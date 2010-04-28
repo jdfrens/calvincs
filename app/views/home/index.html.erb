@@ -8,13 +8,16 @@
   </div>
 </div>
 
+<h1>Creating Tomorrow Today <br />
+  <span class="tagline">Computing from a <a href="/p/christian_scholarship">Christian perspective</a>...</span></h1>
+
 <div class="columns">
   <div id="home_page" class="columns-1">
     <%= render :partial => 'shared/subpage', :locals => { :page => @content } %>
   </div>
 
   <div id="news" class="columns-2">
-    <h1>News</h1>
+    <h2>Computing News &amp; Events</h2>
     <ul>
       <%= render(:partial => "event", :collection => @todays_events, :locals => { :timing => "today" }) %>
       <%= render(:partial => "event", :collection => @this_weeks_events, :locals => { :timing => "coming up" }) %>
