@@ -7,7 +7,9 @@ Feature: the home page
     Given I am logged in as an editor
     And there are no pages
     When I go to the homepage
-    Then I should be on the new page for "_home_page" page
+    Then I should be on the new page page
+    And I should have the following query string:
+      | id | _home_page |
 
   Scenario: see the home page and edit the content
     Given I am logged in as an editor

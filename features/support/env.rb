@@ -6,18 +6,15 @@
 
 ENV["RAILS_ENV"] ||= "cucumber"
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
-gem 'test-unit'
 
 require 'cucumber/formatter/unicode' # Remove this line if you don't want Cucumber Unicode support
 require 'cucumber/rails/rspec'
 require 'cucumber/rails/world'
 require 'cucumber/rails/active_record'
 require 'cucumber/web/tableish'
-require 'spec/stubs/cucumber'
 
 require 'webrat'
 require 'webrat/core/matchers'
-#require 'cucumber/webrat/element_locator' # Deprecated in favor of #tableish - remove this line if you don't use #element_at or #table_at
 
 Webrat.configure do |config|
   config.mode = :rails
@@ -52,6 +49,10 @@ Cucumber::Rails::World.use_transactional_fixtures = true
 
 # How to clean your database when transactions are turned off. See
 # http://github.com/bmabey/database_cleaner for more info.
-require 'database_cleaner'
-DatabaseCleaner.strategy = :truncation
-
+if defined?(ActiveRecord::Base)
+  begin
+    require 'database_cleaner'
+    DatabaseCleaner.strategy = :truncation
+  rescue LoadError => ignore_if_database_cleaner_not_present
+  end
+end
