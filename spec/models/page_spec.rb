@@ -16,20 +16,39 @@ describe Page do
   fixtures :pages, :images, :image_tags
 
   describe "named scopes" do
-    it "should find normal pages" do
-      Page.normal_pages.should include(pages(:mission))
-      Page.normal_pages.should include(pages(:alphabet))
-      Page.normal_pages.should_not include(pages(:jeremy_interests))
-      Page.normal_pages.should_not include(pages(:jeremy_profile))
-      Page.normal_pages.should_not include(pages(:jeremy_status))
+    describe "normal pages" do
+      it "should find normal pages" do
+        Page.normal_pages.should include(pages(:mission))
+        Page.normal_pages.should include(pages(:alphabet))
+      end
+
+      it "should not include subpages" do
+        Page.normal_pages.should_not include(pages(:jeremy_interests))
+        Page.normal_pages.should_not include(pages(:jeremy_profile))
+        Page.normal_pages.should_not include(pages(:jeremy_status))
+      end
+
+      it "should order by identifier" do
+        Page.normal_pages.should == pages(:alphabet, :mission, :mission_narrow, :mission_wide)
+      end
     end
 
-    it "should find subpages" do
-      Page.subpages.should_not include(pages(:mission))
-      Page.subpages.should_not include(pages(:alphabet))
-      Page.subpages.should include(pages(:jeremy_interests))
-      Page.subpages.should include(pages(:jeremy_profile))
-      Page.subpages.should include(pages(:jeremy_status))
+    describe "subpages" do
+      it "should not include normal pages" do
+        Page.subpages.should_not include(pages(:mission))
+        Page.subpages.should_not include(pages(:alphabet))
+      end
+
+      it "should find subpages" do
+        Page.subpages.should include(pages(:jeremy_interests))
+        Page.subpages.should include(pages(:jeremy_profile))
+        Page.subpages.should include(pages(:jeremy_status))
+      end
+
+      it "should order by identifier" do
+        Page.subpages.should == pages(:home_page, :home_splash, :jeremy_interests,
+                                      :jeremy_profile, :jeremy_status, :keith_status, :sharon_status)
+      end
     end
   end
 
@@ -44,7 +63,7 @@ describe Page do
     it "should allow underscores in identifier" do
       page = Page.new(
               :identifier => '_underscores_are_okay_', :title => 'Good',
-                      :content => 'something'
+              :content => 'something'
       )
       assert page.valid?
     end
@@ -52,17 +71,17 @@ describe Page do
     it "should not allow whitespace in identifiers" do
       page = Page.new(
               :identifier => '  whitespacey  ', :title => 'Good',
-                      :content => 'something'
+              :content => 'something'
       )
       page.should_not be_valid
       assert_equal 'should be like a Java identifier',
-              page.errors[:identifier]
+                   page.errors[:identifier]
     end
 
     it "should not allow punctuation in identifiers" do
       page = Page.new(
               :identifier => 'punc-tu-ation', :title => 'Good',
-                      :content => 'something'
+              :content => 'something'
       )
       page.should_not be_valid
     end
@@ -100,7 +119,7 @@ describe Page do
 
   def test_subpage_huh
     assert !pages(:mission).subpage?
-    assert  pages(:home_page).subpage?
+    assert pages(:home_page).subpage?
   end
 
 end
