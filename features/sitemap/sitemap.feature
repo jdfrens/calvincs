@@ -22,9 +22,9 @@ Feature: the sitemap
       | foobar     | Foobar          | Situation normal. |
       | _subpage   | Does Not Matter | A subpage.        |
     When I go to the sitemap
-    Then the sitemap should have "http://cs.calvin.edu/p/foo" as a url
-    And the sitemap should have "http://cs.calvin.edu/p/bar" as a url
-    And the sitemap should have "http://cs.calvin.edu/p/foobar" as a url
+    Then the sitemap should have "http://cs.calvin.edu/p/foo" as a url with lastmod
+    And the sitemap should have "http://cs.calvin.edu/p/bar" as a url with lastmod
+    And the sitemap should have "http://cs.calvin.edu/p/foobar" as a url with lastmod
     And the sitemap should not have "http://cs.calvin.edu/p/_subpage" as a url
 
   Scenario: courses listed in the sitemap
@@ -46,8 +46,8 @@ Feature: the sitemap
       | cdarwin  | Charles    | Darwin    | admin   |
     When I go to the sitemap
     Then the sitemap should have "http://cs.calvin.edu/people" as a url
-    And the sitemap should have "http://cs.calvin.edu/people/jcalvin" as a url
-    And the sitemap should have "http://cs.calvin.edu/people/mluther" as a url
+    And the sitemap should have "http://cs.calvin.edu/people/jcalvin" as a url with lastmod
+    And the sitemap should have "http://cs.calvin.edu/people/mluther" as a url with lastmod
     And the sitemap should not have "http://cs.calvin.edu/people/cdarwin" as a url
 
   Scenario: activities in the sitemap

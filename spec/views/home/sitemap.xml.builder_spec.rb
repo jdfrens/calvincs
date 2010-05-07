@@ -34,13 +34,17 @@ describe "/home/sitemap.xml.builder" do
   end
 
   it "should handle pages" do
-    assigns[:pages] = [mock_model(Page, :identifier => "matthew"),
-                       mock_model(Page, :identifier => "mark"),
-                       mock_model(Page, :identifier => "luke")]
+    time = Chronic.parse("7 March 1970")
+    assigns[:pages] = [mock_model(Page, :identifier => "matthew", :updated_at => time),
+                       mock_model(Page, :identifier => "mark", :updated_at => time),
+                       mock_model(Page, :identifier => "luke", :updated_at => time)]
 
     render "/home/sitemap.xml"
 
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/p/matthew")
+    response.should have_selector("url") do |url|
+      url.should have_selector("loc", :content => "http://cs.calvin.edu/p/matthew")
+      url.should have_selector("lastmod", :content => "1970-03-07")
+    end
     response.should have_selector("loc", :content => "http://cs.calvin.edu/p/mark")
     response.should have_selector("loc", :content => "http://cs.calvin.edu/p/luke")
   end
@@ -68,17 +72,21 @@ describe "/home/sitemap.xml.builder" do
   it "should link to people page" do
     render "/home/sitemap.xml"
 
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/people")    
+    response.should have_selector("loc", :content => "http://cs.calvin.edu/people")
   end
 
   it "should handle people" do
-    assigns[:people] = [mock_model(User, :username => "jcalvin"),
-                        mock_model(User, :username => "mluther"),
-                        mock_model(User, :username => "jknox")]
+    time = Chronic.parse("5 May 1999")
+    assigns[:people] = [mock_model(User, :username => "jcalvin", :last_updated_dates => [time]),
+                        mock_model(User, :username => "mluther", :last_updated_dates => [time]),
+                        mock_model(User, :username => "jknox", :last_updated_dates => [time])]
 
     render "/home/sitemap.xml"
 
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/people/jcalvin")
+    response.should have_selector("url") do |url|
+      url.should have_selector("loc", :content => "http://cs.calvin.edu/people/jcalvin")
+      url.should have_selector("lastmod", :content => "1999-05-05")
+    end
     response.should have_selector("loc", :content => "http://cs.calvin.edu/people/mluther")
     response.should have_selector("loc", :content => "http://cs.calvin.edu/people/jknox")
   end

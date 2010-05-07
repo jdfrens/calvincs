@@ -13,6 +13,7 @@ xml.urlset(:xmlns => "http://www.sitemaps.org/schemas/sitemap/0.9") do
   @pages.each do |page|
     xml.url do
       xml.loc "#{CALVINCS_URL}/p/#{page.identifier}"
+      xml.lastmod(page.updated_at.utc.to_s(:sitemap))
     end
   end
 
@@ -30,6 +31,7 @@ xml.urlset(:xmlns => "http://www.sitemaps.org/schemas/sitemap/0.9") do
   @people.each do |person|
     xml.url do
       xml.loc "#{CALVINCS_URL}/people/#{person.username}"
+      xml.lastmod(person.last_updated_dates.max.utc.to_s(:sitemap))
     end
   end
 

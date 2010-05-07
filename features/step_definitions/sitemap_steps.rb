@@ -15,6 +15,13 @@ Then /^the sitemap should have "([^\"]*)" as a url$/ do |url|
   end
 end
 
+Then /^the sitemap should have "([^\"]*)" as a url with lastmod$/ do |url|
+  response.should have_selector("url") do |url_element|
+    url_element.should have_selector("loc", :content => url)
+    url_element.should have_selector("lastmod")
+  end
+end
+
 Then /^the sitemap should not have "([^\"]*)" as a url$/ do |url|
   response.should_not have_selector("loc", :content => url)
 end
