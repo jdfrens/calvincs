@@ -67,6 +67,7 @@ Feature: managing personnel
     And the following users
       | username | first_name | last_name | active |
       | jcalvin  | Johnny     | Calvin    | true   |
+    Then user "jcalvin" should have password "password"
     When I follow "Faculty & Staff"
     Then I should see "Johnny Calvin" within "table#faculty_listing"
     And I follow "Johnny Calvin"
@@ -75,12 +76,7 @@ Feature: managing personnel
     And I fill in "password" with "grant"
     And I fill in "password confirmation" with "grant"
     And I press "Update"
-    And I follow "logout"
-    And I log in as "jcalvin" with password "no good"
-    Then I should see "Invalid login credentials"
-    And I should be on the login page
-    When I log in as "jcalvin" with password "grant"
-    Then I should be on the administration page
+    Then user "jcalvin" should have password "grant"
 
   Scenario: editing faculty member's degrees
     Given I am logged in as an editor

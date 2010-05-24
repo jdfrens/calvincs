@@ -26,7 +26,13 @@ end
 
 When /^I log in as "([^\"]*)" with password "([^\"]*)"$/ do |username, password|
   When "I go to the login page"
+  Then 'I should see "Please login"'
   When "I fill in \"user[username]\" with \"#{username}\""
   When "I fill in \"user[password]\" with \"#{password}\""
   When "I press \"Login\""
+end
+
+Then /^user "([^\"]*)" should have password "([^\"]*)"$/ do |username, password|
+  user = User.find_by_username(username)
+  user.password_hash.should == User.hash_password(password, user.salt)
 end

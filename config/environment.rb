@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.6' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -14,7 +14,7 @@ Rails::Initializer.run do |config|
   config.active_record.colorize_logging = false
 
   config.action_controller.session = {
-          :session_key => '_calvincs_session',
+          :key => '_calvincs_session',
           # for development and testing environment; production loads secret key from file
           :secret => '07d08fdeabdd5243df2d2903448a58113b4217a864ad6f379c3131a7185bba06900eea82ea16eff03917d5fca645c5a88d7cffb9f2b9fa83daea307d25b2d1c9'
   }
