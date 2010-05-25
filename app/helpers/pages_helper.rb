@@ -11,4 +11,10 @@ module PagesHelper
               render "shared/in_place_editor.js", :url => page_path(@page), :field => field
             end
   end
+
+  def content_editor
+    javascript_tag do
+      render "content_editor.js"
+    end
+  end
 end
