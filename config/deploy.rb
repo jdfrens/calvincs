@@ -6,7 +6,6 @@ set :application, "calvincs"
 
 set :scm, "git"
 set :repository, "git://github.com/jdfrens/calvincs.git"
-set :branch, "deploy"
 
 set :user, "calvincs"
 set :runner, "calvincs"
