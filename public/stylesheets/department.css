@@ -209,6 +209,14 @@ p.img-caption {
     font-style: italic;
 }
 
+.tagline a {
+    text-decoration: none;
+}
+
+.home_header {
+    border: none;
+}
+
 /***********************/
 /* Administration page */
 /***********************/
