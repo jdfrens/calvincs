@@ -1,4 +1,5 @@
 <% form_for @newsitem do |form| %>
+    <%= form.error_messages %>
     <table summary="news item form">
       <tr>
         <td> <%= form.label :headline, "Headline:" %> </td>
