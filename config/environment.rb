@@ -18,13 +18,6 @@ Rails::Initializer.run do |config|
           # for development and testing environment; production loads secret key from file
           :secret => '07d08fdeabdd5243df2d2903448a58113b4217a864ad6f379c3131a7185bba06900eea82ea16eff03917d5fca645c5a88d7cffb9f2b9fa83daea307d25b2d1c9'
   }
-
-  # gems
-  config.gem "RedCloth", :lib => 'redcloth'
-  config.gem "imagesize", :lib => 'image_size'
-  config.gem 'rcov'
-  config.gem "chronic", :version => ">= 0.2.3"
-  config.gem "factory_girl", :source => "http://gemcutter.org"
 end
 
 # time formats
