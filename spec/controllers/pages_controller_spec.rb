@@ -159,7 +159,7 @@ describe PagesController, "without views" do
 end
 
 describe PagesController do
-  integrate_views
+  render_views
 
   fixtures :pages, :images, :image_tags
   user_fixtures

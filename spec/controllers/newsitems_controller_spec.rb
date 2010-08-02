@@ -185,7 +185,7 @@ describe NewsitemsController, "without views" do
 end
 
 describe NewsitemsController do
-  integrate_views
+  render_views
 
   fixtures :newsitems
   user_fixtures

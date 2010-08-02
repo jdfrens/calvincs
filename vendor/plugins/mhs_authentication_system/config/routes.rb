@@ -1,10 +1,8 @@
-ActionController::Routing::Routes.draw do |map|
-  map.with_options :controller => "users" do |users_map|
-    users_map.login "users/login", :action => "login"
-    users_map.reminder_login "users/:id/login/:token", :action => "login"
-    users_map.logout "users/logout", :action => "logout"
-    users_map.reminder "users/reminder", :action => "reminder"
-    users_map.profile "users/profile", :action => "profile"
-    users_map.signup "users/signup", :action => "signup"
-  end
+Rails.application.routes.draw do
+  match "users/login" => "users#login", :as => :login
+  match "users/:id/login/:token" => "users#login", :as => :reminder_login
+  match "users/logout" => "users#logout", :as => :logout
+  match "users/reminder" => "users#reminder", :as => :reminder
+  match "users/profile" => "users#profile", :as => :profile
+  match "users/signup" => "users#signup", :as => :signup
 end

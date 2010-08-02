@@ -7,7 +7,7 @@ describe "/courses/_form.html.erb" do
 
     render "/courses/_form"
 
-    response.should have_selector("form") do |form|
+    rendered.should have_selector("form") do |form|
       form.should have_selector("select#course_department")
       form.should have_selector("input#course_number")
       form.should have_selector("input#course_title")
@@ -20,7 +20,7 @@ describe "/courses/_form.html.erb" do
 
     render "/courses/_form"
 
-    response.should have_selector("input", :value => "Create")
+    rendered.should have_selector("input", :value => "Create")
   end
 
   it "should generate an update button for an edit" do
@@ -28,6 +28,6 @@ describe "/courses/_form.html.erb" do
 
     render "/courses/_form"
 
-    response.should have_selector("input", :value => "Update")
+    rendered.should have_selector("input", :value => "Update")
   end
 end

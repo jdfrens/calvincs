@@ -1,30 +1,38 @@
 require 'spec_helper'
 
-describe "/personnel/index.html.erb" do
+describe "personnel/index.html.erb" do
+  before(:each) do
+    @faculty = mock("faculty")
+    @adjuncts = mock("adjuncts")
+    @emeriti = mock("emeriti")
+    @contributors = mock("contributors")
+    @staff = mock("staff")
+    @admin = mock("admin")
+    assign(:faculty, @faculty)
+    assign(:adjuncts, @adjuncts)
+    assign(:emeriti, @emeriti)
+    assign(:contributors, @contributors)
+    assign(:staff, @staff)
+    assign(:admin, @admin)
+  end
+  
   context "when logged in" do
     before(:each) do
-      assigns[:faculty] = faculty = mock("faculty")
-      assigns[:adjuncts] = adjuncts = mock("adjuncts")
-      assigns[:emeriti] = emeriti = mock("emeriti")
-      assigns[:contributors] = contributors = mock("contributors")
-      assigns[:staff] = staff = mock("staff")
-      assigns[:admin] = admin = mock("admin")
+      view.should_receive(:current_user).and_return(mock_model(User))
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @faculty).
+              and_return("faculty listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @adjuncts).
+              and_return("adjuncts listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @emeriti).
+              and_return("emeriti listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @contributors).
+              and_return("contributors listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @staff).
+              and_return("staff listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @admin).
+              and_return("admin listing")
 
-      template.should_receive(:current_user).and_return(mock_model(User))
-      template.should_receive(:render).with(:partial => 'user', :collection => faculty).
-              and_return("<div>faculty listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => adjuncts).
-              and_return("<div>adjuncts listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => emeriti).
-              and_return("<div>emeriti listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => contributors).
-              and_return("<div>contributors listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => staff).
-              and_return("<div>staff listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => admin).
-              and_return("<div>admin listing</div>")
-
-      render "personnel/index"
+      render
     end
 
     it "should show people in a particular order" do
@@ -45,45 +53,39 @@ describe "/personnel/index.html.erb" do
     end
 
     it "should have listings" do
-      response.should have_selector("div", :content => "faculty listing")
-      response.should have_selector("div", :content => "adjuncts listing")
-      response.should have_selector("div", :content => "emeriti listing")
-      response.should have_selector("div", :content => "contributors listing")
-      response.should have_selector("div", :content => "staff listing")
-      response.should have_selector("div", :content => "admin listing")
+      rendered.should have_selector("table", :content => "faculty listing")
+      rendered.should have_selector("table", :content => "adjuncts listing")
+      rendered.should have_selector("table", :content => "emeriti listing")
+      rendered.should have_selector("table", :content => "contributors listing")
+      rendered.should have_selector("table", :content => "staff listing")
+      rendered.should have_selector("table", :content => "admin listing")
     end
   end
 
   context "when not logged in" do
     before(:each) do
-      assigns[:faculty] = faculty = mock("faculty")
-      assigns[:adjuncts] = adjuncts = mock("adjuncts")
-      assigns[:emeriti] = emeriti = mock("emeriti")
-      assigns[:contributors] = contributors = mock("contributors")
-      assigns[:staff] = staff = mock("staff")
+      view.should_receive(:current_user).and_return(nil)
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @faculty).
+              and_return("faculty listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @adjuncts).
+              and_return("adjuncts listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @emeriti).
+              and_return("emeriti listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @contributors).
+              and_return("contributors listing")
+      view.should_receive(:render_rec).with(:partial => 'user', :collection => @staff).
+              and_return("staff listing")
 
-      template.should_receive(:current_user).and_return(nil)
-      template.should_receive(:render).with(:partial => 'user', :collection => faculty).
-              and_return("<div>faculty listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => adjuncts).
-              and_return("<div>adjuncts listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => emeriti).
-              and_return("<div>emeriti listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => contributors).
-              and_return("<div>contributors listing</div>")
-      template.should_receive(:render).with(:partial => 'user', :collection => staff).
-              and_return("<div>staff listing</div>")
-
-      render "personnel/index"
+      render
     end
 
 
     it "should not show admins" do
-      response.should_not have_selector("h1#admin")
+      rendered.should_not have_selector("h1#admin")
     end
 
     it "should not have admins listing" do
-      response.should_not have_selector("#admin_listing")
+      rendered.should_not have_selector("#admin_listing")
     end
   end
 end

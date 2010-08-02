@@ -6,7 +6,7 @@ describe "/pages/_image.html.erb" do
 
     render "/pages/_image"
     
-    response.should have_selector(".img-right-wide") do |div|
+    rendered.should have_selector(".img-right-wide") do |div|
       div.should have_selector("img#cool-pic", :src => "/somewhere.gif")
       div.should have_selector("p.img-caption", :content => "the caption")
     end
@@ -17,7 +17,7 @@ describe "/pages/_image.html.erb" do
 
     render "/pages/_image"
 
-    response.should have_selector(".img-right-narrow")
+    rendered.should have_selector(".img-right-narrow")
   end
 
   it "should handle a square image" do
@@ -25,7 +25,7 @@ describe "/pages/_image.html.erb" do
 
     render "/pages/_image"
 
-    response.should have_selector(".img-right-square")
+    rendered.should have_selector(".img-right-square")
   end
 
   it "should handle no image" do
@@ -33,8 +33,8 @@ describe "/pages/_image.html.erb" do
 
     render "/pages/_image"
 
-    response.should_not have_selector("img")
-    response.should_not have_selector(".img-caption")
+    rendered.should_not have_selector("img")
+    rendered.should_not have_selector(".img-caption")
   end
 
 end

@@ -8,10 +8,10 @@ describe "/pages/new.html.erb" do
 
     render "/pages/new"
 
-    response.should have_selector("h1", :content => "Create Page")
-    response.should have_selector("input", :id => "page_identifier")
-    response.should have_selector("input", :id => "page_title")
-    response.should have_selector("textarea", :id => "page_content")
+    rendered.should have_selector("h1", :content => "Create Page")
+    rendered.should have_selector("input", :id => "page_identifier")
+    rendered.should have_selector("input", :id => "page_title")
+    rendered.should have_selector("textarea", :id => "page_content")
   end
 
 end

@@ -8,12 +8,12 @@ describe "/personnel/edit.html.erb" do
                                        :office_phone => "867-5309", :office_location => "somewhere",
                                        :job_title => "professor grande")
 
-    template.should_receive(:render).with(:partial => "edit_page_links", :locals => anything).
+    view.should_receive(:render).with(:partial => "edit_page_links", :locals => anything).
             at_least(:once).and_return("page links")
     
     render "personnel/edit"
 
-    response.should have_selector("form") do |form|
+    rendered.should have_selector("form") do |form|
       form.should have_selector("input", :id => "user_first_name")
       form.should have_selector("input", :id => "user_last_name")
       form.should have_selector("select", :id => "user_role_id")
@@ -31,18 +31,18 @@ describe "/personnel/edit.html.erb" do
                                        :office_phone => "867-5309", :office_location => "somewhere",
                                        :job_title => "professor grande")
 
-    template.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "interests" }).
+    view.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "interests" }).
             and_return("interests links")
-    template.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "profile" }).
+    view.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "profile" }).
             and_return("profile links")
-    template.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "status" }).
+    view.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "status" }).
             and_return("status links")
 
     render "personnel/edit"
 
-    response.should have_selector("a", :content => "change password...")
-    response.should contain("interests links")
-    response.should contain("profile links")
-    response.should contain("status links")
+    rendered.should have_selector("a", :content => "change password...")
+    rendered.should contain("interests links")
+    rendered.should contain("profile links")
+    rendered.should contain("status links")
   end
 end

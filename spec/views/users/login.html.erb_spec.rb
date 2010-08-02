@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "/users/login.html.erb" do
+describe "users/login.html.erb" do
   it "should render a form" do
-    render "users/login"
+    render
 
     assert_select "h1", "Log In"
     assert_select "input#user_username[type=text]"

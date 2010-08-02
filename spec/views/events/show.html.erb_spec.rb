@@ -22,7 +22,7 @@ describe "/events/view.html.erb" do
     end
 
     it "should have a complete title" do
-      response.should have_selector("div#title") do |div|
+      rendered.should have_selector("div#title") do |div|
         div.should have_selector("h1", :content => "The Title")
         div.should have_selector(".subtitle", :content => "The Subtitle")
       end
@@ -33,11 +33,11 @@ describe "/events/view.html.erb" do
     end
 
     it "should have a time" do
-      response.should have_selector(".time", :content => "tomorrow at 8am")
+      rendered.should have_selector(".time", :content => "tomorrow at 8am")
     end
 
     it "should have a location" do
-      response.should have_selector(".location", :content => "Room 101")
+      rendered.should have_selector(".location", :content => "Room 101")
     end
 
     it "should have a description" do
@@ -59,22 +59,22 @@ describe "/events/view.html.erb" do
     end
 
     it "should have minimal title" do
-      response.should have_selector("#title") do |title|
+      rendered.should have_selector("#title") do |title|
         title.should have_selector("h1", :content => "The Title")
       end
-      response.should_not have_selector("#subtitle")
+      rendered.should_not have_selector("#subtitle")
     end
 
     it "should not have presenter" do
-      response.should_not have_selector(".presenter")
+      rendered.should_not have_selector(".presenter")
     end
 
     it "should not have location" do
-      response.should_not have_selector(".location")
+      rendered.should_not have_selector(".location")
     end
 
     it "should still have a description" do
-      response.should have_selector("div#event-description", :content => "The Description")
+      rendered.should have_selector("div#event-description", :content => "The Description")
     end
   end
  

@@ -9,30 +9,30 @@ describe "/home/index.html.erb" do
     assigns[:this_weeks_events] = mock("week_events")
     assigns[:newsitems] = mock("news items")
 
-    template.should_receive(:johnny_textilize_lite).with("The caption!").and_return("Textilized caption!")
-    template.should_receive(:render).
+    view.should_receive(:johnny_textilize_lite).with("The caption!").and_return("Textilized caption!")
+    view.should_receive(:render).
             with(:partial => "shared/subpage", :locals => { :page => assigns[:content] }).
             and_return("The real content!")
-    template.should_receive(:render).
+    view.should_receive(:render).
             with(:partial => "event", :collection => assigns[:todays_events], :locals => { :timing => "today" }).
             and_return("The events of today...")
-    template.should_receive(:render).
+    view.should_receive(:render).
             with(:partial => "event", :collection => assigns[:this_weeks_events], :locals => { :timing => "coming up" }).
             and_return("The events of this week...")
-    template.should_receive(:render).
+    view.should_receive(:render).
             with(:partial => "newsitem", :collection => assigns[:newsitems]).
             and_return("news items...")
 
     render "home/index"
 
-    response.should have_selector("#home_splash") do |home_splash|
+    rendered.should have_selector("#home_splash") do |home_splash|
       home_splash.should have_selector("img", :src => "/images/foobar.jpg")
       home_splash.should have_selector("#splash-description", :content => "Textilized caption!")
     end
-    response.should contain("The real content!")
-    response.should contain("The events of today...")
-    response.should contain("The events of this week...")
-    response.should contain("news items...")
+    rendered.should contain("The real content!")
+    rendered.should contain("The events of today...")
+    rendered.should contain("The events of this week...")
+    rendered.should contain("news items...")
   end
 
 end

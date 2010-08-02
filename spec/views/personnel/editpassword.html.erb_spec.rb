@@ -8,7 +8,7 @@ describe "/personnel/editpassword.html.erb" do
 
     render "personnel/editpassword"
 
-    response.should have_selector("form") do |form|
+    rendered.should have_selector("form") do |form|
       form.should have_selector("input#user_password")
       form.should have_selector("input#user_password_confirmation")
     end

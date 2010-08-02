@@ -3,39 +3,39 @@ require 'spec_helper'
 describe "/layouts/application.html.erb" do
 
   it "should render the application layout with a title" do
-    template.should_receive(:title).and_return("<title>the title</title>")
+    view.should_receive(:title).and_return("<title>the title</title>")
 
     render "layouts/application"
 
-    response.should have_tag("head") do
+    rendered.should have_tag("head") do
       with_tag("title", "the title")
     end
   end
 
   it "should render the application layout with partials" do
-    template.should_receive(:current_user).and_return(false)
-    template.should_receive(:render).with(:partial => 'layouts/mainmenu').
+    view.should_receive(:current_user).and_return(false)
+    view.should_receive(:render).with(:partial => 'layouts/mainmenu').
             and_return("<div id='menu'></div>")
-    template.should_receive(:render).with(:partial => 'layouts/footer').
+    view.should_receive(:render).with(:partial => 'layouts/footer').
             and_return("<div id='footer'></div>")
-    template.should_not_receive(:render).with(:partial => 'layouts/adminmenu')
+    view.should_not_receive(:render).with(:partial => 'layouts/adminmenu')
 
     render "layouts/application"
 
-    response.should have_tag("#navbar") do
+    rendered.should have_tag("#navbar") do
       with_tag("#menu")
     end
-    response.should have_tag("#GoogleSearch")
-    response.should have_tag("#footer")
+    rendered.should have_tag("#GoogleSearch")
+    rendered.should have_tag("#footer")
   end
 
   it "should render the application layout with administrative links" do
-    template.should_receive(:current_user).and_return(true)
-    template.should_receive(:render).with(:partial => 'layouts/adminmenu')
+    view.should_receive(:current_user).and_return(true)
+    view.should_receive(:render).with(:partial => 'layouts/adminmenu')
 
     render "layouts/application"
 
-    response.should have_tag(".logout")
+    rendered.should have_tag(".logout")
   end
 
   describe "the title" do
@@ -44,7 +44,7 @@ describe "/layouts/application.html.erb" do
 
       render "layouts/application"
 
-      response.should have_tag("head title", "Calvin College - Computer Science")
+      rendered.should have_tag("head title", "Calvin College - Computer Science")
     end
 
     it "should use @title when set" do
@@ -52,7 +52,7 @@ describe "/layouts/application.html.erb" do
 
       render "layouts/application"
 
-      response.should have_tag("head title",
+      rendered.should have_tag("head title",
                                "Calvin College - Computer Science - Fancy Title for This Page")
     end
   end
@@ -60,7 +60,7 @@ describe "/layouts/application.html.erb" do
   it "should have accessibility links" do
     render "layouts/application"
 
-    response.should have_tag("div#accessibility") do
+    rendered.should have_tag("div#accessibility") do
       with_tag "a[href=#navbar]"
       with_tag "a[href=#content]"
     end
@@ -70,7 +70,7 @@ describe "/layouts/application.html.erb" do
     it "should have a footer" do
       render "layouts/application"
 
-      response.should have_tag("div#footer")
+      rendered.should have_tag("div#footer")
     end
   end
 
@@ -78,7 +78,7 @@ describe "/layouts/application.html.erb" do
     it "should not have a flash notice if not set" do
       render "layouts/application"
 
-      response.should_not have_selector(".notice")
+      rendered.should_not have_selector(".notice")
     end
 
     it "should have a flash error" do
@@ -86,13 +86,13 @@ describe "/layouts/application.html.erb" do
       
       render "layouts/application"
 
-      response.should have_selector(".notice", :content => "notice me!")
+      rendered.should have_selector(".notice", :content => "notice me!")
     end
 
     it "should not have a flash error if not set" do
       render "layouts/application"
 
-      response.should_not have_selector(".error")
+      rendered.should_not have_selector(".error")
     end
 
     it "should have a flash error" do
@@ -100,7 +100,7 @@ describe "/layouts/application.html.erb" do
 
       render "layouts/application"
 
-      response.should have_selector(".error", :content => "the error message.")
+      rendered.should have_selector(".error", :content => "the error message.")
     end
   end
 end

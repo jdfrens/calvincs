@@ -13,7 +13,7 @@
 
 require 'spec_helper'
 
-class DegreeTest < ActiveRecord::TestCase
+describe Degree do
 
   fixtures :degrees, :users
   

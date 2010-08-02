@@ -1,3 +1,4 @@
+.bundle
 database.yml
 newrelic.yml
 secret.txt

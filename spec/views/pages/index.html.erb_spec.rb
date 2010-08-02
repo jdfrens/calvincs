@@ -8,20 +8,20 @@ describe "/pages/index.html.erb" do
     assigns[:normal_pages] = normal_pages
     assigns[:subpages] = subpages
 
-    template.should_receive(:render).
+    view.should_receive(:render).
             with(:partial => "page_entry", :collection => normal_pages).
             and_return("rendered normal pages")
-    template.should_receive(:render).
+    view.should_receive(:render).
             with(:partial => "page_entry", :collection => subpages).
             and_return("rendered subpages")
 
     render "pages/index"
 
-    response.should have_selector("a", :href => new_page_path)
-    response.should have_selector("table", :summary => "normal pages")
-    response.should contain("rendered normal pages")
-    response.should have_selector("table", :summary => "subpages")
-    response.should contain("rendered subpages")
+    rendered.should have_selector("a", :href => new_page_path)
+    rendered.should have_selector("table", :summary => "normal pages")
+    rendered.should contain("rendered normal pages")
+    rendered.should have_selector("table", :summary => "subpages")
+    rendered.should contain("rendered subpages")
   end
 
 end

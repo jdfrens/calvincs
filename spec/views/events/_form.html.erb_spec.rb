@@ -12,7 +12,7 @@ describe "/events/_form.html.erb" do
 
     render "events/_form"
 
-    response.should have_selector("form", :action => "/events", :method => "post") do |form|
+    rendered.should have_selector("form", :action => "/events", :method => "post") do |form|
       form.should have_selector "input#event_descriptor"
       form.should have_selector "input#event_title"
       form.should have_selector "input#event_subtitle"
@@ -35,7 +35,7 @@ describe "/events/_form.html.erb" do
 
     render "events/_form"
 
-    response.should have_selector("form", :action => "/events", :method => "post") do |form|
+    rendered.should have_selector("form", :action => "/events", :method => "post") do |form|
       form.should have_selector "input#event_descriptor"
       form.should have_selector "input#event_title"
       form.should have_selector "input#event_subtitle"
@@ -58,7 +58,7 @@ describe "/events/_form.html.erb" do
 
     render "events/_form"
 
-    response.should have_selector("form", :action => "/events/#{event.id}") do |form|
+    rendered.should have_selector("form", :action => "/events/#{event.id}") do |form|
       form.inner_html.should have_selector("input", :name => "_method", :value => "put")
     end
   end

@@ -69,9 +69,9 @@ describe User do
   def test_validations
     user = User.new
     assert !user.valid?
-    assert user.errors.invalid?(:username)
-    assert user.errors.invalid?(:role_id)
-    assert user.errors.invalid?(:email_address)
+    assert user.errors[:username].any?
+    assert user.errors[:role_id].any?
+    assert user.errors[:email_address].any?
 
     user = users(:jeremy)
     assert_equal '616-526-8666', user.office_phone

@@ -16,7 +16,7 @@ describe "/home/feed.atom.builder" do
 
     render "/home/feed.atom"
 
-    response.should have_selector("feed") do |feed|
+    rendered.should have_selector("feed") do |feed|
       feed.should have_selector("title",
                                 :content => "Calvin College Computer Science - News and Events")
       feed.should have_selector("updated", :content => "1970-03-07")
@@ -31,7 +31,7 @@ describe "/home/feed.atom.builder" do
 
     render "/home/feed.atom"
 
-    response.should have_selector("entry") do |entry|
+    rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "The Headline")
       entry.should have_selector("published", :content => "1970-03-07")
       entry.should have_selector("updated")
@@ -53,13 +53,13 @@ describe "/home/feed.atom.builder" do
 
     render "/home/feed.atom"
 
-    response.should have_selector("entry") do |entry|
+    rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Headline 1")
     end
-    response.should have_selector("entry") do |entry|
+    rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Headline 2")
     end
-    response.should have_selector("entry") do |entry|
+    rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Headline 3")
     end
   end
@@ -71,7 +71,7 @@ describe "/home/feed.atom.builder" do
 
     render "/home/feed.atom"
 
-    response.should have_selector("entry") do |entry|
+    rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Full Event Title", :type => "html")
       entry.should have_selector("published", :content => Date.today.to_s)
       entry.should have_selector("updated")
@@ -88,7 +88,7 @@ describe "/home/feed.atom.builder" do
 
     render "/home/feed.atom"
 
-    response.should have_selector("entry id", :content => "tag:test.host,2005:TodaysEvent/#{@todays_events[0].id}")
+    rendered.should have_selector("entry id", :content => "tag:test.host,2005:TodaysEvent/#{@todays_events[0].id}")
   end
 
   it "should render multiple events for today" do
@@ -99,7 +99,7 @@ describe "/home/feed.atom.builder" do
 
     render "/home/feed.atom"
 
-    response.should have_selector("entry") do |entry|
+    rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Today #1", :type => "html")
       entry.should have_selector("title", :content => "Today #2", :type => "html")
       entry.should have_selector("title", :content => "Today #3", :type => "html")
@@ -112,7 +112,7 @@ describe "/home/feed.atom.builder" do
 
     render "/home/feed.atom"
 
-    response.should have_selector("entry id", :content => "tag:test.host,2005:WeeksEvent/#{@weeks_events[0].id}")
+    rendered.should have_selector("entry id", :content => "tag:test.host,2005:WeeksEvent/#{@weeks_events[0].id}")
   end
 
 end

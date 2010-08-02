@@ -11,13 +11,13 @@ describe "/home/sitemap.xml.builder" do
   it "should uses an xmlns" do
     render "/home/sitemap.xml"
 
-    response.should have_selector("urlset", :xmlns => "http://www.sitemaps.org/schemas/sitemap/0.9")
+    rendered.should have_selector("urlset", :xmlns => "http://www.sitemaps.org/schemas/sitemap/0.9")
   end
 
   it "should have the root url with a high priority" do
     render "/home/sitemap.xml"
 
-    response.should have_selector("urlset") do |urlset|
+    rendered.should have_selector("urlset") do |urlset|
       urlset.should have_selector("url") do |url|
         url.should have_selector("loc", :content => "http://cs.calvin.edu/")
         url.should have_selector("priority", :content => "0.8")
@@ -29,7 +29,7 @@ describe "/home/sitemap.xml.builder" do
     it "should have a link for #{component}" do
       render "/home/sitemap.xml"
 
-      response.should have_selector("loc", :content => "http://cs.calvin.edu/#{component}")
+      rendered.should have_selector("loc", :content => "http://cs.calvin.edu/#{component}")
     end
   end
 
@@ -41,12 +41,12 @@ describe "/home/sitemap.xml.builder" do
 
     render "/home/sitemap.xml"
 
-    response.should have_selector("url") do |url|
+    rendered.should have_selector("url") do |url|
       url.should have_selector("loc", :content => "http://cs.calvin.edu/p/matthew")
       url.should have_selector("lastmod", :content => "1970-03-07")
     end
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/p/mark")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/p/luke")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/p/mark")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/p/luke")
   end
 
   it "should handle courses" do
@@ -56,9 +56,9 @@ describe "/home/sitemap.xml.builder" do
 
     render "/home/sitemap.xml"
 
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/somewhere")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/foobar")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/elsewhere")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/somewhere")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/foobar")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/elsewhere")
   end
 
   it "should handle only courses on our server" do
@@ -66,13 +66,13 @@ describe "/home/sitemap.xml.builder" do
 
     render "/home/sitemap.xml"
 
-    response.should_not have_selector("loc", :content => "http://example.com/foobar")
+    rendered.should_not have_selector("loc", :content => "http://example.com/foobar")
   end
 
   it "should link to people page" do
     render "/home/sitemap.xml"
 
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/people")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/people")
   end
 
   it "should handle people" do
@@ -83,28 +83,28 @@ describe "/home/sitemap.xml.builder" do
 
     render "/home/sitemap.xml"
 
-    response.should have_selector("url") do |url|
+    rendered.should have_selector("url") do |url|
       url.should have_selector("loc", :content => "http://cs.calvin.edu/people/jcalvin")
       url.should have_selector("lastmod", :content => "1999-05-05")
     end
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/people/mluther")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/people/jknox")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/people/mluther")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/people/jknox")
   end
 
   it "should have activities" do
     render "/home/sitemap.xml"
 
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/activities/connect/")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/activities/blasted/")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/activities/connect/")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/activities/blasted/")
   end
 
   it "should have books" do
     render "/home/sitemap.xml"
 
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/books/c++/intro/3e/")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/books/c++/ds/2e/")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/books/fortran/")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/books/java/intro/1e/")
-    response.should have_selector("loc", :content => "http://cs.calvin.edu/books/networking/labbook/")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/books/c++/intro/3e/")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/books/c++/ds/2e/")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/books/fortran/")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/books/java/intro/1e/")
+    rendered.should have_selector("loc", :content => "http://cs.calvin.edu/books/networking/labbook/")
   end
 end

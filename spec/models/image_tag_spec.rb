@@ -10,14 +10,14 @@
 
 require 'spec_helper'
 
-class ImageTagTest < ActiveRecord::TestCase
+describe ImageTag do
 
   fixtures :image_tags, :images
 
   def test_validations
     tag = ImageTag.new
     assert !tag.valid?
-    assert tag.errors.invalid?(:image_id)
+    assert tag.errors[:image_id].any?
   end
   
   def test_belongs_to_image

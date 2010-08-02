@@ -7,9 +7,9 @@ describe "/newsitems/archive.html.erb" do
 
     render "newsitems/archive"
 
-    response.should have_selector("li a", :href => "/newsitems?year=1579", :content => "News of 1579")
-    response.should have_selector("li a", :href => "/newsitems?year=1580", :content => "News of 1580")
-    response.should have_selector("li a", :href => "/newsitems?year=1581", :content => "News of 1581")
+    rendered.should have_selector("li a", :href => "/newsitems?year=1579", :content => "News of 1579")
+    rendered.should have_selector("li a", :href => "/newsitems?year=1580", :content => "News of 1580")
+    rendered.should have_selector("li a", :href => "/newsitems?year=1581", :content => "News of 1581")
   end
 
 end

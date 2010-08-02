@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def render_rec(*args)
+    render(*args)
+  end
+  
   def textilized_link(course)
     if course.url.blank?
       course.identifier

@@ -12,14 +12,14 @@
 
 require 'spec_helper'
 
-class ImageTest < ActiveRecord::TestCase
+describe Image do
 
   fixtures :images, :image_tags
 
   it "should do verifications" do
     image = Image.new
     assert !image.valid?
-    assert image.errors.invalid?(:url)
+    assert image.errors[:url].any?
   end
 
   it "should get dimension info" do

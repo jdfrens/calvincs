@@ -1,6 +1,6 @@
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 
-task :spec => "spec:javascripts"
+# task :spec => "spec:javascripts"
 
 namespace :calvincs do
   desc "sets up system after checked out"
@@ -16,8 +16,8 @@ namespace :calvincs do
   end
 
   desc "Runs the redirection and rewrite expectations for cs.calvin.edu"
-  Spec::Rake::SpecTask.new(:redirects) do |t|
-    t.spec_files = FileList['deployment/*_spec.rb']
+  RSpec::Core::RakeTask.new(:redirects) do |t|
+    t.pattern = 'deployment/*_spec.rb'
   end
 
   namespace :users do

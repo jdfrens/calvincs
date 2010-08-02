@@ -11,13 +11,13 @@ describe "/newsitems/_news_display.html.erb" do
     live_at.should_receive(:to_s).with(:news_posted).and_return("the date when it was posted")
     expect_textilize("The beautiful content is awesome!")
 
-    template.stub!(:current_user).and_return(false)
+    view.stub!(:current_user).and_return(false)
 
     render "newsitems/_news_display"
 
-    response.should have_selector("h2", :content => "The Headline of Love")
-    response.should have_selector(".goes-live-date", :content => "Posted on the date when it was posted")
-    response.should have_selector(".content", :content => "The beautiful content is awesome!")
+    rendered.should have_selector("h2", :content => "The Headline of Love")
+    rendered.should have_selector(".goes-live-date", :content => "Posted on the date when it was posted")
+    rendered.should have_selector(".content", :content => "The beautiful content is awesome!")
   end
 
   it "should display many news items" do
@@ -26,14 +26,14 @@ describe "/newsitems/_news_display.html.erb" do
             stub_model(Newsitem, :headline => "Headline gamma", :content => "Content gamma", :goes_live_at => Time.now)]
     assigns[:newsitems] = news_items
 
-    template.stub!(:current_user).and_return(false)
+    view.stub!(:current_user).and_return(false)
 
     render "newsitems/_news_display"
 
-    response.should have_selector("h2", :content => "Headline #1")
-    response.should have_selector("h2", :content => "Headline B")
-    response.should have_selector("h2", :content => "Headline gamma")
-    response.should_not contain("edit...")
+    rendered.should have_selector("h2", :content => "Headline #1")
+    rendered.should have_selector("h2", :content => "Headline B")
+    rendered.should have_selector("h2", :content => "Headline gamma")
+    rendered.should_not contain("edit...")
   end
 
   it "should have links to edit news items when logged in" do
@@ -42,10 +42,10 @@ describe "/newsitems/_news_display.html.erb" do
             :content => "c")
     assigns[:newsitems] = [news_item]
 
-    template.should_receive(:current_user).and_return(true)
+    view.should_receive(:current_user).and_return(true)
 
     render "newsitems/_news_display"
 
-    response.should have_selector("a", :href => "/newsitems/#{news_item.id}/edit", :content => "edit...")
+    rendered.should have_selector("a", :href => "/newsitems/#{news_item.id}/edit", :content => "edit...")
   end
 end

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe "/personnel/new.html.erb" do
+describe "personnel/new.html.erb" do
   it "should render a form" do
-    assigns[:user] = user = User.new
+    assign(:user, User.new)
 
-    render "personnel/new"
+    render
 
-    response.should have_selector("form") do |form|
+    rendered.should have_selector("form") do |form|
       form.should have_selector("input", :id => "user_first_name")
       form.should have_selector("input", :id => "user_last_name")
       form.should have_selector("select", :id => "user_role_id")

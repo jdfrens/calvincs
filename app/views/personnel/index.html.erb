@@ -1,26 +1,26 @@
 <h1 id="faculty">Faculty</h1>
 <table class="listing" id="faculty_listing">
-  <%= render :partial => 'user', :collection => @faculty -%>
+  <%= render_rec :partial => 'user', :collection => @faculty -%>
 </table>
 
 <h1 id="adjuncts">Adjunct Faculty</h1>
 <table class="listing" id="adjuncts_listing">
-  <%= render :partial => 'user', :collection => @adjuncts -%>
+  <%= render_rec :partial => 'user', :collection => @adjuncts -%>
 </table>
 
 <h1 id="emeriti">Emeriti</h1>
 <table class="listing" id="emeriti_listing">
-  <%= render :partial => 'user', :collection => @emeriti -%>
+  <%= render_rec :partial => 'user', :collection => @emeriti -%>
 </table>
 
 <h1 id="contributors">Contributing Faculty</h1>
 <table class="listing" id="contributors_listing">
-  <%= render :partial => 'user', :collection => @contributors -%>
+  <%= render_rec :partial => 'user', :collection => @contributors -%>
 </table>
 
 <h1 id="staff">Staff</h1>
 <table class="listing" id="staff_listing">
-  <%= render :partial => 'user', :collection => @staff -%>
+  <%= render_rec :partial => 'user', :collection => @staff -%>
 </table>
 
 <% if current_user -%>
@@ -29,6 +29,6 @@
     <p><em>These users are seen only when you're logged in.</em></p>
     
     <table class="listing" id="admin_listing">
-      <%= render :partial => 'user', :collection => @admin -%>
+      <%= render_rec :partial => 'user', :collection => @admin -%>
     </table>
 <% end -%>

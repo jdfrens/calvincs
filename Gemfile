@@ -1,5 +1,6 @@
-source :gemcutter
-gem "rails", "~> 2.3.5"
+source 'http://rubygems.org'
+
+gem "rails", "=3.0.0.rc"
 gem "sqlite3-ruby", :require => "sqlite3"
 
 gem "RedCloth", :require => "redcloth"
@@ -10,20 +11,21 @@ gem "chronic"
 group :test do
   gem "factory_girl"
   gem "test-unit", '~> 1.2'
-  gem "rspec"
-  gem "rspec-rails"
+  gem "rspec", ">= 2.0.0.beta.19"
+  gem "rspec-rails", ">= 2.0.0.beta.19"
   gem "webrat"
   gem "timecop"
 end
 
 group :cucumber do
-  gem 'cucumber-rails'
   gem 'database_cleaner'
+  gem 'cucumber-rails'
   gem 'webrat'
-  gem 'rspec'
-  gem 'rspec-rails'
+  gem 'rspec', ">= 2.0.0.beta.19"
+  gem 'rspec-rails', ">= 2.0.0.beta.19"
 end
 
 group :development do
-  gem 'jscruggs-metric_fu', :require => 'metric_fu'
+  gem 'metric_fu'
+  gem 'rails3-generators'
 end

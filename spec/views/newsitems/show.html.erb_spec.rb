@@ -6,7 +6,7 @@ describe "/newsitems/show.html.erb" do
     item = mock_model(Newsitem, :headline => "Some Headline", :content => "Something happened today.")
     assigns[:newsitem] = item
 
-    template.should_receive(:current_user).and_return(false)
+    view.should_receive(:current_user).and_return(false)
 
     render "newsitems/show"
 
@@ -18,11 +18,11 @@ describe "/newsitems/show.html.erb" do
     item = mock_model(Newsitem, :headline => "Some Headline", :content => "Something happened today.")
     assigns[:newsitem] = item
     
-    template.should_receive(:current_user).and_return(true)
+    view.should_receive(:current_user).and_return(true)
 
     render "newsitems/show"
 
-    response.should have_selector("a", :href => "/newsitems/#{item.id}/edit", :content => "edit...")
+    rendered.should have_selector("a", :href => "/newsitems/#{item.id}/edit", :content => "edit...")
   end
   
 end

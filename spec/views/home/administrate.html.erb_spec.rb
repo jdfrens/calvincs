@@ -5,14 +5,14 @@ describe "/home/administrate.html.erb" do
   it "should have header" do
     render "home/administrate"
 
-    response.should have_tag("h1", "Master Administration")
+    rendered.should have_tag("h1", "Master Administration")
   end
 
   it "should have a news menu" do
     render "home/administrate"
 
-    response.should have_tag('h2', "News and Events")
-    response.should have_tag("ul#news_administration") do
+    rendered.should have_tag('h2', "News and Events")
+    rendered.should have_tag("ul#news_administration") do
       with_tag("a[href=/newsitems/new]", /create news item/i)
       with_tag("a[href=/events/new?kind=Colloquium]", /create new colloquium/i)
       with_tag("a[href=/events/new?kind=Conference]", /create new conference/i)
@@ -32,8 +32,8 @@ describe "/home/administrate.html.erb" do
   it "should have a album menu" do
     render "home/administrate"
 
-    response.should have_selector("h2", :content => "Images")
-    response.should have_selector("#picture_administration") do |ul|
+    rendered.should have_selector("h2", :content => "Images")
+    rendered.should have_selector("#picture_administration") do |ul|
       ul.should have_selector("a", :href => images_path, :content => "List images")
       ul.should have_selector("a", :href => new_image_path, :content => "Add image")
     end
