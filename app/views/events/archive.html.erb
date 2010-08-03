@@ -6,6 +6,6 @@
   </span>
 </h1>
 
-<% @years.each do |year| -%>
+<% @years.each do |year| %>
     <p><%= link_to "Events of #{year}", events_path(:year => year) %></p>
-<% end -%>
+<% end %>

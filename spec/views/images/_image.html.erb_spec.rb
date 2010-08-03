@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/images/_image.html.erb" do
+describe "images/_image.html.erb" do
 
   before(:each) do
     @image = mock_model(Image,
@@ -8,7 +8,7 @@ describe "/images/_image.html.erb" do
             :caption => "the caption", :tags_string => "one two three")
     view.should_receive(:image).at_least(:once).and_return(@image)
 
-    render "/images/_image"
+    render
   end
 
   it "should have url stuff" do
@@ -29,7 +29,7 @@ describe "/images/_image.html.erb" do
   end
 
   it "should have an edit link" do
-    rendered.should have_selector("a", :href => edit_image_path(@image), :content => "edit...")
+    rendered.should have_selector("a", :href => edit_picture_path(@image), :content => "edit...")
   end
 
   it "should have a destroy link" do

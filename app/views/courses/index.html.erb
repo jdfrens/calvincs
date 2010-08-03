@@ -3,18 +3,18 @@
 <div class="columns courses">
   <div class="columns-1" id="cs">
     <h2>Computer Science</h2>
-    <%= render :partial => "courses", :locals => {:courses => @cs_courses} %>
+    <%= render2 :partial => "courses", :locals => {:courses => @cs_courses} %>
   </div>
 
   <div class="columns-2">
     <div id="is">
       <h2>Information Systems</h2>
-      <%= render :partial => "courses", :locals => {:courses => @is_courses} %>
+      <%= render2 :partial => "courses", :locals => {:courses => @is_courses} %>
     </div>
 
     <div id="interim">
       <h2>Interim</h2>
-      <%= render :partial => "courses", :locals => {:courses => @interim_courses} %>
+      <%= render2 :partial => "courses", :locals => {:courses => @interim_courses} %>
     </div>
   </div>
 </div>

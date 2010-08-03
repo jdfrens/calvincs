@@ -1,9 +1,9 @@
 <h1>Edit News Item</h1>
 
-<% if flash[:error] -%>
+<% if flash[:error] %>
     <div id="error">
       <%= error_messages_for(:newsitem) %>
     </div>
-<% end -%>
+<% end %>
 
 <%= render :partial => "form" %>

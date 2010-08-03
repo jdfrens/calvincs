@@ -1,8 +1,9 @@
 require 'spec_helper'
 
-describe "/personnel/_edit_page_links.html.erb" do
+describe "personnel/_edit_page_links.html.erb" do
   it "should render create link" do
-    assigns[:user] = user = mock_model(User)
+    user = mock_model(User)
+    assign(:user, user)
 
     view.should_receive(:page_type).at_least(:once).and_return("foobar")
     user.should_receive(:page_identifier).with("foobar").
@@ -10,7 +11,7 @@ describe "/personnel/_edit_page_links.html.erb" do
     user.should_receive(:subpage).with("foobar").
             at_least(:once).and_return(nil)
 
-    render "personnel/_edit_page_links"
+    render
 
     rendered.should have_selector("a", :href => edit_page_path("foobar identifier"), :content => "create foobar")
     rendered.should_not contain("edit foobar")
@@ -18,7 +19,8 @@ describe "/personnel/_edit_page_links.html.erb" do
   end
 
   it "should render edit and delete links" do
-    assigns[:user] = user = mock_model(User)
+    user = mock_model(User)
+    assign(:user, user)
     page = mock_model(Page)
 
     view.should_receive(:page_type).at_least(:once).and_return("foobar")
@@ -27,10 +29,12 @@ describe "/personnel/_edit_page_links.html.erb" do
     user.should_receive(:subpage).with("foobar").
             at_least(:once).and_return(page)
 
-    render "personnel/_edit_page_links"
+    render
 
-    rendered.should have_selector("a", :href => edit_page_path("foobar identifier"), :content => "edit foobar")
-    rendered.should have_selector("a", :href => page_path("foobar identifier"), :content => "delete foobar")
+    rendered.should have_selector("a", :href => edit_page_path("foobar identifier"), 
+                                       :content => "edit foobar")
+    rendered.should have_selector("a", :href => page_path("foobar identifier"), 
+                                       :content => "delete foobar")
     rendered.should_not contain("create foobar")
   end
 end

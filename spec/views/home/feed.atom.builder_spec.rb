@@ -1,20 +1,20 @@
 require 'spec_helper'
 
-describe "/home/feed.atom.builder" do
+describe "home/feed.atom.builder" do
 
   before do
     @newsitems = []
     @todays_events = []
     @weeks_events = []
-    assigns[:newsitems] = @newsitems
-    assigns[:todays_events] = @todays_events
-    assigns[:weeks_events] = @weeks_events
+    assign(:newsitems, @newsitems)
+    assign(:todays_events, @todays_events)
+    assign(:weeks_events, @weeks_events)
   end
 
   it "should have a title" do
-    assigns[:updated_at] = Time.parse("March 7, 1970")
+    assign(:updated_at, Time.parse("March 7, 1970"))
 
-    render "/home/feed.atom"
+    render
 
     rendered.should have_selector("feed") do |feed|
       feed.should have_selector("title",
@@ -27,9 +27,9 @@ describe "/home/feed.atom.builder" do
     @newsitems = [mock_model(Newsitem, :headline => "The Headline", :content => "The Body",
                              :goes_live_at => Time.parse("March 7, 1970"),
                              :updated_at => Time.now)]
-    assigns[:newsitems] = @newsitems
+    assign(:newsitems, @newsitems)
 
-    render "/home/feed.atom"
+    render
 
     rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "The Headline")
@@ -49,9 +49,9 @@ describe "/home/feed.atom.builder" do
                              :goes_live_at => Time.now),
                   mock_model(Newsitem, :headline => "Headline 3", :content => "content",
                              :goes_live_at => Time.now)]
-    assigns[:newsitems] = @newsitems
+    assign(:newsitems, @newsitems)
 
-    render "/home/feed.atom"
+    render
 
     rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Headline 1")
@@ -67,9 +67,9 @@ describe "/home/feed.atom.builder" do
   it "should render an event for today" do
     @todays_events = [mock_model(Event, :full_title => "Full Event Title",
                                  :description => "Go to this event!", :updated_at => Time.now)]
-    assigns[:todays_events] = @todays_events
+    assign(:todays_events, @todays_events)
 
-    render "/home/feed.atom"
+    render
 
     rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Full Event Title", :type => "html")
@@ -84,9 +84,9 @@ describe "/home/feed.atom.builder" do
 
   it "should render an event for today with a special id" do
     @todays_events = [mock_model(Event, :full_title => "Full Event Title", :description => "Go to this event!")]
-    assigns[:todays_events] = @todays_events
+    assign(:todays_events, @todays_events)
 
-    render "/home/feed.atom"
+    render
 
     rendered.should have_selector("entry id", :content => "tag:test.host,2005:TodaysEvent/#{@todays_events[0].id}")
   end
@@ -95,9 +95,9 @@ describe "/home/feed.atom.builder" do
     @todays_events = [mock_model(Event, :full_title => "Today #1", :description => "#1"),
                       mock_model(Event, :full_title => "Today #2", :description => "#2"),
                       mock_model(Event, :full_title => "Today #3", :description => "#3")]
-    assigns[:todays_events] = @todays_events
+    assign(:todays_events, @todays_events)
 
-    render "/home/feed.atom"
+    render
 
     rendered.should have_selector("entry") do |entry|
       entry.should have_selector("title", :content => "Today #1", :type => "html")
@@ -108,9 +108,9 @@ describe "/home/feed.atom.builder" do
 
   it "should render an event for this week with a special id" do
     @weeks_events = [mock_model(Event, :full_title => "Next Week Is Now", :description => "Time travel!")]
-    assigns[:weeks_events] = @weeks_events
+    assign(:weeks_events, @weeks_events)
 
-    render "/home/feed.atom"
+    render
 
     rendered.should have_selector("entry id", :content => "tag:test.host,2005:WeeksEvent/#{@weeks_events[0].id}")
   end

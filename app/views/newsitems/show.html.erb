@@ -1,8 +1,8 @@
 <h1>
   <%= h(@newsitem.headline) %>
-  <% if current_user -%>
+  <% if current_user %>
       <%= link_to "edit...", edit_newsitem_path(@newsitem), { :class => "more" } %>
-  <% end -%>
+  <% end %>
 </h1>
 
 <div id="news-item-content">

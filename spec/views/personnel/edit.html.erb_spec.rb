@@ -1,17 +1,28 @@
 require 'spec_helper'
 
-describe "/personnel/edit.html.erb" do
+describe "personnel/edit.html.erb" do
   it "should render a form" do
-    assigns[:user] = user = mock_model(User, :first_name => "First", :last_name => "Last", :username => "flast",
-                                       :role_id => 5,
-                                       :email_address => "flast@example.com",
-                                       :office_phone => "867-5309", :office_location => "somewhere",
-                                       :job_title => "professor grande")
+    user = mock_model(User, :first_name => "First", :last_name => "Last", :username => "flast",
+                           :role_id => 5,
+                           :email_address => "flast@example.com",
+                           :office_phone => "867-5309", :office_location => "somewhere",
+                           :job_title => "professor grande",
+                           :degrees => [])
+    assign(:user, user)
 
-    view.should_receive(:render).with(:partial => "edit_page_links", :locals => anything).
-            at_least(:once).and_return("page links")
+    view.should_receive(:render2).with("degree_fields", hash_including(:form)).
+      and_return("degree fields")
+    view.should_receive(:render2).
+      with(:partial => "edit_page_links", :locals => { :page_type => "interests" }).
+      and_return("interests links")
+    view.should_receive(:render2).
+      with(:partial => "edit_page_links", :locals => { :page_type => "profile" }).
+      and_return("profile links")
+    view.should_receive(:render2).
+      with(:partial => "edit_page_links", :locals => { :page_type => "status" }).
+      and_return("status links")
     
-    render "personnel/edit"
+    render
 
     rendered.should have_selector("form") do |form|
       form.should have_selector("input", :id => "user_first_name")
@@ -22,24 +33,6 @@ describe "/personnel/edit.html.erb" do
       form.should have_selector("input", :id => "user_office_location")
       form.should have_selector("input", :id => "user_email_address")
     end
-  end
-
-  it "should render a editing links" do
-    assigns[:user] = user = mock_model(User, :first_name => "First", :last_name => "Last", :username => "flast",
-                                       :role_id => 5,
-                                       :email_address => "flast@example.com",
-                                       :office_phone => "867-5309", :office_location => "somewhere",
-                                       :job_title => "professor grande")
-
-    view.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "interests" }).
-            and_return("interests links")
-    view.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "profile" }).
-            and_return("profile links")
-    view.should_receive(:render).with(:partial => "edit_page_links", :locals => { :page_type => "status" }).
-            and_return("status links")
-
-    render "personnel/edit"
-
     rendered.should have_selector("a", :content => "change password...")
     rendered.should contain("interests links")
     rendered.should contain("profile links")

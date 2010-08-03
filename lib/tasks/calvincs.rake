@@ -5,8 +5,8 @@ require 'rspec/core/rake_task'
 namespace :calvincs do
   desc "sets up system after checked out"
   task :setup do
-    sh "cp #{RAILS_ROOT}/config/database.example #{RAILS_ROOT}/config/database.yml"
-    sh "cp #{RAILS_ROOT}/config/newrelic.example.yml #{RAILS_ROOT}/config/newrelic.yml"
+    sh "cp #{Rails.root}/config/database.example #{Rails.root}/config/database.yml"
+    sh "cp #{Rails.root}/config/newrelic.example.yml #{Rails.root}/config/newrelic.yml"
     Rake::Task["calvincs:setup:migrate"].invoke
     Rake::Task["calvincs:users:defaults"].invoke
   end

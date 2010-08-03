@@ -1,17 +1,18 @@
 require 'spec_helper'
 
-describe "/events/index.html.erb" do
+describe "events/index.html.erb" do
 
   describe "rendering an event" do
     before(:each) do
       timing = mock("timing", :to_s => "the timing")
-      @event = mock_model(Event, :timing => timing, :presenter => "Charles M. Ruby", :location => "Room 101")
-      assigns[:events] = [@event]
-      assigns[:title] = "The Title"
+      @event = mock_model(Event, :timing => timing, :presenter => "Charles M. Ruby", 
+                                 :location => "Room 101")
+      assign(:events, [@event])
+      assign(:title, "The Title")
       view.should_receive(:format_titles).with(@event).and_return("the titles!")
       view.stub!(:current_user).and_return(false)
 
-      render "events/index"
+      render
     end
 
     it "should have a header" do
@@ -47,12 +48,12 @@ describe "/events/index.html.erb" do
     before(:each) do
       timing = mock("timing", :to_s => "the timing")
       @event = mock_model(Event, :timing => timing, :presenter => nil, :location => nil)
-      assigns[:events] = [@event]
-      assigns[:title] = "The Title"
+      assign(:events, [@event])
+      assign(:title, "The Title")
       view.should_receive(:format_titles).with(@event).and_return("the titles!")
       view.stub!(:current_user).and_return(false)
 
-      render "events/index"
+      render
     end
 
     it "should not have a presenter" do
@@ -65,4 +66,3 @@ describe "/events/index.html.erb" do
 
   end
 end
-

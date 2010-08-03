@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe "/pages/edit.html.erb" do
+describe "pages/edit.html.erb" do
 
   describe "render a normal page" do
     before(:each) do
       @page = mock_model(Page, :subpage? => false, :title => "Mission Statement",
               :content => "We state our mission.", :identifier => "mission")
-      assigns[:page] = @page
-      view.should_not_receive(:render).with(:partial => "image")
+      assign(:page, @page)
+      view.should_not_receive(:render2).with(:partial => "image")
       expect_textilize("We state our mission.")
 
-      render "/pages/edit"
+      render
     end
 
     it "should have an editor for the title" do
@@ -50,11 +50,11 @@ describe "/pages/edit.html.erb" do
     before(:each) do
       @page = mock_model(Page, :subpage? => true, :title => "Whatever",
               :content => "No, really, whatever!", :identifier => "whatever")
-      assigns[:page] = @page
-      view.should_not_receive(:render).with(:partial => "image")
+      assign(:page, @page)
+      view.should_not_receive(:render2).with(:partial => "image")
       view.should_not_receive(:in_place_editor_field).with(:page, "title")
 
-      render "/pages/edit"
+      render
     end
 
     it "should have a note instead of a title" do

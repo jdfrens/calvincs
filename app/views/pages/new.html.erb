@@ -1,12 +1,12 @@
-<% if !@page.new_record? && !@page.valid? -%>
+<% if !@page.new_record? && !@page.valid? %>
   <div id="error">
     <%= error_messages_for(:page) %>
   </div>
-<% end -%>
+<% end %>
 
 <h1>Create Page</h1>
 
-<% form_for @page do |form| -%>
+<%= form_for @page do |form| %>
   <table summary="page data">
     <tr>
       <td> <%= form.label :identifier %> </td>
@@ -25,4 +25,4 @@
       <td> <%= form.submit "Create page", :class => "submit" %> </td>
     </tr>
   </table>
-<% end -%>
+<% end %>

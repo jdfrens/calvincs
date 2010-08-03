@@ -7,13 +7,13 @@
               :action => 'show', :id => news_item.id %>
       </td>
 	  
-      <% restrict_to :edit do -%>
+      <% restrict_to :edit do %>
         <td rowspan="2">
           <%= button_to 'Destroy', { :action => 'destroy', :id => news_item, :listing => params[:id] },
               :confirm => 'Are you sure you want to destroy this news item?',
               :method => :post %>
         </td>
-      <% end -%>
+      <% end %>
       
     </tr>
 	

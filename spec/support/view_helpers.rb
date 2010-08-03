@@ -17,12 +17,14 @@ module ViewHelpers
     end
   end
 
-  def expect_textilize_lite(text)
-    view.should_receive(:johnny_textilize_lite).with(text).and_return(text)
+  def expect_textilize_lite(text, output=false)
+    output ||= text
+    view.should_receive(:johnny_textilize_lite).with(text).and_return(output)
   end
 
-  def expect_textilize(text)
-    view.should_receive(:johnny_textilize).with(text).and_return(text)
+  def expect_textilize(text, output=false)
+    output ||= text
+    view.should_receive(:johnny_textilize).with(text).and_return(output)
   end
 
   def expect_no_current_user()

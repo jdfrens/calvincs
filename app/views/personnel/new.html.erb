@@ -1,6 +1,6 @@
 <h1>New User</h1>
 
-<% form_for @user do |form| -%>
+<%= form_for @user do |form| %>
     <%= form.error_messages %>
 
     <table>
@@ -31,6 +31,6 @@
     </table>
 
     <p><%= form.submit %></p>
-<% end -%>
+<% end %>
 
 <p>After you create a new user with this form, you can edit office information and interests and much more.</p>

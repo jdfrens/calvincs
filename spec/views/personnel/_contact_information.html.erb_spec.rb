@@ -1,13 +1,15 @@
 require 'spec_helper'
 
-describe "/personnel/_contact_information.html.erb" do
+describe "personnel/_contact_information.html.erb" do
   it "should have data" do
-    assigns[:user] = mock_model(User, :username => "jcalvin",
-                                :email_address => "jcalvin@calvin.edu", :office_phone => '616.555.0666',
-                                :office_location => "nowhere")
-    assigns[:image] = mock_model(Image, :usability => :wide, :url => "/somewhere.gif", :caption => "the caption")
+    assign(:user, mock_model(User, :username => "jcalvin",
+                                :email_address => "jcalvin@calvin.edu", 
+                                :office_phone => '616.555.0666',
+                                :office_location => "nowhere"))
+    assign(:image, mock_model(Image, :usability => :wide, :url => "/somewhere.gif", 
+                                     :caption => "the caption"))
 
-    render "/personnel/_contact_information"
+    render
 
     rendered.should have_selector("#contact-information") do |div|
       div.should have_selector("a", :href => "http://www.calvin.edu/~jcalvin/", :content => "home page")

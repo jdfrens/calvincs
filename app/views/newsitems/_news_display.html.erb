@@ -2,7 +2,7 @@
     <div id="news-item-<%= news_item.id %>" class="news-item">
       <h2>
         <%= h(news_item.headline) %>
-        <% if current_user -%>
+        <% if current_user %>
             <%= link_to "edit...", edit_newsitem_path(news_item), { :class => "more" } %>
         <% end %>
       </h2>

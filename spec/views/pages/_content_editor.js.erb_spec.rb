@@ -1,10 +1,11 @@
 require 'spec_helper'
 
-describe "/pages/_content_editor.js.erb" do
+describe "pages/_content_editor.js.erb" do
   it "should render JavaScript" do
-    assigns[:page] = page = mock_model(Page)
+    page =  mock_model(Page)
+    assign(:page, page)
 
-    render "pages/_content_editor.js"
+    render
 
     rendered.should contain("#edit_page_#{page.id}")
   end

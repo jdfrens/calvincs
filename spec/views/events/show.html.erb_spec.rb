@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/events/view.html.erb" do
+describe "events/show.html.erb" do
 
   describe "viewing a complete event" do
 
@@ -11,14 +11,14 @@ describe "/events/view.html.erb" do
                       :presenter => "Dr. Presenter", :location => "Room 101",
                       :description => "The Description", :kind => "KindOfEvent")
 
-      assigns[:event] = event
+      assign(:event, event)
       expect_textilize_lite("The Title")
       expect_textilize_lite("The Subtitle")
       expect_textilize_lite("Dr. Presenter")
       start.should_receive(:to_s).with(:kindofevent).and_return("tomorrow at 8am")
       expect_textilize("The Description")
 
-      render "events/show"
+      render
     end
 
     it "should have a complete title" do
@@ -29,7 +29,7 @@ describe "/events/view.html.erb" do
     end
 
     it "should have a presenter" do
-      assert_select ".presenter", "Dr. Presenter"
+      rendered.should have_selector(".presenter", :content => "Dr. Presenter")
     end
 
     it "should have a time" do
@@ -41,7 +41,7 @@ describe "/events/view.html.erb" do
     end
 
     it "should have a description" do
-      assert_select "div#event-description", "The Description"
+      rendered.should have_selector("#event-description", :content => "The Description")
     end
   end
 
@@ -51,11 +51,11 @@ describe "/events/view.html.erb" do
               :title => "The Title", :subtitle => nil,
               :presenter => nil, :location => nil,
               :description => "The Description")
-      assigns[:event] = event
+      assign(:event, event)
       expect_textilize_lite("The Title")
       expect_textilize("The Description")
 
-      render "events/show"
+      render
     end
 
     it "should have minimal title" do
@@ -77,5 +77,4 @@ describe "/events/view.html.erb" do
       rendered.should have_selector("div#event-description", :content => "The Description")
     end
   end
- 
 end

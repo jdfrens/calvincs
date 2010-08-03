@@ -1,12 +1,13 @@
 require 'spec_helper'
 
-describe "/personnel/editpassword.html.erb" do
+describe "personnel/editpassword.html.erb" do
   it "should render a form" do
-    assigns[:user] = user = mock_model(User, :full_name => "Mr. Hudson",
-                                       :password => User.hash_password("yikes", User.generate_salt),
-                                       :password_confirmation => nil)
+    user = mock_model(User, :full_name => "Mr. Hudson",
+                            :password => User.hash_password("yikes", User.generate_salt),
+                            :password_confirmation => nil)
+    assign(:user, user)
 
-    render "personnel/editpassword"
+    render
 
     rendered.should have_selector("form") do |form|
       form.should have_selector("input#user_password")

@@ -5,7 +5,7 @@ module EventsHelper
     unless event.subtitle.blank?
       titles += ": <br /><span class=subtitle>" + johnny_textilize_lite(event.subtitle) + "</span>"
     end
-    titles
+    titles.html_safe
   end
   
 end

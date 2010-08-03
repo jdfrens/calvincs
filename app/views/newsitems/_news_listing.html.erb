@@ -1,10 +1,10 @@
 <div id="news-listing">
   <ul>
-    <% @newsitems.each do |newsitem| -%>
+    <% @newsitems.each do |newsitem| %>
       <li>
         <%= link_to_current_newsitem(newsitem) %>
       </li>
-    <% end -%>
+    <% end %>
     <li class="more"><%= link_to "News Archive...", newsitems_path(:year => "all") %></li>
   </ul>
 </div>

@@ -13,15 +13,17 @@
 
 <div class="columns">
   <div id="home_page" class="columns-1">
-    <%= render :partial => 'shared/subpage', :locals => { :page => @content } %>
+    <%= render2 :partial => 'shared/subpage', :locals => { :page => @content } %>
   </div>
 
   <div id="news" class="columns-2">
     <h2>Computing News &amp; Events</h2>
     <ul>
-      <%= render(:partial => "event", :collection => @todays_events, :locals => { :timing => "today" }) %>
-      <%= render(:partial => "event", :collection => @this_weeks_events, :locals => { :timing => "coming up" }) %>
-      <%= render(:partial => "newsitem", :collection => @newsitems) %>
+      <%= render2 :partial => "event", :collection => @todays_events, 
+						:locals => { :timing => "today" } %>
+      <%= render2 :partial => "event", :collection => @this_weeks_events, 
+						:locals => { :timing => "coming up" } %>
+      <%= render2 :partial => "newsitem", :collection => @newsitems %>
       <li>
         <%= link_to "other news...", newsitems_path, { :class => "more" } %>
       </li>
@@ -30,6 +32,6 @@
 
 </div>
 
-<% javascript_tag do -%>
-    <%= render :partial => "homepage_splash.js" %>
-<% end -%>
+<% javascript_tag do %>
+    <%= render2 :partial => "homepage_splash.js" %>
+<% end %>

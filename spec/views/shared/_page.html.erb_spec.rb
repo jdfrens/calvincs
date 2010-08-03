@@ -6,7 +6,7 @@ describe "shared/_page.html.erb" do
     page = mock_model(Page, :title => "A Title")
 
     view.should_receive(:page).any_number_of_times.and_return(page)
-    view.should_receive(:render_rec).
+    view.should_receive(:render2).
             with(:partial => "shared/subpage", :locals => { :page => page }).
             and_return("headerless content")
 

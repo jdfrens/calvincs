@@ -20,9 +20,9 @@
   <%= stylesheet_link_tag "department", :media => "all" %>
   <link href="http://www.calvin.edu/includes/templates/9/menu-tools.css" rel="stylesheet" type="text/css" media="screen" />
 
-  <%= render :partial => 'layouts/calvinjavascript' %>
+  <%= render2 :partial => 'layouts/calvinjavascript' %>
 
-  <%= title %>
+  <%= raw(title) %>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
   <a href="#content">Skip to Content</a>
 </div>
 
-<%= render :partial => "layouts/header" %>
+<%= render2 :partial => "layouts/header" %>
 
 <div id="wrapper">
 
@@ -46,25 +46,24 @@
 
       <%= yield :layout %>
 
-      <% if current_user -%>
+      <% if current_user %>
           <p class="logout">
-            <%= render :partial => 'layouts/adminmenu' %>
+            <%= render2 :partial => 'layouts/adminmenu' %>
           </p>
-      <% end -%>
+      <% end %>
 
     </div>
   </div>
 
   <div id="sidebar">
     <div id="navbar" class="navigation">
-      <%= render :partial => 'layouts/mainmenu' %>
+      <%= render2 :partial => 'layouts/mainmenu' %>
     </div>
   </div>
 
-  <%= render :partial => 'layouts/footer' %>
+  <%= render2 :partial => 'layouts/footer' %>
 
 </div>
 
 </body>
 </html>
-

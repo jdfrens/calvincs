@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe "/pages/view.html.erb" do
+describe "pages/show.html.erb" do
 
   it "should handle a normal page" do
     page = mock_model(Page, :subpage? => false, :title => "Mission Statement", :content => "We state our mission.")
-    assigns[:page] = page
+    assign(:page, page)
 
-    view.should_receive(:render).with(:partial => "image").and_return("IMAGE!")
+    view.should_receive(:render2).with(:partial => "image").and_return("IMAGE!")
     view.should_receive(:current_user).and_return(nil)
     expect_textilize("We state our mission.")
 
-    render "/pages/show"
+    render
 
     assert_select "h1", "Mission Statement"
     rendered.should contain("IMAGE!")
@@ -20,13 +20,13 @@ describe "/pages/view.html.erb" do
 
   it "should handle a subpage" do
     page = mock_model(Page, :subpage? => true, :content => "the content")
-    assigns[:page] = page
+    assign(:page, page)
 
-    view.should_receive(:render).with(:partial => "image").and_return("IMAGE!")
+    view.should_receive(:render2).with(:partial => "image").and_return("IMAGE!")
     view.should_receive(:current_user).and_return(nil)
     expect_textilize("the content")
 
-    render "/pages/show"
+    render
 
     assert_select "h1", "{{ A SUBPAGE HAS NO TITLE }}"
     rendered.should contain("IMAGE!")
@@ -36,14 +36,13 @@ describe "/pages/view.html.erb" do
 
   it "should have edit link when logged in" do
     page = mock_model(Page, :subpage? => true, :content => "the content")
-    assigns[:page] = page
+    assign(:page, page)
 
-    view.should_receive(:render).with(:partial => "image").and_return("IMAGE!")
+    view.should_receive(:render2).with(:partial => "image").and_return("IMAGE!")
     view.should_receive(:current_user).and_return(mock_model(User))
 
-    render "/pages/show"
+    render
 
     rendered.should have_selector("a", :href=> edit_page_path(page))
   end
-
 end

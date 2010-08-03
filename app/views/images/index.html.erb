@@ -1,21 +1,21 @@
 <h1>List of Images</h1>
 
 <p>
-  <%= link_to "Add an image", new_image_path %> |
-  <%= link_to "Refresh dimensions", refresh_images_path %>
+  <%= link_to "Add an image", new_picture_path %> |
+  <%= link_to "Refresh dimensions", refresh_pictures_path %>
 </p>
 
 <div id="image-list">
-  <% @images.each do |image| -%>
-      <%= render :partial => 'image', :object => image %>
+  <% @images.each do |image| %>
+      <%= render2 :partial => 'image', :object => image %>
   <% end %>
 </div>
 
 <% javascript_tag do %>
-    <%= render "image_popups.js" %>
+    <%= render2 "image_popups.js" %>
 <% end %>
 
 <p>
-  <%= link_to "Add an image", new_image_path %> |
-  <%= link_to "Refresh dimensions", refresh_images_path %>
+  <%= link_to "Add an image", new_picture_path %> |
+  <%= link_to "Refresh dimensions", refresh_pictures_path %>
 </p>

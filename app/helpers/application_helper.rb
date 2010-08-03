@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def render_rec(*args)
+  def render2(*args)
     render(*args)
   end
   

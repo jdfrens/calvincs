@@ -1,10 +1,11 @@
 require 'spec_helper'
 
-describe "/images/_form.html.erb" do
+describe "images/_form.html.erb" do
   it "should build a form" do
-    assigns[:image] = mock_model(Image, :url => "the url", :caption => "the caption", :tags_string => "tags")
+    assign(:image, mock_model(Image, :url => "the url", :caption => "the caption", 
+                                     :tags_string => "tags"))
 
-    render "/images/_form"
+    render
 
     assert_select "form" do
       assert_select "input#image_url"

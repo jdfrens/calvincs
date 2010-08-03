@@ -1,9 +1,9 @@
-<% if see_interests(@user) -%>
+<% if see_interests(@user) %>
   <div id="interests">
     <h2>Interests</h2>
   
-    <% if @user.subpage(:interests) -%>
+    <% if @user.subpage(:interests) %>
       <%= johnny_textilize @user.subpage(:interests).content %>
-    <% end -%>
+    <% end %>
   </div>
-<% end -%>
+<% end %>

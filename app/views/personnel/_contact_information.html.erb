@@ -4,12 +4,12 @@
 
     <br/><%= mail_to @user.email_address, @user.email_address %>
 
-    <% if @user.office_phone -%>
+    <% if @user.office_phone %>
         <br/><%= @user.office_phone %>
-    <% end -%>
+    <% end %>
 
-    <% if @user.office_location -%>
+    <% if @user.office_location %>
         <br/><%= @user.office_location %>
-    <% end -%>
+    <% end %>
   </p>
 </div>

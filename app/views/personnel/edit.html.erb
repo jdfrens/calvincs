@@ -1,6 +1,6 @@
 <h1>Edit User Information</h1>
 
-<% form_for @user do |form| -%>
+<%= form_for @user do |form| %>
     <%= form.error_messages %>
 
     <table>
@@ -40,7 +40,7 @@
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
-          <%= render "degree_fields", :form => degree_form %>
+          <%= render2 "degree_fields", :form => degree_form %>
       <% end %>
       <tr>
       <tr>
@@ -50,7 +50,7 @@
     </table>
 
     <p><%= form.submit %></p>
-<% end -%>
+<% end %>
 
 
 <h2>Special Content</h2>
@@ -59,24 +59,24 @@
   <li><strong>interests</strong>: a comma-separated list of research and professional
     interests...
     <ul>
-      <%= render :partial => 'edit_page_links', :locals => { :page_type => "interests" } %>
+      <%= render2 :partial => 'edit_page_links', :locals => { :page_type => "interests" } %>
     </ul>
   </li>
 
   <li><strong>profile</strong>: one or two paragraphs of professional biography...
     <ul>
-      <%= render :partial => 'edit_page_links', :locals => { :page_type => "profile" } %>
+      <%= render2 :partial => 'edit_page_links', :locals => { :page_type => "profile" } %>
     </ul>
   </li>
 
   <li><strong>status</strong>: chair of the department? dean of computer security? use a
     complete sentence or two...
     <ul>
-      <%= render :partial => 'edit_page_links', :locals => { :page_type => "status" } %>
+      <%= render2 :partial => 'edit_page_links', :locals => { :page_type => "status" } %>
     </ul>
   </li>
 
-  <li><strong>images</strong>: <%= link_to "tag images", images_path %> with these tags...
+  <li><strong>images</strong>: <%= link_to "tag images", pictures_path %> with these tags...
     <ul>
       <li><code><%= @user.username %>_headshot</code> can be used once, must be 150x200, and will be seen on
         the <%= link_to "Faculty &amp; Staff", people_path %> page

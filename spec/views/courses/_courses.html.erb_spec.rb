@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/courses/_courses.html.erb" do
+describe "courses/_courses.html.erb" do
 
   it "should render a list" do
     courses = [mock_model(Course), mock_model(Course), mock_model(Course)]
@@ -11,7 +11,7 @@ describe "/courses/_courses.html.erb" do
     view.should_receive(:link_to_online_materials).with(courses[2]).and_return("CS 103: foobar")
     expect_no_current_user
 
-    render "/courses/_courses"
+    render
 
     rendered.should have_selector("ul") do |ul|
       ul.should have_selector("li", :content => "CS 101: foo")
@@ -27,7 +27,7 @@ describe "/courses/_courses.html.erb" do
       view.should_receive(:courses).any_number_of_times.and_return(courses)
       expect_no_current_user
 
-      render "/courses/_courses"
+      render
 
       rendered.should_not contain("edit...")
       rendered.should_not contain("delete...")
@@ -39,11 +39,10 @@ describe "/courses/_courses.html.erb" do
       view.should_receive(:courses).any_number_of_times.and_return(courses)
       expect_some_current_user
 
-      render "/courses/_courses"
+      render
 
       rendered.should have_selector("a", :content => "edit...")
       rendered.should have_selector("a", :content => "delete...")
     end
   end
 end
-

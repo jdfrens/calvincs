@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe "/courses/_form.html.erb" do
+describe "courses/_form.html.erb" do
 
   it "should render a form" do
-    assigns[:course] = Factory.build(:course)
+    assign(:course, stub_model(Course))
 
-    render "/courses/_form"
+    render
 
     rendered.should have_selector("form") do |form|
       form.should have_selector("select#course_department")
@@ -16,17 +16,17 @@ describe "/courses/_form.html.erb" do
   end
 
   it "should generate a create button for a new course" do
-    assigns[:course] = Course.new
+    assign(:course, Course.new)
 
-    render "/courses/_form"
+    render
 
     rendered.should have_selector("input", :value => "Create")
   end
 
   it "should generate an update button for an edit" do
-    assigns[:course] = Factory.create(:course)
+    assign(:course, stub_model(Course))
 
-    render "/courses/_form"
+    render
 
     rendered.should have_selector("input", :value => "Update")
   end

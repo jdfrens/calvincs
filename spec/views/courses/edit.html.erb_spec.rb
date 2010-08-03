@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe "/courses/edit" do
+describe "courses/edit" do
 
   it "should render a form" do
-    view.should_receive(:render).with(:partial => "form").and_return("<p>the form</p>")
+    view.should_receive(:render2).with(:partial => "form").and_return("the form")
 
-    render "/courses/edit"
+    render
 
     rendered.should have_selector("h1", :content => "Edit Course")
-    rendered.should have_selector("p", :content => "the form")
+    rendered.should contain("the form")
   end
 end

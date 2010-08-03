@@ -1,26 +1,26 @@
 require 'spec_helper'
 
-describe "/home/administrate.html.erb" do
+describe "home/administrate.html.erb" do
 
   it "should have header" do
-    render "home/administrate"
+    render
 
-    rendered.should have_tag("h1", "Master Administration")
+    rendered.should have_selector("h1", :content => "Master Administration")
   end
 
   it "should have a news menu" do
-    render "home/administrate"
+    render
 
-    rendered.should have_tag('h2', "News and Events")
-    rendered.should have_tag("ul#news_administration") do
-      with_tag("a[href=/newsitems/new]", /create news item/i)
-      with_tag("a[href=/events/new?kind=Colloquium]", /create new colloquium/i)
-      with_tag("a[href=/events/new?kind=Conference]", /create new conference/i)
+    rendered.should have_selector('h2', :content => "News and Events")
+    rendered.should have_selector("ul#news_administration") do |ul|
+      ul.should have_selector("a", :href => "/newsitems/new", :content => "Create news item")
+      ul.should have_selector("a", :href => "/events/new?kind=Colloquium", :content => "Create new colloquium")
+      ul.should have_selector("a", :href => "/events/new?kind=Conference", :content => "Create new conference")
     end
   end
 
   it "should have a page menu" do
-    render "home/administrate"
+    render
 
     assert_select 'h2', "Webpages and Other Documents"
     assert_select "ul#content_administration" do
@@ -30,17 +30,18 @@ describe "/home/administrate.html.erb" do
   end
 
   it "should have a album menu" do
-    render "home/administrate"
+    render
 
     rendered.should have_selector("h2", :content => "Images")
     rendered.should have_selector("#picture_administration") do |ul|
-      ul.should have_selector("a", :href => images_path, :content => "List images")
-      ul.should have_selector("a", :href => new_image_path, :content => "Add image")
+      ul.should have_selector("a", :href => pictures_path, :content => "List images")
+      ul.should have_selector("a", :href => new_picture_path, :content => "Add image")
+      ul.should have_selector("a", :href => refresh_pictures_path, :content => "Refresh dimensions")
     end
   end
 
   it "should have a courses menu" do
-    render "home/administrate"
+    render
 
     assert_select 'h2', "Courses"
     assert_select "ul#course_administration" do

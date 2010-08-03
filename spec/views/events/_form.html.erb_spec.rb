@@ -1,18 +1,20 @@
 require 'spec_helper'
 
-describe "/events/_form.html.erb" do
+describe "events/_form.html.erb" do
 
   it "should view a form for a new colloquium" do
-    event = mock_model(Event, :new_record? => true, :kind => "Colloquium", :descriptor => "colloquium",
+    event = mock_model(Event, :kind => "Colloquium", :descriptor => "colloquium",
                        :title => "the title", :subtitle => "the subtitle",
                        :presenter => 'the presenter', :location => "somewhere",
                        :description => "description!",
-                       :start => Time.now, :length => 1, :scale => "days")
-    assigns[:event] = event
+                       :start => Time.now, :length => 1, :scale => "days").as_new_record
+    assign(:event, event)
 
-    render "events/_form"
+    render
 
-    rendered.should have_selector("form", :action => "/events", :method => "post") do |form|
+    rendered.should have_selector("form", :action => "/events") do |form|
+      form.should have_selector("input", :type => "hidden", :name => "event[kind]", 
+                                         :value => "Colloquium")
       form.should have_selector "input#event_descriptor"
       form.should have_selector "input#event_title"
       form.should have_selector "input#event_subtitle"
@@ -26,16 +28,18 @@ describe "/events/_form.html.erb" do
   end
 
   it "should view a form for a new conference" do
-    event = mock_model(Event, :new_record? => true, :kind => "Conference", :descriptor => "conference",
+    event = mock_model(Event, :kind => "Conference", :descriptor => "conference",
                        :title => "the title", :subtitle => "the subtitle",
                        :presenter => 'the presenter', :location => "somewhere",
                        :description => "description!",
-                       :start => Time.now, :length => 1, :scale => "foobar scale")
-    assigns[:event] = event
+                       :start => Time.now, :length => 1, :scale => "foobar scale").as_new_record
+    assign(:event, event)
 
-    render "events/_form"
+    render
 
-    rendered.should have_selector("form", :action => "/events", :method => "post") do |form|
+    rendered.should have_selector("form", :action => "/events") do |form|
+      form.should have_selector("input", :type => "hidden", :name => "event[kind]", 
+                                         :value => "Conference")
       form.should have_selector "input#event_descriptor"
       form.should have_selector "input#event_title"
       form.should have_selector "input#event_subtitle"
@@ -54,9 +58,9 @@ describe "/events/_form.html.erb" do
                        :presenter => "presenter", :location => "somewhere",
                        :description => "description!",
                        :start => Time.now, :length => 1, :scale => "foobar scale")
-    assigns[:event] = event
+    assign(:event, event)
 
-    render "events/_form"
+    render
 
     rendered.should have_selector("form", :action => "/events/#{event.id}") do |form|
       form.inner_html.should have_selector("input", :name => "_method", :value => "put")

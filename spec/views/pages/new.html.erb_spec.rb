@@ -1,12 +1,14 @@
 require 'spec_helper'
 
-describe "/pages/new.html.erb" do
+describe "pages/new.html.erb" do
 
   it "should display a form" do
-    page = mock_model(Page, :new_record? => true, :valid? => false, :identifier => "some_identifier", :title => "some title", :content => "some content")
-    assigns[:page] = page
+    page = mock_model(Page, :new_record? => true, :valid? => false, 
+                            :identifier => "some_identifier", :title => "some title", 
+                            :content => "some content")
+    assign(:page, page)
 
-    render "/pages/new"
+    render
 
     rendered.should have_selector("h1", :content => "Create Page")
     rendered.should have_selector("input", :id => "page_identifier")

@@ -1,16 +1,16 @@
 <h1>
-  <% if @page.subpage? -%>
+  <% if @page.subpage? %>
       {{ A SUBPAGE HAS NO TITLE }}
-  <% else -%>
+  <% else %>
       <%= h(@page.title) %>
-  <% end -%>
+  <% end %>
 </h1>
 
 <div id="page_content">
-  <%= render :partial => "image" %>
+  <%= render2 :partial => "image" %>
   <%= johnny_textilize @page.content %>
 </div>
 
-<% if current_user -%>
+<% if current_user %>
     <p class="view-edit"><%= link_to 'edit this page', edit_page_path(@page) %></p>
-<% end -%>
+<% end %>

@@ -1,11 +1,11 @@
-<% if @page.subpage? -%>
+<% if @page.subpage? %>
     <p>This is a subpage, and subpages do not have titles.</p>
-<% else -%>
+<% else %>
     <h1>
       <%= in_place_editor("title") %>
       <span class="instruction">click to edit</span>
     </h1>
-<% end -%>
+<% end %>
 
 
 <p class="identifier">
@@ -21,11 +21,11 @@
 </div>
 
 <div class="content-editor" id="content-editor">
-  <%= render :partial => 'shared/markupreference' %>
+  <%= render2 :partial => 'shared/markupreference' %>
   <h2>Content Editor</h2>
 
   <p>
-    <% form_for @page do |form| -%>
+    <% form_for @page do |form| %>
         <%= form.text_area :content, :rows => 20, :cols => 65 %>
         <%= submit_tag "Update content", :class => "submit" %>
     <% end %>

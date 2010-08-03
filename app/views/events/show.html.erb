@@ -1,23 +1,23 @@
 <div id="title">
   <h1>
     <%= format_titles @event %>
-    <% if current_user -%>
+    <% if current_user %>
         <span class="more"><%= link_to "edit...", edit_event_path(@event) %></span>
-    <% end -%>
+    <% end %>
   </h1>
 </div>
 
-<% unless @event.presenter.blank? && @event.location.blank? -%>
+<% unless @event.presenter.blank? && @event.location.blank? %>
     <p>
-      <% unless @event.presenter.blank? -%>
+      <% unless @event.presenter.blank? %>
           <span class="presenter"><%= johnny_textilize_lite(@event.presenter) %></span><br/>
-      <% end -%>
+      <% end %>
       <span class="time"><%= @event.start.to_s(@event.kind.downcase.to_sym) %></span><br />
-      <% unless @event.location.blank? -%>
-          <span class="location"><%= h @event.location %></span><br/>
-      <% end -%>
+      <% unless @event.location.blank? %>
+          <span class="location"><%= @event.location %></span><br/>
+      <% end %>
     </p>
-<% end -%>
+<% end %>
 
 <div id="event-description">
   <%= johnny_textilize @event.description %>

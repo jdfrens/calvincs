@@ -1,7 +1,7 @@
 <%= johnny_textilize page.content %>
 
-<% if current_user -%>
+<% if current_user %>
   <p class="view-edit">
     <%= link_to "edit #{page.identifier}", edit_page_path(page) %>
   </p>
-<% end -%>
+<% end %>

@@ -1,8 +1,8 @@
 <h1>
   <%= h(@course.full_title) %>
-  <% if current_user -%>
+  <% if current_user %>
       <%= link_to "edit", edit_course_path(@course), :class => 'more' %>
-  <% end -%>
+  <% end %>
 </h1>
 
 <p><%= link_to 'Back to list of courses', courses_path, :class => "more" %></p>
