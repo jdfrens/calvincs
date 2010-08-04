@@ -74,8 +74,7 @@ describe Page do
               :content => 'something'
       )
       page.should_not be_valid
-      assert_equal 'should be like a Java identifier',
-                   page.errors[:identifier]
+      page.errors[:identifier].should include('should be like a Java identifier')
     end
 
     it "should not allow punctuation in identifiers" do

@@ -17,22 +17,23 @@ describe Course do
   context "presence of validations" do
     before(:each) do
       @course = Course.new
+      @course.valid?
     end
 
     it "should be invalid" do
       @course.should be_invalid
     end
 
-    it "should validate department" do
-      @course.should validate_presence_of(:department)
+    it "should require department" do
+      @course.errors[:department].should include("can't be blank")
     end
 
-    it "should validate number" do
-      @course.should validate_presence_of(:number)
+    it "should require number" do
+      @course.errors[:number].should include("can't be blank")
     end
-
-    it "should validate title" do
-      @course.should validate_presence_of(:title)
+    
+    it "should require title" do
+      @course.errors[:title].should include("can't be blank")
     end
   end
 
@@ -42,7 +43,8 @@ describe Course do
     end
 
     it "should have a url" do
-      Factory.create(:course, :url => "http://www.example.com/").url.should == "http://www.example.com/"
+      Factory.create(:course, :url => "http://www.example.com/").url.
+        should == "http://www.example.com/"
     end
   end
 
@@ -69,7 +71,7 @@ describe Course do
     it "should reject too many characters" do
       @course.department = 'ABCD'
       @course.should_not be_valid
-      @course.errors[:department].should == 'should be one to three capital letters'
+      @course.errors[:department].should include('should be one to three capital letters')
     end
 
     it "should reject whitespace" do

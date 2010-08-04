@@ -137,23 +137,17 @@ describe Event do
 
   describe "the timing of an event" do
     it "should use just the start datetime of a colloquium" do
-      start = mock("start time")
-      event = Colloquium.new(:title => "foobar", :start => start)
+      event = Colloquium.new(:title => "foobar", :start =>  Time.local(2010, "may", 18, 15, 30))
 
-      start.should_receive(:to_s).with(:colloquium).and_return("the full time")
-
-      event.timing.should == "the full time"
+      event.timing.should == "May 18, 2010 at  8:30 PM"
     end
 
     it "should use the start date and ending date" do
-      start = mock("start time")
-      stop = mock("stop time")
-      event = Conference.new(:title => "foobar", :start => start, :stop => stop)
+      event = Conference.new(:title => "foobar", 
+                             :start => Date.parse("May 18, 2010"), 
+                             :stop => Date.parse("May 20, 2010"))
 
-      start.should_receive(:to_s).with(:conference).and_return("START")
-      stop.should_receive(:to_s).with(:conference).and_return("STOP")
-
-      event.timing.should == "START thru STOP"
+      event.timing.should == "May 18, 2010 thru May 20, 2010"
     end
   end
 

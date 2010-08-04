@@ -9,7 +9,7 @@ gem 'rcov'
 gem "chronic"
 
 group :test do
-  gem "factory_girl"
+  gem "factory_girl_rails"
   gem "test-unit", '~> 1.2'
   gem "rspec", ">= 2.0.0.beta.19"
   gem "rspec-rails", ">= 2.0.0.beta.19"
