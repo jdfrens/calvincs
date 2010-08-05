@@ -1,7 +1,7 @@
 <tr>
   
   <td>
-    <% output_if user.image do |image| %>
+    <%= output_if user.image do |image| %>
       <%= link_to(image_tag(image.url, :border => 0), person_path(user)) %>
     <% end %>
   </td>
@@ -9,29 +9,29 @@
   <td>
     <div class="name">
       <h2><%= link_to h(user.full_name), person_path(user) %></h2>
-      <% output_if user.job_title do |title| %>
+      <%= output_if user.job_title do |title| %>
         <p <%= id_for(user, "job_title") %>><%= johnny_textilize_lite(title) %></p>
       <% end %>
     </div>
     
     <div class="contact-information">
-      <% output_if user.office_phone do |phone| %>
+      <%= output_if user.office_phone do |phone| %>
         <p <%= id_for(user, "phone") %>><%= phone %></p>
       <% end %>
-      <% output_if user.office_location do |location| %>
+      <%= output_if user.office_location do |location| %>
         <p <%= id_for(user, "location") %>><%= location %></p>
       <% end %>
       <p <%= id_for(user, "email") %>><%= mail_to user.email_address, user.email_address %></p>
     </div>
     
-    <% output_if user.subpage(:interests) do |page| %>
+    <%= output_if user.subpage(:interests) do |page| %>
       <p id="<%= user.username %>_interests">
         <strong>Interests:</strong>
         <%= johnny_textilize_lite page.content %>
       </p>
     <% end %>
     
-    <% output_if user.subpage(:status) do |page| %>
+    <%= output_if user.subpage(:status) do |page| %>
       <p id="<%= user.username %>_status">
         <%= johnny_textilize_lite page.content %>
       </p>

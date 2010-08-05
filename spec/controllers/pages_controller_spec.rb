@@ -109,7 +109,7 @@ describe PagesController, "without views" do
 
   context "update action" do
     it "should redirect when not logged in" do
-      put :update, { :attribute => "the atttribute" }
+      put :update, { :id => "identifier" }
 
       response.should redirect_to("/users/login")
     end

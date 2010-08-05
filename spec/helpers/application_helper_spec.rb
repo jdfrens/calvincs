@@ -62,7 +62,8 @@ describe ApplicationHelper do
     it "should replace multiple short identifiers" do
       course = Factory.create(:course, :department => "CS", :number => "123")
 
-      helper.should_receive(:textilized_link).with(course).at_least(:once).and_return("<CS 123 link>")
+      helper.should_receive(:textilized_link).with(course).
+        at_least(:once).and_return("<CS 123 link>")
 
       helper.course_links("The cs123 course is awesome.  Take cs123.").should ==
               "The <CS 123 link> course is awesome.  Take <CS 123 link>."
@@ -72,10 +73,46 @@ describe ApplicationHelper do
       course123 = Factory.create(:course, :department => "CS", :number => "123")
       course456 = Factory.create(:course, :department => "IS", :number => "456")
 
-      helper.should_receive(:textilized_link).with(course123).at_least(:once).and_return("<CS 123 link>")
-      helper.should_receive(:textilized_link).with(course456).at_least(:once).and_return("<IS 456 link>")
+      helper.should_receive(:textilized_link).with(course123).
+        at_least(:once).and_return("<CS 123 link>")
+      helper.should_receive(:textilized_link).with(course456).
+        at_least(:once).and_return("<IS 456 link>")
 
       helper.course_links("Take both cs123 and is456.").should == "Take both <CS 123 link> and <IS 456 link>."
+    end
+  end
+  
+  context "event paths" do
+    it "should redirect colloquium path to event" do
+      event = mock_model(Colloquium)
+      
+      helper.colloquium_path(event).should == event_path(event)
+    end
+
+    it "should redirect conference path to event" do
+      event = mock_model(Conference)
+      
+      helper.conference_path(event).should == event_path(event)
+    end
+
+    it "should redirect colloquium url to event" do
+      event = mock_model(Colloquium)
+      
+      helper.colloquium_url(event).should == event_url(event)
+    end
+
+    it "should redirect conference url to event" do
+      event = mock_model(Conference)
+      
+      helper.conference_url(event).should == event_url(event)
+    end
+
+    it "should redirect colloquia path to events" do
+      helper.colloquia_path.should == events_path
+    end
+
+    it "should redirect conferences path to events" do
+      helper.conferences_path.should == events_path
     end
   end
 end

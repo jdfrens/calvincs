@@ -50,7 +50,9 @@ class Event < ActiveRecord::Base
   end
 
   def self.find_by_today(today=Time.now)
-    find_within(Time.local(today.year, today.month, today.day, 0, 0), Time.local(today.year, today.month, today.day, 23, 59))
+    find_within(
+      Time.local(today.year, today.month, today.day, 0, 0), 
+      Time.local(today.year, today.month, today.day, 23, 59))
   end
 
   def self.within_week

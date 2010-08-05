@@ -1,5 +1,5 @@
 Then /^I should see some error$/ do
-  response.should have_selector(".error")
+  page.should have_xpath("//*[@class='flash error']")
 end
 
 Then /^I should see "([^\"]*)" and not "([^\"]*)"$/ do |seen_text, unseen_text|

@@ -158,7 +158,7 @@ describe EventsController do
 
   context "editing an event" do
     it "should redirect to login when NOT logged in" do
-      get :edit
+      get :edit, { :id => 123 }
 
       response.should redirect_to("/users/login")
     end
@@ -166,9 +166,9 @@ describe EventsController do
     it "should find the event and generate the form" do
       event = mock_model(Event)
 
-      Event.should_receive(:find).with(123).and_return(event)
+      Event.should_receive(:find).with(event.id).and_return(event)
 
-      get :edit, { :id => 123 }, user_session(:edit)
+      get :edit, { :id => event.id }, user_session(:edit)
 
       response.should be_success
       assigns[:event].should == event
@@ -177,7 +177,7 @@ describe EventsController do
 
   context "updating an event" do
     it "should redirect to login when NOT logged in" do
-      put :update
+      put :update, { :id => 666 }
 
       response.should redirect_to("/users/login")
     end

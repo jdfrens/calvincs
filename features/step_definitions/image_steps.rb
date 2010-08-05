@@ -7,7 +7,7 @@ Given /^the following images$/ do |table|
 end
 
 Then /^I should see an image "([^\"]*)"$/ do |src|
-  response.should have_selector("img", :src => src)
+  page.should have_xpath("//img", :src => src)
 end
 
 When /^I expect "([^\"]*)" to have dimension "([^\"]*)x([^\"]*)"$/ do |url, width, height|

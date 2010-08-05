@@ -29,7 +29,7 @@ Feature: managing personnel
     And I follow "edit..."
     And I fill in "First name" with "Martin"
     And I fill in "Last name" with "Luther"
-    And I press "Save changes"
+    And I press "Update User"
     Then I should see "Martin Luther"
     And I should not see "Johnny Calvin"
 
@@ -42,7 +42,7 @@ Feature: managing personnel
     And I follow "Johnny Calvin"
     And I follow "edit..."
     And I fill in "Office phone" with "this is not a valid phone number"
-    And I press "Save changes"
+    And I press "Update User"
     Then I should see "Problem updating person."
     And I should see "Edit User Information"
 
@@ -57,7 +57,7 @@ Feature: managing personnel
     And I follow "edit..."
     Then I should see "faculty"
     When I select "adjuncts" from "user_role_id"
-    And I press "Save changes"
+    And I press "Update User"
     And I follow "Faculty & Staff"
     Then I should see "Johnny Calvin" within "table#adjuncts_listing"
 
@@ -73,8 +73,8 @@ Feature: managing personnel
     And I follow "Johnny Calvin"
     And I follow "edit..."
     And I follow "change password..."
-    And I fill in "password" with "grant"
-    And I fill in "password confirmation" with "grant"
+    And I fill in "Password" with "grant"
+    And I fill in "Password confirmation" with "grant"
     And I press "Update"
     Then user "jcalvin" should have password "grant"
 
@@ -92,7 +92,7 @@ Feature: managing personnel
     When I follow "edit..."
     And I fill in "Institution" with "M.I.T."
     And I fill in "Year" with "1492"
-    And I press "Save changes"
+    And I press "Update User"
     Then I should not see "B.A., University of Geneva, 1612"
     And I should see "B.A., M.I.T., 1492"
 
@@ -106,7 +106,7 @@ Feature: managing personnel
       | jcalvin  | B.A.        | University of Geneva | 1612 |
     When I go to edit person "jcalvin"
     And I check "Delete degree"
-    And I press "Save changes"
+    And I press "Update User"
     Then I should not see "B.A., University of Geneva, 1612"
     And I should not see "Education"
 
@@ -121,6 +121,6 @@ Feature: managing personnel
       | Password   | secret  |
       | Password confirmation | secret |
     And I select "staff" from "user_role_id"
-    And I press "Save changes"
+    When I press "Create User"
     Then I should be on the list of personnel
     And I should see "Abraham Kuyper" within "#staff_listing"

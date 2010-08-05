@@ -54,7 +54,7 @@ describe ImagesController do
 
   context "edit action" do
     it "should redirect when not logged in" do
-      get :edit
+      get :edit, { :id => 1234 }
 
       response.should redirect_to(login_path)
     end
@@ -73,7 +73,7 @@ describe ImagesController do
 
   context "update action" do
     it "should redirect when not logged in" do
-      post :update
+      put :update, { :id => 42 }
 
       response.should redirect_to(login_path)
     end
@@ -88,7 +88,7 @@ describe ImagesController do
         image.should_receive(:tags_string=).with("one two three")
         image.should_receive(:save!).and_return(true)
 
-        post :update, { :id => image.id, :image => image_params }, user_session(:edit)
+        put :update, { :id => image.id, :image => image_params }, user_session(:edit)
 
         response.should redirect_to(images_path)
       end
@@ -97,7 +97,7 @@ describe ImagesController do
 
   context "destroy action" do
     it "should redirect when not logged in" do
-      get :destroy
+      delete :destroy, { :id => 666 }
 
       response.should redirect_to(login_path)
     end
@@ -107,10 +107,10 @@ describe ImagesController do
       it "should destroy image" do
         image = mock_model(Image)
 
-        Image.should_receive(:find).with(123).and_return(image)
+        Image.should_receive(:find).with(image.id).and_return(image)
         image.should_receive(:destroy)
 
-        post :destroy, { :id => 123 }, user_session(:edit)
+        delete :destroy, { :id => image.id }, user_session(:edit)
 
         response.should redirect_to(images_path)
       end

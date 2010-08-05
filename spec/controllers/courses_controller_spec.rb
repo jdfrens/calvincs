@@ -102,7 +102,7 @@ describe CoursesController do
 
   context "updating a course" do
     it "should redirect when not logged in" do
-      put :update
+      put :update, { :id => 666 }
 
       response.should redirect_to(login_path)
     end

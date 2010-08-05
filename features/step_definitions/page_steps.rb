@@ -18,7 +18,7 @@ end
 
 Then /^I should create (\w+) page$/ do |identifier|
   URI.parse(current_url).path.should == "/pages/new/#{identifier}"
-  response.should have_selector("input#page_identifier", :value => identifier)
+  page.should have_xpath("//input[@id='page_identifier' and @value='#{identifier}']")
 end
 
 Then /^I should edit (\w+) page$/ do |identifier|
@@ -27,7 +27,7 @@ end
 
 Then /^I should edit (\w+) page with id (\d+)$/ do |identifier, id|
   URI.parse(current_url).path.should == "/pages/#{id}/edit"
-  response.should have_selector("#page_identifier_#{id}_in_place_editor", :content => identifier)
+  page.should have_xpath("//*[@id='page_identifier_#{id}_in_place_editor']", :text => identifier)
 end
 
 Then /^I should be editing a page$/ do

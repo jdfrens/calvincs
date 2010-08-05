@@ -79,3 +79,10 @@ describe ImagesController do
       should route_to(:controller => "images", :action => "refresh")
   end
 end
+
+describe EventsController do
+  it "should recognize event path" do
+    event = mock_model(Event)
+    event_path(event).should == "/events/#{event.id}"
+  end
+end

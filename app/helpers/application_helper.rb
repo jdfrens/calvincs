@@ -63,6 +63,30 @@ module ApplicationHelper
     end
     content_tag(:li, link_to_unless_current(text, url, { :title => options[:title] }), :class => options[:class])
   end
+  
+  def colloquium_path(event)
+    event_path(event)
+  end
+  
+  def colloquium_url(event)
+    event_url(event)
+  end
+  
+  def colloquia_path
+    events_path
+  end
+  
+  def conference_path(event)
+    event_path(event)
+  end
+
+  def conference_url(event)
+    event_url(event)
+  end
+
+  def conferences_path
+    events_path
+  end
 
   # helper functions from Railscasts
   # http://railscasts.com/episodes/197-nested-model-form-part-2

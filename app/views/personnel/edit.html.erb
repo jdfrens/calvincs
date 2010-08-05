@@ -36,7 +36,7 @@
         <td><%= form.label :office_location %></td>
         <td><%= form.text_field :office_location %></td>
       </tr>
-      <% form.fields_for :degrees do |degree_form| %>
+      <%= form.fields_for :degrees do |degree_form| %>
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>

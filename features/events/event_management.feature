@@ -19,7 +19,7 @@ Feature: managing events
       | Location    | Room of Presentations |
       | Length      | 1.5                   |
       | Description | Ruby code is amazing. |
-    And I select tomorrow at "16:00" as the date and time
+    And I select "tomorrow at 4:00 pm" as the date and time
     And I press "Create"
     Then I should see "Amazing Ruby Code: Check It Out!"
     And I should see "Charles M. Ruby"
@@ -36,7 +36,7 @@ Feature: managing events
       | Location    | Room of Contests                |
       | Length      | 1.5                             |
       | Description | Write code for cash and prizes. |
-    And I select tomorrow at "10:00" as the date and time
+    And I select "tomorrow at 10:00 am" as the date and time
     And I press "Create"
     Given default homepage content
     When I go to the home page
@@ -47,7 +47,7 @@ Feature: managing events
     When I am on the administration page
     And I follow "Create new conference"
     And I fill in "Title" with "Meeting of the Railers"
-    And I select tomorrow as the date
+	 	And I select "tomorrow" as the date
     And I fill in "Length" with "2"
     And I fill in "Description" with "Railing against all other frameworks."
     And I press "Create"

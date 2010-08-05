@@ -67,16 +67,17 @@ describe NewsitemsController, "without views" do
   context "editing a news item" do
     it "should find the news item to be edited" do
       newsitem = mock_model(Newsitem)
-      Newsitem.should_receive(:find).with("456").and_return(newsitem)
+      
+      Newsitem.should_receive(:find).with(newsitem.id).and_return(newsitem)
 
-      get :edit, { :id => "456" }, user_session(:edit)
+      get :edit, { :id => newsitem.id }, user_session(:edit)
 
       response.should render_template("newsitems/edit")
       assigns[:newsitem].should == newsitem
     end
 
     it "should redirect to login when not logged in" do
-      get :edit
+      get :edit, { :id => 456 }
 
       response.should redirect_to("/users/login")
     end
@@ -148,7 +149,7 @@ describe NewsitemsController, "without views" do
 
   context "updating a newsitem" do
     it "should redirect when not logged in" do
-      post :update
+      post :update, { :id => 666 }
 
       response.should redirect_to("/users/login")
     end

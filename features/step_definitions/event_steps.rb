@@ -10,21 +10,18 @@ Given /^the following conferences/ do |table|
   end
 end
 
-When /^I select tomorrow at "([^\"]*)" as the date and time$/ do |time|
-  select_datetime((Date.today + 1).to_s + " " + time)
-end
-
 When /^I select tomorrow as the date$/ do
-  select_date((Date.today + 1).to_s)
+  select_date(Chronic.parse("tomorrow"), :from => "conference_start")
 end
 
-And /^I should see tomorrow as event date$/ do
-  response.should contain(Chronic.parse("tomorrow").to_s(:conference).gsub(/\s+/, " "))
+Then /^I should see tomorrow as event date$/ do
+  page.should have_xpath("//span[@class='time']",
+    :text => Chronic.parse("tomorrow").to_s(:conference))
 end
 
 Then /^I should see tomorrow and two days later$/ do
-  response.should contain(1.day.from_now.to_s(:conference).gsub(/\s+/, " "))
-  response.should contain(3.days.from_now.to_s(:conference).gsub(/\s+/, " "))
+  page.should have_content(Chronic.parse("tomorrow").to_s(:conference).gsub(/\s+/, " "))
+  page.should have_content(Chronic.parse("three days from now").to_s(:conference).gsub(/\s+/, " "))
 end
 
 module EventHelpers

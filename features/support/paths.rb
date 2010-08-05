@@ -11,7 +11,7 @@ module NavigationHelpers
       when /the home(\s*)page/
         '/'
       when /the atom feed/
-        '/feed'
+        '/feed.atom'
       when /the sitemap/
         '/sitemap.xml'
 

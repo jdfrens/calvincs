@@ -92,4 +92,7 @@ class User < ActiveRecord::Base
     [self, subpage(:interests), subpage(:status), subpage(:profile)].compact.map(&:updated_at)
   end
 
+  def hash_password(*args, &blk)
+    self.class.hash_password(*args, &blk)
+  end
 end

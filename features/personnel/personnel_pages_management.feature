@@ -104,7 +104,8 @@ Feature: managing personnel
     And the following users
       | username | first_name | last_name |
       | jcalvin  | Johnny     | Calvin |
-    When I follow "Faculty & Staff"
+		When I am on the home page
+    And I follow "Faculty & Staff"
     And I follow "Johnny Calvin"
     And I follow "edit..."
     And I follow "tag images"
