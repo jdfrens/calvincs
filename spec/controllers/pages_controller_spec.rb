@@ -54,10 +54,10 @@ describe PagesController, "without views" do
       Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
       page.should_receive(:random_image).and_return(image)
       page.should_receive(:updated_at).and_return(updated_at)
-      controller.should_receive(:render).with(:template => "pages/show")
 
       get :show, :id => "the identifier"
 
+      response.should render_template("pages/show")
       assigns[:page].should == page
       assigns[:image].should == image
       assigns[:last_updated].should == updated_at
@@ -125,13 +125,13 @@ describe PagesController, "without views" do
       response.should contain("new value")
     end
 
-    it "should update the page content" do
+    it "should update the page content with JavaScript" do
       page = mock_model(Page)
 
       Page.should_receive(:find_by_identifier).with("the identifier").and_return(page)
       page.should_receive(:update_attributes).with("content" => "new content")
 
-      put :update, { :id => "the identifier", :page => { :content => "new content" } }, user_session(:edit)
+      put :update, { :id => "the identifier", :page => { :content => "new content" }, :format => "js" }, user_session(:edit)
 
       response.should render_template("update")
     end
@@ -201,7 +201,7 @@ describe PagesController do
       it "should redirect and leave model alone" do
         original_count = Page.count
 
-        post :save, :page => {
+        post :create, :page => {
                 :identifier => 'new_page', :title => 'New Page',
                 :content => 'love me!'
         }

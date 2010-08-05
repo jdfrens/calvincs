@@ -1,6 +1,5 @@
 CalvinCS::Application.routes.draw do
   root :to => 'home#index'
-  match '/feed' => 'home#feed', :format => 'atom'
   match '/feed.:format' => 'home#feed'
   match '/sitemap.xml' => 'home#sitemap', :format => 'xml'
   match '/users/login' => 'users#login', :as => :login
@@ -10,7 +9,7 @@ CalvinCS::Application.routes.draw do
   resources :colloquia, :controller => "events"
   resources :conferences, :controller => "events"
   resources :courses
-  resources :images, :as => "pictures" do
+  resources :images, :path => "pictures" do
     collection do
       get :refresh
     end

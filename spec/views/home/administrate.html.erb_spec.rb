@@ -34,9 +34,9 @@ describe "home/administrate.html.erb" do
 
     rendered.should have_selector("h2", :content => "Images")
     rendered.should have_selector("#picture_administration") do |ul|
-      ul.should have_selector("a", :href => pictures_path, :content => "List images")
-      ul.should have_selector("a", :href => new_picture_path, :content => "Add image")
-      ul.should have_selector("a", :href => refresh_pictures_path, :content => "Refresh dimensions")
+      ul.should have_selector("a", :href => images_path, :content => "List images")
+      ul.should have_selector("a", :href => new_image_path, :content => "Add image")
+      ul.should have_selector("a", :href => refresh_images_path, :content => "Refresh dimensions")
     end
   end
 

@@ -43,7 +43,7 @@ module Mhs
           options = privileges.extract_options!
 
           before_filter(options) do |c|
-            if !c.current_user.is_a? login_model
+            if !c.current_user.is_a? self.login_model_name.classify.constantize
               c.session[:pre_login_url] = c.url_for(c.params)
               c.instance_eval(&c.class.not_logged_in)
             elsif c.current_user.has_privilege?(*privileges) or (blk and c.instance_eval(&blk))

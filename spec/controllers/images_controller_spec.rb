@@ -4,16 +4,16 @@ describe ImagesController do
   fixtures :images, :image_tags
   user_fixtures
 
-  context "list action" do
+  context "GET index" do
     it "should redirect when not logged in" do
-      get :list
+      get :index
 
       response.should redirect_to(login_path)
     end
 
     it "should list image forms" do
       images = mock("images")
-      Image.should_receive(:find).with(:all, :include => [:image_tags]).and_return(images)
+      Image.should_receive(:includes).with(:image_tags).and_return(images)
 
       get :index, {}, user_session(:edit)
 
@@ -62,7 +62,7 @@ describe ImagesController do
     it "should find image and render view" do
       image = mock_model(Image)
 
-      Image.should_receive(:find).with(image.id.to_s).and_return(image)
+      Image.should_receive(:find).with(image.id).and_return(image)
 
       get :edit, { :id => image.id }, user_session(:edit)
 
@@ -83,7 +83,7 @@ describe ImagesController do
         image = mock_model(Image)
         image_params = { "stuff" => "generic", "tags_string" => "one two three" }
 
-        Image.should_receive(:find).with(image.id.to_s).and_return(image)
+        Image.should_receive(:find).with(image.id).and_return(image)
         image.should_receive(:update_attributes).with(image_params)
         image.should_receive(:tags_string=).with("one two three")
         image.should_receive(:save!).and_return(true)
@@ -107,7 +107,7 @@ describe ImagesController do
       it "should destroy image" do
         image = mock_model(Image)
 
-        Image.should_receive(:find).with("123").and_return(image)
+        Image.should_receive(:find).with(123).and_return(image)
         image.should_receive(:destroy)
 
         post :destroy, { :id => 123 }, user_session(:edit)

@@ -46,7 +46,8 @@ describe EventsController do
     it "should find event and show it" do
       last_updated = mock("last updated date")
       event = mock_model(Event, :updated_at => last_updated)
-      Event.should_receive(:find).with(event.id.to_s).and_return(event)
+
+      Event.should_receive(:find).with(event.id).and_return(event)
 
       get :show, :id => event.id
 
@@ -165,7 +166,7 @@ describe EventsController do
     it "should find the event and generate the form" do
       event = mock_model(Event)
 
-      Event.should_receive(:find).with("123").and_return(event)
+      Event.should_receive(:find).with(123).and_return(event)
 
       get :edit, { :id => 123 }, user_session(:edit)
 
@@ -183,8 +184,8 @@ describe EventsController do
 
     it "should save the modified event" do
       event = mock_model(Event)
-      Event.should_receive(:find).with(event.id.to_s).and_return(event)
 
+      Event.should_receive(:find).with(event.id).and_return(event)
       event.should_receive(:update_attributes).with({ "foo" => "params" })
       event.should_receive(:save).and_return(true)
 
@@ -195,8 +196,8 @@ describe EventsController do
 
     it "should save the modified colloquium" do
       event = mock_model(Colloquium)
-      Event.should_receive(:find).with(event.id.to_s).and_return(event)
-
+      
+      Event.should_receive(:find).with(event.id).and_return(event)
       event.should_receive(:update_attributes).with({ "foo" => "params" })
       event.should_receive(:save).and_return(true)
 
@@ -207,8 +208,8 @@ describe EventsController do
 
     it "should save the modified conference" do
       event = mock_model(Conference)
-      Event.should_receive(:find).with(event.id.to_s).and_return(event)
-
+      
+      Event.should_receive(:find).with(event.id).and_return(event)
       event.should_receive(:update_attributes).with({ "foo" => "params" })
       event.should_receive(:save).and_return(true)
 
@@ -219,8 +220,8 @@ describe EventsController do
 
     it "should re-edit the modified, invalid event" do
       event = mock_model(Event)
-      Event.should_receive(:find).with(event.id.to_s).and_return(event)
-
+      
+      Event.should_receive(:find).with(event.id).and_return(event)
       event.should_receive(:update_attributes).with({ "foo" => "params" })
       event.should_receive(:save).and_return(false)
 

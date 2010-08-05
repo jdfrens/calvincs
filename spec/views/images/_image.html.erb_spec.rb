@@ -29,7 +29,7 @@ describe "images/_image.html.erb" do
   end
 
   it "should have an edit link" do
-    rendered.should have_selector("a", :href => edit_picture_path(@image), :content => "edit...")
+    rendered.should have_selector("a", :href => edit_image_path(@image), :content => "edit...")
   end
 
   it "should have a destroy link" do

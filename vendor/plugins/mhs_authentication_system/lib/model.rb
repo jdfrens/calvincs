@@ -149,14 +149,14 @@ module Mhs
         def forget_me!
           self.remember_me_token_expires_at = nil
           self.remember_me_token = nil
-          save_without_validation
+          save!
         end
         
         def remember_me!
           require 'digest/sha1'
           self.remember_me_token_expires_at = 2.weeks.from_now
           self.remember_me_token = Digest::SHA1.hexdigest("--#{email_address}--#{remember_me_token_expires_at}--")
-          save_without_validation
+          save!
         end
         
         def password; end

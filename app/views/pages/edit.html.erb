@@ -25,7 +25,7 @@
   <h2>Content Editor</h2>
 
   <p>
-    <% form_for @page do |form| %>
+    <%= form_for @page do |form| %>
         <%= form.text_area :content, :rows => 20, :cols => 65 %>
         <%= submit_tag "Update content", :class => "submit" %>
     <% end %>

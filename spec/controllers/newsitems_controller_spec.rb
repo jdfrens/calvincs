@@ -87,7 +87,7 @@ describe NewsitemsController, "without views" do
       updated_at = mock("updated at")
       item = mock_model(Newsitem, :headline => "The Headline", :updated_at => updated_at)
 
-      Newsitem.should_receive(:find).with(item.id.to_s).and_return(item)
+      Newsitem.should_receive(:find).with(item.id).and_return(item)
 
       get :show, { :id => item.id }
 
@@ -101,7 +101,7 @@ describe NewsitemsController, "without views" do
       updated_at = mock("updated at")
       item = mock_model(Newsitem, :headline => "The Headline", :updated_at => updated_at)
 
-      Newsitem.should_receive(:find).with(item.id.to_s).and_return(item)
+      Newsitem.should_receive(:find).with(item.id).and_return(item)
 
       get :show, { :id => item.id }, user_session(:edit)
 
@@ -156,7 +156,7 @@ describe NewsitemsController, "without views" do
     it "should do an update successfully" do
       newsitem = mock_model(Newsitem)
 
-      Newsitem.should_receive(:find).with(newsitem.id.to_s).and_return(newsitem)
+      Newsitem.should_receive(:find).with(newsitem.id).and_return(newsitem)
       newsitem.should_receive(:update_attributes).with("params" => "values").and_return(true)
 
       post :update,
@@ -170,7 +170,7 @@ describe NewsitemsController, "without views" do
     it "should do fail an update" do
       newsitem = mock_model(Newsitem)
 
-      Newsitem.should_receive(:find).with(newsitem.id.to_s).and_return(newsitem)
+      Newsitem.should_receive(:find).with(newsitem.id).and_return(newsitem)
       newsitem.should_receive(:update_attributes).with("params" => "values").and_return(false)
 
       post :update,
@@ -262,15 +262,9 @@ describe NewsitemsController do
   def assert_date_entry(nth, label, date, field)
     assert_select "tr:nth-child(#{nth})" do
       assert_select "td", label
-      assert_select "td select#newsitem_#{field}_1i" do
-        assert_select "option[value=#{date.year}][selected=selected]"
-      end
-      assert_select "td select#newsitem_#{field}_2i" do
-        assert_select "option[value=#{date.month}][selected=selected]"
-      end
-      assert_select "td select#newsitem_#{field}_3i" do
-        assert_select "option[value=#{date.day}][selected=selected]"
-      end
+      assert_select "td select#newsitem_#{field}_1i"
+      assert_select "td select#newsitem_#{field}_2i"
+      assert_select "td select#newsitem_#{field}_3i"
     end
   end
 

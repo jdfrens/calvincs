@@ -25,7 +25,8 @@ describe Image do
   it "should get dimension info" do
     image_info = mock("image info", :width => 8, :height => 32)
 
-    ImageInfo.should_receive(:new).with("http://example.com/somewhere.gif").and_return(image_info)
+    ImageInfo.should_receive(:new).
+      with("http://example.com/somewhere.gif").and_return(image_info)
 
     image = Image.create(:url => "http://example.com/somewhere.gif")
 

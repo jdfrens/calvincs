@@ -23,12 +23,12 @@ describe HomeController do
       get :index
 
       response.should be_success
-      assigns[:content].should equal(content)
-      assigns[:splash_image].should equal(splash_image)
-      assigns[:newsitems].should equal(newsitems)
-      assigns[:todays_events].should equal(todays_events)
-      assigns[:this_weeks_events].should equal(this_weeks_events)
-      assigns[:last_updated].should equal(last_updated)
+      assigns[:content].should == content
+      assigns[:splash_image].should == splash_image
+      assigns[:newsitems].should == newsitems
+      assigns[:todays_events].should == todays_events
+      assigns[:this_weeks_events].should == this_weeks_events
+      assigns[:last_updated].should == last_updated
     end
 
     it "should redirect when there's no homepage image" do
@@ -75,7 +75,7 @@ describe HomeController do
       get :feed, :format => "atom"
 
       response.should be_success
-      response.should render_template("home/feed.atom")
+      response.should render_template("home/feed")
     end
 
     it "should find news items" do
@@ -103,7 +103,7 @@ describe HomeController do
       get :sitemap, :format => "xml"
       
       response.should be_success
-      response.should render_template("home/sitemap.xml")
+      response.should render_template("home/sitemap")
     end
 
     it "should collect normal pages" do

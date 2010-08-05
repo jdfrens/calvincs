@@ -1,7 +1,7 @@
 <h3>
   <%= link_to image.url, image.url, :class => "popup" %>
-  <%= link_to "edit...", edit_picture_path(image), :class => "more" %>
-  <%= link_to "delete", picture_path(image), :method => :delete, :confirm => "Are you sure?", :class => "more" %>
+  <%= link_to "edit...", edit_image_path(image), :class => "more" %>
+  <%= link_to "delete", image_path(image), :method => :delete, :confirm => "Are you sure?", :class => "more" %>
 </h3>
 
 <p><em>
