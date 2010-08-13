@@ -6,6 +6,10 @@ describe ApplicationHelper do
       helper.johnny_textilize("foo").should == "<p>foo</p>"
     end
 
+    it "should be html safe" do
+      helper.johnny_textilize("foo").should be_html_safe
+    end
+
     it "should do simple formatting" do
       helper.johnny_textilize("foo *bar*").should == "<p>foo <strong>bar</strong></p>"
     end
@@ -22,6 +26,10 @@ describe ApplicationHelper do
   context "lite textilizing text" do
     it "should be an identity function" do
       helper.johnny_textilize_lite("foo").should == "foo"
+    end
+
+    it "should be an identity function" do
+      helper.johnny_textilize_lite("foo").should be_html_safe
     end
 
     it "should do simple formatting" do

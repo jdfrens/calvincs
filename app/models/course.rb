@@ -19,9 +19,11 @@ class Course < ActiveRecord::Base
   validates_numericality_of :number, :only_integer => true
   validates_uniqueness_of :number, :scope => 'department'
 
-  scope :cs_courses, :conditions => ["department = ?", "CS"], :order => "department, number"
-  scope :is_courses, :conditions => ["department = ?", "IS"], :order => "department, number"
-  scope :interim_courses, :conditions => ["department = ?", "W"], :order => "department, number"
+  scope :courses_of, 
+    lambda { |department| where(:department => department).order("department, number") }
+  scope :cs_courses, courses_of("CS")
+  scope :is_courses, courses_of("IS")
+  scope :interim_courses, courses_of("W")
 
   def self.find_by_short_identifier(short_identifier)
     short_identifier =~ /^(\w+?)(\d+)$/

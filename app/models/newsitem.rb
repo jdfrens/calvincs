@@ -27,8 +27,7 @@ class Newsitem < ActiveRecord::Base
   validates_presence_of :expires_at
 
   def self.find_current
-    self.scoped(:conditions => ['goes_live_at <= ? AND expires_at >= ?', Time.now, Time.now],
-            :order => 'goes_live_at DESC')
+    self.where('goes_live_at <= ? AND expires_at >= ?', Time.now, Time.now).order('goes_live_at DESC')
   end
 
   def self.find_by_year(year, max = :today)

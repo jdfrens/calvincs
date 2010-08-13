@@ -16,6 +16,6 @@ class Role < ActiveRecord::Base
   validates_presence_of :name
 
   def self.users_ordered_by_name(name)
-    find_by_name(name).users.sort { |a, b| a.last_name <=> b.last_name }
+    where(:name => name).includes(:users).first.users.order("last_name, first_name")
   end
 end

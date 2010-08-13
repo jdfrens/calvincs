@@ -1,3 +1,7 @@
-<div id="degree_<%= degree.id %>"><li>
-    <%= h(degree.degree_type) %>, <%= link_to_if degree.url, h(degree.institution), degree.url %>, <%= h(degree.year) %>
-</li></div>
+<div id="degree_<%= degree.id %>">
+	<li>
+    <%= degree.degree_type %>,
+		<%= link_to_unless degree.url.blank?, degree.institution, degree.url %>,
+		<%= degree.year %>
+	</li>
+</div>

@@ -21,13 +21,13 @@ module ApplicationHelper
   def johnny_textilize(string)
     textilized = RedCloth.new(course_links(string || ""))
     textilized.hard_breaks = false
-    textilized.to_html
+    textilized.to_html.html_safe
   end
 
   def johnny_textilize_lite(string)
     textilized = RedCloth.new(course_links(string || ""), [:lite_mode])
     textilized.hard_breaks = false
-    textilized.to_html
+    textilized.to_html.html_safe
   end
 
   def link_to_current_newsitem(newsitem, options = {})

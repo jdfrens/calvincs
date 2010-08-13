@@ -24,14 +24,14 @@ class Event < ActiveRecord::Base
   before_validation :use_length_for_stop_time
   before_validation :use_type_for_descriptor
 
-  scope :upcoming, lambda { || { :conditions => ['stop > ?', Time.now], :order => "start" } }
+  scope :upcoming, lambda { where('stop > ?', Time.now).order("start") }
 
   scope :find_within,
               lambda { |range_start, range_stop|
-                { :conditions => ["(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",
-                                  range_start, range_stop,
-                                  range_start, range_stop,
-                                  range_start, range_start] } }
+                where("(? < start AND start < ?) OR (? < stop AND stop < ?) OR (start < ? AND ? < stop)",
+                      range_start, range_stop,
+                      range_start, range_stop,
+                      range_start, range_start) }
 
   def self.by_year(year)
     find_within(Time.local(year, 1, 1, 0, 0), Time.local(year, 12, 31, 23, 59))

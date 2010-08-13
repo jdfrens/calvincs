@@ -18,8 +18,8 @@ class Page < ActiveRecord::Base
   validates_format_of :identifier, :with => /^(\w|_)+$/,
       :message => 'should be like a Java identifier'
 
-  scope :normal_pages, :conditions => "identifier not like '!_%' escape '!'", :order => "identifier"
-  scope :subpages, :conditions => "identifier like '!_%' escape '!'", :order => "identifier"
+  scope :normal_pages, where("identifier not like '!_%' escape '!'").order("identifier")
+  scope :subpages, where("identifier like '!_%' escape '!'").order("identifier")
 
   def to_param
     identifier

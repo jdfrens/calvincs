@@ -79,7 +79,7 @@ GEM
       sexp_processor (~> 3.0)
     gherkin (2.1.5)
       trollop (~> 1.16.2)
-    hirb (0.3.2)
+    hirb (0.3.3)
     hoe (2.6.1)
       rake (>= 0.8.7)
       rubyforge (>= 2.0.4)
