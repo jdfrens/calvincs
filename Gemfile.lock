@@ -117,6 +117,7 @@ GEM
       daemons (>= 1.0.3)
       fastthread (>= 1.0.1)
       gem_plugin (>= 0.2.3)
+    newrelic_rpm (2.12.3)
     nokogiri (1.4.3.1)
     polyglot (0.3.1)
     rack (1.2.1)
@@ -204,6 +205,7 @@ DEPENDENCIES
   launchy
   metric_fu
   mongrel
+  newrelic_rpm
   rails (= 3.0.0.rc)
   rails3-generators
   rcov

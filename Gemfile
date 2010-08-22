@@ -5,8 +5,11 @@ gem "sqlite3-ruby", :require => "sqlite3"
 
 gem "RedCloth", :require => "redcloth"
 gem "imagesize"
-gem 'rcov'
 gem "chronic"
+
+gem 'rcov'
+
+gem 'newrelic_rpm', :require => false
 
 gem "mongrel"
 
