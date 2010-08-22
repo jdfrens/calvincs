@@ -8,6 +8,8 @@ gem "imagesize"
 gem 'rcov'
 gem "chronic"
 
+gem "mongrel"
+
 group :test do
   gem "factory_girl_rails"
   gem "test-unit", '~> 1.2'
