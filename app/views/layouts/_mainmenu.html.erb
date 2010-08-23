@@ -8,6 +8,12 @@
   <%= menu_item "Research", page_path(:id => :research), { :title => "Research activities of our faculty and students" } %>
   <%= menu_item "Alumni Profiles", page_path(:id => :alumni), { :title => "Profiles of our alumni" } %>
   <%= menu_item "News", newsitems_path, { :title => "News about the department" } %>
-  <%= menu_item "Events", events_path, { :title => "Upcoming events" } %>
-  <%= menu_item "Contact Us", page_path(:id => :contact_us), { :title => "Postal addresses and e-mail addresses" } %>
+  <%= menu_item "Events", events_path, 
+								:title => "Upcoming events", :current => events_submenu? do %>
+		<ul>
+			<li><%= link_to "Current", events_path %></li>
+			<li><%= link_to "Archive", events_path(:year => "all") %></li>
+		</ul>
+	<% end %>
+  <%= menu_item "Contact Us", page_path(:id => :contact_us), { :title => "Postal and e-mail addresses" } %>
 </ul>

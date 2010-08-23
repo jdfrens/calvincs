@@ -40,8 +40,8 @@ Feature: checking out the events
       | Foobar 2009 | 28 October 2009 at 3:30pm | 1      | Fooing bars.  |
       | Barfoo 2007 | 15 August 2007 at 4:50pm  | 2      | Barring foos. |
     When I go to the list of events
-    And I follow "archive"
-    Then I should see "Events"
+    And I follow "Archive"
+    Then I should see "Events" within "h1"
     And I should not see "Upcoming Events"
     And I should see "Events of 2009"
     And I should see "Events of 2008"
@@ -53,7 +53,7 @@ Feature: checking out the events
       | Foobar 2009 | 28 October 2009 | 1      | Fooing bars.  |
       | Barfoo 2007 | 15 August 2007  | 2      | Barring foos. |
     When I go to the list of events
-    And I follow "archive"
+    And I follow "Archive"
     And I follow "Events of 2007"
     Then I should see "Events of 2007"
     And I should not see "Events of 2009"

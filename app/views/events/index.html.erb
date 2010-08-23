@@ -1,9 +1,5 @@
 <h1>
   <%= @title %>
-  <span style="float: right;">
-    <%= link_to "current", events_path, :class => "more" %>
-    <%= link_to "archive", events_path(:year => "all"), :class => "more" %>
-  </span>
 </h1>
 
 <% @events.each do |event| %>

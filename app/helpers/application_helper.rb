@@ -56,12 +56,21 @@ module ApplicationHelper
     "img-right-#{image.usability}"
   end
 
-  def menu_item(text, url, options = {})
+  def menu_item(text, url, options = {}, &block)
     options = { :title => text }.merge(options)
-    if current_page?(url)
+    options[:current] = options[:current] || current_page?(url)
+    if options[:current]
       options[:class] = "current"
     end
-    content_tag(:li, link_to_unless_current(text, url, { :title => options[:title] }), :class => options[:class])
+    content = link_to_unless_current(text, url, { :title => options[:title] })
+    if options[:current] && block_given?
+      content = content + with_output_buffer(&block)
+    end
+    content_tag(:li, content.html_safe, :class => options[:class])
+  end
+  
+  def events_submenu?
+    params[:controller] == "events"
   end
   
   def colloquium_path(event)

@@ -90,6 +90,62 @@ describe ApplicationHelper do
     end
   end
   
+  context "menu items" do
+    before(:each) do
+      helper.stub(:current_page?).with("the url").any_number_of_times.and_return(false)
+    end
+    
+    it "should generate a link" do
+      helper.menu_item("text", "the url").should have_selector("li") do |li|
+        li.should have_selector("a", :href => "the url")
+      end
+    end
+    
+    it "should not generate a current link" do
+      helper.should_receive(:current_page?).with("the url").at_least(:once).and_return(false)
+      
+      helper.menu_item("text", "the url").should_not have_selector("li", :class => "current")
+    end
+    
+    it "should generate a current link" do
+      helper.should_receive(:current_page?).with("the url").at_least(:once).and_return(true)
+      
+      helper.menu_item("text", "the url").should have_selector("li", :class => "current")
+    end
+    
+    it "should generate a current link from extra parameter" do
+      helper.menu_item("text", "the url", :current => true).should have_selector("li", :class => "current")
+    end
+    
+    it "should not generate submenu" do
+      helper.should_not_receive(:with_output_buffer)
+
+      helper.menu_item("text", "the url") do
+        "some content"
+      end.should_not contain("some content")
+    end
+    
+    it "should generate submenu" do
+      helper.should_receive(:with_output_buffer).and_return("some content")
+      
+      helper.menu_item("text", "the url", :current => true) do
+        "some content"
+      end.should contain("some content")
+    end
+  end
+  
+  context "when should the events submenu be used?" do
+    it "should not normally display" do
+      helper.events_submenu?.should == false
+    end
+    
+    it "should display when the events controller is active" do
+      helper.should_receive("params").and_return({ :controller => "events"})
+      
+      helper.events_submenu?.should == true
+    end
+  end
+  
   context "event paths" do
     it "should redirect colloquium path to event" do
       event = mock_model(Colloquium)
