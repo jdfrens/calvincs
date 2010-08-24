@@ -62,7 +62,7 @@ module ApplicationHelper
     if options[:current]
       options[:class] = "current"
     end
-    content = link_to_unless_current(text, url, { :title => options[:title] })
+    content = options[:current] ? text : link_to_unless_current(text, url, { :title => options[:title] })
     if options[:current] && block_given?
       content = content + with_output_buffer(&block)
     end
@@ -71,6 +71,10 @@ module ApplicationHelper
   
   def events_submenu?
     params[:controller] == "events"
+  end
+  
+  def newsitems_submenu?
+    params[:controller] == "newsitems"
   end
   
   def colloquium_path(event)

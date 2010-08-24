@@ -9,7 +9,7 @@ Feature: the main navigation (for the department)
 		Then I should see "Home" within "#navbar"
 		And I should see "Events" within "#navbar"
 		
-  Scenario: do not see event submenu
+  Scenario: do not see event or newsitem submenus
   	Given default homepage content
 		When I am on the home page
 		Then I should see "Events" within "#navbar"
@@ -20,5 +20,12 @@ Feature: the main navigation (for the department)
   	Given default homepage content
 		When I am on the home page
 		And I follow "Events" within "#navbar"
+		Then I should see "Current" within "#navbar"
+		And I should see "Archive" within "#navbar"
+
+  Scenario: see newsitem submenu on a newsitem page
+  	Given default homepage content
+		When I am on the home page
+		And I follow "News" within "#navbar"
 		Then I should see "Current" within "#navbar"
 		And I should see "Archive" within "#navbar"

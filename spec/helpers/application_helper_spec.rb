@@ -101,19 +101,25 @@ describe ApplicationHelper do
       end
     end
     
-    it "should not generate a current link" do
+    it "should not generate a link because of option" do
+      helper.menu_item("text", "the url", :current => true).should have_selector("li") do |li|
+        li.should_not have_selector("a")
+      end
+    end
+    
+    it "should not generate a current menu item" do
       helper.should_receive(:current_page?).with("the url").at_least(:once).and_return(false)
       
       helper.menu_item("text", "the url").should_not have_selector("li", :class => "current")
     end
     
-    it "should generate a current link" do
+    it "should generate a current menu item" do
       helper.should_receive(:current_page?).with("the url").at_least(:once).and_return(true)
       
       helper.menu_item("text", "the url").should have_selector("li", :class => "current")
     end
     
-    it "should generate a current link from extra parameter" do
+    it "should generate a current menu item because of extra parameter" do
       helper.menu_item("text", "the url", :current => true).should have_selector("li", :class => "current")
     end
     
