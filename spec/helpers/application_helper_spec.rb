@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ApplicationHelper do
-  context "textilizing text" do
+  describe "textilizing text" do
     it "should be an identity function" do
       helper.johnny_textilize("foo").should == "<p>foo</p>"
     end
@@ -23,7 +23,7 @@ describe ApplicationHelper do
     end
   end
   
-  context "lite textilizing text" do
+  describe "lite textilizing text" do
     it "should be an identity function" do
       helper.johnny_textilize_lite("foo").should == "foo"
     end
@@ -41,7 +41,7 @@ describe ApplicationHelper do
     end
   end
 
-  context "creating a textilized link for a course" do
+  describe "creating a textilized link for a course" do
     it "should generate a link" do
       course = Factory.create(:course, :department => "CS", :number => "123",
                      :title => "The Title", :url => "http://www.example.com/cs123")
@@ -57,7 +57,7 @@ describe ApplicationHelper do
     end
   end
   
-  context "creating embedded links to courses" do
+  describe "creating embedded links to courses" do
     it "should replace a short identifier" do
       course = Factory.create(:course, :department => "CS", :number => "123")
 
@@ -90,7 +90,7 @@ describe ApplicationHelper do
     end
   end
   
-  context "menu items" do
+  describe "menu items" do
     before(:each) do
       helper.stub(:current_page?).with("the url").any_number_of_times.and_return(false)
     end
@@ -114,7 +114,10 @@ describe ApplicationHelper do
     end
     
     it "should generate a current menu item" do
-      helper.should_receive(:current_page?).with("the url").at_least(:once).and_return(true)
+      request = mock("the request", :fullpath => "the url")
+
+      helper.stub(:params).and_return({})
+      helper.stub_chain(:controller, :request).and_return(request)
       
       helper.menu_item("text", "the url").should have_selector("li", :class => "current")
     end
@@ -140,19 +143,17 @@ describe ApplicationHelper do
     end
   end
   
-  context "when should the events submenu be used?" do
+  describe "when should the events submenu be used?" do
     it "should not normally display" do
-      helper.events_submenu?.should == false
+      helper.events_submenu?(:controller => "foobar").should == false
     end
     
     it "should display when the events controller is active" do
-      helper.should_receive("params").and_return({ :controller => "events"})
-      
-      helper.events_submenu?.should == true
+      helper.events_submenu?(:controller => "events").should == true
     end
   end
   
-  context "event paths" do
+  describe "event paths" do
     it "should redirect colloquium path to event" do
       event = mock_model(Colloquium)
       

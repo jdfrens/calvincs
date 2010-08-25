@@ -9,23 +9,35 @@ Feature: the main navigation (for the department)
 		Then I should see "Home" within "#navbar"
 		And I should see "Events" within "#navbar"
 		
-  Scenario: do not see event or newsitem submenus
+  Scenario: do not see "Events" or "News" submenus
   	Given default homepage content
 		When I am on the home page
 		Then I should see "Events" within "#navbar"
 		And I should not see "Current" within "#navbar"
 		And I should not see "Archive" within "#navbar"
+		
+  Scenario: do not see "Academics" submenu
+  	Given default homepage content
+		When I am on the home page
+		Then I should see "Academics" within "#navbar"
+		And I should not see "Course Materials" within "#navbar"
 
-  Scenario: see event submenu on an event page
+  Scenario: see "Events" submenu on an event page
   	Given default homepage content
 		When I am on the home page
 		And I follow "Events" within "#navbar"
 		Then I should see "Current" within "#navbar"
 		And I should see "Archive" within "#navbar"
 
-  Scenario: see newsitem submenu on a newsitem page
+  Scenario: see "News" submenu on a newsitem page
   	Given default homepage content
 		When I am on the home page
 		And I follow "News" within "#navbar"
 		Then I should see "Current" within "#navbar"
 		And I should see "Archive" within "#navbar"
+
+  Scenario: do see "Academics" submenu
+  	Given default homepage content
+		When I am on the home page
+		And I follow "Academics" within "#navbar"
+		Then I should see "Courses" within "#navbar"

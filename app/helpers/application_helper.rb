@@ -1,3 +1,5 @@
+require 'menu_item'
+
 module ApplicationHelper
   def render2(*args)
     render(*args)
@@ -57,23 +59,23 @@ module ApplicationHelper
   end
 
   def menu_item(text, url, options = {}, &block)
-    options = { :title => text }.merge(options)
-    options[:current] = options[:current] || current_page?(url)
+    menu_item = ::MenuItem.new(text, url, options)
+    options[:current] = options[:current] || menu_item.active?(params, controller.request)
     if options[:current]
       options[:class] = "current"
     end
-    content = options[:current] ? text : link_to_unless_current(text, url, { :title => options[:title] })
+    content = options[:current] ? menu_item.text : link_to_unless_current(menu_item.text, url, :title => menu_item.popup)
     if options[:current] && block_given?
       content = content + with_output_buffer(&block)
     end
     content_tag(:li, content.html_safe, :class => options[:class])
   end
   
-  def events_submenu?
+  def events_submenu?(params)
     params[:controller] == "events"
   end
   
-  def newsitems_submenu?
+  def newsitems_submenu?(params)
     params[:controller] == "newsitems"
   end
   
