@@ -31,8 +31,8 @@ describe MenuItem do
   
   describe "active or not" do
     before(:each) do
-      @request = mock("the request", :fullpath => "/does/not/match")
       @params = {}
+      @request = mock("the request", :fullpath => "/does/not/match")
     end
     
     it "should not be active by default" do
@@ -50,6 +50,43 @@ describe MenuItem do
     it "should be active by method" do
       MenuItem.new("foo", "/foobar", :active => lambda { |p| true }).
         active?(@params, @request).should be_true
+    end
+    
+    it "should be active because of active submenu" do
+      submenu_item = mock("submenu item")
+      
+      submenu_item.should_receive(:active?).with(@params, @request).and_return(true)
+      
+      MenuItem.new("foo", "/foobar", :submenu_items => [submenu_item]).
+        active?(@params, @request).should be_true
+    end
+
+    it "should be active because of an active submenu" do
+      submenu_items = [mock("item 0"), mock("item 1"), mock("item 2")]
+      
+      submenu_items[0].stub(:active?).with(@params, @request).and_return(false)
+      submenu_items[1].stub(:active?).with(@params, @request).and_return(true)
+      submenu_items[2].stub(:active?).with(@params, @request).and_return(false)
+      
+      MenuItem.new("foo", "/foobar", :submenu_items => submenu_items).
+        active?(@params, @request).should be_true
+    end
+  end
+  
+  describe "has submenu?" do
+    it "should not have submenu by default" do
+      MenuItem.new("foo", "/foobar").has_submenu?.should be_false
+    end
+
+    it "should have submenu when submenu item is provided" do
+      MenuItem.new("foo", "/foobar", :submenu_items => [mock("submenu item")]).
+        has_submenu?.should be_true
+    end
+
+    it "should have submenu when submenu items are provided" do
+      MenuItem.new("foo", "/foobar", 
+        :submenu_items => [mock("submenu item"), mock("submenu item"), mock("submenu item")]).
+        has_submenu?.should be_true
     end
   end
 end

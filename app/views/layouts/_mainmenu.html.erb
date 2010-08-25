@@ -1,31 +1,25 @@
 <ul>
-  <%= menu_item "Home", root_path, :title => "The home page" %>
-  <%= menu_item "About Us", page_path(:id => :about_us), :title => "About us" %>
-  <%= menu_item "Academics", page_path(:id => :academics), :title => "Course and degree information" do %>
-		<ul>
-			<li><%= link_to_unless_current "Courses", courses_path %></li>
-		</ul>
-  <% end %>
-  <%= menu_item "Students", page_path(:id => :students), :title => "Information for and about our students" %>
-  <%= menu_item "Faculty & Staff", people_path, { :title => "Faculty and staff contact and personal information" }%>
-  <%= menu_item "Facilities", page_path(:id => :facilities), :title => "Facilities, both physical and virtual" %>
-  <%= menu_item "Research", page_path(:id => :research), :title => "Research activities of our faculty and students" %>
-  <%= menu_item "Alumni Profiles", page_path(:id => :alumni), :title => "Profiles of our alumni" %>
+  <%= menu_item "Home", root_path, :popup => "The home page" %>
+  <%= menu_item "About Us", page_path(:id => :about_us), :popup => "About us" %>
+  <%= menu_item "Academics", page_path(:id => :academics),
+ 								:popup => "Course and degree information",
+								:submenu_items => [MenuItem.new "Courses", courses_path] %>
+  <%= menu_item "Students", page_path(:id => :students), :popup => "Information for and about our students" %>
+  <%= menu_item "Faculty & Staff", people_path, { :popup => "Faculty and staff contact and personal information" }%>
+  <%= menu_item "Facilities", page_path(:id => :facilities), :popup => "Facilities, both physical and virtual" %>
+  <%= menu_item "Research", page_path(:id => :research), :popup => "Research activities of our faculty and students" %>
+  <%= menu_item "Alumni Profiles", page_path(:id => :alumni), :popup => "Profiles of our alumni" %>
   <%= menu_item "News", newsitems_path,
-								:title => "News about the department", 
-								:active => lambda { |params| newsitems_submenu?(params) } do %>
-		<ul>
-			<li><%= link_to "Current", newsitems_path %></li>
-			<li><%= link_to "Archive", newsitems_path(:year => "all") %></li>
-		</ul>
-	<% end %>
+								:popup => "News about the department", 
+								:active => lambda { |params| newsitems_submenu?(params) },
+								:submenu_items => [
+									MenuItem.new("Current", newsitems_path),
+									MenuItem.new("Archive", newsitems_path(:year => "all"))] %>
   <%= menu_item "Events", events_path, 
-								:title => "Upcoming events", 
-								:active => lambda { |params| events_submenu?(params) } do %>
-		<ul>
-			<li><%= link_to "Current", events_path %></li>
-			<li><%= link_to "Archive", events_path(:year => "all") %></li>
-		</ul>
-	<% end %>
-  <%= menu_item "Contact Us", page_path(:id => :contact_us), :title => "Postal and e-mail addresses" %>
+								:popup => "Upcoming events", 
+								:active => lambda { |params| events_submenu?(params) },
+								:submenu_items => [
+									MenuItem.new("Current", events_path),
+									MenuItem.new("Archive", events_path(:year => "all"))] %>
+  <%= menu_item "Contact Us", page_path(:id => :contact_us), :popup => "Postal and e-mail addresses" %>
 </ul>

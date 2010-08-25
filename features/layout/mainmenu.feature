@@ -41,3 +41,7 @@ Feature: the main navigation (for the department)
 		When I am on the home page
 		And I follow "Academics" within "#navbar"
 		Then I should see "Courses" within "#navbar"
+
+		When I follow "Courses" within "#navbar"
+		Then I should see "Academics" within "#navbar"
+		And I should see "Courses" within "#navbar"

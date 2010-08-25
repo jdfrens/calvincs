@@ -58,17 +58,25 @@ module ApplicationHelper
     "img-right-#{image.usability}"
   end
 
-  def menu_item(text, url, options = {}, &block)
-    menu_item = ::MenuItem.new(text, url, options)
-    options[:current] = options[:current] || menu_item.active?(params, controller.request)
-    if options[:current]
-      options[:class] = "current"
+  def menu_item(text, url, options = {})
+    menu_item_helper(::MenuItem.new(text, url, options))
+  end
+  
+  def menu_item_helper(menu_item)
+    css_class = nil
+    submenu = ""
+    if menu_item.active?(params, controller.request)
+      css_class = "current"
     end
-    content = options[:current] ? menu_item.text : link_to_unless_current(menu_item.text, url, :title => menu_item.popup)
-    if options[:current] && block_given?
-      content = content + with_output_buffer(&block)
+    content = link_to_unless_current(menu_item.text, menu_item.path, :title => menu_item.popup)
+    if menu_item.active?(params, controller.request) && menu_item.has_submenu?
+      submenu = content_tag(:ul, submenu(menu_item.submenu_items))  
     end
-    content_tag(:li, content.html_safe, :class => options[:class])
+    content_tag(:li, (content + submenu).html_safe, :class => css_class)
+  end
+  
+  def submenu(menu_items)
+    menu_items.map { |item| menu_item_helper(item) }.join(" ").html_safe
   end
   
   def events_submenu?(params)

@@ -101,12 +101,6 @@ describe ApplicationHelper do
       end
     end
     
-    it "should not generate a link because of option" do
-      helper.menu_item("text", "the url", :current => true).should have_selector("li") do |li|
-        li.should_not have_selector("a")
-      end
-    end
-    
     it "should not generate a current menu item" do
       helper.should_receive(:current_page?).with("the url").at_least(:once).and_return(false)
       
@@ -122,10 +116,6 @@ describe ApplicationHelper do
       helper.menu_item("text", "the url").should have_selector("li", :class => "current")
     end
     
-    it "should generate a current menu item because of extra parameter" do
-      helper.menu_item("text", "the url", :current => true).should have_selector("li", :class => "current")
-    end
-    
     it "should not generate submenu" do
       helper.should_not_receive(:with_output_buffer)
 
@@ -134,12 +124,24 @@ describe ApplicationHelper do
       end.should_not contain("some content")
     end
     
-    it "should generate submenu" do
-      helper.should_receive(:with_output_buffer).and_return("some content")
+    it "should try to generate submenu" do
+      submenu_items = mock("submenu items", :empty? => false)
       
-      helper.menu_item("text", "the url", :current => true) do
-        "some content"
-      end.should contain("some content")
+      helper.should_receive(:submenu).with(submenu_items).and_return("some content")
+      
+      helper.menu_item("text", "the url", :active => lambda { |p| true },
+        :submenu_items => submenu_items).
+        should contain("some content")
+    end
+    
+    it "should actually generate a submenu" do
+      menu_items = [mock("item 0"), mock("item 1"), mock("item 2")]
+      
+      helper.should_receive(:menu_item_helper).with(menu_items[0]).and_return("li item 0")
+      helper.should_receive(:menu_item_helper).with(menu_items[1]).and_return("li item 1")
+      helper.should_receive(:menu_item_helper).with(menu_items[2]).and_return("li item 2")
+
+      helper.submenu(menu_items).should == "li item 0 li item 1 li item 2"
     end
   end
   
