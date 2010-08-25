@@ -63,7 +63,11 @@ module ApplicationHelper
   end
   
   def menu_item(text, url, options = {})
-    ::MenuItem.new(text, url, options)
+    ::MenuItem.new(text, url, options.merge(:submenu_item => false))
+  end
+
+  def submenu_item(text, url, options = {})
+    ::MenuItem.new(text, url, options.merge(:submenu_item => true))
   end
     
   def events_submenu?(params)

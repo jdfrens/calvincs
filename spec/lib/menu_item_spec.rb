@@ -91,4 +91,18 @@ describe MenuItem do
         has_submenu?.should be_true
     end
   end
+  
+  describe "is a submenu item" do
+    it "should not be a submenu item by default" do
+      MenuItem.new("foo", "/foobar").submenu_item?.should be_false
+    end
+
+    it "should not be a submenu item explicitly" do
+      MenuItem.new("foo", "/foobar", :submenu_item => false).submenu_item?.should be_false
+    end
+
+    it "should be a submenu item explicitly" do
+      MenuItem.new("foo", "/foobar", :submenu_item => true).submenu_item?.should be_true
+    end
+  end
 end

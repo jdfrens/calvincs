@@ -26,7 +26,7 @@ class MenuRenderer
   end
   
   def css_class(menu_item)
-    if menu_item.active?(@template)
+    if !menu_item.submenu_item? && menu_item.active?(@template)
       "current"
     else
       nil

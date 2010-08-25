@@ -10,6 +10,7 @@ class MenuItem
     @popup = options[:popup] || text
     @active_proc = options[:active] || lambda { |p| false }
     @submenu_items = options[:submenu_items] || []
+    @is_submenu_item = !!options[:submenu_item]
     yield self if block_given?
   end
   
@@ -21,5 +22,9 @@ class MenuItem
   
   def has_submenu?
     not submenu_items.empty?
+  end
+  
+  def submenu_item?
+    @is_submenu_item
   end
 end

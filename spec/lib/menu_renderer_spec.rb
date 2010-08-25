@@ -55,7 +55,7 @@ describe MenuRenderer do
   
     describe "css class" do
       it "should be nil when not active" do
-        menu_item = mock("menu item")
+        menu_item = mock("menu item", :submenu_item? => false)
         
         menu_item.should_receive(:active?).with(@template).and_return(false)
 
@@ -63,11 +63,19 @@ describe MenuRenderer do
       end
       
       it "should be 'current' when active" do
-        menu_item = mock("menu item")
+        menu_item = mock("menu item", :submenu_item? => false)
         
         menu_item.should_receive(:active?).with(@template).and_return(true)
         
         @renderer.css_class(menu_item).should == "current"
+      end
+      
+      it "should be nil when submenu item even when active" do
+        menu_item = mock("menu item", :submenu_item? => true)
+        
+        menu_item.stub(:active?).with(@template).and_return(true)
+        
+        @renderer.css_class(menu_item).should == nil
       end
     end
     

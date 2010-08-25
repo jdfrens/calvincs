@@ -3,7 +3,7 @@
   menu_item("About Us", page_path(:id => :about_us), :popup => "About us"),
   menu_item("Academics", page_path(:id => :academics),
  								:popup => "Course and degree information",
-								:submenu_items => [MenuItem.new "Courses", courses_path]),
+								:submenu_items => [submenu_item( "Courses", courses_path)]),
   menu_item("Students", page_path(:id => :students), :popup => "Information for and about our students"),
   menu_item("Faculty & Staff", people_path, :popup => "Faculty and staff contact and personal information"),
   menu_item("Facilities", page_path(:id => :facilities), :popup => "Facilities, both physical and virtual"),
@@ -13,13 +13,13 @@
 								:popup => "News about the department", 
 								:active => lambda { |params| newsitems_submenu?(params) },
 								:submenu_items => [
-									MenuItem.new("Current", newsitems_path),
-									MenuItem.new("Archive", newsitems_path(:year => "all"))]),
+									submenu_item("Current", newsitems_path),
+									submenu_item("Archive", newsitems_path(:year => "all"))]),
   menu_item("Events", events_path, 
 								:popup => "Upcoming events", 
 								:active => lambda { |params| events_submenu?(params) },
 								:submenu_items => [
-									MenuItem.new("Current", events_path),
-									MenuItem.new("Archive", events_path(:year => "all"))]),
+									submenu_item("Current", events_path),
+									submenu_item("Archive", events_path(:year => "all"))]),
   menu_item("Contact Us", page_path(:id => :contact_us), :popup => "Postal and e-mail addresses")
   ) %>
