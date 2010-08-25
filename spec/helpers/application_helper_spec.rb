@@ -89,72 +89,29 @@ describe ApplicationHelper do
       helper.course_links("Take both cs123 and is456.").should == "Take both <CS 123 link> and <IS 456 link>."
     end
   end
-  
-  describe "menu items" do
-    before(:each) do
-      helper.stub(:current_page?).with("the url").any_number_of_times.and_return(false)
-    end
-    
-    it "should generate a link" do
-      helper.menu_item("text", "the url").should have_selector("li") do |li|
-        li.should have_selector("a", :href => "the url")
-      end
-    end
-    
-    it "should not generate a current menu item" do
-      helper.should_receive(:current_page?).with("the url").at_least(:once).and_return(false)
-      
-      helper.menu_item("text", "the url").should_not have_selector("li", :class => "current")
-    end
-    
-    it "should generate a current menu item" do
-      request = mock("the request", :fullpath => "the url")
 
-      helper.stub(:params).and_return({})
-      helper.stub_chain(:controller, :request).and_return(request)
+  describe "render menu" do
+    it "should generate renderer" do
+      menu_items = [mock("menu item 0"), mock("menu item 1"), mock("menu item 2")]
+      renderer = mock("the menu renderer")
       
-      helper.menu_item("text", "the url").should have_selector("li", :class => "current")
-    end
-    
-    it "should not generate submenu" do
-      helper.should_not_receive(:with_output_buffer)
-
-      helper.menu_item("text", "the url") do
-        "some content"
-      end.should_not contain("some content")
-    end
-    
-    it "should try to generate submenu" do
-      submenu_items = mock("submenu items", :empty? => false)
+      MenuRenderer.should_receive(:new).with(helper, *menu_items).and_return(renderer)
+      renderer.should_receive(:render_menu).and_return("the rendered menu")
       
-      helper.should_receive(:submenu).with(submenu_items).and_return("some content")
-      
-      helper.menu_item("text", "the url", :active => lambda { |p| true },
-        :submenu_items => submenu_items).
-        should contain("some content")
-    end
-    
-    it "should actually generate a submenu" do
-      menu_items = [mock("item 0"), mock("item 1"), mock("item 2")]
-      
-      helper.should_receive(:menu_item_helper).with(menu_items[0]).and_return("li item 0")
-      helper.should_receive(:menu_item_helper).with(menu_items[1]).and_return("li item 1")
-      helper.should_receive(:menu_item_helper).with(menu_items[2]).and_return("li item 2")
-
-      helper.submenu(menu_items).should == "li item 0 li item 1 li item 2"
+      helper.render_menu(*menu_items).should == "the rendered menu"
     end
   end
-  
+      
   describe "when should the events submenu be used?" do
     it "should not normally display" do
       helper.events_submenu?(:controller => "foobar").should == false
     end
-    
+      
     it "should display when the events controller is active" do
       helper.events_submenu?(:controller => "events").should == true
     end
   end
-  
+
   describe "event paths" do
     it "should redirect colloquium path to event" do
       event = mock_model(Colloquium)

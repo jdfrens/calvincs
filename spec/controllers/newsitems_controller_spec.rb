@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe NewsitemsController, "without views" do
+  fixtures :newsitems
   user_fixtures
 
   context "index action" do
@@ -183,14 +184,6 @@ describe NewsitemsController, "without views" do
     end
   end
 
-end
-
-describe NewsitemsController do
-  render_views
-
-  fixtures :newsitems
-  user_fixtures
-
   describe "response to GET new" do
     it "should redirect when not logged in" do
       get :new
@@ -198,30 +191,12 @@ describe NewsitemsController do
       response.should redirect_to(login_path)
     end
 
-
     context "when logged in" do
       it "should create new news item" do
         get :new, {}, user_session(:edit)
 
-        assert_response :success
-        assert_select "h1", "Create News Item"
-        assert_select "form[action=/newsitems]" do
-          assert_select "tr:nth-child(1)" do
-            assert_select "td", /headline/i
-            assert_select "td input[type=text]"
-          end
-          assert_select "tr:nth-child(2)" do
-            assert_select "td", /teaser/i
-            assert_select "td input[type=text]"
-          end
-          assert_select "tr:nth-child(3)" do
-            assert_select "td", /content/i
-            assert_select "td textarea"
-          end
-          assert_date_entry(4, /goes live/i, Time.now, "goes_live_at")
-          assert_date_entry(5, /expires/i, 1.month.from_now, "expires_at")
-          assert_select "input[type=submit]"
-        end
+        response.should be_success
+        response.should render_template("newsitems/new")
       end
     end
   end
@@ -260,32 +235,23 @@ describe NewsitemsController do
     newsitems(:todays_news).goes_live_at.year
   end
 
-  def assert_date_entry(nth, label, date, field)
-    assert_select "tr:nth-child(#{nth})" do
-      assert_select "td", label
-      assert_select "td select#newsitem_#{field}_1i"
-      assert_select "td select#newsitem_#{field}_2i"
-      assert_select "td select#newsitem_#{field}_3i"
-    end
-  end
-
-  def assert_newsitem_entry(n, newsitem, listing)
-    time_class = newsitem.is_current? ? "current-news" : "past-news"
-    assert_select "tr[class=#{time_class}]:nth-child(#{n*2-1})" do
-      assert_select "td a[href=/news/view/#{newsitem.id}]", newsitem.headline
-    end
-    assert_select "tr[class=#{time_class}]:nth-child(#{n*2})" do
-      assert_select "td.goes-live-date", "posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
-    end
-  end
-
-  def assert_full_newsitem(newsitem)
-    assert_select "div#news-item-#{newsitem.id}[class=news-item]" do
-      assert_select "h2", newsitem.headline
-      assert_select "p.goes-live-date", "Posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
-      assert_select "div.content", newsitem.content
-      assert_select "p.more a[href=#top]", "back to top..."
-    end
-  end
+  # def assert_newsitem_entry(n, newsitem, listing)
+  #   time_class = newsitem.is_current? ? "current-news" : "past-news"
+  #   assert_select "tr[class=#{time_class}]:nth-child(#{n*2-1})" do
+  #     assert_select "td a[href=/news/view/#{newsitem.id}]", newsitem.headline
+  #   end
+  #   assert_select "tr[class=#{time_class}]:nth-child(#{n*2})" do
+  #     assert_select "td.goes-live-date", "posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
+  #   end
+  # end
+  # 
+  # def assert_full_newsitem(newsitem)
+  #   assert_select "div#news-item-#{newsitem.id}[class=news-item]" do
+  #     assert_select "h2", newsitem.headline
+  #     assert_select "p.goes-live-date", "Posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
+  #     assert_select "div.content", newsitem.content
+  #     assert_select "p.more a[href=#top]", "back to top..."
+  #   end
+  # end
 
 end

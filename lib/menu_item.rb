@@ -13,10 +13,10 @@ class MenuItem
     yield self if block_given?
   end
   
-  def active?(params, request)
-    @active_proc.call(params) || 
-      (@path == request.fullpath) || 
-      submenu_items.any? { |item | item.active?(params, request) }
+  def active?(template)
+    @active_proc.call(template.params) || 
+      (@path == template.controller.request.fullpath) || 
+      submenu_items.any? { |item | item.active?(template) }
   end
   
   def has_submenu?

@@ -44,7 +44,7 @@ module Rubaidh # :nodoc:
     # Return true if the Google Analytics system is enabled and configured
     # correctly.
     def self.enabled?
-      (environments.include?(RAILS_ENV) and
+      (environments.include?(Rails.env) and
         not tracker_id.blank? and
         not analytics_url.blank?)
     end

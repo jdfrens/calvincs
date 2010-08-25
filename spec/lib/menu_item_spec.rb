@@ -33,43 +33,45 @@ describe MenuItem do
     before(:each) do
       @params = {}
       @request = mock("the request", :fullpath => "/does/not/match")
+      @template = mock("template", :params => @params)
+      @template.stub_chain(:controller, :request).and_return(@request)
     end
     
     it "should not be active by default" do
       @request.should_receive(:fullpath).and_return("/abc123")
       
-      MenuItem.new("foo", "/foobar").active?(@params, @request).should be_false
+      MenuItem.new("foo", "/foobar").active?(@template).should be_false
     end
     
     it "should be active when on the menu-item's page" do
       @request.should_receive(:fullpath).and_return("/foobar")
 
-      MenuItem.new("foo", "/foobar").active?(@params, @request).should be_true
+      MenuItem.new("foo", "/foobar").active?(@template).should be_true
     end
     
     it "should be active by method" do
       MenuItem.new("foo", "/foobar", :active => lambda { |p| true }).
-        active?(@params, @request).should be_true
+        active?(@template).should be_true
     end
     
     it "should be active because of active submenu" do
       submenu_item = mock("submenu item")
       
-      submenu_item.should_receive(:active?).with(@params, @request).and_return(true)
+      submenu_item.should_receive(:active?).with(@template).and_return(true)
       
       MenuItem.new("foo", "/foobar", :submenu_items => [submenu_item]).
-        active?(@params, @request).should be_true
+        active?(@template).should be_true
     end
 
     it "should be active because of an active submenu" do
       submenu_items = [mock("item 0"), mock("item 1"), mock("item 2")]
       
-      submenu_items[0].stub(:active?).with(@params, @request).and_return(false)
-      submenu_items[1].stub(:active?).with(@params, @request).and_return(true)
-      submenu_items[2].stub(:active?).with(@params, @request).and_return(false)
+      submenu_items[0].stub(:active?).with(@template).and_return(false)
+      submenu_items[1].stub(:active?).with(@template).and_return(true)
+      submenu_items[2].stub(:active?).with(@template).and_return(false)
       
       MenuItem.new("foo", "/foobar", :submenu_items => submenu_items).
-        active?(@params, @request).should be_true
+        active?(@template).should be_true
     end
   end
   
