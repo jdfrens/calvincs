@@ -117,15 +117,23 @@ describe MenuRenderer do
     end
     
     describe "content of the menu item" do
-      it "should link conditionally to the menu item's path with a popup" do
-        text = mock("item's text")
-        path = mock("item's path")
-        popup = mock("item's popup")
-        menu_item = mock("menu item", :text => text, :path => path, :popup => popup)
-        @template.should_receive(:link_to_unless_current).with(text, path, :title => popup).
-          and_return("the content!")
+      it "should not link when on menu's path" do
+        menu_item = mock("menu item", :text => "the text", :path => "the path")
+        
+        @template.stub_chain(:controller, :request, :fullpath).and_return("the path")
+
+        @renderer.content(menu_item).should == "the text"
+      end
+
+      it "should link when not on menu's path" do
+        menu_item = mock("menu item", :text => "the text", 
+                          :path => "the path", :popup => "popup")
+        
+        @template.stub_chain(:controller, :request, :fullpath).and_return("not the path")
+        @template.should_receive(:link_to).with("the text", "the path", :title => "popup").
+          and_return("the linked text!")
           
-        @renderer.content(menu_item).should == "the content!"
+        @renderer.content(menu_item).should == "the linked text!"
       end
     end
   end

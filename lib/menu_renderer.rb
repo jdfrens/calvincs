@@ -14,7 +14,11 @@ class MenuRenderer
   end
   
   def content(menu_item)
-    @template.link_to_unless_current(menu_item.text, menu_item.path, :title => menu_item.popup)
+    if @template.controller.request.fullpath == menu_item.path
+      menu_item.text
+    else
+      @template.link_to(menu_item.text, menu_item.path, :title => menu_item.popup)
+    end
   end
 
   def submenu(menu_item)
