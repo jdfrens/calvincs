@@ -18,16 +18,15 @@ Feature: checking out the events
     And I should see "Foobar 2009"
     And I should see "Barfoo 1692"
 
-  @wip
   Scenario: list only upcoming events
     Given the following colloquia
       | title    | start               |
       | Get Real | yesterday at 3:30pm |
       | Get Fake | tomorrow at 2:30pm  |
     And the following conferences
-      | title       | start     | stop      |
-      | Foobar 2009 | yesterday | yesterday |
-      | Barfoo 1692 | tomorrow  | tomorrow  |
+      | title       | start     | stop      | description |
+      | Foobar 2009 | yesterday | yesterday | fooey       |
+      | Barfoo 1692 | tomorrow  | tomorrow  | barry       |
     When I go to the list of events
     Then I should not see "Get Real"
     And I should see "Get Fake"

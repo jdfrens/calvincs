@@ -6,42 +6,60 @@ Feature: the main navigation (for the department)
   Scenario: see the main menu
   	Given default homepage content
 		When I am on the home page
-		Then I should see "Home" within "#navbar"
-		And I should see "Events" within "#navbar"
-		
+		Then I should see plain menu item "Home"
+		And I should see linked menu item "About Us"
+		And I should see linked menu item "Academics"
+		And I should see linked menu item "Students"
+		And I should see linked menu item "Faculty & Staff"
+		And I should see linked menu item "Facilities"
+		And I should see linked menu item "Research"
+		And I should see linked menu item "Alumni Profiles"
+		And I should see linked menu item "News"
+		And I should see linked menu item "Events"
+		And I should see linked menu item "Contact Us"
+				
   Scenario: do not see "Events" or "News" submenus
   	Given default homepage content
 		When I am on the home page
-		Then I should see "Events" within "#navbar"
-		And I should not see "Current" within "#navbar"
-		And I should not see "Archive" within "#navbar"
+		Then I should see linked menu item "Events"
+		And I should not see menu item "Current"
+		And I should not see menu item "Archive"
 		
   Scenario: do not see "Academics" submenu
   	Given default homepage content
 		When I am on the home page
-		Then I should see "Academics" within "#navbar"
-		And I should not see "Course Materials" within "#navbar"
+		Then I should see linked menu item "Academics"
+		And I should not see menu item "Courses"
 
   Scenario: see "Events" submenu on an event page
   	Given default homepage content
+    And the following colloquia
+      | title    | start               |
+      | Get Fake | tomorrow at 2:30pm  |		
 		When I am on the home page
-		And I follow "Events" within "#navbar"
-		Then I should see "Current" within "#navbar"
-		And I should see "Archive" within "#navbar"
+		And I follow menu item "Events"
+		Then I should see plain menu item "Current"
+		And I should see linked menu item "Archive"		
+		When I follow menu item "Archive"
+		Then I should see linked menu item "Current"
+		And I should see plain menu item "Archive"
 
   Scenario: see "News" submenu on a newsitem page
   	Given default homepage content
 		When I am on the home page
-		And I follow "News" within "#navbar"
-		Then I should see "Current" within "#navbar"
-		And I should see "Archive" within "#navbar"
+		And I follow menu item "News"
+		Then I should see plain menu item "Current"
+		And I should see linked menu item "Archive"
+		When I follow menu item "Archive"
+		Then I should see linked menu item "Current"
+		And I should see plain menu item "Archive"
 
-  Scenario: do see "Academics" submenu
+  Scenario: see "Academics" submenu
   	Given default homepage content
 		When I am on the home page
-		And I follow "Academics" within "#navbar"
-		Then I should see "Courses" within "#navbar"
+		And I follow menu item "Academics"
+		Then I should see linked menu item "Courses"
 
-		When I follow "Courses" within "#navbar"
-		Then I should see "Academics" within "#navbar"
-		And I should see "Courses" within "#navbar"
+		When I follow menu item "Courses"
+		Then I should see linked menu item "Academics"
+		And I should see plain menu item "Courses"
