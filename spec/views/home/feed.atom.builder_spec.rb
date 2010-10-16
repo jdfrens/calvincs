@@ -44,11 +44,11 @@ describe "home/feed.atom.builder" do
 
   it "should render multiple news items" do
     @newsitems = [mock_model(Newsitem, :headline => "Headline 1", :content => "content",
-                             :goes_live_at => Time.now),
+                             :goes_live_at => Time.now, :updated_at => Time.now),
                   mock_model(Newsitem, :headline => "Headline 2", :content => "content",
-                             :goes_live_at => Time.now),
+                             :goes_live_at => Time.now, :updated_at => Time.now),
                   mock_model(Newsitem, :headline => "Headline 3", :content => "content",
-                             :goes_live_at => Time.now)]
+                             :goes_live_at => Time.now, :updated_at => Time.now)]
     assign(:newsitems, @newsitems)
 
     render
@@ -83,7 +83,7 @@ describe "home/feed.atom.builder" do
   end
 
   it "should render an event for today with a special id" do
-    @todays_events = [mock_model(Event, :full_title => "Full Event Title", :description => "Go to this event!")]
+    @todays_events = [mock_model(Event, :full_title => "Full Event Title", :description => "Go to this event!", :updated_at => Time.now)]
     assign(:todays_events, @todays_events)
 
     render
@@ -92,9 +92,9 @@ describe "home/feed.atom.builder" do
   end
 
   it "should render multiple events for today" do
-    @todays_events = [mock_model(Event, :full_title => "Today #1", :description => "#1"),
-                      mock_model(Event, :full_title => "Today #2", :description => "#2"),
-                      mock_model(Event, :full_title => "Today #3", :description => "#3")]
+    @todays_events = [mock_model(Event, :full_title => "Today #1", :description => "#1", :updated_at => Time.now),
+                      mock_model(Event, :full_title => "Today #2", :description => "#2", :updated_at => Time.now),
+                      mock_model(Event, :full_title => "Today #3", :description => "#3", :updated_at => Time.now)]
     assign(:todays_events, @todays_events)
 
     render
@@ -107,7 +107,9 @@ describe "home/feed.atom.builder" do
   end
 
   it "should render an event for this week with a special id" do
-    @weeks_events = [mock_model(Event, :full_title => "Next Week Is Now", :description => "Time travel!")]
+    @weeks_events = [
+      mock_model(Event, :full_title => "Next Week Is Now", :description => "Time travel!", :updated_at => Time.now)
+      ]
     assign(:weeks_events, @weeks_events)
 
     render
