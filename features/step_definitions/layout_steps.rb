@@ -4,10 +4,11 @@ end
 
 Then /^I should see plain menu item "([^"]*)"$/ do |item|
   Then "I should see \"#{item}\" within \"#navbar\""
+  Then "I should not see \"#{item}\" within \"a\""
 end
 
 Then /^I should see linked menu item "([^"]*)"$/ do |item|
-  Then "I should see \"#{item}\" within \"#navbar a\""
+  page.all(:css, "#navbar a").map(&:text).index(item).should_not be_nil
 end
 
 Then /^I should not see menu item "([^"]*)"$/ do |item|

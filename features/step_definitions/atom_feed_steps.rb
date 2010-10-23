@@ -7,13 +7,13 @@ Then /^I should see "([^\"]*)" as (first|second|last|only) entry title$/ do |tex
   when "last"
     cardinal = "last-of-type"
   end
-  page.locate(:css, "entry:#{cardinal} title").text.should == text
+  page.find(:css, "entry:#{cardinal} title").text.should == text
 end
 
 Then /^I should see "([^\"]*)" as title$/ do |text|
-  page.locate(:xpath, "//feed/title").text.should == text
+  page.find(:xpath, "//feed/title").text.should == text
 end
 
 Then /^I should see "([^"]*)" as entry content$/ do |text|
-  page.locate(:css, "entry content").text.should == text
+  page.find(:css, "entry content").text.should == text
 end
