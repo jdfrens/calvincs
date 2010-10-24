@@ -65,9 +65,10 @@ describe "home/feed.atom.builder" do
   end
 
   it "should render an event for today" do
-    @todays_events = [mock_model(Event, :full_title => "Full Event Title",
-                                 :description => "Go to this event!", :updated_at => Time.now)]
+    @todays_events = [mock_model(Event, :full_title => "Full Event Title", :updated_at => Time.now)]
     assign(:todays_events, @todays_events)
+
+    view.should_receive(:event_content_for_atom).with(@todays_events[0]).and_return("The content!")
 
     render
 
@@ -75,20 +76,34 @@ describe "home/feed.atom.builder" do
       entry.should have_selector("title", :content => "Full Event Title", :type => "html")
       entry.should have_selector("published", :content => Date.today.to_s)
       entry.should have_selector("updated")
-      entry.should have_selector("content", :content => "Go to this event!", :type => "html")
+      entry.should have_selector("content", :content => "The content!", :type => "html")
       entry.should have_selector("author") do |author|
         author.should have_selector("name", :content => "Computing@Calvin")
       end
     end
   end
 
-  it "should render an event for today with a special id" do
-    @todays_events = [mock_model(Event, :full_title => "Full Event Title", :description => "Go to this event!", :updated_at => Time.now)]
-    assign(:todays_events, @todays_events)
+  describe "render an event" do
+    before(:each) do
+      @todays_events = [mock_model(Event, :full_title => "Full Event Title", :updated_at => Time.now)]
+      assign(:todays_events, @todays_events)
 
-    render
+      view.should_receive(:event_content_for_atom).with(@todays_events[0]).and_return("event content!")
 
-    rendered.should have_selector("entry id", :content => "tag:test.host,2005:TodaysEvent/#{@todays_events[0].id}")
+      render
+    end
+
+    it "should have a title" do
+      rendered.should have_selector("entry title", :content => "Full Event Title")
+    end
+
+    it "should have content" do
+      rendered.should have_selector("entry content", :content => "event content!")
+    end
+
+    it "should have a special id" do
+      rendered.should have_selector("entry id", :content => "tag:test.host,2005:TodaysEvent/#{@todays_events[0].id}")
+    end
   end
 
   it "should render multiple events for today" do
@@ -96,6 +111,8 @@ describe "home/feed.atom.builder" do
                       mock_model(Event, :full_title => "Today #2", :description => "#2", :updated_at => Time.now),
                       mock_model(Event, :full_title => "Today #3", :description => "#3", :updated_at => Time.now)]
     assign(:todays_events, @todays_events)
+
+    view.stub(:event_content_for_atom)
 
     render
 
@@ -111,6 +128,8 @@ describe "home/feed.atom.builder" do
       mock_model(Event, :full_title => "Next Week Is Now", :description => "Time travel!", :updated_at => Time.now)
       ]
     assign(:weeks_events, @weeks_events)
+
+    view.stub(:event_content_for_atom)
 
     render
 

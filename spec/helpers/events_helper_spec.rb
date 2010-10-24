@@ -10,7 +10,7 @@ describe EventsHelper do
 
       titles = helper.format_titles(event)
       titles.should ==
-              "<span class=title>The Title</span>: <br /><span class=subtitle>The Subtitle</span>"
+              '<span class="title">The Title</span>: <br /><span class="subtitle">The Subtitle</span>'
       titles.should be_html_safe
     end
 
@@ -19,7 +19,7 @@ describe EventsHelper do
       helper.should_receive(:johnny_textilize_lite).with("The Title").and_return("The Title")
 
       titles = helper.format_titles(event)
-      titles.should == "<span class=title>The Title</span>"
+      titles.should == '<span class="title">The Title</span>'
       titles.should be_html_safe
     end
   end

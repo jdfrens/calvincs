@@ -9,14 +9,6 @@
         <span class="more"><%= link_to "more...", event_path(event) %></span>
       </h2>
 
-      <p class="more">
-        <% unless event.presenter.blank? %>
-            <span class="presenter"><%= h event.presenter %></span><br/>
-        <% end %>
-        <% unless event.location.blank? %>
-            <span class="location"><%= h event.location %></span><br/>
-        <% end %>
-        <span class="when"><%= event.timing %></span>
-      </p>
-    </div>
+		<%= event_details(event) %>
+		</div>
 <% end %>

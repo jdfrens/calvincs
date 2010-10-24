@@ -75,8 +75,7 @@ describe EventsController do
       start = mock("start")
       stop = mock("stop")
 
-      Chronic.should_receive(:parse).with("tomorrow at 3:30pm").and_return(start)
-      start.should_receive(:+).with(1.hour).and_return(stop)
+      Event.should_receive(:default_start_and_stop).and_return([start, stop])
       Event.should_receive(:new_event).
               with(:kind => "Colloquium", :descriptor => "colloquium",
                    :start => start, :stop => stop).
@@ -93,8 +92,7 @@ describe EventsController do
       start = mock("start")
       stop = mock("stop")
 
-      Chronic.should_receive(:parse).with("tomorrow at 3:30pm").and_return(start)
-      start.should_receive(:+).with(1.hour).and_return(stop)
+      Event.should_receive(:default_start_and_stop).and_return([start, stop])
       Event.should_receive(:new_event).
               with(:kind => "Conference", :descriptor => "conference",
                    :start => start, :stop => stop).
@@ -196,7 +194,7 @@ describe EventsController do
 
     it "should save the modified colloquium" do
       event = mock_model(Colloquium)
-      
+
       Event.should_receive(:find).with(event.id).and_return(event)
       event.should_receive(:update_attributes).with({ "foo" => "params" })
       event.should_receive(:save).and_return(true)
@@ -208,7 +206,7 @@ describe EventsController do
 
     it "should save the modified conference" do
       event = mock_model(Conference)
-      
+
       Event.should_receive(:find).with(event.id).and_return(event)
       event.should_receive(:update_attributes).with({ "foo" => "params" })
       event.should_receive(:save).and_return(true)
@@ -220,7 +218,7 @@ describe EventsController do
 
     it "should re-edit the modified, invalid event" do
       event = mock_model(Event)
-      
+
       Event.should_receive(:find).with(event.id).and_return(event)
       event.should_receive(:update_attributes).with({ "foo" => "params" })
       event.should_receive(:save).and_return(false)

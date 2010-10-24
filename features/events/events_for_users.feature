@@ -20,9 +20,9 @@ Feature: checking out the events
 
   Scenario: list only upcoming events
     Given the following colloquia
-      | title    | start               |
-      | Get Real | yesterday at 3:30pm |
-      | Get Fake | tomorrow at 2:30pm  |
+      | title    | start                   |
+      | Get Real | yesterday at 3:30p      |
+      | Get Fake | 1 day from now at 2:30p |
     And the following conferences
       | title       | start     | stop      | description |
       | Foobar 2009 | yesterday | yesterday | fooey       |
@@ -35,9 +35,9 @@ Feature: checking out the events
 
   Scenario: list archive of events
     Given the following conferences
-      | title       | start                     | length | description   |
-      | Foobar 2009 | 28 October 2009 at 3:30pm | 1      | Fooing bars.  |
-      | Barfoo 2007 | 15 August 2007 at 4:50pm  | 2      | Barring foos. |
+      | title       | start                    | length | description   |
+      | Foobar 2009 | 28 October 2009 at 3:30p | 1      | Fooing bars.  |
+      | Barfoo 2007 | 15 August 2007 at 4:50p  | 2      | Barring foos. |
     When I go to the list of events
     And I follow "Archive"
     Then I should see "Events" within "h1"
@@ -61,8 +61,8 @@ Feature: checking out the events
 
   Scenario: see one event
     Given the following colloquia
-      | title    | start              | description                        | presenter | location |
-      | Get Real | tomorrow at 2:00pm | It is better to be real than fake. | Bob       | Room 101 |
+      | title    | start                   | description                        | presenter | location |
+      | Get Real | 1 day from now at 2:00p | It is better to be real than fake. | Bob       | Room 101 |
     When I go to the list of events
     And I follow "more..."
     Then I should see "Get Real"

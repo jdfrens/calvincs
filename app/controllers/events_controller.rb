@@ -24,8 +24,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    start = Chronic.parse("tomorrow at 3:30pm")
-    stop = start + 1.hour
+    start, stop = Event.default_start_and_stop
     @event = Event.new_event(:kind => params[:kind], :descriptor => params[:kind].downcase,
                              :start => start, :stop => stop)
   end

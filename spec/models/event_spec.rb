@@ -99,12 +99,12 @@ describe Event do
 
     it "should be in days for a conference" do
       Factory.build(:conference,
-                    :start => Chronic.parse("tomorrow at 8:30am"),
-                    :stop => Chronic.parse("2 days from now at 5:00pm")
+                    :start => Chronic.parse("1 day from now at 8:30a"),
+                    :stop => Chronic.parse("2 days from now at 5:00p")
                     ).length.should == 2
       Factory.build(:conference,
-                    :start => Chronic.parse("tomorrow at 8:30am"),
-                    :stop => Chronic.parse("tomorrow at 5:00pm")
+                    :start => Chronic.parse("1 day from now at 8:30a"),
+                    :stop => Chronic.parse("1 day from now at 5:00p")
                     ).length.should == 1
     end
   end
@@ -126,7 +126,7 @@ describe Event do
   end
 
   describe "gettings the scale of an event" do
-    it "should be hours for a colloquium" do   
+    it "should be hours for a colloquium" do
       events(:todays_colloquium).scale.should == "hours"
     end
 
@@ -143,8 +143,8 @@ describe Event do
     end
 
     it "should use the start date and ending date" do
-      event = Conference.new(:title => "foobar", 
-                             :start => Date.parse("May 18, 2010"), 
+      event = Conference.new(:title => "foobar",
+                             :start => Date.parse("May 18, 2010"),
                              :stop => Date.parse("May 20, 2010"))
 
       event.timing.should == "May 18, 2010 thru May 20, 2010"
@@ -199,13 +199,13 @@ describe Event do
     end
 
     it "should establish original length" do
-      @event.length.should be_close(1.0, 0.001)
+      @event.length.should be_within(0.001).of(1.0)
     end
 
     it "should have new length" do
       @event.length = 2
       @event.save!
-      @event.length.should be_close(2.0, 0.001)
+      @event.length.should be_within(0.001).of(2.0)
     end
 
     it "should adjust stop time" do

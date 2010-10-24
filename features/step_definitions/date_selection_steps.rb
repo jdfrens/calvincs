@@ -1,6 +1,7 @@
 # code inspired by https://gist.github.com/12499d2cf62753f0c339
 
 When /^(?:|I )select "([^\"]*)" as the date$/ do |date|
+  Chronic.time_class = Time.zone
   date = Chronic.parse(date)
 
   id_prefix = "conference_start"
@@ -11,6 +12,7 @@ When /^(?:|I )select "([^\"]*)" as the date$/ do |date|
 end
 
 When /^(?:|I )select "([^\"]*)" as the date and time$/ do |date|
+  Chronic.time_class = Time.zone
   date = Chronic.parse(date)
 
   id_prefix = "colloquium_start"

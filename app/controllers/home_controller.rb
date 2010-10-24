@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
 
+  helper :events
+
   restrict_to :edit, :only => 'administrate'
 
   def index
@@ -38,7 +40,7 @@ class HomeController < ApplicationController
     @pages = Page.normal_pages
     @courses = Course.all
     @people = User.non_admins
-    
+
     respond_to do |format|
       format.xml { render :layout => false }
     end

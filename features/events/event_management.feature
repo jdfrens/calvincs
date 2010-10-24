@@ -19,7 +19,7 @@ Feature: managing events
       | Location    | Room of Presentations |
       | Length      | 1.5                   |
       | Description | Ruby code is amazing. |
-    And I select "tomorrow at 4:00 pm" as the date and time
+    And I select "tomorrow at 4:00p" as the date and time
     And I press "Create"
     Then I should see "Amazing Ruby Code: Check It Out!"
     And I should see "Charles M. Ruby"
@@ -36,11 +36,11 @@ Feature: managing events
       | Location    | Room of Contests                |
       | Length      | 1.5                             |
       | Description | Write code for cash and prizes. |
-    And I select "tomorrow at 10:00 am" as the date and time
+    And I select "tomorrow at 10:00a" as the date and time
     And I press "Create"
     Given default homepage content
     When I go to the home page
-    Then I should see "Programming contest coming up! The Programming Contest" 
+    Then I should see "Programming contest coming up! The Programming Contest"
 
   Scenario: add a conference
     Given I am logged in as an editor
@@ -58,8 +58,8 @@ Feature: managing events
   Scenario: edit a colloquium
     Given I am logged in as an editor
     And the following colloquia
-      | title    | start              | description   |
-      | Get Real | tomorrow at 3:30pm | Getting real. |
+      | title    | start             | description   |
+      | Get Real | 1 day from now at 3:30p | Getting real. |
     When I go to the list of events
     Then I should see "Get Real"
     When I follow "more..."
@@ -84,4 +84,4 @@ Feature: managing events
     Then I should be on the list of events
     And I should see "BarSEC"
     And I should not see "GLCamp"
-  Scenario: 
+  Scenario:

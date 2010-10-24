@@ -29,6 +29,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'metric_fu'
+  # gem 'metric_fu'
   gem 'rails3-generators'
 end

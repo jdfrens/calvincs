@@ -27,7 +27,7 @@ end
 module EventHelpers
   def create_colloquium(hash)
     raise "don't specify when, use Chronic!" if hash["when"]
-    hash = { "start" => "tomorrow at 3:30pm",
+    hash = { "start" => "1 day from now at 3:30p",
              "descriptor" => "colloquium",
              "description" => "very boring description" }.merge(hash)
     hash["start"] = Chronic.parse(hash["start"])

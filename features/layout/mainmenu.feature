@@ -17,14 +17,14 @@ Feature: the main navigation (for the department)
 		And I should see linked menu item "News"
 		And I should see linked menu item "Events"
 		And I should see linked menu item "Contact Us"
-				
+
   Scenario: do not see "Events" or "News" submenus
   	Given default homepage content
 		When I am on the home page
 		Then I should see linked menu item "Events"
 		And I should not see menu item "Current"
 		And I should not see menu item "Archive"
-		
+
   Scenario: do not see "Academics" submenu
   	Given default homepage content
 		When I am on the home page
@@ -34,12 +34,12 @@ Feature: the main navigation (for the department)
   Scenario: see "Events" submenu on an event page
   	Given default homepage content
     And the following colloquia
-      | title    | start               |
-      | Get Fake | tomorrow at 2:30pm  |		
+      | title    | start                    |
+      | Get Fake | 1 day from now at 2:30pm |
 		When I am on the home page
 		And I follow menu item "Events"
 		Then I should see plain menu item "Current"
-		And I should see linked menu item "Archive"		
+		And I should see linked menu item "Archive"
 		When I follow menu item "Archive"
 		Then I should see linked menu item "Current"
 		And I should see plain menu item "Archive"

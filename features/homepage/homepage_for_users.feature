@@ -5,8 +5,8 @@ Feature: the home page
 
   Scenario: see the home page content
     Given the following pages
-      | identifier   | title           | content      |
-      | _home_page   | does not matter | some content |
+      | identifier | title           | content      |
+      | _home_page | does not matter | some content |
     And the following images
       | url            | caption      | tags_string |
       | /images/foobar | The caption. | homepage    |
@@ -16,8 +16,8 @@ Feature: the home page
 
   Scenario: see the home page splash
     Given the following pages
-      | identifier   | title           | content      |
-      | _home_page   | does not matter | some content |
+      | identifier | title           | content      |
+      | _home_page | does not matter | some content |
     And the following images
       | url            | caption      | tags_string |
       | /images/foobar | The caption. | homepage    |
@@ -29,8 +29,8 @@ Feature: the home page
   Scenario: see the home page with a colloquium today
     Given default homepage content
     And the following colloquia
-      | title    | start              |
-      | Get Real | tomorrow at 3:30pm |
+      | title    | start                   |
+      | Get Real | 1 day from now at 3:30p |
     When I go to the homepage
     Then I should be on the homepage
     And I should see "Colloquium coming up!"
@@ -42,8 +42,8 @@ Feature: the home page
   Scenario: see the home page with a programming contest today
     Given default homepage content
     And the following colloquia
-      | title    | start              | descriptor          |
-      | C4       | tomorrow at 3:30pm | programming contest |
+      | title | start                   | descriptor          |
+      | C4    | 1 day from now at 3:30p | programming contest |
     When I go to the homepage
     Then I should see "Programming contest coming up!"
     And I should not see "Colloquium"
@@ -52,8 +52,8 @@ Feature: the home page
   Scenario: see the home page with an event tomorrow
     Given default homepage content
     And the following colloquia
-      | title    | start           |
-      | Get Real | today at 3:30pm |
+      | title    | start          |
+      | Get Real | today at 3:30p |
     When I go to the homepage
     Then I should see "Get Real"
     And I should see "Colloquium today!"
@@ -62,8 +62,8 @@ Feature: the home page
   Scenario:see the home page with a conference today and tomorrow
     Given default homepage content
     And the following conferences
-      | title    | start     | stop     | description    |
-      | GLSEC    | yesterday | tomorrow | doesn't matter |
+      | title | start     | stop     | description    |
+      | GLSEC | yesterday | tomorrow | doesn't matter |
     When I go to the homepage
     Then I should see "GLSEC"
     And I should see "Conference today!"
@@ -72,10 +72,10 @@ Feature: the home page
   Scenario: see the home page with certain events
     Given default homepage content
     And the following colloquia
-      | title       | start               |
-      | Old West    | yesterday at 3:30pm |
-      | The Present | today at 2:30pm     |
-      | The Future  | tomorrow at 1:00pm  |
+      | title       | start                   |
+      | Old West    | yesterday at 3:30p      |
+      | The Present | today at 2:30p          |
+      | The Future  | 1 day from now at 1:00p |
     When I go to the homepage
     Then I should not see "Old West"
     And I should see "Colloquium today!"
@@ -99,14 +99,14 @@ Feature: the home page
   Scenario: try every page on the main menu
     Given default homepage content
     Given the following pages
-      | identifier   | title           | content      |
-      | about_us     | All About Us    | About all us all. |
-      | academics    | Academics       | Academe me! |
-      | students     | Students!       | Students rule like nothing else. |
-      | facilities   | Cool Digs!      | Our facilities are better than yours! |
-      | research     | Research this!  | Study up! |
-      | alumni       | Alumnuses?      | Those who have gone before us. |
-      | contact_us   | Contact info    | Get in touch with us. |
+      | identifier | title          | content                               |
+      | about_us   | All About Us   | About all us all.                     |
+      | academics  | Academics      | Academe me!                           |
+      | students   | Students!      | Students rule like nothing else.      |
+      | facilities | Cool Digs!     | Our facilities are better than yours! |
+      | research   | Research this! | Study up!                             |
+      | alumni     | Alumnuses?     | Those who have gone before us.        |
+      | contact_us | Contact info   | Get in touch with us.                 |
     And the following news items
       | headline | teaser | content               |
       | News!    | na na! | No news is good news. |

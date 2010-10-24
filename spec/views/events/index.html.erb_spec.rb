@@ -5,7 +5,7 @@ describe "events/index.html.erb" do
   describe "rendering an event" do
     before(:each) do
       timing = mock("timing", :to_s => "the timing")
-      @event = mock_model(Event, :timing => timing, :presenter => "Charles M. Ruby", 
+      @event = mock_model(Event, :timing => timing, :presenter => "Charles M. Ruby",
                                  :location => "Room 101")
       assign(:events, [@event])
       assign(:title, "The Title")

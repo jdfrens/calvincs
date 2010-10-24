@@ -51,12 +51,18 @@ class Event < ActiveRecord::Base
 
   def self.find_by_today(today=Time.now)
     find_within(
-      Time.local(today.year, today.month, today.day, 0, 0), 
+      Time.local(today.year, today.month, today.day, 0, 0),
       Time.local(today.year, today.month, today.day, 23, 59))
   end
 
   def self.within_week
     find_within(Chronic.parse("midnight"), Chronic.parse("6 days from now at midnight"))
+  end
+
+  def self.default_start_and_stop
+    start = Chronic.parse("1 day from now at 3:30p")
+    stop = start + 1.hour
+    [start, stop]
   end
 
   def self.new_event(params)
