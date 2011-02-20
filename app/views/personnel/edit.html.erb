@@ -40,7 +40,7 @@
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
-          <%= render2 "degree_fields", :form => degree_form %>
+          <%= render "degree_fields", :form => degree_form %>
       <% end %>
       <tr>
       <tr>
@@ -59,20 +59,20 @@
   <li><strong>interests</strong>: a comma-separated list of research and professional
     interests...
     <ul>
-      <%= render2 :partial => 'edit_page_links', :locals => { :page_type => "interests" } %>
+      <%= render :partial => 'edit_page_links', :locals => { :page_type => "interests" } %>
     </ul>
   </li>
 
   <li><strong>profile</strong>: one or two paragraphs of professional biography...
     <ul>
-      <%= render2 :partial => 'edit_page_links', :locals => { :page_type => "profile" } %>
+      <%= render :partial => 'edit_page_links', :locals => { :page_type => "profile" } %>
     </ul>
   </li>
 
   <li><strong>status</strong>: chair of the department? dean of computer security? use a
     complete sentence or two...
     <ul>
-      <%= render2 :partial => 'edit_page_links', :locals => { :page_type => "status" } %>
+      <%= render :partial => 'edit_page_links', :locals => { :page_type => "status" } %>
     </ul>
   </li>
 

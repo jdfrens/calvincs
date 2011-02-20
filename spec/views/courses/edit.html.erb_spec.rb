@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "courses/edit" do
 
   it "should render a form" do
-    view.should_receive(:render2).with(:partial => "form").and_return("the form")
+    stub_template "courses/_form.html.erb" => 'the form'
 
     render
 

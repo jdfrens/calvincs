@@ -14,6 +14,8 @@ gem 'newrelic_rpm', :require => false
 gem "mongrel"
 
 group :development, :test do
+  gem 'ruby-debug'
+
   gem "factory_girl_rails"
   gem "test-unit", '~> 1.2'
   gem "webrat"

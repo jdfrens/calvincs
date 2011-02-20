@@ -11,17 +11,14 @@ describe "images/index.html.erb" do
   end
 
   it "should have div with images" do
-    images = [mock_model(Image), mock_model(Image), mock_model(Image)]
+    images = [
+      mock_model(Image, :stubbed_content => "image 0"),
+      mock_model(Image, :stubbed_content => "image 1"),
+      mock_model(Image, :stubbed_content => "image 2")]
     assign(:images, images)
 
-    view.should_receive(:render2).
-      with(:partial => "image", :object => images[0]).and_return("image 0")
-    view.should_receive(:render2).
-      with(:partial => "image", :object => images[1]).and_return("image 1")
-    view.should_receive(:render2).
-      with(:partial => "image", :object => images[2]).and_return("image 2")
-    view.should_receive(:render2).with("image_popups.js").
-      and_return("popup JavaScript")
+    stub_template "images/_image.html.erb" => "<%= image.stubbed_content %>"
+    stub_template "images/_image_popups.js" => "popup JavaScript"
 
     render
 

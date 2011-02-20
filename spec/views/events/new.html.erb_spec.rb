@@ -6,8 +6,8 @@ describe "events/new.html.erb" do
     event = mock_model(Colloquium, :kind => "Colloquium")
     assign(:event, event)
 
-    view.should_receive(:render2).with(:partial => "form").and_return("the form")
-    
+    stub_template "events/_form.html.erb" => "the form"
+
     render
 
     rendered.should have_selector("h1", :content => "New Colloquium")
@@ -18,7 +18,7 @@ describe "events/new.html.erb" do
     event = mock_model(Conference, :kind => "Conference")
     assign(:event, event)
 
-    view.should_receive(:render2).with(:partial => "form").and_return("the form")
+    stub_template "events/_form.html.erb" => "the form"
 
     render
 

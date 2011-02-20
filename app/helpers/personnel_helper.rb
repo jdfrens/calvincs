@@ -1,9 +1,13 @@
 module PersonnelHelper
-  
+
+  def render_personnel(personnel)
+    render :partial => 'user', :collection => personnel
+  end
+
   def see_education(user)
     user.education? && (user.degrees.count > 0)
   end
-  
+
   def see_interests(user)
     (user.role.name != "staff") && user.subpage(:interests)
   end

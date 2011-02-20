@@ -15,22 +15,16 @@ describe "personnel/index.html.erb" do
     assign(:staff, @staff)
     assign(:admin, @admin)
   end
-  
+
   context "when logged in" do
     before(:each) do
       view.should_receive(:current_user).and_return(mock_model(User))
-      view.should_receive(:render2).with(:partial => 'user', :collection => @faculty).
-              and_return("faculty listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @adjuncts).
-              and_return("adjuncts listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @emeriti).
-              and_return("emeriti listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @contributors).
-              and_return("contributors listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @staff).
-              and_return("staff listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @admin).
-              and_return("admin listing")
+      view.should_receive(:render_personnel).with(@faculty).and_return("faculty listing")
+      view.should_receive(:render_personnel).with(@adjuncts).and_return("adjuncts listing")
+      view.should_receive(:render_personnel).with(@emeriti).and_return("emeriti listing")
+      view.should_receive(:render_personnel).with(@contributors).and_return("contributors listing")
+      view.should_receive(:render_personnel).with(@staff).and_return("staff listing")
+      view.should_receive(:render_personnel).with(@admin).and_return("admin listing")
 
       render
     end
@@ -65,16 +59,7 @@ describe "personnel/index.html.erb" do
   context "when not logged in" do
     before(:each) do
       view.should_receive(:current_user).and_return(nil)
-      view.should_receive(:render2).with(:partial => 'user', :collection => @faculty).
-              and_return("faculty listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @adjuncts).
-              and_return("adjuncts listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @emeriti).
-              and_return("emeriti listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @contributors).
-              and_return("contributors listing")
-      view.should_receive(:render2).with(:partial => 'user', :collection => @staff).
-              and_return("staff listing")
+      view.stub(:render_personnel).and_return("rendered personnel")
 
       render
     end

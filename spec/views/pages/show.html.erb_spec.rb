@@ -2,11 +2,14 @@ require 'spec_helper'
 
 describe "pages/show.html.erb" do
 
+  before(:each) do
+    stub_template "pages/_image.html.erb" => "IMAGE!"
+  end
+
   it "should handle a normal page" do
     page = mock_model(Page, :subpage? => false, :title => "Mission Statement", :content => "We state our mission.")
     assign(:page, page)
 
-    view.should_receive(:render2).with(:partial => "image").and_return("IMAGE!")
     view.should_receive(:current_user).and_return(nil)
     expect_textilize("We state our mission.")
 
@@ -22,7 +25,6 @@ describe "pages/show.html.erb" do
     page = mock_model(Page, :subpage? => true, :content => "the content")
     assign(:page, page)
 
-    view.should_receive(:render2).with(:partial => "image").and_return("IMAGE!")
     view.should_receive(:current_user).and_return(nil)
     expect_textilize("the content")
 
@@ -38,7 +40,6 @@ describe "pages/show.html.erb" do
     page = mock_model(Page, :subpage? => true, :content => "the content")
     assign(:page, page)
 
-    view.should_receive(:render2).with(:partial => "image").and_return("IMAGE!")
     view.should_receive(:current_user).and_return(mock_model(User))
 
     render

@@ -14,14 +14,10 @@ describe "layouts/application.html.erb" do
 
   context "recursive rendering" do
     before(:each) do
-      view.should_receive(:render2).with(:partial => 'layouts/calvinjavascript').
-        and_return("the Calvin JavaScript")
-      view.should_receive(:render2).with(:partial => "layouts/header").
-        and_return("header content")
-      view.should_receive(:render2).with(:partial => 'layouts/mainmenu').
-        and_return("the main menu")
-      view.should_receive(:render2).with(:partial => 'layouts/footer').
-        and_return("footer content")
+      stub_template "layouts/_calvinjavascript.html.erb" => "the Calvin JavaScript"
+      stub_template "layouts/_header.html.erb" => "header content"
+      stub_template "layouts/_mainmenu.html.erb" => "the main menu"
+      stub_template "layouts/_footer.html.erb" => "footer content"
     end
 
     it "should render the application layout with partials" do
@@ -40,14 +36,14 @@ describe "layouts/application.html.erb" do
 
     it "should render the application layout with administrative links" do
       view.should_receive(:current_user).and_return(true)
-      view.should_receive(:render2).with(:partial => 'layouts/adminmenu')
+      stub_template "layouts/_adminmenu.html.erb" => "whatever"
 
       render
 
       rendered.should have_selector(".logout")
     end
   end
-  
+
   describe "the title" do
     it "should have a default" do
       assign(:title, nil)
@@ -93,7 +89,7 @@ describe "layouts/application.html.erb" do
 
     it "should have a flash error" do
       flash[:notice] = "notice me!"
-      
+
       render
 
       rendered.should have_selector(".notice", :content => "notice me!")

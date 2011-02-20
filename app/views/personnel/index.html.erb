@@ -1,34 +1,34 @@
 <h1 id="faculty">Faculty</h1>
 <table class="listing" id="faculty_listing">
-  <%= render2 :partial => 'user', :collection => @faculty %>
+  <%= render_personnel @faculty %>
 </table>
 
 <h1 id="adjuncts">Adjunct Faculty</h1>
 <table class="listing" id="adjuncts_listing">
-  <%= render2 :partial => 'user', :collection => @adjuncts %>
+  <%= render_personnel @adjuncts %>
 </table>
 
 <h1 id="emeriti">Emeriti</h1>
 <table class="listing" id="emeriti_listing">
-  <%= render2 :partial => 'user', :collection => @emeriti %>
+  <%= render_personnel @emeriti %>
 </table>
 
 <h1 id="contributors">Contributing Faculty</h1>
 <table class="listing" id="contributors_listing">
-  <%= render2 :partial => 'user', :collection => @contributors %>
+  <%= render_personnel @contributors %>
 </table>
 
 <h1 id="staff">Staff</h1>
 <table class="listing" id="staff_listing">
-  <%= render2 :partial => 'user', :collection => @staff %>
+  <%= render_personnel @staff %>
 </table>
 
 <% if current_user %>
     <h1 id="admin">Unseen System Administrators</h1>
 
     <p><em>These users are seen only when you're logged in.</em></p>
-    
+
     <table class="listing" id="admin_listing">
-      <%= render2 :partial => 'user', :collection => @admin %>
+  		<%= render_personnel @admin %>
     </table>
 <% end %>

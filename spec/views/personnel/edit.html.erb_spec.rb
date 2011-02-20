@@ -10,18 +10,9 @@ describe "personnel/edit.html.erb" do
                            :degrees => [])
     assign(:user, user)
 
-    view.should_receive(:render2).with("degree_fields", hash_including(:form)).
-      and_return("degree fields")
-    view.should_receive(:render2).
-      with(:partial => "edit_page_links", :locals => { :page_type => "interests" }).
-      and_return("interests links")
-    view.should_receive(:render2).
-      with(:partial => "edit_page_links", :locals => { :page_type => "profile" }).
-      and_return("profile links")
-    view.should_receive(:render2).
-      with(:partial => "edit_page_links", :locals => { :page_type => "status" }).
-      and_return("status links")
-    
+    stub_template "personnel/_degree_fields.html.erb" => "degree fields"
+    stub_template "personnel/_edit_page_links.html.erb" => "<%= page_type %> links"
+
     render
 
     rendered.should have_selector("form") do |form|

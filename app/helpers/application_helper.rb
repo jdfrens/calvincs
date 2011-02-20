@@ -1,10 +1,6 @@
 require 'menu_item'
 
 module ApplicationHelper
-  def render2(*args)
-    render(*args)
-  end
-  
   def textilized_link(course)
     if course.url.blank?
       course.identifier
@@ -61,7 +57,7 @@ module ApplicationHelper
   def render_menu(*menu_items)
     MenuRenderer.new(self, *menu_items).render_menu
   end
-  
+
   def menu_item(text, url, options = {})
     ::MenuItem.new(text, url, options.merge(:submenu_item => false))
   end
@@ -69,27 +65,27 @@ module ApplicationHelper
   def submenu_item(text, url, options = {})
     ::MenuItem.new(text, url, options.merge(:submenu_item => true))
   end
-    
+
   def events_submenu?(params)
     params[:controller] == "events"
   end
-  
+
   def newsitems_submenu?(params)
     params[:controller] == "newsitems"
   end
-  
+
   def colloquium_path(event)
     event_path(event)
   end
-  
+
   def colloquium_url(event)
     event_url(event)
   end
-  
+
   def colloquia_path
     events_path
   end
-  
+
   def conference_path(event)
     event_path(event)
   end

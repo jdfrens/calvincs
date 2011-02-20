@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe "personnel/show.html.erb" do
   before(:each) do
-    view.should_receive(:render2).with('job_title').and_return("")
-    view.should_receive(:render2).with('pages/image').and_return("")
-    view.should_receive(:render2).with('contact_information').and_return("")
-    view.should_receive(:render2).with('education').and_return("")
-    view.should_receive(:render2).with('interests').and_return("")
-    view.should_receive(:render2).with('profile').and_return("")
+    stub_template 'personnel/_job_title.html.erb' => ''
+    stub_template 'pages/_image.html.erb' => ''
+    stub_template 'personnel/_contact_information.html.erb' => ''
+    stub_template 'personnel/_education.html.erb' => ''
+    stub_template 'personnel/_interests.html.erb' => ''
+    stub_template 'personnel/_profile.html.erb' => ''
   end
 
   it "should render a bunch of partials" do

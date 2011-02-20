@@ -13,7 +13,7 @@
     <th>Title</th>
     <th></th>
   </tr>
-  <%= render2 :partial => "page_entry", :collection => @normal_pages %>
+  <%= render :partial => "page_entry", :collection => @normal_pages %>
 </table>
 
 <h2>Subpages</h2>
@@ -26,5 +26,5 @@
     <th>Identifier</th>
     <th></th>
   </tr>
-  <%= render2 :partial => "page_entry", :collection => @subpages %>
+  <%= render :partial => "page_entry", :collection => @subpages %>
 </table>

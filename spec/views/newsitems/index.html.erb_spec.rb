@@ -4,9 +4,9 @@ describe "newsitems/index.html.erb" do
 
   it "should have a top-level header" do
     assign(:title, "Top Level Header")
-    
-    view.should_receive(:render2).with("news_listing").and_return("listing news items")
-    view.should_receive(:render2).with("news_display").and_return("displaying news items")
+
+    stub_template "newsitems/_news_listing.html.erb" => "listing news items"
+    stub_template "newsitems/_news_display.html.erb" => "displaying news items"
 
     render
 
@@ -14,5 +14,5 @@ describe "newsitems/index.html.erb" do
     rendered.should contain("listing news items")
     rendered.should contain("displaying news items")
   end
-  
+
 end

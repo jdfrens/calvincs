@@ -7,12 +7,12 @@
 
 <div id="image-list">
   <% @images.each do |image| %>
-      <%= render2 :partial => 'image', :object => image %>
+      <%= render :partial => 'image', :object => image %>
   <% end %>
 </div>
 
 <%= javascript_tag do %>
-    <%= render2 "image_popups.js" %>
+    <%= render "image_popups.js" %>
 <% end %>
 
 <p>
