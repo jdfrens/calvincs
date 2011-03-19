@@ -1,4 +1,4 @@
-require 'rspec/core/rake_task'
+# require 'rspec/core/rake_task'
 
 # task :spec => "spec:javascripts"
 
@@ -15,10 +15,10 @@ namespace :calvincs do
     task :migrate => ["db:migrate"]
   end
 
-  desc "Runs the redirection and rewrite expectations for cs.calvin.edu"
-  RSpec::Core::RakeTask.new(:redirects) do |t|
-    t.pattern = 'deployment/*_spec.rb'
-  end
+  # desc "Runs the redirection and rewrite expectations for cs.calvin.edu"
+  # RSpec::Core::RakeTask.new(:redirects) do |t|
+  #   t.pattern = 'deployment/*_spec.rb'
+  # end
 
   namespace :users do
     desc "activate all users"
