@@ -13,6 +13,9 @@ gem 'newrelic_rpm', :require => false
 
 gem "mongrel"
 
+gem "capistrano"
+gem "capistrano-ext"
+
 group :development, :test do
   gem 'ruby-debug'
 
