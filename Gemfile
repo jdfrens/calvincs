@@ -10,6 +10,7 @@ gem "chronic"
 gem 'newrelic_rpm', :require => false
 
 gem "mongrel"
+gem "mongrel_cluster"
 
 gem "capistrano"
 gem "capistrano-ext"
