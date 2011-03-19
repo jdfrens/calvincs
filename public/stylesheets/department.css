@@ -17,7 +17,7 @@
 }
 
 div#navbar li.current {
-    background: #A59E60 url(http://www.calvin.edu/includes/templates/8/images/bg-border-navbar.gif) repeat-x scroll left bottom;
+  background-color: #DDD;
 }
 
 /***********************/
