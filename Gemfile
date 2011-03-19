@@ -7,8 +7,6 @@ gem "RedCloth", :require => "redcloth"
 gem "imagesize"
 gem "chronic"
 
-gem 'rcov'
-
 gem 'newrelic_rpm', :require => false
 
 gem "mongrel"
@@ -18,6 +16,8 @@ gem "capistrano-ext"
 
 group :development, :test do
   gem "sqlite3"
+
+  gem 'rcov'
 
   gem 'ruby-debug'
 
