@@ -1,3 +1,4 @@
+require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
 default_run_options[:pty] = true

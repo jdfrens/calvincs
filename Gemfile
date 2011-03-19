@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem "rails", "3.0.5"
-gem "sqlite3"
+gem "mysql"
 
 gem "RedCloth", :require => "redcloth"
 gem "imagesize"
@@ -17,6 +17,8 @@ gem "capistrano"
 gem "capistrano-ext"
 
 group :development, :test do
+  gem "sqlite3"
+
   gem 'ruby-debug'
 
   gem "factory_girl_rails"
