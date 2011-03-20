@@ -217,6 +217,22 @@ p.img-caption {
     border: none;
 }
 
+#home_page h2, #news h2 {
+  margin-bottom: 7px;
+}
+#home_page ul, #news ul, #home_page p, #news p {
+  margin-top: 7px;
+}
+
+div#news ul {
+    font-size: small;
+    padding: 0;
+}
+div#news li {
+    padding-bottom: 0.25em;
+    list-style-type: none;
+}
+
 /***********************/
 /* Administration page */
 /***********************/
@@ -269,20 +285,6 @@ div.content-editor {
 
 .comment {
     background-color: yellow;
-}
-
-/*************/
-/* HOME PAGE */
-/*************/
-
-div#news ul {
-    font-size: small;
-    padding: 0;
-}
-
-div#news li {
-    padding-bottom: 0.25em;
-    list-style-type: none;
 }
 
 /******************/
