@@ -12,7 +12,7 @@ module NewsItemHelpers
   def parse_newsitem_dates(hash)
     hash.merge({
       "goes_live_at" => Chronic.parse(hash["goes_live_at"]),
-      "expires_at" => Chronic.parse(hash["expires_at"]) 
+      "expires_at" => Chronic.parse(hash["expires_at"])
       })
   end
 end
