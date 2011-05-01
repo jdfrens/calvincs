@@ -116,7 +116,6 @@ Feature: managing pages
     And I follow "show faculty page"
     Then I should be on the people page
     When I go to the edit "_jcalvin_profile" page
-    And show me the page
     And I follow "show jcalvin page"
     Then I should be on the "jcalvin" person page
 

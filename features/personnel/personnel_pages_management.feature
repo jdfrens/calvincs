@@ -15,7 +15,7 @@ Feature: managing personnel
     And I follow "Johnny Calvin"
     And I follow "edit..."
     Then I should see "edit <page>"
-    And I should see "delete <page>"
+    And I should see "delete <page>" button
     And I should not see "create <page>"
     Examples:
       | page      |
@@ -32,7 +32,7 @@ Feature: managing personnel
     And I follow "Johnny Calvin"
     And I follow "edit..."
     Then I should not see "edit <page>"
-    And I should not see "delete <page>"
+    And I should not see "delete <page>" button
     And I should see "create <page>"
     Examples:
       | page      |
@@ -88,7 +88,7 @@ Feature: managing personnel
     When I follow "Johnny Calvin"
     Then I should see "<person contents>"
     And I follow "edit..."
-    And I follow "delete <page>"
+    And I press "delete <page>"
     And I follow "Faculty & Staff"
     Then I should not see "<page> contents!"
     When I follow "Johnny Calvin"

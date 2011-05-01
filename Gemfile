@@ -25,7 +25,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "test-unit", '~> 1.2'
   gem "webrat"
-  gem "rspec-rails"
+  gem "rspec-rails", "~> 2.6.0.rc4"
   gem "timecop"
 
   gem 'capybara'
