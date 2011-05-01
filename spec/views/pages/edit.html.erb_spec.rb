@@ -42,7 +42,7 @@ describe "pages/edit.html.erb" do
     end
 
     it "should link back to show the page" do
-      rendered.should have_selector("a", :href => page_path(@page), :content => 'show page')
+      rendered.should have_selector("a", :href => page_path(@page), :content => 'show this page')
     end
   end
 

@@ -18,6 +18,8 @@ module NavigationHelpers
       # users
       when /the login page/
         login_path
+      when /the "(.*)" person page/
+        people_path(User.find_by_username($1))
 
       # administration
       when /the administration page/
@@ -58,7 +60,7 @@ module NavigationHelpers
         people_path
       when /edit person "(.*)"/
         edit_person_path($1)
-      
+
       # pages
       when /the page listing/
         pages_path
@@ -70,7 +72,7 @@ module NavigationHelpers
         page_path($1)
       when /the edit "(.*)" page/
         edit_page_path($1)
-      
+
       else
       begin
         page_name =~ /the (.*) page/
