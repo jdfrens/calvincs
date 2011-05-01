@@ -25,7 +25,7 @@ module PagesHelper
     when /^_([^_]+)_/
       person = User.find_by_username($1)
       [ link_to("show faculty page", people_path),
-        link_to("show #{$1} page", people_path(person))].join(", ").html_safe
+        link_to("show #{$1} page", person_path(person))].join(", ").html_safe
     else
       link_to "show this page", page_path(page)
     end

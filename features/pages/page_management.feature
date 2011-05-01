@@ -105,16 +105,20 @@ Feature: managing pages
 
   Scenario: link to faculty pages when editing a subpage for a faculty page
     Given I am logged in as an editor
+    And the following users
+      | username | first_name | last_name |
+      | jcalvin  | John       | Calvin |
     And the following pages
       | identifier       | title | content             |
-      | _adams_interests | N/A   | very interesting... |
-      | _adams_profile   | N/A   | side shot           |
-    When I go to the edit "_adams_interests" page
+      | _jcalvin_interests | N/A   | very interesting... |
+      | _jcalvin_profile   | N/A   | side shot           |
+    When I go to the edit "_jcalvin_interests" page
     And I follow "show faculty page"
     Then I should be on the people page
-    When I go to the edit "_adams_profile" page
-    And I follow "show adams page"
-    Then I should be on the "adams" person page
+    When I go to the edit "_jcalvin_profile" page
+    And show me the page
+    And I follow "show jcalvin page"
+    Then I should be on the "jcalvin" person page
 
   Scenario: create a new page when trying to edit
     Given I am logged in as an editor

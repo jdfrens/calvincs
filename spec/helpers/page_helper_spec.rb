@@ -43,7 +43,7 @@ describe PagesHelper do
 
       it "should use 'show username page' for faculty content" do
         helper.show_page_link(@page).
-          should have_selector("a", :href => people_path(@person), :content => "show kvlinden page")
+          should have_selector("a", :href => person_path(@person), :content => "show kvlinden page")
       end
 
       it "should have both links" do

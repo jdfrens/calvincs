@@ -19,7 +19,7 @@ module NavigationHelpers
       when /the login page/
         login_path
       when /the "(.*)" person page/
-        people_path(User.find_by_username($1))
+        person_path(User.find_by_username($1))
 
       # administration
       when /the administration page/
