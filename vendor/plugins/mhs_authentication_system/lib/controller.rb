@@ -6,7 +6,7 @@ module Mhs
         base.extend ClassMethods
         base.send :include, InstanceMethods
 
-        base.class_inheritable_accessor :permission_granted, :permission_denied, :not_logged_in, :login_model_name, :login_controller_name, :login_model_scope
+        base.class_attribute :permission_granted, :permission_denied, :not_logged_in, :login_model_name, :login_controller_name, :login_model_scope
         base.helper_method :current_user, :restrict_to
 
         base.before_filter :find_and_set_current_user

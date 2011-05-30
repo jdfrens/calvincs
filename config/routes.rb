@@ -10,6 +10,8 @@ CalvinCS::Application.routes.draw do
 
   resources :courses
   resources :events
+  resources :conferences, :controller => "events"
+  resources :colloquia, :controller => "events"
   resources :images, :path => "pictures" do
     collection do
       get :refresh

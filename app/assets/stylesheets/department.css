@@ -96,7 +96,7 @@ div#navbar li a {
 /***********************/
 
 .arrows li {
-    list-style-image: url(/images/arrow.gif);
+    list-style-image: url(/assets/arrow.gif);
 }
 
 .biglist li {
@@ -191,7 +191,7 @@ p.img-caption {
 }
 
 #splash-description .gutter {
-    background: transparent url(/images/bg-splash-caption.png) 0 0 repeat;
+    background: transparent url(/assets/bg-splash-caption.png) 0 0 repeat;
 }
 
 #splash-description {
@@ -309,7 +309,7 @@ div.content-editor {
 /*******************************/
 
 #news-listing li {
-    list-style-image: url(/images/arrow.gif);
+    list-style-image: url(/assets/arrow.gif);
     line-height: 1.5em;
 }
 

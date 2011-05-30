@@ -59,7 +59,7 @@ body {
 	background-color: #E9E0C8;
 	margin: 0;
 	padding: 0;
-	background-image: url(/images/background-wide.jpg);
+	background-image: url(/assets/background-wide.jpg);
 	background-repeat: repeat-y;
 	background-position: 0px 0px;
 }
@@ -134,7 +134,7 @@ p.img-caption {
 }
 
 .arrows li {
-	list-style-image: url(/images/arrow.gif);
+	list-style-image: url(/assets/arrow.gif);
 	font-size: 130%;
 	line-height: 1.5em;
 }
@@ -178,7 +178,7 @@ h6 { font-size: 100%; font-weight: bold; color: #660000;}
 	position: relative;
 	height: 72px;
 	background-repeat: no-repeat;
-	background-image: url(/images/background-header.jpg);
+	background-image: url(/assets/background-header.jpg);
 	background-position: 200px 0px;
 	border-bottom: 16px solid #003366;
 }
@@ -284,7 +284,7 @@ h1#nameplate-dept {
 	margin: 0;
   width: 181px;
   height: 39px;
-	background: transparent url(/images/nameplate.gif) no-repeat left top;
+	background: transparent url(/assets/nameplate.gif) no-repeat left top;
   border: none;
 	text-indent: -9000px; /* Move text link off-screen */
   text-decoration: none;
@@ -295,7 +295,7 @@ h1#nameplate-dept a {
 	display: block;
 	width: 181px;
 	height: 39px;
-	background: transparent url(/images/nameplate.gif) no-repeat left top;
+	background: transparent url(/assets/nameplate.gif) no-repeat left top;
 	border: none;
 }
 
@@ -314,7 +314,7 @@ h1#nameplate-calvin {
 	margin: 0;
 	width: 168px;
 	height: 29px;
-	background: transparent url(/images/nameplate-calvin-rollover.gif) no-repeat right top; /* Calvin logo */
+	background: transparent url(/assets/nameplate-calvin-rollover.gif) no-repeat right top; /* Calvin logo */
 	border: none;
 	text-indent: -9000px; /* Move text link off-screen */
 	text-decoration: none;
@@ -325,7 +325,7 @@ h1#nameplate-calvin a {
 	display: block;
 	width: 168px;
 	height: 29px;
-	background: transparent url(/images/nameplate-calvin-rollover.gif) no-repeat left top; /* Calvin logo */
+	background: transparent url(/assets/nameplate-calvin-rollover.gif) no-repeat left top; /* Calvin logo */
 	border: none;
 }
 
@@ -333,7 +333,7 @@ h1#nameplate-calvin a:hover {
 	display: block;
 	width: 168px;
 	height: 29px;
-	background: transparent url(/images/nameplate-calvin-rollover.gif) no-repeat right top; /* Calvin logo */
+	background: transparent url(/assets/nameplate-calvin-rollover.gif) no-repeat right top; /* Calvin logo */
 	border: none;
 }
 
@@ -443,7 +443,7 @@ label {
 	margin: 0;
 	text-align: left;
 	width: 160px;
-	background: url(/images/background-corner.gif) no-repeat top right;
+	background: url(/assets/background-corner.gif) no-repeat top right;
 	background-color: transparent;
 	border-bottom: 1px solid #999999;
 	border-left: 1px solid #999999;
@@ -475,16 +475,16 @@ label {
 }
 
 dd#task-contact {
-	background: url(/images/telephone.gif) no-repeat;
+	background: url(/assets/telephone.gif) no-repeat;
 }
 dd#task-visit {
-	background: url(/images/car.gif) no-repeat;
+	background: url(/assets/car.gif) no-repeat;
 }
 dd#task-request {
-	background: url(/images/book-open.gif) no-repeat;
+	background: url(/assets/book-open.gif) no-repeat;
 }
 dd#task-apply {
-	background: url(/images/application-form.gif) no-repeat;
+	background: url(/assets/application-form.gif) no-repeat;
 }
 
 
@@ -492,13 +492,13 @@ dd#task-apply {
 /* BOXES - Dan Cederholm's Indestructible Boxes */
 
 .box {
-	background: url(/images/background-box-bottom.gif) no-repeat left bottom;
+	background: url(/assets/background-box-bottom.gif) no-repeat left bottom;
 	width: 240px;
 	margin: 0;
 }
 
 .box h3 {
-	background: url(/images/background-box-top.gif) no-repeat top left;
+	background: url(/assets/background-box-top.gif) no-repeat top left;
 	padding: 10px;
 	margin: 0;
 	border-bottom: 1px solid #993333;

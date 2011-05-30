@@ -1,7 +1,18 @@
 source 'http://rubygems.org'
 
-gem "rails", "3.0.7"
-gem "mysql"
+gem "rake", "0.8.7"
+gem "rails", "3.1.0.rc1"
+
+gem "mysql2", "0.3.2"
+
+# Rails 3.1 - Asset Pipeline
+gem 'json'
+gem 'sass'
+gem 'coffee-script'
+gem 'uglifier'
+
+# Rails 3.1 - JavaScript
+gem 'jquery-rails'
 
 gem "RedCloth", :require => "redcloth"
 gem "imagesize"
@@ -25,7 +36,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "test-unit", '~> 1.2'
   gem "webrat"
-  gem "rspec-rails", "~> 2.6.0.rc4"
+  gem "rspec-rails"
   gem "timecop"
 
   gem 'capybara'
