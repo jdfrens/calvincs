@@ -40,7 +40,7 @@
     <div class="gutter">
 
       <% flash.each do |key, value| %>
-          <div class="flash <%= key %>"><%= value %></div>
+          <div class="flash <%= key %>"><%= value.join("<br />") %></div>
       <% end %>
 
       <%= yield :layout %>

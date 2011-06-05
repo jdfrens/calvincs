@@ -135,10 +135,10 @@ module Mhs
                 do_redirect_after_login
                 return
               else
-                flash.now[:error] = self.class.mhs_authentication_system_options[:inactive_login_flash]
+                flash_now_message :error, self.class.mhs_authentication_system_options[:inactive_login_flash]
               end
             else
-              flash.now[:error] = self.class.mhs_authentication_system_options[:invalid_login_flash]
+              flash_now_message :error, self.class.mhs_authentication_system_options[:invalid_login_flash]
             end
           elsif params[:id] and params[:token] and reminder = UserReminder.first(:conditions => ["user_id = ? AND token = ? AND expires_at >= ? ", params[:id], params[:token], Time.now])
             model = instance_eval(&self.class.login_model_scope).find(reminder.user_id)
@@ -151,7 +151,7 @@ module Mhs
             return
           else
             instance_variable_set("@#{self.class.login_model_name}", instance_eval(&self.class.login_model_scope).new)
-            flash.now[:notice] ||= self.class.mhs_authentication_system_options[:login_flash]
+            flash_now_message :notice, self.class.mhs_authentication_system_options[:login_flash]
           end
         end
 
@@ -172,7 +172,7 @@ module Mhs
             login_attribute = self.class.login_model.mhs_authentication_system_options[:login_attribute]
             login_attribute_value = params[self.class.login_model_name][login_attribute]
             if login_model_name.blank? || (model = instance_eval(&self.class.login_model_scope).first(:conditions => { login_attribute => login_attribute_value })).nil?
-              flash.now[:error] = self.class.mhs_authentication_system_options[:reminder_error_flash]
+              flash_now_message :error, self.class.mhs_authentication_system_options[:reminder_error_flash]
             else
               reminder = UserReminder.create_for_user(model, Time.now + self.class.mhs_authentication_system_options[:reminder_login_duration])
               url = url_for(:action => 'login', :id => model, :token => reminder.token)
@@ -184,7 +184,7 @@ module Mhs
             end
           else
             instance_variable_set("@#{self.class.login_model_name}", instance_eval(&self.class.login_model_scope).new)
-            flash.now[:notice] = self.class.mhs_authentication_system_options[:reminder_flash]
+            flash_now_message :notice, self.class.mhs_authentication_system_options[:reminder_flash]
           end
         end
         

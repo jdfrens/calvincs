@@ -1,9 +1,5 @@
 <h1>Log In</h1>
 
-<% if flash[:error] %>
-  <p id="error"><%= h(flash[:error]) %></p>
-<% end %>
-
 <%= form_for :user, :url => login_path do |form| %>
   <p>name: <%= form.text_field :username %></p>
   <p>password: <%= form.password_field :password %></p>

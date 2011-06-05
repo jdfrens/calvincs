@@ -35,7 +35,7 @@ class NewsitemsController < ApplicationController
     if @newsitem.save
       redirect_to :action => 'index'
     else
-      flash[:error] = 'Invalid values for the news item'
+      flash_message :error, 'Invalid values for the news item'
       render :new
     end
   end

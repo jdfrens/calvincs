@@ -23,5 +23,8 @@ after "deploy:update_code", :roles => :app, :except => {:no_symlink => true} do
   end
 end
 after "deploy:update_code", "deploy:migrate"
+after 'deploy:update_code' do
+  run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
+end
 
 set :mongrel_config, "/srv/www/calvincs/shared/config/mongrel_cluster.yml"

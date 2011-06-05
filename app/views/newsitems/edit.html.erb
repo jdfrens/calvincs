@@ -1,6 +1,6 @@
 <h1>Edit News Item</h1>
 
-<% if flash[:error] %>
+<% unless @newsitem.valid? %>
     <div id="error">
       <%= error_messages_for(:newsitem) %>
     </div>

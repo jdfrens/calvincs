@@ -88,7 +88,7 @@ describe "layouts/application.html.erb" do
     end
 
     it "should have a flash error" do
-      flash[:notice] = "notice me!"
+      flash[:notice] = ["notice me!"]
 
       render
 
@@ -102,7 +102,7 @@ describe "layouts/application.html.erb" do
     end
 
     it "should have a flash error" do
-      flash[:error] = "the error message."
+      flash[:error] = ["the error message."]
 
       render
 

@@ -6,6 +6,16 @@ class ApplicationController < ActionController::Base
   #
   protected
 
+  def flash_message(type, text)
+      flash[type] ||= []
+      flash[type] << text
+  end
+
+  def flash_now_message(type, text)
+      flash.now[type] ||= []
+      flash.now[type] << text
+  end
+
   def last_updated(items)
     items.compact.map(&:last_updated_dates).flatten.max
   end

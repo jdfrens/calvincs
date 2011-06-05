@@ -191,7 +191,7 @@ describe PagesController do
 
         assert_response :success
         assert !flash.empty?
-        assert_equal 'Invalid values for the page', flash[:error]
+        assert_equal 'Invalid values for the page', flash[:error][0]
 
         assert_equal original_count, Page.count, "should have only four pages still"
       end

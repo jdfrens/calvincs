@@ -18,7 +18,7 @@ class CoursesController < ApplicationController
     if @course.save
       redirect_to :action => 'index'
     else
-      flash[:error] = 'Invalid values for the course'
+      flash_message :error, 'Invalid values for the course'
       render :template => 'courses/new'
     end
   end
@@ -31,10 +31,10 @@ class CoursesController < ApplicationController
     course = Course.find(params[:id])
     course.update_attributes(params[:course])
     if course.save
-      flash[:notice] = "Course updated."
+      flash_message :notice, "Course updated."
       redirect_to courses_path
     else
-      flash[:error] = "Errors updating the course."
+      flash_message :error, "Errors updating the course."
       render :edit
     end
   end

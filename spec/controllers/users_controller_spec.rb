@@ -10,7 +10,7 @@ describe UsersController do
 
       response.should be_success
       response.should render_template("users/login")
-      flash[:notice].should == "Please login"
+      flash[:notice].should == ["Please login"]
     end
 
     it "should redirect after successful login" do

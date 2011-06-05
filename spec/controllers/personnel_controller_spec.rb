@@ -156,7 +156,7 @@ describe PersonnelController do
       put :update, { :id => user.username, :user => { :first_name => "Billy" } }, user_session(:edit)
 
       response.should redirect_to(person_path(user))
-      flash[:notice].should == "Person updated."
+      flash[:notice][0].should == "Person updated."
       user.reload
       user.full_name.should == "Billy Adams"
     end
@@ -167,7 +167,7 @@ describe PersonnelController do
       put :update, { :id => user.username, :user => { :office_phone => "not valid" }}, user_session(:edit)
 
       response.should render_template("personnel/edit")
-      flash[:error].should == "Problem updating person."
+      flash[:error][0].should == "Problem updating person."
     end
   end
 end

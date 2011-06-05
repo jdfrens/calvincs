@@ -36,7 +36,7 @@ class PersonnelController < ApplicationController
     if user.save
       redirect_to(people_path)
     else
-      flash[:error] = "Problems creating the new user."
+      flash_message :error, "Problems creating the new user."
       render :action => "new"
     end
   end  
@@ -52,10 +52,10 @@ class PersonnelController < ApplicationController
   def update
     @user = User.find_by_username(params[:id])
     if @user.update_attributes(params[:user])
-      flash[:notice] = "Person updated."
+      flash_message :notice, "Person updated."
       redirect_to person_path(@user)
     else
-      flash[:error] = "Problem updating person."
+      flash_message :error, "Problem updating person."
       render :action => "edit"
     end
   end

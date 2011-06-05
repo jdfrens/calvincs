@@ -37,7 +37,7 @@ describe HomeController do
 
       get :index
 
-      flash[:error].should_not be_nil
+      flash[:error].should_not be_empty
       response.should redirect_to(images_path)
     end
 
@@ -46,7 +46,7 @@ describe HomeController do
 
       get :index
 
-      flash[:error].should_not be_nil
+      flash[:error].should_not be_empty
       response.should redirect_to(new_page_path(:id => "_home_page"))
     end
   end

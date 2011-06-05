@@ -19,7 +19,7 @@ class PagesController < ApplicationController
         render :template => 'pages/show'
       end
     elsif current_user
-      flash[:error] = "Page #{params[:id]} does not exist."
+      flash_message :error, "Page #{params[:id]} does not exist."
       redirect_to :action => 'index'
     else
       render :template => "errors/404.html", :status => 404
@@ -42,7 +42,7 @@ class PagesController < ApplicationController
     if @page.save
       redirect_to page_path(@page)
     else
-      flash[:error] = 'Invalid values for the page'
+      flash_message :error, 'Invalid values for the page'
       render :action => 'new'
     end
   end

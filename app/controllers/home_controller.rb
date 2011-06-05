@@ -12,10 +12,10 @@ class HomeController < ApplicationController
     @todays_events = Event.find_by_today
     @this_weeks_events = Event.within_week
     if @content.nil?
-      flash[:error] = 'Please define a _home_page page.'
+      flash_message :error, 'Please define a _home_page page.'
       redirect_to(new_page_path(:id => "_home_page"))
     elsif @splash_image.nil?
-      flash[:error] = 'Please tag an image with "homepage".'
+      flash_message :error, 'Please tag an image with "homepage".'
       redirect_to(images_path)
     else
       @last_updated = last_updated(@newsitems + [@content])
