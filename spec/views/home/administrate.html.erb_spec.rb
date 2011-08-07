@@ -14,8 +14,8 @@ describe "home/administrate.html.erb" do
     rendered.should have_selector('h2', :content => "News and Events")
     rendered.should have_selector("ul#news_administration") do |ul|
       ul.should have_selector("a", :href => "/newsitems/new", :content => "Create news item")
-      ul.should have_selector("a", :href => "/events/new?kind=Colloquium", :content => "Create new colloquium")
-      ul.should have_selector("a", :href => "/events/new?kind=Conference", :content => "Create new conference")
+      ul.should have_selector("a", :href => "/events/new?event_kind=Colloquium", :content => "Create new colloquium")
+      ul.should have_selector("a", :href => "/events/new?event_kind=Conference", :content => "Create new conference")
     end
   end
 

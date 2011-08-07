@@ -166,8 +166,7 @@ describe Event do
 
   describe "setting the length" do
     before(:each) do
-      @event = Factory.create(:colloquium,
-                              :start => 1.hour.from_now, :stop => 2.hours.from_now)
+      @event = Factory.create(:colloquium, :start => 1.hour.from_now, :stop => 2.hours.from_now)
     end
 
     it "should establish original length" do
