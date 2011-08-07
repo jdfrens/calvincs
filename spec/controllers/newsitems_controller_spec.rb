@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe NewsitemsController, "without views" do
+describe NewsitemsController do
   fixtures :newsitems
   user_fixtures
 
@@ -68,8 +68,8 @@ describe NewsitemsController, "without views" do
   context "editing a news item" do
     it "should find the news item to be edited" do
       newsitem = mock_model(Newsitem)
-      
-      Newsitem.should_receive(:find).with(newsitem.id).and_return(newsitem)
+
+      Newsitem.should_receive(:find).with(newsitem.id.to_s).and_return(newsitem)
 
       get :edit, { :id => newsitem.id }, user_session(:edit)
 
@@ -89,7 +89,7 @@ describe NewsitemsController, "without views" do
       updated_at = mock("updated at")
       item = mock_model(Newsitem, :headline => "The Headline", :updated_at => updated_at)
 
-      Newsitem.should_receive(:find).with(item.id).and_return(item)
+      Newsitem.should_receive(:find).with(item.id.to_s).and_return(item)
 
       get :show, { :id => item.id }
 
@@ -103,7 +103,7 @@ describe NewsitemsController, "without views" do
       updated_at = mock("updated at")
       item = mock_model(Newsitem, :headline => "The Headline", :updated_at => updated_at)
 
-      Newsitem.should_receive(:find).with(item.id).and_return(item)
+      Newsitem.should_receive(:find).with(item.id.to_s).and_return(item)
 
       get :show, { :id => item.id }, user_session(:edit)
 
@@ -158,7 +158,7 @@ describe NewsitemsController, "without views" do
     it "should do an update successfully" do
       newsitem = mock_model(Newsitem)
 
-      Newsitem.should_receive(:find).with(newsitem.id).and_return(newsitem)
+      Newsitem.should_receive(:find).with(newsitem.id.to_s).and_return(newsitem)
       newsitem.should_receive(:update_attributes).with("params" => "values").and_return(true)
 
       post :update,
@@ -172,7 +172,7 @@ describe NewsitemsController, "without views" do
     it "should do fail an update" do
       newsitem = mock_model(Newsitem)
 
-      Newsitem.should_receive(:find).with(newsitem.id).and_return(newsitem)
+      Newsitem.should_receive(:find).with(newsitem.id.to_s).and_return(newsitem)
       newsitem.should_receive(:update_attributes).with("params" => "values").and_return(false)
 
       post :update,
@@ -226,32 +226,10 @@ describe NewsitemsController, "without views" do
     end
   end
 
-  #
-  # Helpers
-  #
-  private
+private
 
   def current_year
     newsitems(:todays_news).goes_live_at.year
   end
-
-  # def assert_newsitem_entry(n, newsitem, listing)
-  #   time_class = newsitem.is_current? ? "current-news" : "past-news"
-  #   assert_select "tr[class=#{time_class}]:nth-child(#{n*2-1})" do
-  #     assert_select "td a[href=/news/view/#{newsitem.id}]", newsitem.headline
-  #   end
-  #   assert_select "tr[class=#{time_class}]:nth-child(#{n*2})" do
-  #     assert_select "td.goes-live-date", "posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
-  #   end
-  # end
-  # 
-  # def assert_full_newsitem(newsitem)
-  #   assert_select "div#news-item-#{newsitem.id}[class=news-item]" do
-  #     assert_select "h2", newsitem.headline
-  #     assert_select "p.goes-live-date", "Posted on #{newsitem.goes_live_at.to_s(:news_posted)}"
-  #     assert_select "div.content", newsitem.content
-  #     assert_select "p.more a[href=#top]", "back to top..."
-  #   end
-  # end
 
 end

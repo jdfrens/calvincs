@@ -28,23 +28,24 @@ module EventHelpers
   def create_colloquium(hash)
     Time.zone = "America/Chicago"
     Chronic.time_class = Time.zone
-    hash = { "start" => "1 day from now at 3:30p",
+    hash = { "event_kind" => "Colloquium",
+             "start" => "1 day from now at 3:30p",
              "descriptor" => "colloquium",
              "description" => "very boring description" }.merge(hash)
     hash["start"] = Chronic.parse(hash["start"])
     unless hash["length"]
       hash["stop"] = Chronic.parse(hash["stop"]) || (hash["start"] + 1.hour)
     end
-    Colloquium.create!(hash)
+    Event.create!(hash)
   end
 
   def create_conference(hash)
-    hash = { "descriptor" => "conference" }.merge(hash)
+    hash = { "event_kind" => "Conference", "descriptor" => "conference" }.merge(hash)
     hash["start"] = Chronic.parse(hash["start"]) || 2.days.from_now
     unless hash["length"]
       hash["stop"] = Chronic.parse(hash["stop"]) || hash["start"]
     end
-    Conference.create!(hash)
+    Event.create!(hash)
   end
 end
 

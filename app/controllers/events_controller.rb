@@ -25,12 +25,11 @@ class EventsController < ApplicationController
 
   def new
     start, stop = Event.default_start_and_stop
-    @event = Event.new_event(:kind => params[:kind], :descriptor => params[:kind].downcase,
-                             :start => start, :stop => stop)
+    @event = Event.new(:event_kind => params[:event_kind], :descriptor => params[:event_kind].downcase, :start => start, :stop => stop)
   end
 
   def create
-    @event = Event.new_event(params[:colloquium] || params[:conference])
+    @event = Event.new(params[:event])
     if @event.save
       redirect_to events_path
     else
@@ -44,7 +43,7 @@ class EventsController < ApplicationController
 
   def update
     event = Event.find(params[:id])
-    event.update_attributes(params[:event] || params[:colloquium] || params[:conference])
+    event.update_attributes(params[:event])
     if event.save
       redirect_to events_path
     else

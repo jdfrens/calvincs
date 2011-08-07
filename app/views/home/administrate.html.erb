@@ -8,8 +8,8 @@
     <li><%= link_to 'Create news item', new_newsitem_path %></li>
     <li>Events</li>
     <ul>
-      <li><%= link_to 'Create new colloquium', new_event_path(:kind => "Colloquium") %></li>
-      <li><%= link_to 'Create new conference', new_event_path(:kind => "Conference") %></li>
+      <li><%= link_to 'Create new colloquium', new_event_path(:event_kind => "Colloquium") %></li>
+      <li><%= link_to 'Create new conference', new_event_path(:event_kind => "Conference") %></li>
     </ul>
   </ul>
 

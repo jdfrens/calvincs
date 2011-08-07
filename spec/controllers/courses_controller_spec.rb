@@ -49,7 +49,7 @@ describe CoursesController do
       course = Course.find_by_number(665)
       course.should_not be_nil
       course.title.should == 'One Off Devilry'
-      
+
     end
 
     it "should redirect when not logged in" do
@@ -90,8 +90,8 @@ describe CoursesController do
     it "should look up the course and render" do
       course = mock_model(Course)
 
-      Course.should_receive(:find).with(3).and_return(course)
-      
+      Course.should_receive(:find).with("3").and_return(course)
+
       get :edit, { :id => 3 }, user_session(:edit)
 
       response.should be_success
@@ -138,7 +138,7 @@ describe CoursesController do
     it "should delete a course" do
       course = mock_model(Course)
 
-      Course.should_receive(:destroy).with(course.id)
+      Course.should_receive(:destroy).with(course.id.to_s)
 
       delete :destroy, { :id => course.id }, user_session(:edit)
 

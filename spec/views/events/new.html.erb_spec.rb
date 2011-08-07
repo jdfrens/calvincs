@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "events/new.html.erb" do
 
   it "should render a form for a new colloquium" do
-    event = mock_model(Colloquium, :kind => "Colloquium")
+    event = mock_model(Event, :event_kind => "Colloquium")
     assign(:event, event)
 
     stub_template "events/_form.html.erb" => "the form"
@@ -15,7 +15,7 @@ describe "events/new.html.erb" do
   end
 
   it "should render a form for a new conference" do
-    event = mock_model(Conference, :kind => "Conference")
+    event = mock_model(Event, :event_kind => "Conference")
     assign(:event, event)
 
     stub_template "events/_form.html.erb" => "the form"

@@ -4,7 +4,7 @@ When /^(?:|I )select "([^\"]*)" as the date$/ do |date|
   Chronic.time_class = Time.zone
   date = Chronic.parse(date)
 
-  id_prefix = "conference_start"
+  id_prefix = "event_start"
 
   select date.year.to_s, :from => "#{id_prefix}_#{date_and_time_suffixes[:year]}"
   select date.strftime('%B'), :from => "#{id_prefix}_#{date_and_time_suffixes[:month]}"
@@ -15,7 +15,7 @@ When /^(?:|I )select "([^\"]*)" as the date and time$/ do |date|
   Chronic.time_class = Time.zone
   date = Chronic.parse(date)
 
-  id_prefix = "colloquium_start"
+  id_prefix = "event_start"
 
   select date.year.to_s, :from => "#{id_prefix}_#{date_and_time_suffixes[:year]}"
   select date.strftime('%B'), :from => "#{id_prefix}_#{date_and_time_suffixes[:month]}"

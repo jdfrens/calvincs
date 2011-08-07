@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem "rake", "0.8.7"
-gem "rails", "3.1.0.rc1"
+gem "rake", "0.9.2"
+gem "rails", "3.1.0.rc5"
 
-gem "mysql2", "0.3.2"
+gem "mysql2", "~> 0.3.6"
 
 # Rails 3.1 - Asset Pipeline
 gem 'json'

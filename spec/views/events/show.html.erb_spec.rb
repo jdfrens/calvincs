@@ -9,7 +9,7 @@ describe "events/show.html.erb" do
       event = mock(
               :title => "The Title", :subtitle => "The Subtitle", :start => start,
                       :presenter => "Dr. Presenter", :location => "Room 101",
-                      :description => "The Description", :kind => "KindOfEvent")
+                      :description => "The Description", :event_kind => "KindOfEvent")
 
       assign(:event, event)
       expect_textilize_lite("The Title")

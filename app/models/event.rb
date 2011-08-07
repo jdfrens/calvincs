@@ -65,17 +65,6 @@ class Event < ActiveRecord::Base
     [start, stop]
   end
 
-  def self.new_event(params)
-    case params[:kind].downcase
-      when "colloquium"
-        Colloquium.new(params)
-      when "conference"
-        Conference.new(params)
-      else
-        raise "Invalid event type #{params[:kind]}"
-    end
-  end
-
   def full_title
     if subtitle.blank?
       title
@@ -84,20 +73,46 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def kind
-    self[:type]
-  end
-
-  def kind=(type)
-    self[:type] = type
-  end
-
   def elapsed
     stop - start
   end
 
   def length
-    nil
+  end
+
+  def length=(t)
+  end
+
+  def length=(t)
+    case event_kind
+    when "Colloquium"
+      @length = t.to_i.hours
+    when "Conference"
+      @length = t.to_i.days
+    end
+  end
+
+  def length
+    case event_kind
+    when "Colloquium"
+      elapsed / 1.hour
+    when "Conference"
+      (elapsed / 1.day).ceil
+    end
+  end
+
+  SCALES = { "Colloquium" => "hours", "Conference" => "days" }
+  def scale
+    SCALES[event_kind]
+  end
+
+  def timing
+    case event_kind
+    when "Colloquium"
+      start.to_s(:colloquium)
+    when "Conference"
+      "#{start.to_s(:conference)} thru #{stop.to_s(:conference)}"
+    end
   end
 
   protected
@@ -110,7 +125,7 @@ class Event < ActiveRecord::Base
 
   def use_type_for_descriptor
     if not self.descriptor
-      self.descriptor = self[:type].downcase
+      self.descriptor = self[:event_kind].downcase
     end
   end
 end

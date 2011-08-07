@@ -22,7 +22,7 @@ describe ApplicationHelper do
       helper.johnny_textilize("foo\n \n bar\n").should == "<p>foo</p>\nbar"
     end
   end
-  
+
   describe "lite textilizing text" do
     it "should be an identity function" do
       helper.johnny_textilize_lite("foo").should == "foo"
@@ -56,7 +56,7 @@ describe ApplicationHelper do
       helper.textilized_link(course).should == "CS 123"
     end
   end
-  
+
   describe "creating embedded links to courses" do
     it "should replace a short identifier" do
       course = Factory.create(:course, :department => "CS", :number => "123")
@@ -94,55 +94,21 @@ describe ApplicationHelper do
     it "should generate renderer" do
       menu_items = [mock("menu item 0"), mock("menu item 1"), mock("menu item 2")]
       renderer = mock("the menu renderer")
-      
+
       MenuRenderer.should_receive(:new).with(helper, *menu_items).and_return(renderer)
       renderer.should_receive(:render_menu).and_return("the rendered menu")
-      
+
       helper.render_menu(*menu_items).should == "the rendered menu"
     end
   end
-      
+
   describe "when should the events submenu be used?" do
     it "should not normally display" do
       helper.events_submenu?(:controller => "foobar").should == false
     end
-      
+
     it "should display when the events controller is active" do
       helper.events_submenu?(:controller => "events").should == true
-    end
-  end
-
-  describe "event paths" do
-    it "should redirect colloquium path to event" do
-      event = mock_model(Colloquium)
-      
-      helper.colloquium_path(event).should == event_path(event)
-    end
-
-    it "should redirect conference path to event" do
-      event = mock_model(Conference)
-      
-      helper.conference_path(event).should == event_path(event)
-    end
-
-    it "should redirect colloquium url to event" do
-      event = mock_model(Colloquium)
-      
-      helper.colloquium_url(event).should == event_url(event)
-    end
-
-    it "should redirect conference url to event" do
-      event = mock_model(Conference)
-      
-      helper.conference_url(event).should == event_url(event)
-    end
-
-    it "should redirect colloquia path to events" do
-      helper.colloquia_path.should == events_path
-    end
-
-    it "should redirect conferences path to events" do
-      helper.conferences_path.should == events_path
     end
   end
 end

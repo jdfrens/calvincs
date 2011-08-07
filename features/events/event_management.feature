@@ -58,13 +58,13 @@ Feature: managing events
   Scenario: edit a colloquium
     Given I am logged in as an editor
     And the following colloquia
-      | title    | start             | description   |
+      | title    | start                   | description   |
       | Get Real | 1 day from now at 3:30p | Getting real. |
     When I go to the list of events
     Then I should see "Get Real"
     When I follow "more..."
     And I follow "edit..."
-    And I fill in "colloquium[title]" with "Fake!"
+    And I fill in "event[title]" with "Fake!"
     And I press "Update"
     Then I should be on the list of events
     And I should see "Fake!"
@@ -73,15 +73,14 @@ Feature: managing events
   Scenario: edit a conference
     Given I am logged in as an editor
     And the following conferences
-      | title  | description |
+      | title  | description                |
       | GLCamp | Camping in the Great Lakes |
     When I go to the list of events
     Then I should see "GLCamp"
     When I follow "more..."
     And I follow "edit..."
-    And I fill in "conference[title]" with "BarSEC"
+    And I fill in "event[title]" with "BarSEC"
     And I press "Update"
     Then I should be on the list of events
     And I should see "BarSEC"
     And I should not see "GLCamp"
-  Scenario:

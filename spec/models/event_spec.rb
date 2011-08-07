@@ -23,33 +23,13 @@ describe Event do
 
   fixtures :events
 
-  context "creating instances of the subclasses" do
-    it "should create a colloquium" do
-      params = { :kind => "colloquium", :foo => mock("foo param") }
-      colloquium = mock("colloquium")
-
-      Colloquium.should_receive(:new).with(params).and_return(colloquium)
-
-      Event.new_event(params).should eql(colloquium)
-    end
-
-    it "should create a conference" do
-      params = { :kind => "conference", :foo => mock("foo param") }
-      conference = mock("conference")
-
-      Conference.should_receive(:new).with(params).and_return(conference)
-
-      Event.new_event(params).should eql(conference)
-    end
-  end
-
   describe "full title" do
     it "should use both titles" do
-      Colloquium.new(:title => "foo", :subtitle => "bar", :start => Time.now, :length => 1).full_title.should == "foo: bar"
+      Event.new(:event_kind => "Colloquium", :title => "foo", :subtitle => "bar", :start => Time.now, :length => 1).full_title.should == "foo: bar"
     end
 
     it "should use both titles" do
-      Colloquium.new(:title => "foo", :start => Time.now, :length => 1).full_title.should == "foo"
+      Event.new(:event_kind => "Colloquium", :title => "foo", :start => Time.now, :length => 1).full_title.should == "foo"
     end
   end
 
@@ -82,13 +62,6 @@ describe Event do
             and_return(events)
 
     Event.by_year(1971).should == events
-  end
-
-  context "testing the system" do
-    it "should have single-table inheritance" do
-      assert_equal Colloquium, events(:old_colloquium).class
-      assert_equal(Conference, events(:old_conference).class)
-    end
   end
 
   context "the length of an event" do
@@ -137,15 +110,14 @@ describe Event do
 
   describe "the timing of an event" do
     it "should use just the start datetime of a colloquium" do
-      event = Colloquium.new(:title => "foobar", :start =>  Time.local(2010, "may", 18, 15, 30))
+      event = Event.new(:event_kind => "Colloquium", :title => "foobar", :start =>  Time.local(2010, "may", 18, 15, 30))
 
       event.timing.should == "May 18, 2010 at  8:30 PM"
     end
 
     it "should use the start date and ending date" do
-      event = Conference.new(:title => "foobar",
-                             :start => Date.parse("May 18, 2010"),
-                             :stop => Date.parse("May 20, 2010"))
+      event = Event.new(:event_kind => "Conference", :title => "foobar",
+                        :start => Date.parse("May 18, 2010"), :stop => Date.parse("May 20, 2010"))
 
       event.timing.should == "May 18, 2010 thru May 20, 2010"
     end
