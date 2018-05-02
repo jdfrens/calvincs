@@ -1,7 +1,9 @@
-# Website for the Computer Science Department at Calvin College
+# FORMER Website for the Computer Science Department at Calvin College
 
-This is a Ruby on Rails app for the Computer Science Department at
-Calvin College.  It's been developed almost entirely by one person
+**This is no longer used or maintained, and it's so very old that it's probably the worst Rails example which will teach you how to do things wrong.**
+
+This ~is~was a Ruby on Rails app for the Computer Science Department at
+Calvin College.  It's developed almost entirely by one person
 stumbling his way through Rails.
 
 Potential features of the site:
